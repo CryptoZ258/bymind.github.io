@@ -4,3 +4,5 @@ paginate: 10
 exclude: []
 name: Jekyll Bootstrap
 baseurl: /bibodeng.github.com
+
+theme: jekyll-theme-slate
