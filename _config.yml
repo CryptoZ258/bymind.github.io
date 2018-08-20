@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
-keywords:
-author: John Doe
-language:
+title: bibodeng 
+subtitle: Think By My Mind
+description: 区块链爱好者，互联网从业者
+keywords: bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer
+author: bibodeng 
+language: zh-Hans
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://bibodeng.com
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -56,6 +56,10 @@ index_generator:
 # Category & Tag
 default_category: uncategorized
 category_map:
+  编程: programming
+  区块链: blockchain 
+  公告: notice
+  其它: other
 tag_map:
 
 # Date / Time format
@@ -73,9 +77,12 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: next 
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repository: git@github.com:bibodeng/bibodeng.github.io.git
+  branch: master
+  message: update
