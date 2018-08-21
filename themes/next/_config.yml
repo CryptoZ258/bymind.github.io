@@ -6,7 +6,7 @@
 favicon: /favicon.ico
 
 # Set default keywords (Use a comma to separate)
-keywords: "比特币 矿池 互联网金融"
+keywords: "计算机 比特币 互联网金融 IFWallet"
 
 # Set rss to false to disable feed link.
 # Leave rss as empty to use site's feed link.
@@ -14,7 +14,7 @@ keywords: "比特币 矿池 互联网金融"
 rss:
 
 # Specify the date when the site was setup
-#since: 2015
+#since: 2012
 
 
 
@@ -120,9 +120,9 @@ font:
 # Value is the target link (E.g. GitHub: https://github.com/iissnan)
 social:
   #LinkLabel: Link
-  Github: https://github.com/viabtc
-  Twitter: https://twitter.com/ViaBTC
-  Weibo: http://weibo.com/viabtc
+  Github: https://github.com/bibodeng
+  Twitter: https://twitter.com/bibodeng
+  Weibo: http://weibo.com/bibodeng
 
 # Social Links Icons
 # Icon Mapping:
@@ -141,7 +141,7 @@ social_icons:
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.jpg
 # in site  directory(source/uploads): /uploads/avatar.jpg
-avatar: http://www.viabtc.com/static/img/viabtc.png
+avatar: /images/bitcoin-cash-logo.svg
 
 # Table Of Contents in the Sidebar
 toc:
@@ -160,8 +160,8 @@ toc:
 
 sidebar:
   # Sidebar Position, available value: left | right
-  position: left
-  #position: right
+  #position: left
+  position: right
 
   # Sidebar Display, available value:
   #  - post    expand on posts automatically. Default.
@@ -180,7 +180,8 @@ links_title: Links
 #links_layout: inline
 links:
   #Title: http://example.com/
-  ViaBTC pool: https://viabtc.com
+  IFWallet: https://ifwallet.com
+  IFPassword: https://ifpass.cash
 
 # ---------------------------------------------------------------
 # Misc Theme Settings
