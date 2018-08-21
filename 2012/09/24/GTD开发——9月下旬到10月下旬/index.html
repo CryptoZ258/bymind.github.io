@@ -1,0 +1,839 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="【GTD项目开发的现状】  1、进度  &amp;nbsp; 在所有成员的热血努力下，我们的项目有了初步的进展，哪怕只是一点点，也使得我们距离我们的大城堡近了一步。因为我看到组内的成员都很关心项目进度，同时也在积极磨刀。例如思愿君在探索pc界面上新技术，以及数据上的设计。桌升君在探索android客户端的基础和网络编程的奥秘，国东君也忙于web端的交互技术，曼云、华娜也积极地看网页及php方面的书籍。可">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GTD开发——9月下旬到10月下旬">
+<meta property="og:url" content="https://bibodeng.github.io/2012/09/24/GTD开发——9月下旬到10月下旬/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="【GTD项目开发的现状】  1、进度  &amp;nbsp; 在所有成员的热血努力下，我们的项目有了初步的进展，哪怕只是一点点，也使得我们距离我们的大城堡近了一步。因为我看到组内的成员都很关心项目进度，同时也在积极磨刀。例如思愿君在探索pc界面上新技术，以及数据上的设计。桌升君在探索android客户端的基础和网络编程的奥秘，国东君也忙于web端的交互技术，曼云、华娜也积极地看网页及php方面的书籍。可">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T07:59:59.203Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GTD开发——9月下旬到10月下旬">
+<meta name="twitter:description" content="【GTD项目开发的现状】  1、进度  &amp;nbsp; 在所有成员的热血努力下，我们的项目有了初步的进展，哪怕只是一点点，也使得我们距离我们的大城堡近了一步。因为我看到组内的成员都很关心项目进度，同时也在积极磨刀。例如思愿君在探索pc界面上新技术，以及数据上的设计。桌升君在探索android客户端的基础和网络编程的奥秘，国东君也忙于web端的交互技术，曼云、华娜也积极地看网页及php方面的书籍。可">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> GTD开发——9月下旬到10月下旬 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                GTD开发——9月下旬到10月下旬
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-09-24T16:05:01+08:00" content="2012-09-24">
+              2012-09-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/09/24/GTD开发——9月下旬到10月下旬/" class="leancloud_visitors" data-flag-title="GTD开发——9月下旬到10月下旬">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<div><h3>【GTD项目开发的现状】</h3>
+</div>
+<div><h4>1、进度</h4>
+</div>
+<div>&nbsp;</div>
+<div>在所有成员的热血努力下，我们的项目有了初步的进展，哪怕只是一点点，也使得我们距离我们的大城堡近了一步。因为我看到组内的成员都很关心项目进度，同时也在积极磨刀。例如思愿君在探索pc界面上新技术，以及数据上的设计。桌升君在探索android客户端的基础和网络编程的奥秘，国东君也忙于web端的交互技术，曼云、华娜也积极地看网页及php方面的书籍。可以说是一切如火如荼，但是我们还是需要一些进展能够让我的热血沸腾起来。比如pc客户端V1.0的发布，亦或者我们web客户端上线编码。这些都是接下来可行的，而且是重要的任务，希望组员们予以重视。为此我们可以废寝忘食地埋头于书从中，或忙碌地敲击代码。图书馆和宿舍是我们最好的实验室，qq和邮件是我们最好的信使。偶尔碰碰面吃吃饭聊聊项目也是我所打算的实行的“预谋”。</div>
+<div>&nbsp;</div>
+<div><h4>2、技术与人员</h4>
+</div>
+<div>技术上面，由于大家都是第一次接触项目开发，本项目在技术上最大的难点在于服务器端和各大模块的通信，其他方面没有太大的技术难题。其次我们的组员在做的同时要多参考多学习其他同类系统的实现，并且要懂得实现一个功能的原理，并能够编码测试。目前为止，我们进展的还算顺利，对于10月10号之前拿出一个pc客户端的v1.0我们还是充满希望的。人员上，在精不在多，且大家兴趣各有不同，那么在分工上面我尽量让大家去干喜欢干的事情。</div>
+<div>&nbsp;</div>
+<div><h3>【接下来的策略】</h3>
+</div>
+<div><h4>1、集中精力解决困难的技术基础</h4>
+<h4></h4>
+</div>
+<div>&nbsp;</div>
+<div>我们最好集中精力解决技术基础的问题，使得我们每个人都能投入到编码的工作中来，更能理解我们项目到底在做什么，一些技术的细节究竟应该怎样设计和实现。例如接下来非常重要的服务器的搭建和数据库设计，这方面更加要注重各个模块之间的统一。我们需要集中起来一起设计一个数据库，以及讨论服务器和客户端的网络编程细节。</div>
+<div>&nbsp;</div>
+<div><h4>2、专注是一个很好的品质</h4>
+</div>
+<div>我们的目标是做出一款好用的GTD软件，这个软件要能够真正符合用户的需求，包括我们项目书上写的一些特性（我们来温习一下）：</div>
+<div>&nbsp;</div>
+<div>
+<p style="line-height:150%;margin-top:0pt;margin-bottom:0pt;" class="p0"><span style="color:#666699;"><span style="font-family:'楷体_GB2312';font-size:12pt;mso-spacerun:'yes';">1、系统发短消息提醒我们去做事情，且追踪事务完成进度；</span><span style="font-family:'楷体_GB2312';font-size:10.5pt;mso-spacerun:'yes';"><!--?xml:namespace 
+prefix = o ns = "urn:schemas-microsoft-com:office:office" 
+/--><o:p></o:p></span></span></p>
+<p style="line-height:150%;margin-top:0pt;margin-bottom:0pt;" class="p0"><span style="color:#666699;"><span style="font-family:'楷体_GB2312';font-size:12pt;mso-spacerun:'yes';">2、由应用维护一个everyday&nbsp;must&nbsp;do&nbsp;列表，这样会形成一些比较固定的行为任务表，不需要重复输入，大大节省我们的时间，便于养成习惯；</span><span style="font-family:'楷体_GB2312';font-size:10.5pt;mso-spacerun:'yes';"><o:p></o:p></span></span></p>
+<p style="line-height:150%;margin-top:0pt;margin-bottom:0pt;" class="p0"><span style="color:#666699;"><span style="font-family:'楷体_GB2312';font-size:12pt;mso-spacerun:'yes';">3、时间统计分析功能，通过GUI控件方便记录每日时间使用情况，该应用提供时间统计功能，加强用户对自己时间使用的认识与掌握；</span><span style="font-family:'楷体_GB2312';font-size:10.5pt;mso-spacerun:'yes';"><o:p></o:p></span></span></p>
+<p style="line-height:150%;margin-top:0pt;margin-bottom:0pt;" class="p0"><span style="font-family:'楷体_GB2312';font-size:12pt;mso-spacerun:'yes';"><span style="color:#666699;">4、使用多终端可同步方案，真正让事务管理实现走到哪管到哪，方便办公学习；</span></span></p>
+<p style="line-height:150%;margin-top:0pt;margin-bottom:0pt;" class="p0"><span style="font-family:'楷体_GB2312';font-size:12pt;mso-spacerun:'yes';"><span style="color:#666699;">5、分享功能</span></span></p>
+<p style="line-height:150%;margin-top:0pt;margin-bottom:0pt;" class="p0"><span style="font-family:'楷体_GB2312';font-size:10.5pt;mso-spacerun:'yes';"><o:p></o:p></span>&nbsp;</p>
+<!--EndFragment--></div>
+<div>砍掉不必要的分散精力的事情，先做出一个基本的原型来，说明我们的模型设计是对的，然后再一个个添加功能。故而一个任务列表是我们最先要做出来的东西，其次是提醒，再其次是同步，再其次是分享。这样每个阶段都有唯一的目标。</div>
+<div>&nbsp;</div>
+<div>3、解决松散的问题</div>
+<div>我们每个人都要了解我们的同伴到底在干神马，也要让我们的同伴知道我们在干神马。故而我们不仅仅是要在代码库同步以及写注释。我们每个人都应该有一份自己的开发日程表或者日志。总结和记录我们项目开发中遇到的问题以及解决方案，当然也可以以博客的形式发表出来，而我们项目要有一份专门的开发日记，记录我们干了什么，以及任务的分配，并定期做一个总结，队员总结提交给队长，队长要做一份总结。</div>
+<div>&nbsp;</div>
+<div>我们的执行力，在顾及课程任务的同时，尽量花更多的时间在学习和设计、实现项目上来（我们的勤奋），这样我们的进步也是最大的。</div>
+<div>&nbsp;</div>
+<div><h3>【接下来的具体做法】</h3>
+</div>
+<div>&nbsp;</div>
+<div>具体到负责模块，给成员空间和自由去实现，并结合大家的兴趣，尽量分配感兴趣的模块。当然我们也不是在分别写软件，然后拼凑起来，我们的交流以就显得很重要了，多使用邮件列表，多在GTD讨论组上发言。另外，一个模块的编码任务是很重的，紧急的时候，我们会互相帮助。</div>
+<div>&nbsp;</div>
+<div>安排如下：</div>
+<blockquote>
+<div>pc客户端：&nbsp; 思愿（主要负责）&nbsp;&nbsp;,&nbsp; 国东 桌升 华娜 曼云（辅助）&nbsp; </div>
+<div>服务器端：&nbsp; 思愿&nbsp;（主要负责）&nbsp;,&nbsp; 桌升（辅助）</div>
+<div>// pc和服务器端都交由思愿负责，由思愿提出架构方案，这个任务比较重，故而大家尽量帮思愿分担，思愿也可以向大家派任务</div>
+<div>&nbsp;</div>
+<div>web客户端：国东（主要负责）,&nbsp; 华娜 曼云 （担纲部分模块任务）</div>
+<div>// 由国东提出架构方案，和两位组员一道完成客户端前端和后台的设计和实现</div>
+<div>&nbsp;</div>
+<div>android客户端:&nbsp; 桌升（主要负责）</div>
+<div>// 
+桌升同学应该果断摆脱多个项目的烦扰，专注于一个方向的专门研究，并负责这个部分的架构方案，必要时可以分派任务给有java和android经验的成员</div>
+<div>&nbsp;</div>
+<div>android客户端方案二： 采用html5 + 
+javascript实现，加入跨平台中间件，那么就可以在多种平台上运行，但是这种方案在速度上会影响体验。 故而只是用来做备选。</div>
+<div>&nbsp;</div>
+</blockquote>
+<div>各个模块的主要负责人，<span style="color:#0000ff;"><strong>每人提交一份该模块的设计方案</strong></span>，大到应用框架（比如pc端分为 
+数据、界面、以及网络传输方面），关键技术（如pc端连接到服务器、服务器端程序提供的具体服务），小到我们功能的实现（如 
+数据的存储方式、打包数据、解析数据、将数据串成链表）。将各个功能模块一一罗列出来（以web客户端为例可以分为 
+数据库操作模块、前台外观模块，用户管理模块，基本功能模块，【基本功能模块又可以分为 
+添加任务操作，删除任务操作，同步操作等等，如此细化下去，我们的方案就详尽起来了】），先实现那些能实现的，构成基本框架的，后实现那些附加的功能特性。尽量抽象出那些都要用的模块，然后以函数调用的方式来方便我们的编程（例如数据库操作模块的插入操作，有一个具体的函数，该函数传入一个表名，和一串值，结果是往该表插入了一串值）。 <span style="color:#0000ff;">对于一些需要统一的部分（例如数据打包格式、数据库设计、总体用户界面风格等问题上我们要多讨论，最后拿出一个方案来），需要组员们进行讨论。</span></div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>现在做的，<strong><span style="color:#0000ff;">立即启动web客户端的开发，边学边实现</span></strong>，反正网络客户端修改起来也比较容易，近期我会申请一个空间，web组的成员将代码提交到那里。当然提交之前要在自己的机子上反复测试，挂上去之后就能用（多了一个功能）。界面前端和后台php、数据库分离。 
+华娜和曼云思考前台的交互，国东思考数据库的设计（当然需要参考整体设计以及数据库的书籍）。到时候，我们只需知道一些必要的界面接口（例如 
+输入数据的表单，输出数据的区域）。最后由三个人完成javascript和php编程。</div>
+<div>&nbsp;</div>
+<div>android接着启动，<strong><span style="color:#0000ff;">由桌升参考pc客户端的数据部分，然后重新设计一次移动客户端的界面和交互，继而可以进行离线版的开发。</span></strong>（有很大不同，可以参考互联网上的文章）。考虑离线情况下构造一个数据，然后进行显示、编辑等，等服务器搭建好之后再考虑将网络模块加入进去。</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div><span style="color:#0000ff;">数据库总是在服务器上的，各个客户端应当以服务器为基准</span>，对数据进行封装和存储。其实客户端都是差不多的，因为操作都差不多，只不过是用不同的代码写出同样的功能。另外也因为各个平台有差异（例如移动客户端屏幕小，那么其界面就要按照android 
+app的规则来设计），所以实现的时候也有差别。 
+pc客户端是c/s模式，web客户端是b/s模式，android客户端是介于c/s模式和b/s模式之间（更偏向c/s模式），其实b/s的应用可以通过中间件转变成b/s模式。</div>
+<div>&nbsp;</div>
+<div>大家的勤奋和热血才是我们的真正动力！！</div>
+<div>&nbsp;</div>
+<div><h3>【更远一些】</h3>
+</div>
+<div>&nbsp;</div>
+<div>uGeek 
+团队，一个非常棒的团队，男女、兴趣、人员搭配得当，在大学期间，将我们的团队当做创业团队来发展，开发出产品以参加比赛，继而推动我们创业的进行。最重要的还是技术，技术够牛，一切都不是问题。我们的目标是：创造出一款好用的，真正能够帮助人们工作生活的GTD软件。</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>by bibodeng&nbsp; from UGeek SCNU&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2012年9月24日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
+<style type="text/css">
+body{
+font-size: 14px;
+letter-spacing: 1px;
+line-height: 1.3em;
+}
+
+h3{
+background-color:#000000;
+color:#FFFFFF;
+padding: 10px;
+}
+
+blockquote{
+background-color:#CCFF99;
+-webkit-border-radius: 5px;
+}
+
+.part_head{
+background-color:#99FF33;
+padding: 10px;
+}
+
+.example{
+background-color:#CCCCCC;
+font-size:1.2em;
+-webkit-border-radius: 5px;
+}
+
+.small_title{
+font:italic;
+padding: 5px;
+}
+</style>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/09/22/【译】学习vi和vim编辑器第二章——简单编辑/" rel="next" title="【译】学习vi和vim编辑器第二章——简单编辑">
+                <i class="fa fa-chevron-left"></i> 【译】学习vi和vim编辑器第二章——简单编辑
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/10/06/国庆假期——长途跋涉中的休憩/" rel="prev" title="国庆假期——长途跋涉中的休憩">
+                国庆假期——长途跋涉中的休憩 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">【GTD项目开发的现状】</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text">1、进度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text">2、技术与人员</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">【接下来的策略】</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">2.1.</span> <span class="nav-text">1、集中精力解决困难的技术基础</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">2.2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">2.3.</span> <span class="nav-text">2、专注是一个很好的品质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">【接下来的具体做法】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">【更远一些】</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

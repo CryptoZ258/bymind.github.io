@@ -1,0 +1,800 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="xelatex在文档处理中的使用by bibodeng 2013-11-09 latex和pdflatex的问题使用latex来直接编译，在有\tableofcontent的情况下会出现一些怪异的unicode char \u8之这样的错误，使得目录不完整。其原因是使用的CJKutf8的宏包所包含的utf8字符是不完整的，故而有些中文字符支持不完整。但是诡异的是同一个字符，在某些地方是ok的，在另">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xelatex在文档处理中的使用">
+<meta property="og:url" content="https://bibodeng.github.io/2013/11/09/xelatex在文档处理中的使用/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="xelatex在文档处理中的使用by bibodeng 2013-11-09 latex和pdflatex的问题使用latex来直接编译，在有\tableofcontent的情况下会出现一些怪异的unicode char \u8之这样的错误，使得目录不完整。其原因是使用的CJKutf8的宏包所包含的utf8字符是不完整的，故而有些中文字符支持不完整。但是诡异的是同一个字符，在某些地方是ok的，在另">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/ba66d70c572c38dc44f202b3b8752f812013110904382232028.png">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/4901815145f36d1d475207eef5bb44b52013110904593212245.png">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/e711308f47cbe55a01abd951d4aa3e682013110905133112413.png">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/26bbead36d401f3407f6de55cac89ad42013110905101210145.png">
+<meta property="og:updated_time" content="2018-08-21T08:00:00.238Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="xelatex在文档处理中的使用">
+<meta name="twitter:description" content="xelatex在文档处理中的使用by bibodeng 2013-11-09 latex和pdflatex的问题使用latex来直接编译，在有\tableofcontent的情况下会出现一些怪异的unicode char \u8之这样的错误，使得目录不完整。其原因是使用的CJKutf8的宏包所包含的utf8字符是不完整的，故而有些中文字符支持不完整。但是诡异的是同一个字符，在某些地方是ok的，在另">
+<meta name="twitter:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/ba66d70c572c38dc44f202b3b8752f812013110904382232028.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> xelatex在文档处理中的使用 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                xelatex在文档处理中的使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-11-09T13:18:02+08:00" content="2013-11-09">
+              2013-11-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/11/09/xelatex在文档处理中的使用/" class="leancloud_visitors" data-flag-title="xelatex在文档处理中的使用">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="xelatex在文档处理中的使用"><a href="#xelatex在文档处理中的使用" class="headerlink" title="xelatex在文档处理中的使用"></a>xelatex在文档处理中的使用</h1><p>by bibodeng 2013-11-09</p>
+<h2 id="latex和pdflatex的问题"><a href="#latex和pdflatex的问题" class="headerlink" title="latex和pdflatex的问题"></a>latex和pdflatex的问题</h2><p>使用latex来直接编译，在有<code>\tableofcontent</code>的情况下会出现一些怪异的<code>unicode char \u8之</code>这样的错误，使得目录不完整。其原因是使用的<code>CJKutf8</code>的宏包所包含的utf8字符是不完整的，故而有些中文字符支持不完整。但是诡异的是同一个字符，在某些地方是ok的，在另外一些地方就是不行，可能是第一次编译输出的时候出错。如下的代码为<code>latex</code>文档：</p>
+<pre><code>\documentclass[12pt,oneside]{book}
+\usepackage{CJKutf8}
+\usepackage[utf8]{inputenc}
+\usepackage[titletoc]{appendix}
+\usepackage{indentfirst}  % first paragraph indent
+\setlength{\parindent}{2em}
+\pagestyle{plain} % set the footer simple ,only a page number headings
+
+\begin{document}
+
+\begin{CJK*}{UTF8}{gkai} % gkai gbsn
+
+\protect\setcounter{tocdepth}{1}
+\tableofcontents  % 目录，二次编译
+
+\section{中国} % 含有中文字符，在生成tableofcontent的时候可能出错
+\begin{verbatim}
+我爱你中国   
+\end{verbatim}
+
+\end{CJK*}
+\end{document}
+</code></pre><p>将会产生如下的错误：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/ba66d70c572c38dc44f202b3b8752f812013110904382232028.png" alt="unicode没设置报错"></p>
+<p>尝试过在<code>\end{CJK*}</code>之前以及文档结尾加<code>\newpage</code>,都没有效果，在<code>stack exchange</code>也没有找到合适的答案。后来发现<code>texlive</code>可以解决这个问题。而需要安装<code>texlive</code>工具包，然后使用这个新的发行版的引擎来编译文档，所以文档需要重写了。</p>
+<h2 id="安装和使用texlive"><a href="#安装和使用texlive" class="headerlink" title="安装和使用texlive"></a>安装和使用texlive</h2><p>要安装texlive，必须要有安装的介质，所以需要下载文件等，然后予以安装，这里有一个教程可供<a href="http://seisman.info/texlive-2013-under-linux.html" target="_blank" rel="noopener">参考</a>。中文支持可以暂时不理，到后面我们会使用<code>ubuntu</code>系统自带的中文字体做编译。</p>
+<p>安装好之后，就让我们看看其文档结构：</p>
+<pre><code>\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec,xunicode,xltxtra}
+\usepackage{titlesec}
+\usepackage[top=1in,bottom=1in,left=1.25in,right=1.25in]{geometry}
+
+\titleformat{\section}{\Large\hei}{\thesection}{1em}{}
+
+\XeTeXlinebreaklocale &quot;zh&quot;
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+
+\newfontfamily\hei{WenQuanYi Micro Hei}  % 使用系统的中文字体
+\setmainfont{AR PL UKai CN}              % 这3行定义文档字体，本行正文
+\setmonofont{WenQuanYi Micro Hei}        % 标题等
+
+\begin{document}
+
+\title{\hei XeTeX使用小结}
+\author{\hei 小明}
+\date{\hei 2009年6月21日}
+
+\maketitle
+
+\section{简介}
+以前使用CJK进行中文的排版，需要自己生成字体库，近日，出现了XeTeX，可以比较好的解决中文字体问题，不需要额外生成LaTeX字体库，直接使用计算机系统里的字体。
+
+\section{字体列表}
+本文使用了大量本机自带的字体。
+
+\centering
+你好！
+
+\end{document}
+</code></pre><p>可以看到我们的文档中使用了自己系统中的字体，而不是使用各种各样的字体宏包。我们可以使用命令：</p>
+<pre><code>fc-list :lang=zh-cn
+</code></pre><p>来查看系统中都有什么中文字体：<br><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/4901815145f36d1d475207eef5bb44b52013110904593212245.png" alt="fc-list命令结果"></p>
+<p>我们要使用的是字体的名字，例如<code>WenQuanYi Micro Hei</code>和<code>AR PL UKai CN</code>,也就是两个冒号之间的那个名字。这样我们果然可以编译出漂亮的使用系统字体的文档了。再把之前latex的文档中的<code>preamble</code>（声明usepackage的地方）部分中的代码拷贝过来放到对应的<code>\begin{document}</code>之前就可以了。然后我们就可以运行 <code>xelatex article.tex</code>来编译文档了，编译后可以看到生成的pdf文件，不会再出现之前的目录错误了。</p>
+<pre><code>% preamble示意
+\documentclass{class}
+… preamble部分
+\begin{document}
+… 正文内容 …
+\end{document}
+</code></pre><p>目录正确显示效果:</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/e711308f47cbe55a01abd951d4aa3e682013110905133112413.png" alt="目录ok了"></p>
+<h2 id="使用latex生成各种尺寸的pdf"><a href="#使用latex生成各种尺寸的pdf" class="headerlink" title="使用latex生成各种尺寸的pdf"></a>使用latex生成各种尺寸的pdf</h2><p>假如我们要生成适合<code>kindle</code>阅读的PDF 6吋版，那么在latex中将非常地方便。因为只需要在<code>preamble</code>中加入如下代码就ok了：</p>
+<pre><code>\usepackage[paperwidth=9cm, paperheight=12cm, top=0.1cm, bottom=0.2cm, left=0.2cm, right=0.2cm]{geometry}
+\special{papersize=9cm,12cm}
+</code></pre><p>而且这个尺寸可以随意更改。所以可以针对特定的屏幕大小进行编译。我编译的6吋版本效果如下：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/26bbead36d401f3407f6de55cac89ad42013110905101210145.png" alt="pdf六吋版本效果"> </p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>折腾那么久<code>tex</code>,现在才发现一个好的发行版有多么重要，这样让我们做的工作的轻松起来，而不是捉襟见肘地去解决那些对中文的支持问题。而我们也将使用这个工具，继续我们《IT小小鸟外传》的编写，竭尽全力地制作出良好阅读体验的电子书，并且生成各种版本以支持更多的设备。</p>
+<hr>
+<p>end</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/11/03/常用latex代码块/" rel="next" title="常用latex代码块">
+                <i class="fa fa-chevron-left"></i> 常用latex代码块
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/11/09/latex生成各种格式电子书/" rel="prev" title="latex生成各种格式电子书">
+                latex生成各种格式电子书 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#xelatex在文档处理中的使用"><span class="nav-number">1.</span> <span class="nav-text">xelatex在文档处理中的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#latex和pdflatex的问题"><span class="nav-number">1.1.</span> <span class="nav-text">latex和pdflatex的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装和使用texlive"><span class="nav-number">1.2.</span> <span class="nav-text">安装和使用texlive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用latex生成各种尺寸的pdf"><span class="nav-number">1.3.</span> <span class="nav-text">使用latex生成各种尺寸的pdf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">1.4.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

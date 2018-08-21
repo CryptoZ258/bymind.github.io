@@ -1,0 +1,917 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="CSS 3D效果by bibodeng 2013-10-23 碎碎念无意之中看到beiyuu写的CSS3动画详解，而我之前没有怎么系统学习过CSS3和HTML5，故而对其炫酷的效果非常动心，并且觉得这个技术在一些地方肯定非常棒。他的讲解例子很丰富，但是我还是花了一些功夫去理解。轻松获得的东西，也容易轻松失去，如果其中过程很难忘，那么的确可以学到一些东西。而这个折腾的过程，我也动手亲自实践了一下，一">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS3 3D六面体效果">
+<meta property="og:url" content="https://bibodeng.github.io/2013/10/23/CSS3 3D六面体效果/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="CSS 3D效果by bibodeng 2013-10-23 碎碎念无意之中看到beiyuu写的CSS3动画详解，而我之前没有怎么系统学习过CSS3和HTML5，故而对其炫酷的效果非常动心，并且觉得这个技术在一些地方肯定非常棒。他的讲解例子很丰富，但是我还是花了一些功夫去理解。轻松获得的东西，也容易轻松失去，如果其中过程很难忘，那么的确可以学到一些东西。而这个折腾的过程，我也动手亲自实践了一下，一">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/8d3daa4bfcfccc75819d06cf1f79bce42013102307565821497.png">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/282308e18cf25d10bf245c2d511a642d2013102308173126290.png">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/6b2ef4260a2a5c0d2e4525830869303b2013102309193132740.png">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/27945e857498ff05eb14e830e98e84a3201310230919311155.png">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/51d8fd0bc5f9f4258f731e504edbd0572013102309512713254.png">
+<meta property="og:updated_time" content="2018-08-21T07:59:59.133Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS3 3D六面体效果">
+<meta name="twitter:description" content="CSS 3D效果by bibodeng 2013-10-23 碎碎念无意之中看到beiyuu写的CSS3动画详解，而我之前没有怎么系统学习过CSS3和HTML5，故而对其炫酷的效果非常动心，并且觉得这个技术在一些地方肯定非常棒。他的讲解例子很丰富，但是我还是花了一些功夫去理解。轻松获得的东西，也容易轻松失去，如果其中过程很难忘，那么的确可以学到一些东西。而这个折腾的过程，我也动手亲自实践了一下，一">
+<meta name="twitter:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/8d3daa4bfcfccc75819d06cf1f79bce42013102307565821497.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> CSS3 3D六面体效果 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CSS3 3D六面体效果
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-10-23T17:55:01+08:00" content="2013-10-23">
+              2013-10-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/10/23/CSS3 3D六面体效果/" class="leancloud_visitors" data-flag-title="CSS3 3D六面体效果">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="CSS-3D效果"><a href="#CSS-3D效果" class="headerlink" title="CSS 3D效果"></a>CSS 3D效果</h1><p>by bibodeng 2013-10-23</p>
+<h2 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h2><p>无意之中看到<a href="http://beiyuu.com/" target="_blank" rel="noopener">beiyuu</a>写的CSS3动画详解，而我之前没有怎么系统学习过CSS3和HTML5，故而对其炫酷的效果非常动心，并且觉得这个技术在一些地方肯定非常棒。他的讲解例子很丰富，但是我还是花了一些功夫去理解。轻松获得的东西，也容易轻松失去，如果其中过程很难忘，那么的确可以学到一些东西。而这个折腾的过程，我也动手亲自实践了一下，一起来吧！</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/8d3daa4bfcfccc75819d06cf1f79bce42013102307565821497.png" alt="成为最强的人"></p>
+<p>一直觉得很自卑，想要成为一个很强的人 : P</p>
+<h2 id="CSS3-3D"><a href="#CSS3-3D" class="headerlink" title="CSS3 3D"></a>CSS3 3D</h2><p>如果突然给个例子你，很可能会消磨掉你的耐性，一切应当在愉悦的氛围下学习，但是也要留下深刻的印象，其基础是理解，这样很容易就知道如何写一个3D的东西了，将来也可以写更加复杂的效果（如果你数学好的话）。</p>
+<h3 id="3D坐标系"><a href="#3D坐标系" class="headerlink" title="3D坐标系"></a>3D坐标系</h3><p>计算机技术源于数学，而3D坐标系，是3D空间的基础。2D空间中，容易理解，就是一个十字，横向为x轴，纵向为y轴。如下：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/282308e18cf25d10bf245c2d511a642d2013102308173126290.png" alt="二维坐标轴"></p>
+<p>三维的坐标轴稍有不同，举起你的右手，手心对着你的脸，大拇指头就是x, 中指是z， 而食指是y轴。如下图所示：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/6b2ef4260a2a5c0d2e4525830869303b2013102309193132740.png" alt="三维坐标轴"></p>
+<p>下面将会理解怎么布局3维的东西，这个图对于理解rotate（旋转）， transform（位移）都将有帮助。也可以看看这里的<a href="http://desandro.github.io/3dtransforms/examples/cube-01-steps.html" target="_blank" rel="noopener">分步过程</a>,分为以下步骤：</p>
+<ol>
+<li>形成平面叠加</li>
+<li>平面旋转，上下左右，前后，但是还有一些重叠在一起</li>
+<li>对平面进行位移，形成3维视觉效果</li>
+<li>整体旋转3D物体</li>
+</ol>
+<h3 id="将元素转化为3D空间"><a href="#将元素转化为3D空间" class="headerlink" title="将元素转化为3D空间"></a>将元素转化为3D空间</h3><p>假设我们正在做一个骰子一样的六面体，我们希望它的六个面能够像坐标中的那个立方体一样。首先写出如下的html代码，构建出基本元素。</p>
+<pre><code>&lt;div id=&quot;cube-con&quot;&gt; &lt;!-- 主容器 --&gt;
+    &lt;div id=&quot;cube&quot;&gt;
+        &lt;figure class=&quot;front&quot;&gt;1&lt;/figure&gt;
+        &lt;figure class=&quot;back&quot;&gt;2&lt;/figure&gt;
+        &lt;figure class=&quot;right&quot;&gt;3&lt;/figure&gt;
+        &lt;figure class=&quot;left&quot;&gt;4&lt;/figure&gt;
+        &lt;figure class=&quot;top&quot;&gt;5&lt;/figure&gt;
+        &lt;figure class=&quot;bottom&quot;&gt;6&lt;/figure&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;cube_btns&quot;&gt;    &lt;!-- 用于控制翻转的按钮,供js调用 --&gt;
+    &lt;input type=&quot;button&quot; value=&quot;前&quot; id=&quot;cube_btn1&quot;&gt;
+    &lt;input type=&quot;button&quot; value=&quot;后&quot; id=&quot;cube_btn2&quot;&gt;
+    &lt;input type=&quot;button&quot; value=&quot;右&quot; id=&quot;cube_btn3&quot;&gt;
+    &lt;input type=&quot;button&quot; value=&quot;左&quot; id=&quot;cube_btn4&quot;&gt;
+    &lt;input type=&quot;button&quot; value=&quot;上&quot; id=&quot;cube_btn5&quot;&gt;
+    &lt;input type=&quot;button&quot; value=&quot;下&quot; id=&quot;cube_btn6&quot;&gt;
+&lt;/div&gt;
+</code></pre><p>下面要写CSS3代码，整出3D效果：</p>
+<pre><code>#cube-con {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    margin: 40px auto 40px;
+    -webkit-perspective:1000px;    /*从多远的距离进行观察，值越大，立体部分拉升越小*/
+       -moz-perspective:1000px;
+         -o-perspective:1000px;
+            perspective:1000px;
+}
+#cube {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    -webkit-transform-style:preserve-3d; /*转换成3D空间！*/
+       -moz-transform-style:preserve-3d;
+         -o-transform-style:preserve-3d;
+            transform-style:preserve-3d;
+    -webkit-transition:-webkit-transform 1s;
+       -moz-transition:-moz-transform 1s;
+         -o-transition:-o-transform 1s;
+            transition:transform 1s;
+    -webkit-transform:translateZ( -100px );
+       -moz-transform:translateZ( -100px );
+         -o-transform:translateZ( -100px );
+            transform:translateZ( -100px );
+}
+
+#cube figure {
+    width:196px;
+    height:196px;
+    display:block;
+    margin: 0; /* 如果没有这个，各个面可能不居中，导致翻转不绕中心*/
+    position:absolute;    /*应该使用绝对定位，因为它已经不是DOM流的形式了，更像float*/
+    border:2px solid black;
+    color:#fff;
+    font-size:130px;
+    font-weight:bold;
+    text-align:center;
+    line-height:190px;
+    opacity:0.8;
+}
+</code></pre><p>所谓<code>translateZ</code>就是指在该轴方向进行位移，负值表示往正方向相反的方向移动，故而<code>translateZ(-100px)</code>的作用是往后推100个像素，浏览器会自动进行根据拉伸进行计算实际的尺寸。在这里是为了中点维持在中心，因为待会各个面还需要位移，以使得体现立体效果。</p>
+<h3 id="移动，旋转元素"><a href="#移动，旋转元素" class="headerlink" title="移动，旋转元素"></a>移动，旋转元素</h3><p>现在所有的面都像一个普通平面图形一样面对着我们，接着对各个面进行处理，把各个面给拉开距离，并且旋转到合适的角度。俯视示意图如下：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/27945e857498ff05eb14e830e98e84a3201310230919311155.png" alt="四面示意图"></p>
+<p>其中正方体的边长为<strong>200px</strong>。</p>
+<pre><code>#cube .front {        /*绕y轴旋转为0，故而正对我们，并且向前一步走（100像素）*/
+    background:#1abc9c;
+    -webkit-transform:rotateY(0deg) translateZ(100px);
+       -moz-transform:rotateY(0deg) translateZ(100px);
+         -o-transform:rotateY(0deg) translateZ(100px);
+            transform:rotateY(0deg) translateZ(100px);
+}
+#cube .back {       /*绕x轴旋转180度，并且向前位移100，这个稍微有点难理解，看正文*/
+    background:#3498db;
+    -webkit-transform: translateZ(100px) rotateX(180deg);
+       -moz-transform: translateZ(100px) rotateX(180deg);
+         -o-transform: translateZ(100px) rotateX(180deg);
+            transform: translateZ(100px) rotateX(180deg);
+}
+#cube .right {        /*绕y轴转90度*/
+    background:#8e44ad;
+    -webkit-transform: translateZ(100px) rotateY(90deg);
+       -moz-transform: translateZ(100px) rotateY(90deg);
+         -o-transform: translateZ(100px) rotateY(90deg);
+            transform: translateZ(100px) rotateY(90deg);
+}
+#cube .left {        
+    background:#34495e;
+    -webkit-transform: translateZ(100px) rotateY(-90deg);
+       -moz-transform: translateZ(100px) rotateY(-90deg);
+         -o-transform: translateZ(100px) rotateY(-90deg);
+            transform: translateZ(100px) rotateY(-90deg);
+}
+#cube .top {        
+    background:#f39c12;
+    -webkit-transform: translateZ(100px) rotateX(90deg);
+       -moz-transform: translateZ(100px) rotateX(90deg);
+         -o-transform: translateZ(100px) rotateX(90deg);
+            transform: translateZ(100px) rotateX(90deg);
+}
+#cube .bottom {        
+    background:#c0392b;
+    -webkit-transform: translateZ(100px) rotateX(-90deg);
+       -moz-transform: translateZ(100px) rotateX(-90deg);
+         -o-transform: translateZ(100px) rotateX(-90deg);
+            transform: translateZ(100px) rotateX(-90deg);
+}
+</code></pre><p>重点解释一下<code>translateZ(100px)</code>,尤其是在背面的时候，不是应该后退一步么？那是因为它的角度的问题，想象一下你站在原地，要以原点为对称点翻个身到后面的100px距离处，是不是先要向前一步走，然后翻到后面去。这就是为什么是向前一步走，而不是退后一步了。侧面也很好理解，由于本身是在xy平面的（0,0）处的，所以要往前站半个边长，才能让x轴正对身体中部。这些完全是坐标的关系导致的必须遵守的规则。</p>
+<p>这样六个面就形成了。下面进行整体的旋转。</p>
+<h3 id="整体的旋转"><a href="#整体的旋转" class="headerlink" title="整体的旋转"></a>整体的旋转</h3><p>是对cube整体的旋转和位移，六个面作为一个整体一起运动。注意是对cube添加css布局类。</p>
+<pre><code>#cube.show-front {
+  -webkit-transform:translateZ(-100px); /* -100px 表示将cube拉后到z为0的平面，这样大小就不会变化了*/
+     -moz-transform:translateZ(-100px);
+       -o-transform:translateZ(-100px);
+          transform:translateZ(-100px);
+}
+#cube.show-back {
+  -webkit-transform:  rotateX(-180deg) translateZ(-100px);
+     -moz-transform: rotateX(-180deg) translateZ(-100px);
+       -o-transform: rotateX(-180deg) translateZ(-100px);
+          transform: rotateX(-180deg) translateZ(-100px);
+}
+#cube.show-right {
+  -webkit-transform: rotateY(-90deg) translateZ(-100px);
+     -moz-transform: rotateY(-90deg) translateZ(-100px);
+       -o-transform: rotateY(-90deg) translateZ(-100px);
+          transform: rotateY(-90deg) translateZ(-100px);
+}
+#cube.show-left {
+  -webkit-transform: rotateY(90deg) translateZ(-100px);
+     -moz-transform: rotateY(90deg) translateZ(-100px);
+       -o-transform: rotateY(90deg) translateZ(-100px);
+          transform: rotateY(90deg) translateZ(-100px);
+}
+#cube.show-top {
+  -webkit-transform: rotateX(-90deg) translateZ(-100px);
+     -moz-transform: rotateX(-90deg) translateZ(-100px);
+       -o-transform: rotateX(-90deg) translateZ(-100px);
+          transform: rotateX(-90deg) translateZ(-100px);
+}
+#cube.show-bottom {
+  -webkit-transform: rotateX(90deg) translateZ(-100px);
+     -moz-transform: rotateX(90deg) translateZ(-100px);
+       -o-transform: rotateX(90deg) translateZ(-100px);
+          transform: rotateX(90deg) translateZ(-100px);
+}
+</code></pre><p>想象一下，怎样翻转会让各个面转动到面对着你。以<code>.show-right</code>为例吧，我们需要让它绕y轴反方向转动90度，总之面是怎么旋转的，我们现在只要对cube反着来就可以了。</p>
+<pre><code>/*右面的旋转角度*/
+rotateY(90deg)
+
+/*把它转回正面，我们就反着来*/
+rotateY(-90deg)
+</code></pre><p>这样就能达到整体的效果了。剩下的就是绑定事件，需要旋转时，给它设置对应的css类就ok了。下面是事件绑定的js代码：</p>
+<pre><code>$(function(){
+    // 省略其他
+    // for cube
+    var cubeClassArray = [
+        &apos;show-front&apos;,
+        &apos;show-back&apos;,
+        &apos;show-right&apos;,
+        &apos;show-left&apos;,
+        &apos;show-top&apos;,
+        &apos;show-bottom&apos;
+    ];
+
+    $(&apos;#cube_btns input&apos;).click(function(){
+        var i = $(this).index();
+        $(&apos;#cube&apos;).attr(&apos;class&apos;, cubeClassArray[i]);    // 设置cube的css类，进行旋转
+    });
+
+});
+</code></pre><p>好，一切大工告成了，你可以看到一个很酷的旋转六面体。</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/51d8fd0bc5f9f4258f731e504edbd0572013102309512713254.png" alt="3D cube"></p>
+<p>参考：</p>
+<ul>
+<li>了解transform和animation<a href="http://beiyuu.com/css3-animation/" target="_blank" rel="noopener">css3动画详解</a></li>
+</ul>
+<hr>
+<p>end</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/10/20/十月小记/" rel="next" title="十月小记">
+                <i class="fa fa-chevron-left"></i> 十月小记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/10/25/用js实现快排加演示-js排程初探/" rel="prev" title="用js实现快排加演示-js排程初探">
+                用js实现快排加演示-js排程初探 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS-3D效果"><span class="nav-number">1.</span> <span class="nav-text">CSS 3D效果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#碎碎念"><span class="nav-number">1.1.</span> <span class="nav-text">碎碎念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS3-3D"><span class="nav-number">1.2.</span> <span class="nav-text">CSS3 3D</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3D坐标系"><span class="nav-number">1.2.1.</span> <span class="nav-text">3D坐标系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将元素转化为3D空间"><span class="nav-number">1.2.2.</span> <span class="nav-text">将元素转化为3D空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移动，旋转元素"><span class="nav-number">1.2.3.</span> <span class="nav-text">移动，旋转元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整体的旋转"><span class="nav-number">1.2.4.</span> <span class="nav-text">整体的旋转</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

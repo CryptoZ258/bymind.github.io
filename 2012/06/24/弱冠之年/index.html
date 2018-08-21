@@ -1,0 +1,745 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近莫名收到空间礼物，初不知是我生辰将至，后往而视之，乃恭祝之语，甚为欣喜。我即将年满二十，是谓弱冠之年。我五岁从师而学，于今已有十五载。历二十春秋，睹中国之变化，如今成人，立于天地之间，仰天可瞻日月，俯首可察己身，当修身励学，贡献力量。年少总不负轻狂，自认胸怀壮志，然常半途而废，少有所成，偶有所成，赖于幸运。初从学之时，身随外祖父，祖父祖母慈蔼可亲，体贴入微，童年之时已然快乐无比，玩耍嬉戏，童">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="弱冠之年">
+<meta property="og:url" content="https://bibodeng.github.io/2012/06/24/弱冠之年/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="最近莫名收到空间礼物，初不知是我生辰将至，后往而视之，乃恭祝之语，甚为欣喜。我即将年满二十，是谓弱冠之年。我五岁从师而学，于今已有十五载。历二十春秋，睹中国之变化，如今成人，立于天地之间，仰天可瞻日月，俯首可察己身，当修身励学，贡献力量。年少总不负轻狂，自认胸怀壮志，然常半途而废，少有所成，偶有所成，赖于幸运。初从学之时，身随外祖父，祖父祖母慈蔼可亲，体贴入微，童年之时已然快乐无比，玩耍嬉戏，童">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://bibodeng.github.io/content/plugins/kl_album/upload/201206/fd61f1b5283ebcce6886a31712c037102012062311350712887.jpg">
+<meta property="og:updated_time" content="2018-08-21T08:00:03.104Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="弱冠之年">
+<meta name="twitter:description" content="最近莫名收到空间礼物，初不知是我生辰将至，后往而视之，乃恭祝之语，甚为欣喜。我即将年满二十，是谓弱冠之年。我五岁从师而学，于今已有十五载。历二十春秋，睹中国之变化，如今成人，立于天地之间，仰天可瞻日月，俯首可察己身，当修身励学，贡献力量。年少总不负轻狂，自认胸怀壮志，然常半途而废，少有所成，偶有所成，赖于幸运。初从学之时，身随外祖父，祖父祖母慈蔼可亲，体贴入微，童年之时已然快乐无比，玩耍嬉戏，童">
+<meta name="twitter:image" content="https://bibodeng.github.io/content/plugins/kl_album/upload/201206/fd61f1b5283ebcce6886a31712c037102012062311350712887.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 弱冠之年 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                弱冠之年
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-06-24T19:03:12+08:00" content="2012-06-24">
+              2012-06-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/06/24/弱冠之年/" class="leancloud_visitors" data-flag-title="弱冠之年">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<span style="font-size:medium;font-family:微软雅黑;"><span style="font-size:16px;">最近莫名收到空间礼物，初不知是我生辰将至，后往而视之，乃恭祝之语，甚为欣喜。我即将年满二十，是谓弱冠之年。我五岁从师而学，于今已有十五载。历二十春秋，睹中国之变化，如今成人，立于天地之间，仰天可瞻日月，俯首可察己身，当修身励学，贡献力量。年少总不负轻狂，自认胸怀壮志，然常半途而废，少有所成，偶有所成，赖于幸运。初从学之时，身随外祖父，祖父祖母慈蔼可亲，体贴入微，童年之时已然快乐无比，玩耍嬉戏，童真童趣。殊不知，此一随，达十年之久也，养育之恩，感佩涕零。我父母勤劳善良，于我十分关爱，未曾特别管束。可亲可爱之人也，常在我心，不舍不忘。今已离家求学，私自愧未能竭尽全力，奋发刻苦，虽挂念父母亲人，然终究少见音容，唯望亲人身体健康。察人生短暂，二十弹指一挥间，遂为此文以记之。</span></span><span style="font-size:16px;"> </span><div><br>
+</div>
+<span style="font-size:16px;"> </span><div><span style="font-family:微软雅黑;"><span style="font-size:medium;"><span style="font-size:16px;">如今把相片放在这里，作为纪念，希望能够得到亲友眷爱，从而获得祝福，变得更加幸福快乐。</span></span><span style="font-size:large;"><span style="font-size:medium;"><span style="font-size:16px;">此前老同学说我憔悴了苍老了很多，艾，可知学校生活是多么折磨人呀。幸好只是瘦的皮包骨，而不是精神崩溃（不过照学校这么搞，也快了）。</span></span></span></span></div>
+<span style="font-family:微软雅黑;"><span style="font-size:16px;"> </span><div><span style="font-size:16px;"> </span><div style="text-align:center;"><a target="_blank" href="/content/plugins/kl_album/upload/201206/fd61f1b5283ebcce6886a31712c037102012062311350712887.jpg"><img src="/content/plugins/kl_album/upload/201206/fd61f1b5283ebcce6886a31712c037102012062311350712887.jpg" width="270" height="360" alt="点击查看原图" border="0"></a><br>
+</div>
+<span style="font-size:16px;"> </span><div><span style="font-size:medium;font-family:微软雅黑;"><span style="font-size:16px;">yesterday is history,Tomorrow is a mystery.And Today 
+is a gift ,that's why we call it the 
+present.往昔旧事，皆随风飘散，昨日如雾终不回来，明日如梦幻终究不会到来，唯有当下掌握的此时才是最为珍贵的，也是我所浪费的。当我置身学习工作中的时候，我感到快乐与充实，感觉我比时间快，但当我颓废或彷徨时，我感觉时光飞逝，时不我待。我应当属于时间，肉体是父母赐给我的，能量是太阳赐给我的，就这样行走，唯有我融入时间里，才算是完整了。如今且庆祝，乃是对父母的纪念，对时光的纪念。果然我还有很长的路要走，那么我现在就是在回顾上一段旅程，宣告下一段旅程的开始。</span></span></div>
+<span style="font-size:16px;"> </span><div><br>
+</div>
+<span style="font-size:16px;"> </span><div><span style="font-size:medium;font-family:微软雅黑;"><span style="font-size:16px;">我是一个兴趣广泛者，人是多么地有趣，对于自己喜欢做的事情，就算废寝忘食也要去做，但是对于自己不喜欢的事情就算是半分钟也是煎熬。我在想，我读了十多年的书，到今天还没有厌倦，真的是难得。具体地说是对有些东西厌倦，但是还是要硬着头皮去做，因为你知道这会对你有好处，但是对于有些东西兴趣更加盎然了，感觉有那么一点热血气息。以前学点东西，只是觉得好玩，现在学点东西，却要问自己这东西有什么价值，值不值你花时间去学，对于你将来有没有帮助。但是有了兴趣，你就会很冲动地做，并且不去管什么价值，因为就是想做。这时候就会很冲动地去买把吉他，或者去学几天linux，再或者想要蓄头发当黑客扮酷。一切都是源于那种对于生活和学习的热爱，如果从根本上来说就是被人“蛊惑”到了有一种狂热思想，崇拜情节。很多时候兴趣往往来自于“我将来也要向ta一样！”，这时候就想着要怎么样才能如此如此，于是就过得很充实很快乐。习书法绘画，略有所得，习吉它音乐，一窍不通。其他爱好倒也没有了，有便是dota了。现在是整天沉醉在linux当中，不能自拔，只因其能让我感觉“linux虐我千百遍，我待linux如初恋”。</span></span></div>
+<span style="font-size:16px;"> </span><div><br>
+</div>
+<span style="font-size:16px;"> </span><div><span style="font-size:medium;font-family:微软雅黑;"><span style="font-size:16px;">习惯很重要，这学期加强了体育锻炼，感觉真的很好，一方面是源于去了趟华农，觉得兄弟这种玩法很好，值得借鉴，另外一方面是觉得运动之后的感觉真好，出一通汗，然后躺在草地上看星星，吹风。正如睡觉那样美妙，每次睡饱了醒来都精力充沛，也正如去图书馆那样美妙，每次都能碰到美女，每次投入地看书总有一种我又增长了一点知识，然后狂妄地回到宿舍戏谑在打游戏的同学：“瞧，我这一天又过得那么充实，你的一天又白费了！”。锻炼的习惯/睡觉的习惯帮助了我很多，但是今年思考的习惯却弱了下来，走路不再思考问题了，这让我十分懊恼，原因是因为平时不思考，没有了问题，然后就导致走路的时候没有问题可以思考。另外一个我很想培养的习惯是每天躺下的时候总结所学，思考一下有哪些问题没有解决。另外我看了一本叫做《奇特的一生》的书，然后也打算像他那样记录时间，虽然日记一直在写，想融入到日记里面还是没有养成这个习惯，况且记下了不总结回顾，总还是没有效果的。其实所谓习惯，只管去做就行了，熟能生巧，想锻炼的时候就出去跑几圈，想偶遇美女的时候就去图书馆（这种欲望一般在期末比较强烈，哈哈）。有了一个习惯，就感觉它是你生命中的一部分，每天或者每周，总有一段固定的时间，在做某样事情。这样会感觉很充实，也会觉得时间变长了。可惜老爸老妈文化水平有限，只能打电话什么的，谈不上交流些学习心得什么的东西，其实我是希望老爸老妈多关心我锻炼了没有，看了什么书，而不是又以为儿子的钱快用完了。故而我弟弟今年中考，我希望他考上雄中，然后有机会交流这些东西，而不是失去获得高等教育的机会，变得平庸，且相互没有共同语言。</span></span></div>
+<span style="font-size:16px;"> </span><div><br>
+</div>
+<span style="font-size:16px;"> </span><div><span style="font-size:medium;font-family:微软雅黑;"><span style="font-size:16px;">两年的大学生活，改变了我很多，除了体重有所下降外，更多的是性情变得更加沉稳，虽然在宿舍常有打闹，但是对于社会及人生/自我的思考，还是更深入了一点。我要变得更加关心我的家人和朋友，从而让我在世界上不孤单。我曾经说过“知己二三，朋友若干是很幸福的事情”，现在正在往这个方面发展，我希望这样的友情带的是人文关怀，而不是功利的社会功用。现在的社会，功名还是很重，一个人只有有了功名，才会得到更多更高层次的人的尊重与支持。还是先积累了力量，才能爆发，默默地实现量变到质变的蜕变，但是不求他人怎么看，只求过得充实快活。看到一本叫做《异类》的书，说凡是要成为大师必须要训练10000小时以上，而我还记得某篇叫《十年学会编程》册子提到了要精通一门技术，做到卓越，是需要十年的时间。两年来，敲代码的时间真的很少，下学期有望进入实验室，好好锻造一番，也遂了我的想法。</span></span></div>
+<span style="font-size:16px;"> </span><div><br>
+</div>
+<span style="font-size:16px;"> </span><div><span style="font-size:large;"><span style="font-size:medium;font-family:微软雅黑;"><span style="font-size:16px;">大梦谁先觉，平生我自知。如果此生能做到如此，无憾了。弱冠之年，自立自知，且加倍努力，火力全开。近日忙乎考试，忙完之后就到了盼望已久的暑假，预祝亲友假期快乐：）</span></span></span></div>
+<span style="font-size:16px;"> </span><div><span style="font-size:16px;">&nbsp;</span></div>
+<span style="font-size:16px;"> </span><div><span style="font-size:medium;font-family:微软雅黑;"><span style="font-size:16px;">by bibodeng &nbsp; 2012-06-24</span></span></div>
+<div><div></div>
+<span style="font-size:16px;"> </span><div><br>
+</div>
+</div>
+</div>
+</span>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/06/20/毕业季/" rel="next" title="毕业季">
+                <i class="fa fa-chevron-left"></i> 毕业季
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/07/14/亲情+友情+爱情 ——改变自己/" rel="prev" title="亲情+友情+爱情 ——改变自己">
+                亲情+友情+爱情 ——改变自己 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

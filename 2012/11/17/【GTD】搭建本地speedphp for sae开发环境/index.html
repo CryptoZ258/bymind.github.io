@@ -1,0 +1,835 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="由于speedphp for sae 和普通的服务器版本是不一样的。故而需要分别对两种不同的主机环境做不同的配置。首先要了解到sae平台是不允许程序写文件到平台中的本地文件的，而需要使用sae本身的catch。再加上很多 sae的API调用与本地的很不相同，故而speedphp for sae封装了与sae有关的操作来实现程序的功能。我们要做的其实就是在index.php 入口程序中设置不同的t">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【GTD】搭建本地speedphp for sae开发环境">
+<meta property="og:url" content="https://bibodeng.github.io/2012/11/17/【GTD】搭建本地speedphp for sae开发环境/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="由于speedphp for sae 和普通的服务器版本是不一样的。故而需要分别对两种不同的主机环境做不同的配置。首先要了解到sae平台是不允许程序写文件到平台中的本地文件的，而需要使用sae本身的catch。再加上很多 sae的API调用与本地的很不相同，故而speedphp for sae封装了与sae有关的操作来实现程序的功能。我们要做的其实就是在index.php 入口程序中设置不同的t">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T07:59:59.252Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【GTD】搭建本地speedphp for sae开发环境">
+<meta name="twitter:description" content="由于speedphp for sae 和普通的服务器版本是不一样的。故而需要分别对两种不同的主机环境做不同的配置。首先要了解到sae平台是不允许程序写文件到平台中的本地文件的，而需要使用sae本身的catch。再加上很多 sae的API调用与本地的很不相同，故而speedphp for sae封装了与sae有关的操作来实现程序的功能。我们要做的其实就是在index.php 入口程序中设置不同的t">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 【GTD】搭建本地speedphp for sae开发环境 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【GTD】搭建本地speedphp for sae开发环境
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-11-17T14:55:47+08:00" content="2012-11-17">
+              2012-11-17
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/11/17/【GTD】搭建本地speedphp for sae开发环境/" class="leancloud_visitors" data-flag-title="【GTD】搭建本地speedphp for sae开发环境">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<span style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">由于speedphp for sae 和普通的服务器版本是不一样的。故而需要分别对两种不同的主机环境做不同的配置。</span><div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">首先要了解到sae平台是不允许程序写文件到平台中的本地文件的，而需要使用sae本身的catch。再加上很多</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">sae的API调用与本地的很不相同，故而speedphp for sae封装了与sae有关的操作来实现程序的功能。我们要做的其实就是在index.php 入口程序中设置不同的tmp （在sae上相当于catch）目录，数据库参数。而程序的主要功能是一样的即 controller /tpl (模板)/model等都是一样的。然而开发一般是在自己的机器上进行的，这样两个版本的speedphp以及程序代码要来回拷贝非常不方便，于是可以采用将sae版本的和本地版相同的部分做个快捷方式过去本地开发环境中，这样修改直接修改的sae版本，本地测试的时候也不用来回拷贝最新版的程序。svn从sae同步下来的代码，也就能在本地中直接使用，开发好了，直接svn commit 即可。下面是具体方法：</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><br>
+</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">1 实验环境</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><br>
+</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">ubuntu 11.10 &nbsp;或 windows 7</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">具有subversion 工具 （svn)</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">具有本地web服务器/数据库服务器（apache,MySQL）</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">要求sae端的环境已经配置好了，代码可以正常运行。</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><br>
+</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">2 实验步骤</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><br>
+</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">step 1: 进入到www目录中</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><br>
+</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">step 2: 创建sae app的代码库 &nbsp;&nbsp;</div>
+<blockquote style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><div><span style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;">svn checkout https://svn.sinaapp.com/</span><span style="font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;"><span style="color:#33cc00;">ugeek</span></span><span style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;">/</span></div>
+<div><span style="font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;"><span style="color:#33cc00;">ugeek</span></span><span style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;">是我的应用的名字，</span><span style="font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;"><span style="color:#33ccff;">替换成你sinaapp上的应用名称</span></span><span style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;">。</span></div>
+<div><span style="font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;"><span style="color:#444444;">这时候可以看到www下有一个文件夹</span><span style="color:#33cc00;">ugeek</span></span></span></div>
+<div><span style="font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;"><span style="color:#33cc00;">ugeek</span><span style="color:#444444;">下有一个1文件夹，表示版本1</span></span></span></div>
+<div><span style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;"><br>
+</span></div>
+<div><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">在windows 下直接利用svn工具填上链接签出代码即可（具体教程可以参考sae 文档）</span></span></div>
+</blockquote>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;"><br>
+</span></span></div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">step 3: 创建本地开发环境</span></span></div>
+<blockquote style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><div><span style="font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;"><span style="color:#444444;">在www下创建一个</span><span style="color:#33cc00;">ugeek</span><span style="color:#444444;">_local目录</span></span></span></div>
+<div><span style="font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;"><span style="color:#444444;">拷贝ugeek/1/ 下的所有文件到</span></span></span><span style="color:#33cc00;">&nbsp;ugeek</span><span style="color:#444444;">_local目录下</span></div>
+<div><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">用speedphp本地的speedphp替换掉speedphp for sae的speedphp</span></span></div>
+<div><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">删除controller和tpl目录</span></span></div>
+<div><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">创建sae版本中controller 和 tpl 目录的链接</span></span></div>
+<div><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">linux下可以用命令：</span></span></div>
+<div><span style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;">$ ln -s /var/www/ugeek/1/controller &nbsp;/var/www/</span><span style="font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;"><span style="color:#33cc00;">ugeek</span></span><span style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;">_local/controller</span></div>
+<div><span style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;">$ ln -s&nbsp;</span><span style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;">/var/www/ugeek</span><span style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;">/1/tpl /var/www/</span><span style="font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;"><span style="color:#33cc00;">ugeek</span></span><span style="color:#444444;font-family:Tahoma, 'Microsoft Yahei', Simsun;line-height:21px;">_local/tpl</span></div>
+<div><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">windows下直接创建快捷方式就可以了</span></span></div>
+<div><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;"><br>
+</span></span></div>
+</blockquote>
+<span style="font-size:14px;line-height:normal;;color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">step 4: 配置本地开发环境的index.php 入口文件</span></span><blockquote style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">本地的index.php 数据库名，catch名应该改为本地的</span></span></blockquote>
+<blockquote style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">index.php文件如下：</span></span></blockquote>
+<blockquote style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"></blockquote>
+<span style="font-size:14px;line-height:normal;;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><br>
+</span><blockquote style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"></blockquote>
+<span style="font-size:14px;line-height:normal;;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><br>
+</span><blockquote style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"></blockquote>
+<span style="font-size:14px;line-height:normal;;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><br>
+</span><blockquote style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;">&lt;?php</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;">define("SP_PATH",dirname(__FILE__)."/SpeedPHP");</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;">define("APP_PATH",dirname(__FILE__));</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;">$spConfig = array(<span class="Apple-tab-span" style="white-space:pre;">			</span>// speedphp设置</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">	</span>"db" =&gt; array(<span class="Apple-tab-span" style="white-space:pre;">			</span>// 数据库设置</blockquote>
+<blockquote style="line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="color:#444444;white-space:pre;">		</span><span style="color:#ff0000;">'host' =&gt; 'localhost',</span></blockquote>
+<blockquote style="line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="color:#ff0000;"><span class="Apple-tab-span" style="white-space:pre;">		</span>'login' =&gt; 'root',</span></blockquote>
+<blockquote style="line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="color:#ff0000;"><span class="Apple-tab-span" style="white-space:pre;">		</span>'password' =&gt; 'bibo',</span></blockquote>
+<blockquote style="line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="color:#ff0000;"><span class="Apple-tab-span" style="white-space:pre;">		</span>'database' =&gt; 'ugeek_gtd',</span></blockquote>
+<blockquote style="line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="color:#444444;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span style="color:#33cc00;">&nbsp;&nbsp;&nbsp;&nbsp; /*sae 版本的被注释掉，其实sae版本可以不用配置数据库，会默认帮你配置好的</span></blockquote>
+<blockquote style="line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="color:#33cc00;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></blockquote>
+<blockquote style="margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><blockquote style="margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="line-height:21px;"><span style="color:#33cc00;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; host' =&gt;SAE_MYSQL_HOST_M,</span></span></blockquote>
+<blockquote style="margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="line-height:21px;"><span style="color:#33cc00;"><span class="Apple-tab-span" style="white-space:pre;">		</span>'login' =&gt; SAE_MYSQL_USER,</span></span></blockquote>
+<blockquote style="margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="line-height:21px;"><span style="color:#33cc00;"><span class="Apple-tab-span" style="white-space:pre;">		</span>'password' =&gt; SAE_MYSQL_PASS,</span></span></blockquote>
+<blockquote style="margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="line-height:21px;"><span style="color:#33cc00;"><span class="Apple-tab-span" style="white-space:pre;">		</span>'database' =&gt; SAE_MYSQL_DB,</span></span></blockquote>
+<span style="line-height:21px;"><span style="color:#33cc00;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; */</span></span></blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">	</span>),</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">	</span>'display'=&gt;TRUE;</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">	</span>'view' =&gt; array(<span class="Apple-tab-span" style="white-space:pre;">				</span>// view设置</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">		</span>'enabled' =&gt; TRUE,&nbsp;<span class="Apple-tab-span" style="white-space:pre;">	</span>// 开启视图</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">		</span>'config' =&gt;array(</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">			</span>'template_dir' =&gt; APP_PATH.'/tpl/default', // 模板目录</blockquote>
+<blockquote style="line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="color:#444444;white-space:pre;">			</span><span style="color:#ff0000;">'compile_dir' =&gt; APP_PATH.'/tmp', &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// 本地编译目录</span></blockquote>
+<blockquote style="line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="color:#ff0000;"><span class="Apple-tab-span" style="white-space:pre;">			</span>'cache_dir' =&gt; APP_PATH.'/tmp',&nbsp;<span class="Apple-tab-span" style="white-space:pre;">	</span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;// 本地缓存目录</span></blockquote>
+<blockquote style="line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="color:#ff0000;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span style="color:#33cc00;">/*&nbsp; &nbsp;sae 上的配置被注释 &nbsp; &nbsp; &nbsp;</span></blockquote>
+<blockquote style="margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><blockquote style="margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="line-height:21px;"><span style="color:#33cc00;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 'compile_dir' =&gt; 'saemc://templates_c',&nbsp;<span class="Apple-tab-span" style="white-space:pre;">		</span>// 编译目录</span></span></blockquote>
+<blockquote style="margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span style="line-height:21px;"><span style="color:#33cc00;"><span class="Apple-tab-span" style="white-space:pre;">	</span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;'cache_dir' =&gt; 'saemc://cached',&nbsp;<span class="Apple-tab-span" style="white-space:pre;">			</span>// 云缓存目录</span></span></blockquote>
+<span style="line-height:21px;"><span style="color:#33cc00;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;*/</span></span></blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">			</span>'left_delimiter' =&gt; '&lt;{', &nbsp;<span class="Apple-tab-span" style="white-space:pre;">				</span>// smarty左限定符</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">			</span>'right_delimiter' =&gt; '}&gt;',&nbsp;<span class="Apple-tab-span" style="white-space:pre;">				</span>// smarty右限定符</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">		</span>),<span class="Apple-tab-span" style="white-space:pre;">	</span></blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">		</span>'engine_name' =&gt; 'Smarty', // 模板引擎的类名称，默认为Smarty</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">		</span>'engine_path' =&gt; SP_PATH.'/Drivers/Smarty/Smarty.class.php', // 模板引擎主类路径</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">	</span>),</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">	</span></blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><span class="Apple-tab-span" style="white-space:pre;">	</span>'launch' =&gt; array(&nbsp;</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;'router_prefilter' =&gt; array(&nbsp;<span class="Apple-tab-span" style="white-space:pre;">		</span>// maxcheck为严格权限控制，没有记录则不可访问</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; array('spAcl','mincheck') // 开启有限的权限控制,没有记录就没有限制</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;),</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;">&nbsp;<span class="Apple-tab-span" style="white-space:pre;">	</span>),</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;">);</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><br>
+</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><br>
+</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;">require(SP_PATH."/SpeedPHP.php");</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;">spRun(); // SpeedPHP 3新特性</blockquote>
+<blockquote style="color:#444444;line-height:21px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:40px;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;border-width:initial;border-color:initial;border-image:initial;padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;"><br>
+</blockquote>
+</span></blockquote>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">step 5 ： 现在就可以进行本地的开发了，修改代码后到sae版本目录下用svn提交就可以了。</span></span></div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;"><br>
+</span></span></div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">其根本原理就算本地的和sae云端服务器上的相同的东西做链接（其实是同一个文件，保证完全同步）, 不同的东西则放在不同目录下。</span></span></div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">另外speedphp for sae环境就是那个speedphp核心不同，以及index.php中的catch配置/数据库配置部分不同，按张以上的代码选择不同的配置就行了。</span></span></div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">可以参考speedphp论坛的例子：&nbsp;</span></span><a href="http://www.speedphp.com/thread-2146-1-1.html" target="_blank" rel="noopener">http://www.speedphp.com/thread-2146-1-1.html</a>&nbsp;（搭建speedphp for sae本地开发环境）</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">speedphp for sae 的配置可以看&nbsp;<a href="http://www.speedphp.com/forum.php?mod=viewthread&amp;tid=3460" target="_blank" rel="noopener">http://www.speedphp.com/forum.php?mod=viewthread&amp;tid=3460</a>&nbsp;（如果一片空白）</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;">要找教程还是官方的手册和论坛管用，今后学习更加应当多在论坛中找。</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><br>
+</div>
+<div style="font-family:'AR PL UKai CN';font-size:14px;line-height:normal;"><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;">by bibodeng &nbsp;2012-11-17<br>
+</span></span><div><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;"><br>
+</span></span></div>
+<div><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;"><br>
+</span></span></div>
+<div><span style="color:#444444;font-family:'Tahoma, 'Microsoft Yahei', Simsun';"><span style="line-height:21px;"><br>
+</span></span></div>
+<div>&nbsp;</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/11/14/I am not a good programmer/" rel="next" title="I am not a good programmer">
+                <i class="fa fa-chevron-left"></i> I am not a good programmer
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/11/17/【佛】佛教的修行与见地/" rel="prev" title="【佛】佛教的修行与见地">
+                【佛】佛教的修行与见地 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

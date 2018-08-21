@@ -1,0 +1,814 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="使用Nginx+uWSGI+Supervisor部署Flask应用前言许多团队使用的是Nginx和uWSGI的方式来部署Python网页应用，ViaBTC的站点采用的是简单高性能的Flask开发的，那么究竟怎么才能让Flask开发的网站能够正确部署到Nginx中呢，刚好，bibo接手了网站应用的开发，刚好通过这次实验介绍一下这个步骤。 先简单介绍一下这些工具：  Nginx ——高效的web服务器">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Nginx+uWSGI+Supervisor部署Flask应用">
+<meta property="og:url" content="https://bibodeng.github.io/2016/10/12/使用Nginx+uWSGI+Supervisor部署Flask应用/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="使用Nginx+uWSGI+Supervisor部署Flask应用前言许多团队使用的是Nginx和uWSGI的方式来部署Python网页应用，ViaBTC的站点采用的是简单高性能的Flask开发的，那么究竟怎么才能让Flask开发的网站能够正确部署到Nginx中呢，刚好，bibo接手了网站应用的开发，刚好通过这次实验介绍一下这个步骤。 先简单介绍一下这些工具：  Nginx ——高效的web服务器">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:01.369Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Nginx+uWSGI+Supervisor部署Flask应用">
+<meta name="twitter:description" content="使用Nginx+uWSGI+Supervisor部署Flask应用前言许多团队使用的是Nginx和uWSGI的方式来部署Python网页应用，ViaBTC的站点采用的是简单高性能的Flask开发的，那么究竟怎么才能让Flask开发的网站能够正确部署到Nginx中呢，刚好，bibo接手了网站应用的开发，刚好通过这次实验介绍一下这个步骤。 先简单介绍一下这些工具：  Nginx ——高效的web服务器">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 使用Nginx+uWSGI+Supervisor部署Flask应用 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用Nginx+uWSGI+Supervisor部署Flask应用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-12T15:20:01+08:00" content="2016-10-12">
+              2016-10-12
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2016/10/12/使用Nginx+uWSGI+Supervisor部署Flask应用/" class="leancloud_visitors" data-flag-title="使用Nginx+uWSGI+Supervisor部署Flask应用">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="使用Nginx-uWSGI-Supervisor部署Flask应用"><a href="#使用Nginx-uWSGI-Supervisor部署Flask应用" class="headerlink" title="使用Nginx+uWSGI+Supervisor部署Flask应用"></a>使用Nginx+uWSGI+Supervisor部署Flask应用</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>许多团队使用的是Nginx和uWSGI的方式来部署Python网页应用，ViaBTC的站点采用的是简单高性能的Flask开发的，那么究竟怎么才能让Flask开发的网站能够正确部署到Nginx中呢，刚好，bibo接手了网站应用的开发，刚好通过这次实验介绍一下这个步骤。</p>
+<p>先简单介绍一下这些工具：</p>
+<ul>
+<li>Nginx ——高效的web服务器</li>
+<li>uWSGI ——WebServiceGatewayInterface的一种实现，是Web服务器到Python应用的桥梁</li>
+<li>Supervisor ——一款强大的进程监控管理工具，它能够启动uWSGI</li>
+</ul>
+<h2 id="准备和安装"><a href="#准备和安装" class="headerlink" title="准备和安装"></a>准备和安装</h2><p>我们将会以<a href="http://docs.jinkan.org/docs/flask/tutorial/index.html" target="_blank" rel="noopener">Flaskr-demo</a>  为例子，将它作为一个Web服务启动起来，让它的页面能够被用户访问。假设你已经有了服务器，首先要安装Python环境，我们推荐Virtual env，它能够提供一个虚拟的Python运行环境，要使用什么Python包都得在venv模式下安装，对应这个Python运行版本，组件一套软件包，从而保证在这个环境下应用可以独立运行，避免了在全局安装使用同一个Python版本，那样会造成混乱和各软件包不兼容。</p>
+<pre><code>// 安装准备工具
+sudo apt-get install python-setuptools
+sudo easy_install pip
+sudo pip install virtualenv
+
+// 安装python
+sudo add-apt-repository ppa:nginx/stable
+sudo apt-get update &amp;amp;&amp;amp; sudo apt-get upgrade
+sudo apt-get install build-essential python python-dev
+</code></pre><p>接下来安装并启动Nginx：</p>
+<pre><code>sudo apt-get install nginx
+sudo service nginx start
+</code></pre><p><code>nginx</code>安装好之后，我们可以通过访问web服务器来验证是否安装正确，这个时候应该能看到Nginx的欢迎页：</p>
+<pre><code>curl http://localhost
+</code></pre><h2 id="实现功能"><a href="#实现功能" class="headerlink" title="实现功能"></a>实现功能</h2><p>假如你的代码已经实现好了，只要拷贝到 <code>/var/www/</code> 目录下并修改目录权限，程序对脚本要有读和执行权限，如果没有这个目录，通过<code>mkdir</code>命令建立一个即可，这里我们从0开始实现Flasker这个例子，然后将它启动起来。Nginx为我们提供了一个托管静态页面的站点，但是它不能直接运行Python代码，所以应由uWSGI和Nginx配合共同呈现动态的页面。</p>
+<p>可以参考Flask的文档逐步实现，实现好之后的目录如下，其中<code>flaskr.py</code>是整个程序的代码，我们可以尝试运行一下这个demo，将会提示已经在 <code>http://127.0.0.1:5000</code>  调试运行了，访问这个网址将会呈现出它的页面。但是这并不是我们要的，我们需要让它运行在Web服务器上，并提供给所有人访问。</p>
+<pre><code>    |---------flaskr/---------
+|--static/
+|--templates/
+|--__init__.py
+|--flaskr.py
+|--schema.sql
+</code></pre><p>运行调试模式<code>python flaskr.py</code>将显示下面提示：</p>
+<pre><code>* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+* Restarting with stat
+* Debugger is active!
+</code></pre><p>##配置Nginx</p>
+<p>下面使用uWSGI和Nginx配合，让uWSGI执行Python程序，并将结果输出到Nginx服务器，它们将通过一个socket进行通信，首先，要安装uWSGI：</p>
+<pre><code>sudo pip install uwsgi
+</code></pre><p>我们在项目目录下建立一个<code>config</code>目录，并新建一个配置文件 <code>demo_nginx.conf</code> 来配置nginx，当然我们</p>
+<pre><code>    server {
+    listen 80;
+    server_name demo.viabtc.com;
+
+    location /static/ {
+        alias /var/www/flask_demo/app/static/;
+    }  
+
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/tmp/demo.uwsgi.sock;
+        uwsgi_param UWSGI_PYHOME /var/www/flask_demo/venv;
+        uwsgi_param UWSGI_CHDIR /var/www/flask_demo;
+        uwsgi_param UWSGI_SCRIPT run:app;
+        uwsgi_read_timeout 100;
+    }  
+}
+</code></pre><p>以上配置表示服务器监听 <code>demo.viabtc.com:80</code>，并配置了 static 目录的位置，当然你也可以配置其它自己添加的目录，还可以看到uwsgi和Nginx是通过 /tmp/demo.uwsgi.sock 这个文件来进行转接的，也即当Nginx接收到请求后，将请求传递到 demo.uwsgi.sock，由uwsgi去处理。</p>
+<p>此外，由于uWSGI不会像<code>python flaskr.py</code>这样以<code>__main__</code>的名义运行程序，故而我们配置了运行入口是<code>run:app</code>，也即我们定义了一个<code>run</code>模块（即<code>run.py</code>文件），运行的时候<code>app context</code>就是<code>run</code>模块的<code>app</code>。</p>
+<pre><code>    #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+&apos;&apos;&apos;run.py is simple&apos;&apos;&apos;
+from flaskr import app as application
+app = application           
+</code></pre><p>别忘了脚本都要赋予执行权限：</p>
+<pre><code>sudo chmod +x run.py
+</code></pre><p>然后将该<code>demo_nginx.conf</code>配置文件链接到Nginx的配置文件包含目录<code>/etc/nginx/conf.d/</code>下，并重启Nginx查看效果：</p>
+<pre><code>sudo ln -s /var/www/demoapp/demoapp_nginx.conf /etc/nginx/conf.d/
+sudo service nginx restart
+</code></pre><p>下面在客户端机器中配置你的访问hosts，例如我的是：</p>
+<pre><code>112.74.164.155 bibo.viabtc.com
+</code></pre><p>访问服务器站点 <code>demo.viabtc.com</code>，会发现报了502 BadGateway错误，那是因为我们没有配置uWSGI，所以在Gateway这个环节出错了，我们下面直接通过Supervisor来启动uWSGI解决这个问题。</p>
+<h2 id="配置Supervisor并运行uWSGI"><a href="#配置Supervisor并运行uWSGI" class="headerlink" title="配置Supervisor并运行uWSGI"></a>配置Supervisor并运行uWSGI</h2><p>首先，要安装Supervisor，安装Supervisord（服务端），会自动配套安装Supervisorctl（客户端），Supervisord负责控制那些需要托管的进程。</p>
+<pre><code>sudo apt-get install supervisor
+</code></pre><p>安装完成后，我们可以查看Supervisor的配置文件 <code>/etc/supervisor/supervisor.conf</code>，一般无需改动全局配置文件，但是对于supervisor的包含配置文件，也即运行时需要查找的应用配置，放在<code>/etc/supervisor/conf.d</code>，和Nginx是类似的，我们也需要在这个目录下添加站点的配置文件，我们同样使用链接的方式。</p>
+<p>在项目文件夹的<code>config/</code>目录下新建一个<code>demo-uwsgi.conf</code>文件，内容是app的配置：</p>
+<pre><code>    [program:demo_uwsgi]
+command         = uwsgi -w run:app --master --processes 4 --socket /tmp/demo.uwsgi.sock --chmod-socket=777
+directory       = /var/www/flask_demo
+autostart       = true
+autorestart     = true
+stdout_logfile  = /var/log/uwsgi.demo_web.log
+redirect_stderr = true
+stopsignal      = INT 
+</code></pre><p>其实Supervisord就是运行了这样一个命令将uWSGI启动起来了，并且指定了日志输出等配置，我们通过软链接方式将这个配置文件放到<code>/etc/supervisor/conf.d</code>，然后启动Supervisord，并启动我们站点：</p>
+<pre><code>sudo ln -s /var/www/demoapp/demoapp_nginx.conf /etc/nginx/conf.d/
+sudo service supervisord start
+sudo supervisorctl start demo_uwsgi
+</code></pre><p>这个时候项目的整体目录看起来像下面这样：</p>
+<pre><code>    |---------flaskr/---------
+|--config/
+|--|--demo_nginx.conf
+|--|--demo_uwsgi.conf
+|--static/
+|--templates/
+|--flaskr.py
+|--run.py
+|--schema.sql
+|--venv/
+</code></pre><p>这个时候再次访问<code>demo.viabtc.com</code>应该就可以正常访问了，不再出现502错误，以后将要新建一个站点的时候我们可以按照上面的方法依法炮制，只需要重新定义一套<code>**_nginx.conf</code> 和 <code>**_uwsgi.conf</code> 并放到对应的地方即可。如果碰到问题，不妨先查看一下Nginx和Supervisor及uWSGI的日志，日志地址就是上面配置文件中我们定义的。</p>
+<p>bibodeng 2016-10-12</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/02/连接一切的超级总线/" rel="next" title="连接一切的超级总线">
+                <i class="fa fa-chevron-left"></i> 连接一切的超级总线
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/14/一位面试官的心得/" rel="prev" title="一位面试官的心得">
+                一位面试官的心得 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Nginx-uWSGI-Supervisor部署Flask应用"><span class="nav-number">1.</span> <span class="nav-text">使用Nginx+uWSGI+Supervisor部署Flask应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备和安装"><span class="nav-number">1.2.</span> <span class="nav-text">准备和安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现功能"><span class="nav-number">1.3.</span> <span class="nav-text">实现功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Supervisor并运行uWSGI"><span class="nav-number">1.4.</span> <span class="nav-text">配置Supervisor并运行uWSGI</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

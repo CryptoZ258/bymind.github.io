@@ -1,0 +1,924 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="2013-04-21&amp;nbsp;翻阅《算法导论》 再谈堆排序 堆排序利用的特性——堆的数据结构特征：最大/最小&amp;nbsp;的元素总是在根处取得。 那么要利用根来排序，我们只需要保持堆的特性，然后每次把最后的元素与根交换，取出根元素就可以了。但是这个过程需要用到整堆，即保证这个数组能够形成堆的特征（这里对最大堆来讲）：父节点总是比子节点要大。 整堆就是对这种“僭越”的清洗，说起来很残忍，其实就是如">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="堆排序复习">
+<meta property="og:url" content="https://bibodeng.github.io/2013/04/21/堆排序复习/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="2013-04-21&amp;nbsp;翻阅《算法导论》 再谈堆排序 堆排序利用的特性——堆的数据结构特征：最大/最小&amp;nbsp;的元素总是在根处取得。 那么要利用根来排序，我们只需要保持堆的特性，然后每次把最后的元素与根交换，取出根元素就可以了。但是这个过程需要用到整堆，即保证这个数组能够形成堆的特征（这里对最大堆来讲）：父节点总是比子节点要大。 整堆就是对这种“僭越”的清洗，说起来很残忍，其实就是如">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:02.366Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="堆排序复习">
+<meta name="twitter:description" content="2013-04-21&amp;nbsp;翻阅《算法导论》 再谈堆排序 堆排序利用的特性——堆的数据结构特征：最大/最小&amp;nbsp;的元素总是在根处取得。 那么要利用根来排序，我们只需要保持堆的特性，然后每次把最后的元素与根交换，取出根元素就可以了。但是这个过程需要用到整堆，即保证这个数组能够形成堆的特征（这里对最大堆来讲）：父节点总是比子节点要大。 整堆就是对这种“僭越”的清洗，说起来很残忍，其实就是如">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 堆排序复习 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                堆排序复习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-04-21T21:58:29+08:00" content="2013-04-21">
+              2013-04-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/04/21/堆排序复习/" class="leancloud_visitors" data-flag-title="堆排序复习">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">2013-04-21&nbsp;翻阅《算法导论》</p>
+<h3 style="background-color:#000000;color:#ffffff;padding:10px;font-family:'Times New Roman';letter-spacing:1px;line-height:19.5px;">再谈堆排序</h3>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">堆排序利用的特性——堆的数据结构特征：最大/最小&nbsp;的元素总是在根处取得。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">那么要利用根来排序，我们只需要保持堆的特性，然后每次把最后的元素与根交换，取出根元素就可以了。但是这个过程需要用到整堆，即保证这个数组能够形成堆的特征（这里对最大堆来讲）：父节点总是比子节点要大。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">整堆就是对这种“僭越”的清洗，说起来很残忍，其实就是如果比自己小的占用了上位，则和它交换，这样递归下去，就一定能够让整棵树变得“井井有条”。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">这次我用python来实现一个堆。</p>
+<div id="highlighter_209101" class="syntaxhighlighter python" highlighter="brush:python;toolbar:false;" style="font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;"><table border="0" cellpadding="0" cellspacing="0" style="clear:both;margin-bottom:10px;word-break:break-all;"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2" style="height:20px;">1</div>
+<div class="line number2 index1 alt1" style="height:20px;">2</div>
+<div class="line number3 index2 alt2" style="height:20px;">3</div>
+<div class="line number4 index3 alt1" style="height:20px;">4</div>
+<div class="line number5 index4 alt2" style="height:20px;">5</div>
+<div class="line number6 index5 alt1" style="height:20px;">6</div>
+<div class="line number7 index6 alt2" style="height:20px;">7</div>
+<div class="line number8 index7 alt1" style="height:20px;">8</div>
+<div class="line number9 index8 alt2" style="height:20px;">9</div>
+<div class="line number10 index9 alt1" style="height:20px;">10</div>
+<div class="line number11 index10 alt2" style="height:20px;">11</div>
+<div class="line number12 index11 alt1" style="height:20px;">12</div>
+<div class="line number13 index12 alt2" style="height:20px;">13</div>
+<div class="line number14 index13 alt1" style="height:20px;">14</div>
+<div class="line number15 index14 alt2" style="height:20px;">15</div>
+<div class="line number16 index15 alt1" style="height:20px;">16</div>
+<div class="line number17 index16 alt2" style="height:20px;">17</div>
+<div class="line number18 index17 alt1" style="height:20px;">18</div>
+<div class="line number19 index18 alt2" style="height:20px;">19</div>
+<div class="line number20 index19 alt1" style="height:20px;">20</div>
+<div class="line number21 index20 alt2" style="height:20px;">21</div>
+<div class="line number22 index21 alt1" style="height:20px;">22</div>
+<div class="line number23 index22 alt2" style="height:20px;">23</div>
+<div class="line number24 index23 alt1" style="height:20px;">24</div>
+<div class="line number25 index24 alt2" style="height:20px;">25</div>
+<div class="line number26 index25 alt1" style="height:20px;">26</div>
+<div class="line number27 index26 alt2" style="height:20px;">27</div>
+<div class="line number28 index27 alt1" style="height:20px;">28</div>
+<div class="line number29 index28 alt2" style="height:20px;">29</div>
+<div class="line number30 index29 alt1" style="height:20px;">30</div>
+<div class="line number31 index30 alt2" style="height:20px;">31</div>
+<div class="line number32 index31 alt1" style="height:20px;">32</div>
+<div class="line number33 index32 alt2" style="height:20px;">33</div>
+<div class="line number34 index33 alt1" style="height:20px;">34</div>
+<div class="line number35 index34 alt2" style="height:20px;">35</div>
+<div class="line number36 index35 alt1" style="height:20px;">36</div>
+<div class="line number37 index36 alt2" style="height:20px;">37</div>
+<div class="line number38 index37 alt1" style="height:20px;">38</div>
+<div class="line number39 index38 alt2" style="height:20px;">39</div>
+<div class="line number40 index39 alt1" style="height:20px;">40</div>
+<div class="line number41 index40 alt2" style="height:20px;">41</div>
+<div class="line number42 index41 alt1" style="height:20px;">42</div>
+<div class="line number43 index42 alt2" style="height:20px;">43</div>
+<div class="line number44 index43 alt1" style="height:20px;">44</div>
+<div class="line number45 index44 alt2" style="height:20px;">45</div>
+<div class="line number46 index45 alt1" style="height:20px;">46</div>
+<div class="line number47 index46 alt2" style="height:20px;">47</div>
+<div class="line number48 index47 alt1" style="height:20px;">48</div>
+<div class="line number49 index48 alt2" style="height:20px;">49</div>
+<div class="line number50 index49 alt1" style="height:20px;">50</div>
+<div class="line number51 index50 alt2" style="height:20px;">51</div>
+<div class="line number52 index51 alt1" style="height:20px;">52</div>
+<div class="line number53 index52 alt2" style="height:20px;">53</div>
+<div class="line number54 index53 alt1" style="height:20px;">54</div>
+<div class="line number55 index54 alt2" style="height:20px;">55</div>
+<div class="line number56 index55 alt1" style="height:20px;">56</div>
+<div class="line number57 index56 alt2" style="height:20px;">57</div>
+<div class="line number58 index57 alt1" style="height:20px;">58</div>
+<div class="line number59 index58 alt2" style="height:20px;">59</div>
+<div class="line number60 index59 alt1" style="height:20px;">60</div>
+<div class="line number61 index60 alt2" style="height:20px;">61</div>
+<div class="line number62 index61 alt1" style="height:20px;">62</div>
+<div class="line number63 index62 alt2" style="height:20px;">63</div>
+<div class="line number64 index63 alt1" style="height:20px;">64</div>
+<div class="line number65 index64 alt2" style="height:20px;">65</div>
+<div class="line number66 index65 alt1" style="height:20px;">66</div>
+<div class="line number67 index66 alt2" style="height:20px;">67</div>
+<div class="line number68 index67 alt1" style="height:20px;">68</div>
+<div class="line number69 index68 alt2" style="height:20px;">69</div>
+<div class="line number70 index69 alt1" style="height:20px;">70</div>
+<div class="line number71 index70 alt2" style="height:20px;">71</div>
+<div class="line number72 index71 alt1" style="height:20px;">72</div>
+<div class="line number73 index72 alt2" style="height:20px;">73</div>
+<div class="line number74 index73 alt1" style="height:20px;">74</div>
+<div class="line number75 index74 alt2" style="height:20px;">75</div>
+<div class="line number76 index75 alt1" style="height:20px;">76</div>
+<div class="line number77 index76 alt2" style="height:20px;">77</div>
+<div class="line number78 index77 alt1" style="height:20px;">78</div>
+<div class="line number79 index78 alt2" style="height:20px;">79</div>
+<div class="line number80 index79 alt1" style="height:20px;">80</div>
+<div class="line number81 index80 alt2" style="height:20px;">81</div>
+<div class="line number82 index81 alt1" style="height:20px;">82</div>
+<div class="line number83 index82 alt2" style="height:20px;">83</div>
+<div class="line number84 index83 alt1" style="height:20px;">84</div>
+<div class="line number85 index84 alt2" style="height:20px;">85</div>
+<div class="line number86 index85 alt1" style="height:20px;">86</div>
+<div class="line number87 index86 alt2" style="height:20px;">87</div>
+<div class="line number88 index87 alt1" style="height:20px;">88</div>
+<div class="line number89 index88 alt2" style="height:20px;">89</div>
+<div class="line number90 index89 alt1" style="height:20px;">90</div>
+<div class="line number91 index90 alt2" style="height:20px;">91</div>
+<div class="line number92 index91 alt1" style="height:20px;">92</div>
+<div class="line number93 index92 alt2" style="height:20px;">93</div>
+<div class="line number94 index93 alt1" style="height:20px;">94</div>
+</td>
+<td class="code"><div class="container"><div class="line number1 index0 alt2" style="height:20px;"><code class="python comments">#!/usr/bin/python</code></div>
+<div class="line number2 index1 alt1" style="height:20px;"><code class="python comments"># -*- coding: utf-8 -*-</code></div>
+<div class="line number3 index2 alt2" style="height:20px;"><code class="python comments">'''</code></div>
+<div class="line number4 index3 alt1" style="height:20px;"><code class="python comments"># heapsort of python</code></div>
+<div class="line number5 index4 alt2" style="height:20px;"><code class="python comments"># by bibodeng</code></div>
+<div class="line number6 index5 alt1" style="height:20px;"><code class="python comments"># 2013-04-21</code></div>
+<div class="line number7 index6 alt2" style="height:20px;"><code class="python comments">'''</code></div>
+<div class="line number8 index7 alt1" style="height:20px;"><code class="python plain">DEBUG</code><code class="python keyword">=</code><code class="python value">1</code></div>
+<div class="line number9 index8 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number10 index9 alt1" style="height:20px;"><code class="python keyword">class</code>&nbsp;<code class="python plain">heap_sort:</code></div>
+<div class="line number11 index10 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python plain">array&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python plain">[]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments">#the array to be sort</code></div>
+<div class="line number12 index11 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python plain">heap_size&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python value">0</code></div>
+<div class="line number13 index12 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number14 index13 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">def</code>&nbsp;<code class="python plain">__init__(</code><code class="python color1">self</code><code class="python plain">, array):</code></div>
+<div class="line number15 index14 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python color1">self</code><code class="python plain">.array&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python plain">array&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments">#the array to be sort</code></div>
+<div class="line number16 index15 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python color1">self</code><code class="python plain">.heap_size&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python functions">len</code><code class="python plain">(</code><code class="python color1">self</code><code class="python plain">.array)&nbsp;</code><code class="python keyword">-</code>&nbsp;<code class="python value">1</code></div>
+<div class="line number17 index16 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments">'''print self.array</code></div>
+<div class="line number18 index17 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments">print self.heap_size'''</code></div>
+<div class="line number19 index18 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number20 index19 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># find the parent node index in array</code></div>
+<div class="line number21 index20 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">def</code>&nbsp;<code class="python plain">parent(</code><code class="python color1">self</code><code class="python plain">,i):</code></div>
+<div class="line number22 index21 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">return</code>&nbsp;<code class="python plain">i&gt;&gt;</code><code class="python value">1</code></div>
+<div class="line number23 index22 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number24 index23 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">def</code>&nbsp;<code class="python plain">left_child(</code><code class="python color1">self</code><code class="python plain">,i):</code></div>
+<div class="line number25 index24 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">return</code>&nbsp;<code class="python plain">(i&lt;&lt;</code><code class="python value">1</code><code class="python plain">)&nbsp;</code><code class="python keyword">+</code>&nbsp;<code class="python value">1</code></div>
+<div class="line number26 index25 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number27 index26 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">def</code>&nbsp;<code class="python plain">right_child(</code><code class="python color1">self</code><code class="python plain">,i):</code></div>
+<div class="line number28 index27 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">return</code>&nbsp;<code class="python plain">(i&lt;&lt;</code><code class="python value">1</code><code class="python plain">)&nbsp;</code><code class="python keyword">+</code>&nbsp;<code class="python value">2</code></div>
+<div class="line number29 index28 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number30 index29 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">def</code>&nbsp;<code class="python plain">heap_max(</code><code class="python color1">self</code><code class="python plain">):</code></div>
+<div class="line number31 index30 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">return</code>&nbsp;<code class="python color1">self</code><code class="python plain">.array[</code><code class="python value">0</code><code class="python plain">]</code></div>
+<div class="line number32 index31 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number33 index32 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">def</code>&nbsp;<code class="python plain">swap(</code><code class="python color1">self</code><code class="python plain">,x,y):</code></div>
+<div class="line number34 index33 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">return</code>&nbsp;<code class="python plain">y,x</code></div>
+<div class="line number35 index34 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number36 index35 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># make the array fit heap from node i</code></div>
+<div class="line number37 index36 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">def</code>&nbsp;<code class="python plain">max_heapify(</code><code class="python color1">self</code><code class="python plain">, i):&nbsp;&nbsp;</code></div>
+<div class="line number38 index37 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># judge the i is smaller than his child</code></div>
+<div class="line number39 index38 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python plain">l&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python color1">self</code><code class="python plain">.left_child(i)</code></div>
+<div class="line number40 index39 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python plain">r&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python color1">self</code><code class="python plain">.right_child(i)</code></div>
+<div class="line number41 index40 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python plain">largest&nbsp;&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python plain">i</code></div>
+<div class="line number42 index41 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># left</code></div>
+<div class="line number43 index42 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">if</code>&nbsp;<code class="python plain">l &lt;</code><code class="python keyword">=</code>&nbsp;<code class="python color1">self</code><code class="python plain">.heap_size&nbsp;</code><code class="python keyword">and</code>&nbsp;<code class="python plain">array[i] &lt; array[l]:</code></div>
+<div class="line number44 index43 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python plain">largest&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python plain">l</code></div>
+<div class="line number45 index44 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># right</code></div>
+<div class="line number46 index45 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">if</code>&nbsp;<code class="python plain">r &lt;</code><code class="python keyword">=</code>&nbsp;<code class="python color1">self</code><code class="python plain">.heap_size&nbsp;</code><code class="python keyword">and</code>&nbsp;<code class="python plain">array[largest] &lt; array[r] :</code></div>
+<div class="line number47 index46 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python plain">largest&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python plain">r</code></div>
+<div class="line number48 index47 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># exchange the largest with i</code></div>
+<div class="line number49 index48 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">if</code>&nbsp;<code class="python plain">largest !</code><code class="python keyword">=</code>&nbsp;<code class="python plain">i:</code></div>
+<div class="line number50 index49 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python plain">array[i],array[largest]&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python color1">self</code><code class="python plain">.swap(array[i], array[largest])</code></div>
+<div class="line number51 index50 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># recur</code></div>
+<div class="line number52 index51 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python color1">self</code><code class="python plain">.max_heapify(largest)</code></div>
+<div class="line number53 index52 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number54 index53 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number55 index54 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># make the array is a heap</code></div>
+<div class="line number56 index55 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">def</code>&nbsp;<code class="python plain">build_heap(</code><code class="python color1">self</code><code class="python plain">):</code></div>
+<div class="line number57 index56 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># self.heap_size = self.array.len()</code></div>
+<div class="line number58 index57 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">for</code>&nbsp;<code class="python plain">i&nbsp;</code><code class="python keyword">in</code>&nbsp;<code class="python functions">range</code><code class="python plain">((</code><code class="python color1">self</code><code class="python plain">.heap_size</code><code class="python keyword">/</code><code class="python value">2</code><code class="python plain">),&nbsp;</code><code class="python keyword">-</code><code class="python value">1</code><code class="python plain">,&nbsp;</code><code class="python keyword">-</code><code class="python value">1</code><code class="python plain">):</code></div>
+<div class="line number59 index58 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># print "heapify node", i ,":", self.array[i]</code></div>
+<div class="line number60 index59 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python color1">self</code><code class="python plain">.max_heapify(i)</code></div>
+<div class="line number61 index60 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number62 index61 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number63 index62 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">def</code>&nbsp;<code class="python plain">h_sort(</code><code class="python color1">self</code><code class="python plain">):</code></div>
+<div class="line number64 index63 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python functions">print</code>&nbsp;<code class="python string">"before build: "</code><code class="python plain">,</code><code class="python color1">self</code><code class="python plain">.array</code></div>
+<div class="line number65 index64 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># first , build heap</code></div>
+<div class="line number66 index65 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python color1">self</code><code class="python plain">.build_heap()</code></div>
+<div class="line number67 index66 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># second get the heap node by order</code></div>
+<div class="line number68 index67 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># print self.heap_size</code></div>
+<div class="line number69 index68 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python functions">print</code>&nbsp;<code class="python string">"after build: "</code><code class="python plain">,</code><code class="python color1">self</code><code class="python plain">.array</code></div>
+<div class="line number70 index69 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">for</code>&nbsp;<code class="python plain">i&nbsp;</code><code class="python keyword">in</code>&nbsp;<code class="python functions">range</code><code class="python plain">(</code><code class="python color1">self</code><code class="python plain">.heap_size,&nbsp;</code><code class="python keyword">-</code><code class="python value">1</code><code class="python plain">,&nbsp;</code><code class="python keyword">-</code><code class="python value">1</code><code class="python plain">):</code></div>
+<div class="line number71 index70 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># get root</code></div>
+<div class="line number72 index71 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">print</code>&nbsp;<code class="python string">"the "</code><code class="python plain">,i,</code><code class="python string">"num : "</code><code class="python plain">,&nbsp;</code><code class="python color1">self</code><code class="python plain">.heap_max()</code></div>
+<div class="line number73 index72 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python color1">self</code><code class="python plain">.array[</code><code class="python value">0</code><code class="python plain">]&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python color1">self</code><code class="python plain">.array[i]</code></div>
+<div class="line number74 index73 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">del</code>&nbsp;<code class="python color1">self</code><code class="python plain">.array[i]</code></div>
+<div class="line number75 index74 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python color1">self</code><code class="python plain">.heap_size&nbsp;</code><code class="python keyword">-</code><code class="python keyword">=</code>&nbsp;<code class="python value">1</code></div>
+<div class="line number76 index75 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python comments"># heapify the array</code></div>
+<div class="line number77 index76 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python color1">self</code><code class="python plain">.max_heapify(</code><code class="python value">0</code><code class="python plain">)</code></div>
+<div class="line number78 index77 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number79 index78 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number80 index79 alt1" style="height:20px;"><code class="python comments"># call the program to run</code></div>
+<div class="line number81 index80 alt2" style="height:20px;"><code class="python plain">array&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python plain">[]</code></div>
+<div class="line number82 index81 alt1" style="height:20px;"><code class="python keyword">if</code>&nbsp;<code class="python plain">DEBUG&nbsp;</code><code class="python keyword">=</code><code class="python keyword">=</code>&nbsp;<code class="python value">1</code><code class="python plain">:</code></div>
+<div class="line number83 index82 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python plain">array.extend([</code><code class="python value">3</code><code class="python plain">,</code><code class="python value">2</code><code class="python plain">,</code><code class="python value">5</code><code class="python plain">,</code><code class="python value">4</code><code class="python plain">,</code><code class="python value">6</code><code class="python plain">,</code><code class="python value">9</code><code class="python plain">,</code><code class="python value">1</code><code class="python plain">,</code><code class="python value">10</code><code class="python plain">,</code><code class="python value">20</code><code class="python plain">])</code></div>
+<div class="line number84 index83 alt1" style="height:20px;"><code class="python keyword">else</code><code class="python plain">:</code></div>
+<div class="line number85 index84 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python plain">tmp&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python functions">int</code><code class="python plain">(</code><code class="python functions">raw_input</code><code class="python plain">(</code><code class="python string">"input one number :"</code><code class="python plain">))</code></div>
+<div class="line number86 index85 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python keyword">while</code><code class="python plain">(tmp &gt;&nbsp;</code><code class="python value">0</code><code class="python plain">):</code></div>
+<div class="line number87 index86 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python plain">array.append(tmp);</code></div>
+<div class="line number88 index87 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="python plain">tmp&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python functions">int</code><code class="python plain">(</code><code class="python functions">raw_input</code><code class="python plain">(</code><code class="python string">"input one number :"</code><code class="python plain">))</code></div>
+<div class="line number89 index88 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number90 index89 alt1" style="height:20px;"><code class="python comments"># 正式验证程序功能&nbsp;</code></div>
+<div class="line number91 index90 alt2" style="height:20px;"><code class="python plain">sort_example&nbsp;</code><code class="python keyword">=</code>&nbsp;<code class="python plain">heap_sort(array)</code></div>
+<div class="line number92 index91 alt1" style="height:20px;"><code class="python plain">sort_example.h_sort()</code></div>
+<div class="line number93 index92 alt2" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+<div class="line number94 index93 alt1" style="height:20px;"><code class="python spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 style="background-color:#000000;color:#ffffff;padding:10px;font-family:'Times New Roman';letter-spacing:1px;line-height:19.5px;">优先队列</h3>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">在堆的基础上，添加了增长key功能，这样增长后的元素要遵守堆的规则，在合适的地方排队。故而需要自底向上地整堆，如果比父节点大，就一直交换。<span style="line-height:1.3em;">其实堆本身就已经具备了优先队列的功能了，增加功能会变得更加灵活，因为优先权可能是会改变的。</span></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">添加一个插入功能，其实是在最后添加一个无穷小的元素（这样就可以理所当然地排在最后），然后对它进行增长key，然后它的位置就改变了。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">by&nbsp;bibodeng&nbsp;&nbsp;2013-04-21&nbsp;21:54:21</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/04/20/不仅仅是优秀/" rel="next" title="不仅仅是优秀">
+                <i class="fa fa-chevron-left"></i> 不仅仅是优秀
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/04/24/专注前端开发/" rel="prev" title="专注前端开发">
+                专注前端开发 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">再谈堆排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">优先队列</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

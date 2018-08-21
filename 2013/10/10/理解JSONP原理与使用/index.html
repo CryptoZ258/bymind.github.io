@@ -1,0 +1,827 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="关于JSONPby bibodeng 2013-10-10 写在前面之前也不知道什么东东是JSONP（尽情笑话我吧）,只是听我的导师说前端和后台分开放，但是其绑定了不同的子域名，于是需要使用jQuery里面的JSONP支持，给服务端发送请求的时候给一个callback=?参数，然后返回的时候用callback包裹里面的数据。当我看到这篇关于 跨域JSON请求 的文章的时候我才理解了这个做法。 什么">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解JSONP原理与使用">
+<meta property="og:url" content="https://bibodeng.github.io/2013/10/10/理解JSONP原理与使用/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="关于JSONPby bibodeng 2013-10-10 写在前面之前也不知道什么东东是JSONP（尽情笑话我吧）,只是听我的导师说前端和后台分开放，但是其绑定了不同的子域名，于是需要使用jQuery里面的JSONP支持，给服务端发送请求的时候给一个callback=?参数，然后返回的时候用callback包裹里面的数据。当我看到这篇关于 跨域JSON请求 的文章的时候我才理解了这个做法。 什么">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:04.465Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="理解JSONP原理与使用">
+<meta name="twitter:description" content="关于JSONPby bibodeng 2013-10-10 写在前面之前也不知道什么东东是JSONP（尽情笑话我吧）,只是听我的导师说前端和后台分开放，但是其绑定了不同的子域名，于是需要使用jQuery里面的JSONP支持，给服务端发送请求的时候给一个callback=?参数，然后返回的时候用callback包裹里面的数据。当我看到这篇关于 跨域JSON请求 的文章的时候我才理解了这个做法。 什么">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 理解JSONP原理与使用 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                理解JSONP原理与使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-10-10T23:51:00+08:00" content="2013-10-10">
+              2013-10-10
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/10/10/理解JSONP原理与使用/" class="leancloud_visitors" data-flag-title="理解JSONP原理与使用">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="关于JSONP"><a href="#关于JSONP" class="headerlink" title="关于JSONP"></a>关于JSONP</h1><p>by bibodeng 2013-10-10</p>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>之前也不知道什么东东是JSONP（尽情笑话我吧）,只是听我的导师说前端和后台分开放，但是其绑定了不同的子域名，于是需要使用jQuery里面的JSONP支持，给服务端发送请求的时候给一个callback=?参数，然后返回的时候用callback包裹里面的数据。当我看到这篇关于 <a href="http://www.ibm.com/developerworks/cn/web/wa-aj-jsonp1/" target="_blank" rel="noopener">跨域JSON请求</a> 的文章的时候我才理解了这个做法。</p>
+<h2 id="什么是JSONP"><a href="#什么是JSONP" class="headerlink" title="什么是JSONP"></a>什么是JSONP</h2><p>到底什么是JSONP，其原理如何呢？<br>JSONP 是英文 json in padding,json就是javascript的字符串表现形式，服务器端可以对json进行收发解析。上面的文章给出了很详尽的解释，我就我学习中遇到的困难进行说明。</p>
+<p>由于无法无法从不同源头的网站上直接获取JSON，但是我们平常的<code>&lt;script&gt;</code>标签是能够获取到别的网站的js文件，想想我们常常使用google的jquery吧，就像图片一样，可以随意使用。那么我们是不是可以将这个脚本的地址指向一个动态生成JSON的脚本呢？从而让它能够将生成的东西传到前端。显然这是可以的，和引入js相比只是动态与不动态的区别而已。但是传回来的东西应该是js代码，JSON不能直接使用，于是就用一个回调函数进行包裹。当它传回前端的时候就可以直接执行了。</p>
+<p>维基百科的解释很容易懂，尤其是这个padding的意思：</p>
+<p>这个时候，把 <code>&lt;script&gt;</code> 元素的 src 属性设成一个回传 JSON 的 URL 是可以想像的，这也代表从 HTML 页面透过 script 元素抓取 JSON 是可能的。然而，一份 JSON 文件并不是一个 JavaScript 程式。为了让浏览器可以在<code>&lt;script&gt;</code>元素执行，从 src 里 URL 回传的必须是可执行的 JavaScript。在 JSONP 的使用模式里，该 URL 回传的是由函数呼叫包起来的动态生成 JSON，这就是JSONP 的“填充（padding）”或是“前辍（prefix）”的由来。</p>
+<h2 id="padding的形象体验"><a href="#padding的形象体验" class="headerlink" title="padding的形象体验"></a>padding的形象体验</h2><p>我在实际的编程中也用到了JSONP，本来可以直接使用<code>$callback.&#39;(&#39;.json_encode($data).&#39;)&#39;;</code>的方式直接返回的，但是这样每次都要写括号，很难看。于是我就将它写成了一个函数，并且支持多个参数：</p>
+<pre><code>// PHP代码
+
+// 带回调的响应
+function callbackResponse($callback, $status=200, $data=&quot;&quot;, $extra=array())
+{
+    // 这里就是padding了,中间的JSON被夹起来了！形象吧
+    echo $callback.&apos;(&apos;.ajaxResponse($status, $data, $extra).&apos;)&apos;;
+    // include callback return of server end json data
+    exit(0);
+}
+
+// 还是应该对返回内容进行merge后encode
+function ajaxResponse($status=200, $data=&quot;&quot;, $extra=array()) {
+    $ret = array(&quot;status&quot;=&gt;$status, &quot;data&quot;=&gt;$data);
+    $ret = array_merge($ret, $extra);
+    return json_encode($ret);
+}
+
+// ————————调用的例子————————
+$callback = $_GET[&apos;callback&apos;];
+callbackResponse($callback, 200, &quot;我爱编程&quot;);
+</code></pre><p>在客户端可以是这样请求并处理的：</p>
+<pre><code>// js代码
+// callback作为一个参数传到服务端
+$.getJSON(php_path+&apos;php/index.php?callback=?&apos;, function(ret_data) {
+    if (ret_data.status == 200) 
+    {
+        console.log(ret_data[&apos;data&apos;]); // 我爱编程
+        return;
+    }
+});
+</code></pre><h2 id="jQuery的做法"><a href="#jQuery的做法" class="headerlink" title="jQuery的做法"></a>jQuery的做法</h2><p>上面看到jQuery中的$.getJSON方法支持在链接中直接放入callback函数，并且callback=?,其实它是把$.getJSON的第二个参数（一个匿名函数）作为一个callback函数，我们查看服务器返回的数据常常能够看到 <code>jQuery152042227689944248825_1317400799214({&quot;status&quot;: 200,&quot;data&quot;:&quot;我爱编程&quot;})</code>形式的包。本来是一个名字的，例如一个叫parseData的函数，callback=parseData,当JSONP返回之后，将直接执行<code>parseData({&quot;status&quot;: 200,&quot;data&quot;:&quot;我爱编程&quot;})</code>,也就是回调了。而jQuery直接帮我们处理了匿名函数的问题，相当于产生了一个名字随机的对象，让它等于这个匿名的回调函数。具体的还得看jQuery的源代码（笔者才看了一点，还没到能够解决这个问题的程度）。</p>
+<p>如下jQuery源码:</p>
+<pre><code>// 获取时间戳
+var jsc = jQuery.now(), 
+jsre = /(\=)\?(&amp;|$)|\?\?/i;
+
+// 默认的jsonp设置
+jQuery.ajaxSetup({
+  jsonp: &quot;callback&quot;,   // 默认使用callback
+  jsonpCallback: function() {
+    return jQuery.expando + &quot;_&quot; + ( jsc++ );    // 构造回调前缀
+  }
+});
+// 下面的代码，额。。
+jQuery.ajaxPrefilter( &quot;json jsonp&quot;, function( s, originalSettings, jqXHR ) {
+
+  var inspectData = s.contentType === &quot;application/x-www-form-urlencoded&quot; &amp;&amp;
+    ( typeof s.data === &quot;string&quot; );
+
+  if ( s.dataTypes[ 0 ] === &quot;jsonp&quot; ||
+    s.jsonp !== false &amp;&amp; ( jsre.test( s.url ) ||
+        inspectData &amp;&amp; jsre.test( s.data ) ) ) {
+
+    // 设置jsonCallback,当回调时，就能直接调用了
+    var responseContainer,
+      jsonpCallback = s.jsonpCallback =
+        jQuery.isFunction( s.jsonpCallback ) ? s.jsonpCallback() : s.jsonpCallback,
+      previous = window[ jsonpCallback ],
+      url = s.url,
+      data = s.data,
+      replace = &quot;$1&quot; + jsonpCallback + &quot;$2&quot;;
+
+    if ( s.jsonp !== false ) {
+      url = url.replace( jsre, replace );
+      if ( s.url === url ) {
+        if ( inspectData ) {
+          data = data.replace( jsre, replace );
+        }
+        if ( s.data === data ) {
+          url += (/\?/.test( url ) ? &quot;&amp;&quot; : &quot;?&quot;) + s.jsonp + &quot;=&quot; + jsonpCallback;
+        }
+      }
+    }
+
+    s.url = url;
+    s.data = data;
+
+    window[ jsonpCallback ] = function( response ) {
+      responseContainer = [ response ];
+    };
+
+    jqXHR.always(function() {
+
+      window[ jsonpCallback ] = previous;
+
+      if ( responseContainer &amp;&amp; jQuery.isFunction( previous ) ) {
+        window[ jsonpCallback ]( responseContainer[ 0 ] );
+      }
+    });
+
+    s.converters[&quot;script json&quot;] = function() {
+      if ( !responseContainer ) {
+        jQuery.error( jsonpCallback + &quot; was not called&quot; );
+      }
+      return responseContainer[ 0 ];
+    };
+
+    s.dataTypes[ 0 ] = &quot;json&quot;;
+
+
+    return &quot;script&quot;;
+  }
+});
+</code></pre><p>// TODO: 读通源代码</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="http://zh.wikipedia.org/wiki/JSONP" target="_blank" rel="noopener">wikipadia</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/10/05/初探web中的XSS和CSRF攻击/" rel="next" title="初探web中的XSS和CSRF攻击">
+                <i class="fa fa-chevron-left"></i> 初探web中的XSS和CSRF攻击
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/10/20/十月小记/" rel="prev" title="十月小记">
+                十月小记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于JSONP"><span class="nav-number">1.</span> <span class="nav-text">关于JSONP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是JSONP"><span class="nav-number">1.2.</span> <span class="nav-text">什么是JSONP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#padding的形象体验"><span class="nav-number">1.3.</span> <span class="nav-text">padding的形象体验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery的做法"><span class="nav-number">1.4.</span> <span class="nav-text">jQuery的做法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">1.5.</span> <span class="nav-text">参考链接</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

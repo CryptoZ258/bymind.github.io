@@ -1,0 +1,734 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="工作和生活中，做某件事情，我们一般人的做法是第一次做错了某件事情，然后纠正，再做一次，纠正，直到正确。以编程为例，它不是一个简单的线性问题，而是一个多维度的问题，涉及了功能、性能等问题。如果编程的时候，不能考虑到方方面面，就容易出错，世间大多的事情都是如此，不是简单的线性算术题，而是一个个综合了各种因素的难题。那能不能一次把事情做对呢，或者更大概率上把事情做对呢？答案是可以的，而且这个答案有可能让">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一次把事情做好">
+<meta property="og:url" content="https://bibodeng.github.io/2017/12/03/一次把事情做好/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="工作和生活中，做某件事情，我们一般人的做法是第一次做错了某件事情，然后纠正，再做一次，纠正，直到正确。以编程为例，它不是一个简单的线性问题，而是一个多维度的问题，涉及了功能、性能等问题。如果编程的时候，不能考虑到方方面面，就容易出错，世间大多的事情都是如此，不是简单的线性算术题，而是一个个综合了各种因素的难题。那能不能一次把事情做对呢，或者更大概率上把事情做对呢？答案是可以的，而且这个答案有可能让">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:00.429Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一次把事情做好">
+<meta name="twitter:description" content="工作和生活中，做某件事情，我们一般人的做法是第一次做错了某件事情，然后纠正，再做一次，纠正，直到正确。以编程为例，它不是一个简单的线性问题，而是一个多维度的问题，涉及了功能、性能等问题。如果编程的时候，不能考虑到方方面面，就容易出错，世间大多的事情都是如此，不是简单的线性算术题，而是一个个综合了各种因素的难题。那能不能一次把事情做对呢，或者更大概率上把事情做对呢？答案是可以的，而且这个答案有可能让">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 一次把事情做好 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                一次把事情做好
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-12-03T15:42:36+08:00" content="2017-12-03">
+              2017-12-03
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2017/12/03/一次把事情做好/" class="leancloud_visitors" data-flag-title="一次把事情做好">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>工作和生活中，做某件事情，我们一般人的做法是第一次做错了某件事情，然后纠正，再做一次，纠正，直到正确。以编程为例，它不是一个简单的线性问题，而是一个多维度的问题，涉及了功能、性能等问题。如果编程的时候，不能考虑到方方面面，就容易出错，世间大多的事情都是如此，不是简单的线性算术题，而是一个个综合了各种因素的难题。那能不能一次把事情做对呢，或者更大概率上把事情做对呢？答案是可以的，而且这个答案有可能让我们人类失去思考的优势。</p>
+<h2 id="什么是一次把事情做对"><a href="#什么是一次把事情做对" class="headerlink" title="什么是一次把事情做对"></a>什么是一次把事情做对</h2><p>一次把事情做对的意思，就是它的字面意思，比如做这件事情，预期的目标是这样的，那么做完之后，验证了，它就是这样的，那么这件事情就算是做对了，或者说是做到符合你的预期了。这个事情难就难在一次性做对上面，对于没有做过的事情，谁都很难一次做对，而你练习过非常多的事情，你总是能够做对。比如拿筷子，学会拿筷子的你，总是能正确地拿住筷子，夹住食物，但是对于一两岁的小孩来说，就很难了。那么我们作为一个成年人，如何在没有做过某件事情的前提下，做对这件事情。</p>
+<p>这个问题具有更广泛的意义，那就是我们通过过往的学习和实践，提出对新问题的解决办法的能力，也即解决新问题的能力。这个次数也不仅限于1次，可以是若干次。这个能力非常重要，需要很强的总结归纳，以及类比推理能力，比如做A任务和B任务有点类似，于是我用做A的办法稍加改造，就做成了B任务，编程上也是如此，代码思想经常是类似的，但是做的事情总是新的事情，程序只需被写出一次。</p>
+<h2 id="一次把事情做对的本质"><a href="#一次把事情做对的本质" class="headerlink" title="一次把事情做对的本质"></a>一次把事情做对的本质</h2><p>那么一次把事情做对的本质是什么呢？做一件事情，我们应该拆开来看，第一是你做这件事情的准备，一方面是思考准备，另外一方面是物质准备，第二是你做这件事情的执行过程，是不是精准无误的。先看看我们平常要做某事的顺序吧，做一件事情之前，我们总是需要思考一下的，比如我要去某地旅游，我要做的准备是规划好旅程，订好房间，然后收拾东西，然后按计划搭乘交通工具过去。如果你制订好了旅程，几点起床，坐什么交通工具，几点到达，然后怎么样，那么你照这个走下来，只要不错过时间，不出意外，总是能够到你旅游的地方。</p>
+<p>这里可以看出做要做对一件事情的本质，其实就是两点：</p>
+<ul>
+<li>你想好了这件事</li>
+<li>你准确执行了这件事</li>
+</ul>
+<p>这里难的是你想好了这件事，那么怎样才算想好了呢。想好了，应该是就你所能考虑的那些可能性，都被考虑过一遍，并且想到了如何正确地处理每一种情况，如果这些都想好了，这件事情就算成功了一半。这个想的过程，其实就是搜索，把能够想到的情况都一个个列举出来，考虑它们的异同和处理方案。在搜索这方面，人比机器要逊色很多，我们在思考上的优势是能够将多个维度都综合进来，机器在这方面不太擅长，但是我们对于列举各种可能没有机器那么擅长。今后随着技术的发展，机器也能自我学习，考虑更多的维度，是极有可能做得比人类好很多的。</p>
+<h2 id="如何做到一次把事情做对"><a href="#如何做到一次把事情做对" class="headerlink" title="如何做到一次把事情做对"></a>如何做到一次把事情做对</h2><p>既然已经找到了一次做对事情的本质，那么很显然，我们也找到了一次做对事情的方法。这个方法就是：</p>
+<ul>
+<li>事前做充分的准备，考虑到每种可能的处理情况，区别不同情况的解决方案</li>
+<li>检查自己的方案，确认无误，忠实地按照之前的规划执行自己的想法</li>
+<li>按照变化及时地调整自己的方案和执行，重复上面两步</li>
+</ul>
+<p>其实以上两条都非常难做到，有的人比较不爱动脑，想都不想，就去做一件事情，最后的可能是得不到好的结果，或者抱着一种侥幸心理，觉得不做功课，应该也不会错的，这样做的坏处是，没有降低做错这件事的可能性，如果做对了，都是碰对的，不能做到一次做对。有的人，一切准备和可能情况都考虑好了，但是执行的时候总是想的是这样，做的却是另外一个样，这样即使一开始的出发点很好，但总是南辕北辙，必须要知行合一，否则将达不到最初的目的。</p>
+<p>以上两点总结起来就是，思考先行，知行合一，做事前先想清楚，很多细节不想清楚，总是会出错的，另外行为也要和实践对应，如果行和知不一致，那和不知也没有分别。</p>
+<p>我自己，其实比较欠缺的就是第一点，考虑问题总是不够全面，总是遗漏或者有不对的地方，这可能也和我自己爱偷懒有关系，不愿意在这那么多的情况中去一个个考虑，很多细节一带而过，然而越是牛逼的人，在细节方面越是扎实的令人害怕，这也是我想达到“一次把事情做对”所必须要做出的改变。</p>
+<p>by bibodeng 2017-12-03</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/15/简易的会话管理工具tmux教程/" rel="next" title="简易的会话管理工具tmux教程">
+                <i class="fa fa-chevron-left"></i> 简易的会话管理工具tmux教程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/12/浅谈区块链应用DApp/" rel="prev" title="浅谈区块链应用DApp">
+                浅谈区块链应用DApp <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是一次把事情做对"><span class="nav-number">1.</span> <span class="nav-text">什么是一次把事情做对</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一次把事情做对的本质"><span class="nav-number">2.</span> <span class="nav-text">一次把事情做对的本质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何做到一次把事情做对"><span class="nav-number">3.</span> <span class="nav-text">如何做到一次把事情做对</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

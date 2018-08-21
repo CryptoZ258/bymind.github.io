@@ -1,0 +1,830 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="去图书馆淘出一本《卓有成效的程序员》，感觉还是挺受用的。看了他介绍的一些工具之后，我马上也在自己的机子上部署起这些工具。这些工具绝对能让一个菜鸟程序员的效率大幅度提高，有些工具很容易，但是有些需要刻苦地训练，但是我觉得花时间来做这样的时期，还是值得的。 &amp;nbsp; 怎样才能算是一个高效的程序员？我想首先要把问题想清楚，然后再能把各种工作按时完成好。前几天在这里http://www.aqee.n">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高效的程序员——工具篇">
+<meta property="og:url" content="https://bibodeng.github.io/2012/09/16/高效的程序员——工具篇/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="去图书馆淘出一本《卓有成效的程序员》，感觉还是挺受用的。看了他介绍的一些工具之后，我马上也在自己的机子上部署起这些工具。这些工具绝对能让一个菜鸟程序员的效率大幅度提高，有些工具很容易，但是有些需要刻苦地训练，但是我觉得花时间来做这样的时期，还是值得的。 &amp;nbsp; 怎样才能算是一个高效的程序员？我想首先要把问题想清楚，然后再能把各种工作按时完成好。前几天在这里http://www.aqee.n">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:06.396Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="高效的程序员——工具篇">
+<meta name="twitter:description" content="去图书馆淘出一本《卓有成效的程序员》，感觉还是挺受用的。看了他介绍的一些工具之后，我马上也在自己的机子上部署起这些工具。这些工具绝对能让一个菜鸟程序员的效率大幅度提高，有些工具很容易，但是有些需要刻苦地训练，但是我觉得花时间来做这样的时期，还是值得的。 &amp;nbsp; 怎样才能算是一个高效的程序员？我想首先要把问题想清楚，然后再能把各种工作按时完成好。前几天在这里http://www.aqee.n">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 高效的程序员——工具篇 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                高效的程序员——工具篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-09-16T21:46:33+08:00" content="2012-09-16">
+              2012-09-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/09/16/高效的程序员——工具篇/" class="leancloud_visitors" data-flag-title="高效的程序员——工具篇">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<div>去图书馆淘出一本<cite>《卓有成效的程序员》</cite>，感觉还是挺受用的。看了他介绍的一些工具之后，我马上也在自己的机子上部署起这些工具。这些工具绝对能让一个菜鸟程序员的效率大幅度提高，有些工具很容易，但是有些需要刻苦地训练，但是我觉得花时间来做这样的时期，还是值得的。</div>
+<div>&nbsp;</div>
+<div>怎样才能算是一个高效的程序员？我想首先要把问题想清楚，然后再能把各种工作按时完成好。前几天在这里<a href="http://www.aqee.net/daily-routine-of-a-4-hour-programmer/" target="_blank" rel="noopener">http://www.aqee.net/daily-routine-of-a-4-hour-programmer/</a>看到一篇叫做<cite>《每天工作4小时的程序员》</cite>，感觉很吃惊，仔细想想，其实一天的工作何尝不是4个小时干出来的呢？ 
+如果普通的上班族花时间在接电话，收邮件，跑这跑那说不定还不能纯粹地工作4个小时。首先一个高效的程序员得身心健康，其次再是求诸工具，让自己的工作速度和质量得到提升。</div>
+<div>&nbsp;</div>
+<div>下面介绍一些非常有效的提升工作效率的方法和工具，这些工具都很常见（当然这是对于程序员来说），不是程序员也没要紧，可以使用，同样能提高使用计算机的效率，让计算机为人做更多的事情。</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div><h3>1、加速你的操作 （并不是要你敲键盘如飞，而是让你的程序、操作加速，而不是呆板地切换或做机械动作）</h3>
+</div>
+<div>&nbsp;</div>
+<div>使用快捷键而不是鼠标。 
+很多时候，快捷键能够让我们更快地完成操作，比如最最常见的ctrl+c和ctrl+v，这两个是“人人皆知”的了，在程序员的生活中，用到的更多可能是一些高级工具：比如IDE，一个IDE有很多快捷键可以加速操作，除了本身的代码补全功能外，还有其他的自动代码插入等功能。在使用工具的时候，我们尽量使用快捷键，而不是去用只有两三个按键的鼠标，因为你要去够鼠标已经很浪费时间了。记下操作系统中，或者经常使用的软件的快捷键，往往能让我们的工作效率显著提高，比如在ubuntu桌面下，xwindow反应本来就慢，比如想要显示桌面 
+按下 Ctrl + shift + d 
+就可以完成这个操作了，几乎是一瞬间的事情，而如果用鼠标，你则需要将那些窗口都小化，或者移到“显示桌面按钮”（在windows7下有一个方便的显示桌面方格，但还是要比快捷键慢）。还有我们经常使用的菜单，尽量保持整洁，当按下alt+F1的时候能立即弹出主菜单来（windows下用windows键，苹果下应该是用apple键吧，俺没有用过苹果电脑），然后迅速启动你的软件，或者将常用的软件放到dock或快速启动栏里面。再比如，作者在文中写的一个FF（firefox）、chrome的快捷键，可以自动补全域名，输入google，在按下ctrl+enter自动补全<a href="http://www.google.com/" target="_blank" rel="noopener">www.google.com</a>，但是很少人知道这个快捷键。另外我还发现浏览器中键按下书签的文件夹可以打开多个页面，下次将许多页面一次打开。“懒”才是高效的最高境界，能少打几个字就少打，这样积累下来可以节省很多时间。谁都不愿做重复而无聊的工作。</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div><h3>2、使用高效的工具 ： linux&nbsp; vim&nbsp;&nbsp; 命令行&nbsp; CLCL剪贴板&nbsp;&nbsp; 代码自动补全&nbsp; 宏录制器 everything搜索 google 
+等等</h3>
+</div>
+<div>&nbsp;</div>
+<div>【搜索引擎】：用过google和百度等各种搜索引擎的同学都知道，google会更好一点，它常常返回那些你想要的信息，这可能是因为它的搜索算法比较好吧。另外google有很多服务，直接可以在自己的个人主页里面访问，像我们经常使用到的gmail，youtube、google+（需要翻墙）等等。当然因为很多时候google搜索用户体验不是很好（GFW的缘故）,所以我们退而求其次去用bing或者百度。一个好的搜索引擎能够快速找到你要的答案。</div>
+<div>&nbsp;</div>
+<div>【everything文件搜索】： 
+在你本地的机子上搜索文件，你还在那里打开一个个文件夹，然后查找吗？千万别这么做，因为这浪费你很多时间，即使你的文件组织得很好，但是总有一些你会忘了，用搜索吧！计算机比你记得牢，也找得比你快。一个叫做everything的搜索工具可以在1秒内找的你搜的文件，即使你不记得名字，输入一写提示也能缩小搜索范围，找到文件之后直接打开。详情参考<a href="http://xbeta.info/everything-search-tool.htm" target="_blank" rel="noopener">http://xbeta.info/everything-search-tool.htm</a>，我是受师兄影响而使用这款软件，当我推荐给一些同学时，他们居然不安装，这令我很伤心，这么好的工具都不用！！宁愿用手动去找也不愿让计算机去做，这样的勤奋我情愿不要。所以改变从现在开始，用多了这些工具，你自然就觉得它们趁手好用。这款软件虽小，但是它功能强大，还有一个ftp服务器，强吧！！在和局域网的同学共享文件的时候就可以使用了，但是一直没有机会，因为大家都是宁愿用U盘拷贝或者用qq传送（这个也挺快的）。</div>
+<div>&nbsp;</div>
+<div>【CLCL剪贴板】：windows下的剪贴板很小，一次只能存放一块内容，而很多工具扩展了这个限制，使用缓冲区来存放这些剪贴的内容。CLCL就是一款这样的工具<a href="http://www.jcwcn.com/article-25560-1.html" target="_blank" rel="noopener">http://www.jcwcn.com/article-25560-1.html</a>，我前几天才安上，觉得编辑代码的时候很好用，因为我要到处黏贴复制一些函数原型。多重剪贴板允许你将多个内容放在剪贴板，要用的时候拿出来贴上就行了。比如我要截五张图分别保存或者黏贴到别的地方，那就很方便了，直接alt+c调出CLCL然后选中黏贴就好啦，若是要保存成文件，可以五张全部截好，然后打开绘图软件编辑保存为文件，这样就可以批量剪贴了，不必在截图与编辑之间来回切换。（其实如果你有搜狗输入法的话，这活也好办，直接ctrl+shift+c调用搜狗截图程序，然后选中区域直接保存成文件就行。我的翻译文章 
+vi和vim编辑器的那些图片就是这样从原著pdf上扒下来的，哈哈）。</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>【输入法】：在windows下比较好用的拼音输入法是搜狗、qq输入法，在linux上还是安装一个fcitx <a href="http://fcitx-im.org/wiki/Fcitx" target="_blank" rel="noopener">http://fcitx-im.org/wiki/Fcitx</a>的中文输入法比较方便，因为有强大的词库和统计功能。前几天捣乱使用输入法的时候，打上日期rq，搜狗直接跳出今天的日期以供选择，这就高效很多了，不必自己敲日期了（2012年9月22日），以此类推可以打上sj（2012-9-22 
+12:53:02）。所以软件能完成的，那就放心地交给软件来做吧。人的精力是有限的，如果投入到无限的细节劳动当中，拿什么时间来思考来创造呢？我还建议搜狗的人直接开发一个划词翻译出来，那估计那些神马xx翻译市场份额会狂降吧。</div>
+<div>&nbsp;</div>
+<div>【vi / 
+vim编辑器】：这个，用过的人（一般是程序员）都会深有体会吧。用它来编辑，那个光标就像跟着你的眼睛一样在游走，别人看到的只是一行行的文字神速般地敲打出来，然后等他还没发现有哪些变化，你早已经将下面的文字输好了，而且全程手都没有离开键盘。尤其是编程的时候，里面很多功能都是为程序员量身定做的，比如重复插入，向下开一行，直接在文档的首尾跳跃，以及滚动屏幕，哇，简直就是一个字“<span style="font-size:x-large;color:#cc33e5;">爽</span>”，但是vim学起来还是要花点功夫的，基本的操作一周内应该能学会，简单的移动一小时就很熟，简单的命令拥有强大的功力，是高效的神器。当然其他编辑器如emacs或者windows下的韩国人开发的edit 
+plus都受到了广泛的好评。出于对vim的喜欢，我还翻译过《learning the vi and vim 
+editor》的前两章，后来发现有了中译本，所以就当做是做了笔记。（不要重复发明轮子，也不要完全否定我做这件事情的收获）。这里有篇陈皓写的《vim练级攻略》<a href="http://coolshell.cn/articles/5426.html" target="_blank" rel="noopener">http://coolshell.cn/articles/5426.html</a>&nbsp;学习vim是需要一番努力的，就像弹吉他一样，熟能生巧，命令用得多了自然就如飞了。</div>
+<div>&nbsp;</div>
+<div>【unix / linux】： 
+如果说vim的功能之强大已经让你震惊了的话，那么linux操作系统才叫大巫呢。因为linux下有很多强大的工具，那些命令如果真的能够顺手拈来的话，那么整个计算机为你牛马走，并且不辞辛苦。当然，使用linux的人，一般都是程序员，而我们就是要当卓有成效的程序员，那么在linux上搭建服务器啊，编程啊什么的就必须得勤学苦练了，有很多工具在你掌握了之后能够迸发出无穷的能量，然后你的工作效率直线上升。目前俺是windows 
++linux。因为windows下有些软件比较好用，而在linux下根本没有这个效果，所以不限于操作系统平台，只在于我们怎样使用。</div>
+<div>&nbsp;</div>
+<div>【其他工具】： 
+比如linux下的虚拟桌面（可以在工作的时候切换工作区间，让你的工作井井有条），混乱会影响你的效率。rss阅读器（有些同学居然不用阅读器来看博客看新闻的，我感觉很纳闷啊，所以别人的一些思想不能自动投递到自己的信箱里面）。我们的手机版订阅器（比如google 
+reader）就很爽，无聊时候拿出来看篇“左岸读书”里面的文章，或者看看其他价值博客，也是很有补益的。另外掌握一门脚本语言，使用正则表达式将会对我们工作有很大帮助（bibo正在学习正则表达式，可以看看这篇简单的《有趣的正则表达式》<a href="/?post=67">http://bibodeng.web-149.com/?post=67</a>）。还有一些宏工具，可以把我们经常需要重复的动作录制下来，然后播一下就可以了，即精确又简单。（我目前没有尝试过）。</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div><h3>3、原则与行动（stay focus）</h3>
+</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>【计算机帮我们提高生产效率】</div>
+<div>计算机的产生，就是为了让我们提高生产效率的，而很多工具可以让我们的效率提高一个数量级，让我们的工作无比轻松。比如用vim和emacs。计算机能够颠覆我们的生活，就是因为他们给我们带来了生产力的极大发展。而现在我们手指下的就是无限的能量，用以改变世界的能量，何乐而不为呢？！我们的习惯：害怕复杂，害怕改变 
+其实一项技能并没有那么难，和学吉他一样，熟能生巧罢了。趁还年轻，手脚灵便，感觉学会这些技能，让我们的生命通过我们的愉快工作迸发出最激情的活力。</div>
+<div>&nbsp;</div>
+<div>更大可能地扩大我们的安全区域——冒险。作为一个冒险者，其乐趣是无穷的。在linux上，就有很多工具让你得心应手，尽管它们的界面不咋样（我第一次见到vim编辑器，我说天哪，居然有这么丑的编辑器，后来才发现vim是那么地贴心，尤其是在linux下，又漂亮又贴心）。但是计算机也分散了我们的注意力，我们编程的时候需要高度集中的注意力，要是你的qq滴滴得来一个提醒，你又点开去看了。或者时而你又想上去微博瞧瞧。（我承认自己也有这样的毛病，正在努力修改中。）</div>
+<div>&nbsp;</div>
+<div>【一些原则】</div>
+<div><b>&nbsp;don't repeat yourself （DRY）</b></div>
+<div>&nbsp;</div>
+<div>减少你的重复的机械的工作，将更多精力留在你的问题的本质上。很多东西让机器代劳，或者自己发明一些小工具（例如编写一个小插件，或者小脚本程序，自动完成任务）。</div>
+<div>&nbsp;</div>
+<div><b>Keep it simple stupid （KISS）</b></div>
+<div>&nbsp;</div>
+<div>
+<div>厉害的人不是一下能将非常复杂的事情想明白，而是他们能够将问题转换为简单的问题，从而更加容易地去解决它们。他们利用的是巧妙的方法来解决问题，而不是鲁莽地想要一下子将问题想通，这也是需要过程的。保持方法的简单，那么你的问题或许会变得简单很多。先想，再做。</div>
+<div>&nbsp;</div>
+</div>
+<div><b>stay&nbsp;focus</b></div>
+<div>&nbsp;</div>
+<div>创造环境让你能够集中精力，从周围声音，工作的颜色焦点。专注是生产率的源泉，工作的时候，将神马qq，微博都关掉吧，stay 
+focus。chrome下有一个浏览器插件也叫 
+stayfocus，可以让你少花点时间在那些无谓的八卦与闲扯上面。多花点时间在看书，思考，写代码上面吧，或者可以去那些价值博客里偷得一些非常有用的秘籍。这种感觉就像是去少林寺的藏经阁练武功，感觉到他人的博大精深，自己的渺小不足。比如看《introduction 
+to 
+algorithm》，一个小时才看那么几页，真正看懂了，你才会发现原来书中所藏之物，比之黄金美女真的是有过之而无不及。知识的财富都仓储在书本里面，加油啊，多读书，读好书。</div>
+<div>&nbsp;</div>
+<div>&nbsp;不管怎样，你总要去做，不要因为小，或者无谓而不做，做好过不做，就像我写这篇文字一样。</div>
+<div>by <a href="/admin">bibodeng</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2012-9-22 13:35:23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div><br>
+</div>
+<style type="text/css">
+body{
+font-size: 14px;
+letter-spacing: 1px;
+line-height: 1.3em;
+}
+
+h3{
+background-color:#000000;
+color:#FFFFFF;
+padding: 10px;
+}
+
+blockquote{
+background-color:#CCFF99;
+-webkit-border-radius: 5px;
+}
+
+.part_head{
+background-color:#99FF33;
+padding: 10px;
+}
+
+.example{
+background-color:#CCCCCC;
+font-size:1.2em;
+-webkit-border-radius: 5px;
+}
+
+.small_title{
+font:italic;
+padding: 5px;
+}
+</style>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/09/16/有趣的正则表达式/" rel="next" title="有趣的正则表达式">
+                <i class="fa fa-chevron-left"></i> 有趣的正则表达式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/09/22/【译】学习vi和vim编辑器第二章——简单编辑/" rel="prev" title="【译】学习vi和vim编辑器第二章——简单编辑">
+                【译】学习vi和vim编辑器第二章——简单编辑 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">1、加速你的操作 （并不是要你敲键盘如飞，而是让你的程序、操作加速，而不是呆板地切换或做机械动作）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">2、使用高效的工具 ： linux  vim   命令行  CLCL剪贴板   代码自动补全  宏录制器 everything搜索 google 
+等等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">3、原则与行动（stay focus）</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

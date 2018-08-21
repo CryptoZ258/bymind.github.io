@@ -1,0 +1,727 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="今天学习了操作系统的文件系统管理，主要是在磁盘上的文件管理。磁盘上的文件有很多种类型，按照大体来分可分为有结构和无结构两种，而有结构是指该文件包含一些数据项，这些数据项组成一条条记录，这些记录再组成一个结构文件。这个东西感觉起来像是数据库里面的表一样的，有属性有元组，我的理解就是，一些系统的东西如数据库以及系统文件需要存成一些字段的形式，而且方便查找。而无结构的就很多了，许多我们常见的文本文件，">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统之文件管理">
+<meta property="og:url" content="https://bibodeng.github.io/2012/04/17/操作系统之文件管理/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="今天学习了操作系统的文件系统管理，主要是在磁盘上的文件管理。磁盘上的文件有很多种类型，按照大体来分可分为有结构和无结构两种，而有结构是指该文件包含一些数据项，这些数据项组成一条条记录，这些记录再组成一个结构文件。这个东西感觉起来像是数据库里面的表一样的，有属性有元组，我的理解就是，一些系统的东西如数据库以及系统文件需要存成一些字段的形式，而且方便查找。而无结构的就很多了，许多我们常见的文本文件，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:03.553Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="操作系统之文件管理">
+<meta name="twitter:description" content="今天学习了操作系统的文件系统管理，主要是在磁盘上的文件管理。磁盘上的文件有很多种类型，按照大体来分可分为有结构和无结构两种，而有结构是指该文件包含一些数据项，这些数据项组成一条条记录，这些记录再组成一个结构文件。这个东西感觉起来像是数据库里面的表一样的，有属性有元组，我的理解就是，一些系统的东西如数据库以及系统文件需要存成一些字段的形式，而且方便查找。而无结构的就很多了，许多我们常见的文本文件，">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 操作系统之文件管理 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                操作系统之文件管理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-04-17T07:23:39+08:00" content="2012-04-17">
+              2012-04-17
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/04/17/操作系统之文件管理/" class="leancloud_visitors" data-flag-title="操作系统之文件管理">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<div><span style="font-family:'Microsoft YaHei';font-size:14px;">今天学习了操作系统的文件系统管理，主要是在磁盘上的文件管理。磁盘上的文件有很多种类型，按照大体来分可分为有结构和无结构两种，而有结构是指该文件包含一些数据项，这些数据项组成一条条记录，这些记录再组成一个结构文件。这个东西感觉起来像是数据库里面的表一样的，有属性有元组，我的理解就是，一些系统的东西如数据库以及系统文件需要存成一些字段的形式，而且方便查找。而无结构的就很多了，许多我们常见的文本文件，源文件，可执行文件，长短不一，格式各异。总的来说无结构文件就像它的名字所揭示的，没有特定的结构。用一个不太恰当的比喻，格式化的文件就是很多固体的晶体，其是有一定结构的，而且分下去总是有一定的规律，而无结构的就像水，很随意地组合，形成一个流。</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">文件有许许多多的属性，包括文件类型、文件长度、文件位置、文件的权限、创立时间等等，总之我们平常接触的很多关于文件的属性，我们差不多都已经能叫出名字来。很经典的就是文件的类型，大一学习计算机科学导论，就要我们例举出许多文件类型，什么txt、bin、bat、com、gif、png、mp3、mpeg等等应有尽有，但是任何一个应用程序都可以搞出一种自己的后缀名，这样会记死人的。文件应该可以分为：可执行文件、源文件、数据。而我们每天打交道的就是这些东西，点开一个程序，就是加载了一个可执行文件，打开一个文本就是打开了数据，编代码更是家常便饭，无需多说。</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">像数据结构一样，文件存储在计算机的外存中，也是有位置的，而且按照存放的方式可以分为：顺序存储、非顺序存储。顺序存储有点像我们学习的数组类型，逻辑上和物理上都是连续的，可以随机访问，但是要插入就难了。而非顺序存储则是数据可以分开存放，一个块中记录着该信息的下一个块号，所以就像链表一样可以逻辑上连续，但是物理上可以不连续，这就像链表，这样插入和删除就很方便了，但是查找就需要按照顺序来查找了。当然并不是所有的顺序存储的都可以随机存取，而是只有定长的，可以直接计算出数据地址的才可以，而对于变长的，由于每一个数据项i的地址都是前i--1个数据项长度的和，而每个数据项可能长度不相等，这样就只能挨个计算了，这是十分不划算的。但现实往往就是这样，我们则需要用智慧来发明更好的方法来节省时间，时间就是money呀！于是有表的出现，计算一次地址就行了，然后之后需要的话再查表。或者使用一种算法将数据块散列开来，可以直接计算出地址来。顺序存储的文件适合那些访问速度要求高的，数据变更少的，而这又跟硬盘有关系，待会会讲到硬盘。系统文件一般不允许用户修改，所以变更会比较少，而用户文件则不同了，随时都有可能进行更改。我们经常会清理一下硬盘的碎片，让那些文件尽可能地移动到一块连续的区域，为的是加快系统访问硬盘中文件的速度。</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">就硬盘而言，有若干个盘片，一个盘片有两个盘面，一个盘面配备一个读写磁头，一个磁头往盘片圆心做径向运动，通过读写臂伸缩实现（读写耗时最长的动作），然后是找到对应的扇区，进行读写操作。一个盘片有许许多多的磁道，就是同心的弧，这些弧虽然长度不同，距离圆心越远的，相同角度所对应的弧长越长。而这些磁道虽然长度不同，但是存储的信息都是512字节，之所以这样是因为他们的存储密度不相同，同时盘片磁道的相对于磁头的线速度也不相同。</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><p><span style="font-family:'Microsoft YaHei';font-size:14px;">今天就写到这里，我半知不解这些存储知识，还是需要拿本书好好看看，那些文件系统的算法到底是怎样的，而系统又是怎样通过这些算法管理这么大的存储空间的，真是令人好奇，必要的时候，动手敲敲算法，这样才能全面地掌握这些理论的知识。</span></p>
+<p><span style="font-family:'Microsoft YaHei';font-size:14px;"><br>
+</span></p>
+<p><span style="font-family:'Microsoft YaHei';font-size:14px;">by bibodeng 2012-04-16</span></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/04/06/原则与习惯——做个高效能人/" rel="next" title="原则与习惯——做个高效能人">
+                <i class="fa fa-chevron-left"></i> 原则与习惯——做个高效能人
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/04/20/从生产线到DNA序列检测——强大的动态规划算法/" rel="prev" title="从生产线到DNA序列检测——强大的动态规划算法">
+                从生产线到DNA序列检测——强大的动态规划算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,734 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在大一的时候就看过一本书《晨间日记的奇迹》是一个日本作家&amp;nbsp;佐滕傅写的。其实一个人活在这个世界上，很有必要留下一份终身最有意义的礼物给自己，而我认为最有意义的礼物是平生所学知识。  写日记可能是很多人的习惯，但是我觉得肯定还有很多人不屑于写日记，因为他们认为这就算记流水账，没什么意思。那我就要反驳这样的观点了，是不是记流水账完全取决于你自己，你如果勇于记录自己的想法与言行，那么若干年后你">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="知我所知-个人知识管理">
+<meta property="og:url" content="https://bibodeng.github.io/2011/12/01/知我所知-个人知识管理/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="在大一的时候就看过一本书《晨间日记的奇迹》是一个日本作家&amp;nbsp;佐滕傅写的。其实一个人活在这个世界上，很有必要留下一份终身最有意义的礼物给自己，而我认为最有意义的礼物是平生所学知识。  写日记可能是很多人的习惯，但是我觉得肯定还有很多人不屑于写日记，因为他们认为这就算记流水账，没什么意思。那我就要反驳这样的观点了，是不是记流水账完全取决于你自己，你如果勇于记录自己的想法与言行，那么若干年后你">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:04.857Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="知我所知-个人知识管理">
+<meta name="twitter:description" content="在大一的时候就看过一本书《晨间日记的奇迹》是一个日本作家&amp;nbsp;佐滕傅写的。其实一个人活在这个世界上，很有必要留下一份终身最有意义的礼物给自己，而我认为最有意义的礼物是平生所学知识。  写日记可能是很多人的习惯，但是我觉得肯定还有很多人不屑于写日记，因为他们认为这就算记流水账，没什么意思。那我就要反驳这样的观点了，是不是记流水账完全取决于你自己，你如果勇于记录自己的想法与言行，那么若干年后你">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 知我所知-个人知识管理 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                知我所知-个人知识管理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2011-12-01T19:03:06+08:00" content="2011-12-01">
+              2011-12-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2011/12/01/知我所知-个人知识管理/" class="leancloud_visitors" data-flag-title="知我所知-个人知识管理">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<p style="padding-top:0px;padding-right:0px;padding-bottom:15px;padding-left:0px;margin-top:0px;margin-bottom:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">在大一的时候就看过一本书</span><a href="http://book.douban.com/subject/1727293/" style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#722932;text-decoration:none;" target="_blank" rel="noopener"><span style="font-size:14px;">《晨间日记的奇迹》</span></a><span style="font-size:14px;">是一个日本作家</span><span class="Apple-style-span" style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;font:normal normal normal 12px/19px Arial, Helvetica, sans-serif;color:#111111;"><span style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#111111;font-size:14px;">&nbsp;</span></span><span style="font-size:14px;">佐滕傅写的。其实一个人活在这个世界上，很有必要留下一份终身最有意义的礼物给自己，而我认为最有意义的礼物是平生所学知识。</span></p>
+<span style="font-size:14px;"> </span><p style="padding-top:0px;padding-right:0px;padding-bottom:15px;padding-left:0px;margin-top:0px;margin-bottom:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">写日记可能是很多人的习惯，但是我觉得肯定还有很多人不屑于写日记，因为他们认为这就算记流水账，没什么意思。那我就要反驳这样的观点了，是不是记流水账完全取决于你自己，你如果勇于记录自己的想法与言行，那么若干年后你就能够清晰地看到自己的轨迹，从而更好地把握人生的方向。佐藤傅就提出了一个新的想法，在早上这个最富创造力想象力的时间来记日记。这当然是有根据的，因为刚刚从潜意识的边缘（睡梦中）醒来，很容易就把大脑深处的东西带出来，而这些大脑深处的东西很可能就是让你魂牵梦绕的问题。这个时间，又恰好是新的太阳升起是时刻，沐浴一下阳光，或者冲个澡，再在自己喜欢的笔记本或者电脑上面写下一行行文字，挺文艺的。乔布斯却用早上的时间来冥想，都是有原因的。关于为什么要再早晨写，书本里面说得很清楚。</span><a href="http://book.douban.com/subject/3609132/" style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#722932;text-decoration:none;" target="_blank" rel="noopener"><span style="font-size:14px;">《把时间当作朋友》</span></a><span style="font-size:14px;">里面李笑来老师也提到过要记笔记，或者用点点滴滴的时间来完成一些小任务。</span></p>
+<span style="font-size:14px;"> </span><p style="padding-top:0px;padding-right:0px;padding-bottom:15px;padding-left:0px;margin-top:0px;margin-bottom:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">爱因斯坦曾经说过，人与人的差别在于业余时间，他本人就是在当专利局职员期间写成那两篇著名的论文的。我觉得这句话非常对，大家在课堂里面的学习时间都是差不多的，吸收能力也不会相差很大。最重要的是能够用业余的时间，去思考别人没有思考过东西，其实时间是万能的，除了抹去记忆之外，还能让你对一个问题的见解越来越深刻，前提是你思考过了。而思考的时间最多是一天24小时，但是人要睡眠，要是不断思考会睡不着，要不就会睡眠质量不高。更加广义的业余时间就是所有思考时间，刘未鹏认为</span><a href="http://book.douban.com/subject/6709809/" style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#722932;text-decoration:none;" target="_blank" rel="noopener"><span style="font-size:14px;">暗时间</span></a><span style="font-size:14px;">也是重要的思考时间。因为生活中更多的时间投入到了思考里面，所以也就更加容易地收获一些智慧的结晶。这就是为什么我们扔一个问题在脑海里面，有空的时候拿出几分钟进行思考，过了一天你可能就解决了这个题目，我个人就有过这个体验，于是我更加准备用自己的空余时间思考更多的问题。但是这又产生了一个问题，我们很难记住我们曾经产生过的每一个想法，于是我们需要记录我们的想法。而这些想法很可能就是一些创新点子，是别人没有想到的。你可以将所有的想法和知识分门归类，就像李敖那样将各种报刊材料剪下来分类存放一样。而早晨写日记则把这些点子中的“精英”记录下来了，你会发现这一句句话中都闪耀着你个人的智慧。</span></p>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">&nbsp;</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">当然一个人的知识，如果仅仅是记日记那就太狭隘了。除此之外，当然还有很多方面的东西值得学习，包括个人博客wiki，而wiki又是有文本的思维导图之称的工具，十分的有效，因为它用网络链接来支撑我们的知识联系。安装一款个人知识管理软件则会让我们的生活更加高效省心。国内的</span><a href="http://www.wiz.cn/" style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#722932;text-decoration:none;" target="_blank" rel="noopener"><span style="font-size:14px;">wiz</span></a><span style="font-size:14px;">（奇才），国外的evernote都提供各种各样的服务，而且是免费的支持云的服务。比如产生每日的任务列表、管理日记、博客、网络阅读等等方面的内容。让个人的知识更加有体系，而且在网页浏览时可以用浏览器插件一键将内容扒下来。对于收藏一些自己认为十分有用的知识是非常方便的。也可以利用它们来记笔记，十分方便，由于在云里就像随身携带一样，只要手头有一部手机那随时都可以把它存到知识库中，之后就可以反复浏览思考。事实证明很多人都用wiki等工具来管理自己的知识，这其实和为什么很多人写博客的原因一样。</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">&nbsp;</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">当然记忆是个人知识很大一部分内容，wiz等好像没有辅助记忆的专门工具，而网络上有一个很好用的强大的记忆软件&nbsp;</span><a href="http://www.mnemosyne-proj.org/" style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#722932;text-decoration:none;" target="_blank" rel="noopener"><span style="font-size:14px;">Mnemosyne</span></a><span style="font-size:14px;">，它更加特别的算法，依据你的记忆强度和时间来把你的记忆提到一个较高水平。随着时间的流逝，我们的记忆会变淡，甚至会遗忘。而赛斯宾记忆曲线告诉我们我们必须要经常的重复才能保持对某个事物的记忆，而这个记忆频数是递减的，一天后回忆一次，过了三天再回忆一次，一个月回忆一次，三个月回忆一次，一年回忆一次。这个开源的软件就是这个功能，让你对你学习的知识不断地回顾，甚至是产生更多新的启发。这些东西可以用便条纸记下了，一个问题在空闲时间问问自己，一个答案就像一个big surperise 降临，告诉你一切是这样的，为什么是这样的。关于这个记忆方法可以参考托尼.巴赞的</span><a href="http://book.douban.com/subject/1042125/" style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#722932;text-decoration:none;" target="_blank" rel="noopener"><span style="font-size:14px;">《启动记忆》</span></a><span style="font-size:14px;">.这样下来，这个知识点永远都不会忘记，就像很多计算机科学的学生不会忘记摩尔定律、quick sort一样。这就叫做孰能生巧，叫做重复重复再重复。记忆就像肌肉，越练越强（有兴趣的同学可以参考“</span><a href="http://bibodeng.blog.51cto.com/2646046/584873" style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#722932;text-decoration:none;" target="_blank" rel="noopener"><span style="font-size:14px;">人脑的肌肉性</span></a><span style="font-size:14px;">”）。肯定很多人觉得这么重复，肯定坚持不下来，慢慢做，只需要一点耐心，一点动力就可以了。鼓起勇气，改变自己吧！只有肯改变自己才能改变世界，不改变自己，又怎么去改变世界呢？</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">&nbsp;</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">&nbsp;</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">思考以及记忆是一种技巧，如何利用大脑的技巧。而要做到发挥自己的潜力，必须勤加练习。越聪明的人越知道勤奋的重要性，华罗庚说天才是99%的汗水+1%的灵感。我坚信世界上是有天才的，就是那些将自己发挥到极致的人。而我所说的重复就是99%的汗水，而灵感就是你早上记录或者平时记在pad上面的东西。如果非要拿什么东西来启动这个变化的话，那就是很多成功的人都写日记，而且博闻强记，不过这都很励志但是很俗。我们仅仅是想要让自己做得更好而以，不是为了神马遥远的成功，时日一到，自然水到渠成。就算是百无一用你也谱写了一个个人传记，好几百万字的自传。</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">&nbsp;</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">最近在学习数学时发现自己如果很投入地去做那些练习，就会变得很娴熟，或者说更聪明。这样就不难找出那些天才之所以成为天才的原因，那就是他们是非常聪明而且很勤奋的人。不要说自己学不好***，不能做***，这些都是撒谎。不是做不到，而是没有认真做，没有经过训练形成自己独特的思考方式以及敏捷的反应。</span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;"><span style="font-size:14px;">&nbsp;</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;"><span style="font-size:14px;">通过上面的努力，这样就形成了一个非常好的体系：思考 + 记录 +记忆。个人知识就在这个体系中不断更新巩固提高。也许你会意外地发现，你的勤奋慢慢演变成为天才，同时你的心性也变得踏实，变得不再畏惧各种威胁，变得越来越热爱学习。</span></div>
+<span style="font-size:14px;"> </span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">&nbsp;</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">我想以此来勉励所有不甘心只作平凡人的同学，这并不是神马励志，而是踏踏实实去实现的感觉。学习的技能是一辈子都受用的，而个人知识也是一辈子受用的。</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">&nbsp;</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">by bibodeng&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2011-12-1</span></div>
+<span style="font-size:14px;"> </span><div style="padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#2c2c2c;font-family:宋体, 'Arial Narrow', arial, serif;font-size:14px;line-height:28px;"><span style="font-size:14px;">&nbsp;</span></div>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/12/01/计科交流会/" rel="next" title="计科交流会">
+                <i class="fa fa-chevron-left"></i> 计科交流会
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/12/05/我编程，我快乐/" rel="prev" title="我编程，我快乐">
+                我编程，我快乐 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

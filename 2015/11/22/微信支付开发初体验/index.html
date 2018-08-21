@@ -1,0 +1,725 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="这段时间由于要进行微信公众号相关的开发，故而接触到了微信支付。老版本的V2公众号微信支付比较难搞，有些东西不够规范。新版本的微信支付统一了接口，文档也比较齐全，全部接入商户平台（pay.weixin.qq.com）。下面简述一下微信公众号现金支付的开发过程。 ##申请微信支付首先，你要有个公众号，而且是已经经过认证的，这样才能开通微信支付功能。开通微信支付功能后，你需要有个财付通商户号，将商户号绑">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信支付开发初体验">
+<meta property="og:url" content="https://bibodeng.github.io/2015/11/22/微信支付开发初体验/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="这段时间由于要进行微信公众号相关的开发，故而接触到了微信支付。老版本的V2公众号微信支付比较难搞，有些东西不够规范。新版本的微信支付统一了接口，文档也比较齐全，全部接入商户平台（pay.weixin.qq.com）。下面简述一下微信公众号现金支付的开发过程。 ##申请微信支付首先，你要有个公众号，而且是已经经过认证的，这样才能开通微信支付功能。开通微信支付功能后，你需要有个财付通商户号，将商户号绑">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:03.369Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信支付开发初体验">
+<meta name="twitter:description" content="这段时间由于要进行微信公众号相关的开发，故而接触到了微信支付。老版本的V2公众号微信支付比较难搞，有些东西不够规范。新版本的微信支付统一了接口，文档也比较齐全，全部接入商户平台（pay.weixin.qq.com）。下面简述一下微信公众号现金支付的开发过程。 ##申请微信支付首先，你要有个公众号，而且是已经经过认证的，这样才能开通微信支付功能。开通微信支付功能后，你需要有个财付通商户号，将商户号绑">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 微信支付开发初体验 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                微信支付开发初体验
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-22T23:24:46+08:00" content="2015-11-22">
+              2015-11-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2015/11/22/微信支付开发初体验/" class="leancloud_visitors" data-flag-title="微信支付开发初体验">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这段时间由于要进行微信公众号相关的开发，故而接触到了微信支付。老版本的V2公众号微信支付比较难搞，有些东西不够规范。新版本的微信支付统一了接口，文档也比较齐全，全部接入商户平台（pay.weixin.qq.com）。下面简述一下微信公众号现金支付的开发过程。</p>
+<p>##申请微信支付<br>首先，你要有个公众号，而且是已经经过认证的，这样才能开通微信支付功能。开通微信支付功能后，你需要有个财付通商户号，将商户号绑定到公众号上。我开发的时候，同事已经帮我申请好了公众号及微信支付商户号，一切仅需要根据API进行开发即可。这里碰到过一个坑，我们怎么都不不知道微信商户号为什么没有权限，还叫微信的同事检查了一下，说要将公众号和商户号绑定，并且要审核通过批准开通的支付方式（JSAPI，NATIVE等）才能进行开发。</p>
+<p>##NATIVE支付<br>微信的原生支付，是通过扫码，从微信的应用原生入口，如对话框，或者是二维码中进入。与之相对的是JSAPI支付，是从内嵌的浏览器中发起支付，然后在浏览器中有条件的进行支付。NATIVE的支付开发模式分两种，一种是商户通过微信制定的规则，生成一个商品售卖的信息，返回二维码给用户扫码，用户扫码之后，微信回调商户后台，后台正式下单，微信得到下单后让用户支付该单。第二种是商户平台预先下单，相关支付信息已经提交了微信，用户扫码之后进行支付该单，支付完后微信回调商户结果。二者之间主要的差别在于，用户扫描时临时下单还是商户预先帮用户下单，然后再支付。由于我们设计了一个中间的支付平台，我们自身并不知道商品的信息，这样的业务适合由商户平台下单，然后等待回调的方式，这样比较直观，如果是直接卖东西的商户，可以直接提供商品的二维码，那么直接展示商品二维码的方式会直观点，但两者的效果都是等价的，两种支付方式皆可。</p>
+<p>采用模式二，向微信下单，将会得到一个prepay_id，还有支付的二维码链接，得到链接后，商户要将它生成为二维码，生成的方式多种多样，一种是通过将数据提交给第三方的网页接口（一个链接），让他们帮忙生成二维码，然后通过<img>标签嵌入到页面中。另外一种是使用别人已经封装好的库，直接将二维码绘制出来，渲染在页面中。二者各有利弊，前一种能够节省资源，但要求网络条件良好，服务稳定，后一种则在本地生成，比较迅速。用户扫描二维码，进行输密码鉴权后，则扣款，等待回调通知商户平台，一般这个时间不会太久，因为用户的页面也在刷新支付结果，以及时地给用户一个反馈。</p>
+<p>##JSAPI支付<br>如果在移动端，应用又部署在移动网页上，那么二维码的方式不太适合，虽然也可以长按识别二维码跳转支付，但是这样的体验很怪。一开始，我很不理解，为什么微信不能像NATIVE支付一样，返回一个链接到微信内嵌的浏览器中，然后直接跳转到该支付地址，进入支付页面。后来转念一想，如果任何网页都能直接弹到支付页面，有可能会造成滥用下单，并导致有人中招支付了。微信需要一个授信的入口，让用户进入支付界面。经过测试，微信在浏览器跳转该支付链接的时候，进入不了输密码的界面，原因就是我这个是浏览器里面没有认证微信身份的操作，而对话和二维码扫描则不同，是微信客户端的原生入口，已经自带了微信用户的身份信息等。JSAPI的支付方式就是一个鉴权并跳转的过程，首先前半部分和NATIVE扫码支付一样，先给微信下单，返回一些下单的基本信息（核心的有prepay_id），后台将这些信息告诉前端，让前端跳转到一个微信鉴权的地址，并带上这些信息和一个跳转地址，鉴权通过后会进入支付界面，支付完成后，微信回调商户后台，同时页面回到商户的页面，刷新本地订单状态，呈现支付结果。这里总共是一个三方的关系，微信客户端（商户前端），商户后台，微信后台，这三者之间的交互，最终会使得支付状态一致，至于微信后台背后的银联等东西，对我们商户开发者是透明的。</p>
+<p>JSAPI的方式需要通过js脚本调用微信的接口，这个接口就是原生的入口，这样的设计虽然看起来不一样，但是其实和NATIVE统一了。而且下单和支付的逻辑是一样的，只是具体的鉴权和调起的方式不一样。微信<a href="https://pay.weixin.qq.com/wiki/doc/api/index.html" target="_blank" rel="noopener">商户后台</a>有详细的文档。 此外，JSAPI需要在微信公众号填写授权支付目录，只有制定的目录下面才能调起支付请求，一个大平台肯定会考虑比较多可能的情况，从而做得稳妥一点，他们也可能碰到过一些场景，出过问题，才弄成现在这样的设计。</p>
+<p>##小结<br>这其中我们踩过很多坑，很多信息也没有办法从界面上获得搞得浪费了一些时间，最好的状态就是一次申请通过，各种该开的支付权限都开了，并且发现了微信公众号后台的一些bug，这条路并不顺利。而且基于微信，我们设计了一个微信支付和积分支付的混合支付平台，用于腾讯内部的支付场景。这里API的设计和安全方面的保障参考了微信和支付宝的设计，后面将会详细说说。</p>
+<p>by bibodeng 2015-11-22</p>
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 博客底部广告 --><ins class="adsbygoogle" style="display:block;" data-ad-client="ca-pub-7025791392439198" data-ad-slot="8119980266" data-ad-format="auto"></ins> <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/14/果冻学车记/" rel="next" title="果冻学车记">
+                <i class="fa fa-chevron-left"></i> 果冻学车记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/01/日志/" rel="prev" title="日志">
+                日志 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

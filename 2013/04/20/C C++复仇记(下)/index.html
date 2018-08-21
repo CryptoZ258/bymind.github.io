@@ -1,0 +1,744 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="看好书 ​自从上次写了《C/C++复仇记(下)》以来，我继续看《C语言深度剖析》，理解了几个之前不懂的知识点，例如指针数组，数组指针，函数指针（平时从来不用）等。  我甚至觉得C语言是一门很难的语言，之前认为容易，是因为只接触了容易的部分，当然这是相对而言的（python，java等高级语言都没有指针啥的，而且内存管理也轻松很多）。但是C作为我们大学里面学习的第一门语言，也是面试，笔试，考试，">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C C++复仇记(下)">
+<meta property="og:url" content="https://bibodeng.github.io/2013/04/20/C C++复仇记(下)/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="看好书 ​自从上次写了《C/C++复仇记(下)》以来，我继续看《C语言深度剖析》，理解了几个之前不懂的知识点，例如指针数组，数组指针，函数指针（平时从来不用）等。  我甚至觉得C语言是一门很难的语言，之前认为容易，是因为只接触了容易的部分，当然这是相对而言的（python，java等高级语言都没有指针啥的，而且内存管理也轻松很多）。但是C作为我们大学里面学习的第一门语言，也是面试，笔试，考试，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T07:59:59.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C C++复仇记(下)">
+<meta name="twitter:description" content="看好书 ​自从上次写了《C/C++复仇记(下)》以来，我继续看《C语言深度剖析》，理解了几个之前不懂的知识点，例如指针数组，数组指针，函数指针（平时从来不用）等。  我甚至觉得C语言是一门很难的语言，之前认为容易，是因为只接触了容易的部分，当然这是相对而言的（python，java等高级语言都没有指针啥的，而且内存管理也轻松很多）。但是C作为我们大学里面学习的第一门语言，也是面试，笔试，考试，">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> C C++复仇记(下) | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                C C++复仇记(下)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-04-20T16:45:42+08:00" content="2013-04-20">
+              2013-04-20
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/04/20/C C++复仇记(下)/" class="leancloud_visitors" data-flag-title="C C++复仇记(下)">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<h3 style="background-color:#000000;color:#ffffff;padding:10px;font-family:'Times New Roman';letter-spacing:1px;line-height:19.5px;"><br class="Apple-interchange-newline">
+看好书</h3>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">​自从上次写了《C/C++复仇记(下)》以来，我继续看《C语言深度剖析》，理解了几个之前不懂的知识点，例如指针数组，数组指针，函数指针（平时从来不用）等。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">我甚至觉得C语言是一门很难的语言，之前认为容易，是因为只接触了容易的部分，当然这是相对而言的（python，java等高级语言都没有指针啥的，而且内存管理也轻松很多）。但是C作为我们大学里面学习的第一门语言，也是面试，笔试，考试，竞赛等等最常用到的语言，没有理由不好好学习之。而学习它，更多的是语言实现细节，不仅仅是语法细节，而实现细节在语言上的反映就是编译器的做法，比如函数，比如一个malloc函数，理解了它的实现，就可以知道为什么申请后要进行转化成特定类型的指针（因为用到了void*指针类型）等等，这些都需要深入理解，甚至是动手调试。</p>
+<h3 style="background-color:#000000;color:#ffffff;padding:10px;font-family:'Times New Roman';letter-spacing:1px;line-height:19.5px;">C的指针和数组</h3>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">指针与数组的区别</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">书里面讲的很明白，数组和指针是完全不同的东西，相互之间也没有什么关联。只是它们的某些操作方法很相似，所以常常令我们迷惑。指针是一个地址，指向的是内存中的一块内存，它的类型只是表示它怎么解读内存里面的内容。如int *p = &amp;a[0]; 使得p指向数组的首元素的首地址，然后*(p+1)则表示下一个int型，是跨越了4个字节的（32位机）。当然也可以用下标的方式来访问： p[1]，其等价于 *（p+1），这就是迷惑我们的地方，因为数组也可以这样来访问。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;"></p>
+<h4 style="font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">几个要说明的问题</h4>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">对指针进行加&nbsp;1&nbsp;操作,得到的是下一个元素的地址，而不是直接下一个字节的地址。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">假设有 int a[10] = {0};</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">数组名a作为右值：</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">int (*p)[10]&nbsp;= &amp;a; &nbsp; // 将整个数组的首地址赋予数组指针， +1解读为跳10个int类型大小。指针是按照类型来确定下一个元素的位置的。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">当 int *p = &amp;a;&nbsp;&nbsp; &nbsp; // 编译器将会警告，说类型转换，把数组地址赋给了int* p</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">当a作为右值时，和&amp;a[0]是一样的。也就是说可以这样用：</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">int x = *(a+1); &nbsp; &nbsp; &nbsp;// 表示数组的第二个元素赋值给x</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">区别指针数组和数组的指针：</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">A),int&nbsp;*p1[10];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 指针数组 int* p1[10] &nbsp;，[]的优先级比*高。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">B),int&nbsp;(*p2)[10];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; // 数组指针 int (*)[10] &nbsp;p2, 指向10个元素数组的一个指针</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">理解指针和数组，最重要的是理解，指针是一个地址，指向一片内存，怎么解读内存关键在于起始地址和指针类型。而数组则是作为一个整体存在的，可以访问数组内的单个元素，但是其本身可以作为一种类型，可以有指向这种类型的指针。</p>
+<h3 style="background-color:#000000;color:#ffffff;padding:10px;font-family:'Times New Roman';letter-spacing:1px;line-height:19.5px;">一种意识</h3>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">学习一种语言，到了一定的程度，应该养成了察觉错误的意识。错过一次后，找到犯错误的原因，也就不会错了。而往往我们犯错误，是因为我们的认知没有到位，没有搞清各个元素之间的关系。我们学习一样技能，总是克服原有的思维方法，重新确定其表达方式，归根结底都是一种映射，但是这种映射和我们潜意识中的内容可能有偏差，而阅读更多的知识，做更多的练习是减少这种偏差的唯一方法。加油！</p>
+<h3 style="background-color:#000000;color:#ffffff;padding:10px;font-family:'Times New Roman';letter-spacing:1px;line-height:19.5px;">END</h3>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';font-size:15px;letter-spacing:1px;line-height:19.5px;">by bibodeng&nbsp;2013-04-20&nbsp;16:44:12</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/04/19/微信公众开发——使用消息接口/" rel="next" title="微信公众开发——使用消息接口">
+                <i class="fa fa-chevron-left"></i> 微信公众开发——使用消息接口
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/04/20/不仅仅是优秀/" rel="prev" title="不仅仅是优秀">
+                不仅仅是优秀 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">
+看好书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">C的指针和数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">2.1.</span> <span class="nav-text">几个要说明的问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">一种意识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">END</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

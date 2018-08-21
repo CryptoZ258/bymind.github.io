@@ -1,0 +1,809 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="经过3个星期的开发和测试，我参与的专题速度与激情总算是上线发布了，如今也运行了接近三天。发放了近500份奖品，为活动提供了游戏的基础。这次开发和许多同事进行了合作和接触，最多的要数重构工程师和测试，还有编辑了。当然离不开我的leader的辅助和背后的支持。当我在战战兢兢面对困难的时候，他们很轻松就能把问题化得简单，并且启发我去思考。  &amp;nbsp; 遇到的挑战 IE6下问题多多，但是也是检">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="速6开发小记">
+<meta property="og:url" content="https://bibodeng.github.io/2013/07/29/速6开发小记/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="经过3个星期的开发和测试，我参与的专题速度与激情总算是上线发布了，如今也运行了接近三天。发放了近500份奖品，为活动提供了游戏的基础。这次开发和许多同事进行了合作和接触，最多的要数重构工程师和测试，还有编辑了。当然离不开我的leader的辅助和背后的支持。当我在战战兢兢面对困难的时候，他们很轻松就能把问题化得简单，并且启发我去思考。  &amp;nbsp; 遇到的挑战 IE6下问题多多，但是也是检">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://bibodeng.github.io/content/plugins/kl_album/upload/201307/439691e3e080478367c0567ebff57b34201307291110484255.png">
+<meta property="og:updated_time" content="2018-08-21T08:00:06.266Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="速6开发小记">
+<meta name="twitter:description" content="经过3个星期的开发和测试，我参与的专题速度与激情总算是上线发布了，如今也运行了接近三天。发放了近500份奖品，为活动提供了游戏的基础。这次开发和许多同事进行了合作和接触，最多的要数重构工程师和测试，还有编辑了。当然离不开我的leader的辅助和背后的支持。当我在战战兢兢面对困难的时候，他们很轻松就能把问题化得简单，并且启发我去思考。  &amp;nbsp; 遇到的挑战 IE6下问题多多，但是也是检">
+<meta name="twitter:image" content="https://bibodeng.github.io/content/plugins/kl_album/upload/201307/439691e3e080478367c0567ebff57b34201307291110484255.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 速6开发小记 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                速6开发小记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-07-29T19:02:03+08:00" content="2013-07-29">
+              2013-07-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/07/29/速6开发小记/" class="leancloud_visitors" data-flag-title="速6开发小记">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<link rel="stylesheet" type="text/css" href="/content/plugins/bibo_mark/article_bibo.css"> <div class="art_content">
+<p><a target="_blank" href="/content/plugins/kl_album/upload/201307/439691e3e080478367c0567ebff57b34201307291110484255.png"><img src="/content/plugins/kl_album/upload/201307/439691e3e080478367c0567ebff57b34201307291110484255.png" width="480" height="285" alt="点击查看原图" border="0"></a></p>
+<p>经过3个星期的开发和测试，我参与的专题速度与激情总算是上线发布了，如今也运行了接近三天。发放了近500份奖品，为活动提供了游戏的基础。这次开发和许多同事进行了合作和接触，最多的要数重构工程师和测试，还有编辑了。当然离不开我的leader的辅助和背后的支持。当我在战战兢兢面对困难的时候，他们很轻松就能把问题化得简单，并且启发我去思考。</p>
+<div></div>
+<div>&nbsp;</div>
+<h3>遇到的挑战</h3>
+<div>IE6下问题多多，但是也是检验你的程序是否过关，你对兼容性是否了解的试金石。怪不得微博上那么多黑IE6的，要是我，绝对不用提供网页给那些IE6用户继续使用。</div>
+<div>&nbsp;</div>
+<div>IE6下的png图片显示bug，透明度会消失，这时候你就要专门对ie6写一个hack，从而挽回一点点可怜的显示效果。一种方法是用js来修正，另外一种是用css直接遮罩，或者写一个特别的滤镜样式。</div>
+<div>&nbsp;</div>
+<div>IE6下的url的bug，因为IE6对utf8支持不完全，所以有些代码会这样：</div>
+<div><a href="http://topics.kankan.com/main.php?title" target="_blank" rel="noopener"><span style="color:#ff0000;">http://topics.kankan.com/main.php?title</span></a><span style="color:#ff0000;">=迅雷看看零距离体验第%4 %期</span> 这样奇怪的问题，所以你必须要用一个<span style="color:#ff0000;">encodeURIComponent( 
+)</span>函数来对url的字符做一个转换，这样才能防止它在被点击的时候传递的参数乱码。</div>
+<div>其它就略了，还有好多下次一并总结出来，包括php端的编程可以提升的地方。</div>
+<div>&nbsp;</div>
+<h3>总结一下各种效果：</h3>
+<div>震颤效果</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>
+<div>// 震动效果</div>
+<div>function shake(obj){</div>
+<div>&nbsp;&nbsp;&nbsp; var $panel = $(obj);</div>
+<div>&nbsp;&nbsp;&nbsp; var box_left = parseInt($panel.css('left'));</div>
+<div>&nbsp;&nbsp;&nbsp; $panel.css({'left': box_left});</div>
+<div>&nbsp;&nbsp;&nbsp; for(var i=1; i&lt;=4; i++){</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $panel.animate({left:box_left-(40-10*i)},50);</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $panel.animate({left:box_left+2*(40-10*i)},50);</div>
+<div>&nbsp;&nbsp;&nbsp; }</div>
+<div>}</div>
+</div>
+<div>&nbsp;</div>
+<div>窗口左右晃动4次，每次幅度逐渐减小</div>
+<div>&nbsp;</div>
+<div>向上滚动效果</div>
+<div>
+<div>// 向上滚动列表</div>
+<div>function scroll_list(list)</div>
+<div>{</div>
+<div>&nbsp;&nbsp;&nbsp; var list_height = 0;</div>
+<div>&nbsp;&nbsp;&nbsp; $(list).children('li').each(function(index){</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list_height += $(this).height();</div>
+<div>&nbsp;&nbsp;&nbsp; });</div>
+<div>&nbsp;&nbsp;&nbsp; // 设置向上滚动</div>
+<div>&nbsp;&nbsp;&nbsp; setInterval(function(){</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var top = parseInt($(list).css('top'));</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var p_height = $(list).parent().height();</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(top &lt; 0-list_height)</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; top =&nbsp; p_height;&nbsp;&nbsp;&nbsp;&nbsp; // 从右开始</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $(list).css('top', (top-1)+'px');&nbsp; // 每次移动1个像素*/</div>
+<div>&nbsp;&nbsp;&nbsp; }, 60);</div>
+<div>}</div>
+</div>
+<div>&nbsp;</div>
+<div>像卷轴门一样向上滚动，如果滚完了就重头再来。</div>
+<div>&nbsp;</div>
+<div>对于工程来说，每一次经验都能够加深一些体会，同时也提升编程技能。很多时候对于一个功能，往往能够抽象出来成为一个库中的工具把它写到common.php或common.js中。我发现前端工程师也可以使用很多架构的方法，例如用面向对象来实现整个功能，还可以将功能按照模块来划分。虽然听说前端只是薄薄的一层，再深入也还是那样子。而且说到跨浏览器我都怕了，程序员只有几个，但是浏览器层出不穷，而且有些互相不兼容，有时候拆了东墙补西墙，或者是为了找到一种hack，google了几十次。貌似搞前端都需要样样精通。相对来讲，在写php的过程中明显感到要太平许多，这次没有被产品和测试折磨死就已经算不错了。</div>
+<div>&nbsp;</div>
+<h3>分工明确的优缺点</h3>
+<div>在公司里面，有一个很明显的感受就是分工明确，产品提供整个需求，编辑提供内容，设计搞ps，重构写好html和css，而研发则写js和php逻辑部分。分工明确有好处也有坏处，总体来说还是好处比较多，要是一个人全干了那会累死。既然分工明确，那你只要把好你分内的关就ok了，要修改的时候一定要通知合作的同事去修改，只要沟通渠道良好，效率一般也很高，例如你提出一个地方要修改的时候，告诉对方，几分钟就搞定了。这就是专业的速度，如果自己去弄未必有这么快。</div>
+<div><strong>分工明确的优点：</strong></div>
+<ol>
+<li>专业，质量有保证</li>
+<li>工作量降低</li>
+<li>流程明确，效率看沟通</li>
+</ol>
+<div>&nbsp;</div>
+<div><strong>分工明确也有缺点：</strong></div>
+<ol>
+<li>难协调</li>
+<li>增加沟通成本</li>
+</ol>
+<div>首先是难协调，工作时间，还有整个项目的内容和代码，有时候需要等他人完成之后你才能继续开始，浪费了一部分时间，而忙的时候又不可开交。还有项目的内容很多也是要经过协商，不是你一个人说了就算，所以有时候很忙，往往是忙在发邮件，发消息上。其次是当出现同事不了解谁负责哪块的时候，往往找错人，增加了不必要的沟通负担。</div>
+<div>&nbsp;</div>
+<h3>需要保持的习惯：</h3>
+<div><strong>随时和同事同步你的工作内容</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+在这次的项目中没有使用svn这样的版本管理工具，估计是一些非开发人员他们可能不会用。但是这样就让我很麻烦，每次都需要保持若干个版本，放在不同的文件夹，但是总体来说还是能够保持一致的。而且每个人都有每个人自己的版本，那个拥有最全版本的人就苦逼了，他需要负责将各个版本都综合起来，然后到最后发布。这个人就是开发！因为其他的同事都是上游，而开发是下游，当然也只有开发才有权限将代码发布到外网服务器上（电信和网通两种服务器都要）。</div>
+<div>&nbsp;</div>
+<div><strong>注重细节，有良好的debug能力</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个太重要了，很多细节的地方不注意，往往能够让你找半天找不到错误所在，而细节有时候也能看出来基础扎不扎实。注意各种细节是一个良好的习惯，从小学时代的考试开始就一直很重要，注意好细节能够让程序更加严谨。有时候我们会感叹测试的眼睛怎么那么利，测试的用例比你的少，但是他们看出来的问题真多，也许是因为自己陷在自己的逻辑中比较难看出破绽，但是错了的时候，你还是有直觉的。很可能就是难以注意到的地方，让程序出人意料。如果需求定义得很明确的话，那么开发很牛，那么基本上不会出什么纰漏，测试也找不出什么漏洞，但是对于经验缺乏的菜鸟而言，那么多浏览器在向他狰狞地微笑，一切都没那么简单。</div>
+<div>&nbsp;</div>
+<div><strong>淡定</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当项目快要到期了，那边催你赶紧上线，而测试催你修bug的时候，这个时候最考验心理素质了。由于第一次上线发布，当时我还不知道怎么操作，而我的工作导师又离开去开会了，碰到了问题请教了许多人，但是还是弄了好久才解决。我在这里心理素质一般，但做大事的人一定要有胆色，够淡定。做小事需要细心，上面讲了。刘铭传年纪轻轻上去割了强盗的头，邺侯孩提之时就对皇帝的问题对答如流，并无惧色。有时候做人就得猛一点，内心强大一点。</div>
+<div>&nbsp;</div>
+<div><strong>生活与工作兼顾</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;身体是革命的本钱，在上周的开发过程中，我过于专注了，导致忘了点饭，然后吃了泡面，又稀里糊涂地把伞给弄落在大巴上了，结果深圳天气又多变，第二天淋雨上班，壮烈地感冒了，为此规好师兄还教导了我一番。本来工作就累，要自己照顾自己，病了可怎么工作呢，好在周末我呼呼大睡了好多个半天，才慢慢好起来。这让我意思到好好保养自己，增强自己的体质才是最重要的。身体是革命的本钱，革命尚未成功，可不能先挂了。今后尽量要让自己生活健康规律，充满乐趣。锻炼，游玩，交友都应该占生活更多的比重。学习工作靠的是效率，过度是不值得提倡的。还是找个人一起相互扶持照顾最好。</div>
+<div>&nbsp;</div>
+<div>附上链接一个： http://topics.kankan.com/speedAndPassion</div>
+<div><br>
+</div>
+<div>我自认为将来是要为自己打工的，所以对于运作和见识方面也有心留意。像周鸿祎那样振奋我心的偶像的故事，给我打鸡血一样的动力。</div>
+<div><br>
+</div>
+<div>by bibodeng</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/07/17/工作闲话/" rel="next" title="工作闲话">
+                <i class="fa fa-chevron-left"></i> 工作闲话
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/08/06/曾国藩传记笔记/" rel="prev" title="曾国藩传记笔记">
+                曾国藩传记笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">遇到的挑战</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">总结一下各种效果：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">分工明确的优缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">需要保持的习惯：</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

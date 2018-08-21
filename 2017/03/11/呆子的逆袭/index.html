@@ -1,0 +1,733 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="呆子的逆袭  fatcat 是那种看上去是个呆子的人，或者说是人物，因为他常常会令你惊奇，因为和他交谈，你自己看起来更像是傻子。没错，他是那种大智若愚型的。  大多数看起来呆呆的人，体育都是不太好的，fatcat也一样。以前和肥猫不熟，却和他一起上体育课，练的是乒乓球，虽然大多数男男女女对于我们的国球看起来并不是那么熟练，但是肥猫的笨拙在我看来，的确挺滑稽的。他一兜一兜的动作，还有脸上挂着的傻笑">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="呆子的逆袭">
+<meta property="og:url" content="https://bibodeng.github.io/2017/03/11/呆子的逆袭/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="呆子的逆袭  fatcat 是那种看上去是个呆子的人，或者说是人物，因为他常常会令你惊奇，因为和他交谈，你自己看起来更像是傻子。没错，他是那种大智若愚型的。  大多数看起来呆呆的人，体育都是不太好的，fatcat也一样。以前和肥猫不熟，却和他一起上体育课，练的是乒乓球，虽然大多数男男女女对于我们的国球看起来并不是那么熟练，但是肥猫的笨拙在我看来，的确挺滑稽的。他一兜一兜的动作，还有脸上挂着的傻笑">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:02.158Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="呆子的逆袭">
+<meta name="twitter:description" content="呆子的逆袭  fatcat 是那种看上去是个呆子的人，或者说是人物，因为他常常会令你惊奇，因为和他交谈，你自己看起来更像是傻子。没错，他是那种大智若愚型的。  大多数看起来呆呆的人，体育都是不太好的，fatcat也一样。以前和肥猫不熟，却和他一起上体育课，练的是乒乓球，虽然大多数男男女女对于我们的国球看起来并不是那么熟练，但是肥猫的笨拙在我看来，的确挺滑稽的。他一兜一兜的动作，还有脸上挂着的傻笑">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 呆子的逆袭 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                呆子的逆袭
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-11T08:01:50+08:00" content="2017-03-11">
+              2017-03-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2017/03/11/呆子的逆袭/" class="leancloud_visitors" data-flag-title="呆子的逆袭">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">呆子的逆袭</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">fatcat 是那种看上去是个呆子的人，或者说是人物，因为他常常会令你惊奇，因为和他交谈，你自己看起来更像是傻子。没错，他是那种大智若愚型的。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">大多数看起来呆呆的人，体育都是不太好的，fatcat也一样。以前和肥猫不熟，却和他一起上体育课，练的是乒乓球，虽然大多数男男女女对于我们的国球看起来并不是那么熟练，但是肥猫的笨拙在我看来，的确挺滑稽的。他一兜一兜的动作，还有脸上挂着的傻笑，的确让人严肃不起来。但是期末考试是考一分钟内接球次数最多的，而肥猫的呆板和认真，让我们合作起来拿到了高分。虽然我自认为在乒乓球上上有那么一丢丢的基础，但是和他合作起来一点也不感到怠惰。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">某次，学校院运会，下面正在热火朝天地比赛，场地中间人们来来往往为班里的队友加油鼓起，主席台上高音喇叭在播着新一轮的获奖名单和下一轮的比赛安排，看台上，大家都在讨论着下面的赛事，或者在拍照。但是这层阶梯的靠边处，有个人在端着一本高数课本在看，我们感叹道，还有这样的人！没错，那就是fatcat，他魁梧的身躯在太阳下面显更加庞大，只见他聚精会神，盯着一页看了许久，然后抬头呵呵应对那些带有一点惊奇和调侃的问话。从此，我深深记住了这个身形魁梧的fatcat。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">令人意想不到的是，第二个学期颁发班级奖励，我们都被吓尿了，看起来像呆子一样的肥猫，他的绩点，，居然高达4.2，我的天哪，要知道我第一学期的可是和他的倒过来啊，而4.0以上的很少见。从此，我们都有了一个共识：肥猫是一个猛人。也许天才的缺陷都很明显，尽管他体育很菜，行动很慢，但是这丝毫不能掩盖他的光芒。大一的老师说了一句：“是金子，到哪里都会发光”。在一次去北京参加一次专业竞赛之后，他竟然拿到了全国一等奖，在这之前俺们学院可是没有人获得过啊。再后来，我们就一起搬进了C222，一间一天到晚暗无天日的房子，这间神奇的房间，开始我们暗无天日但是还算开心的大三生活。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">很多人看起来很呆，那是因为他们单纯，对目标执着，肯去努力，所以往往能够创造出令人惊叹的成绩。但是，我再清楚不过，考试要么是功课做在之前，要么小抄带在身边。而每到期末的时候，我们在抱佛脚，肥猫这只学霸就会很淡定，早早睡觉，其实是他在图书馆已经温习过一遍了。我见到过他抱着八百多页的英文版《算法导论》很仔细地看，其专注精神，在他长期安静坐在图书馆的场景之中，可见一斑。而且他看问题的角度，总是让我们大吃一惊。这让我穿凿附会的思路，看起来是多么地苍白无力。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">当然，学霸也有放松的时候，例如他的《三国杀》，他的《塔防三国志》，dota，都是他娱乐的节目，但是你决定想不到，他玩完之后还会记笔记。擦，从来没有见过这么认真的人。过年之后，他就要继续他的研究生学习了，当然这也是精通技术和理论的肥猫最好的选择。作为舍友，记住更多的是他魁梧的身材，秀气的手指，还有与沉默之鹰的粤语的吧的，欢欣雀跃时的可爱蹦跳姿态。他是那种学得踏实，玩得痛快的人，无论是图书馆呆一天，还是睡一天，玩半天游戏，都是全身心的。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">对你身边这样的呆子好一点 : )</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">by bibodeng 2014-01-29</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/11/好男人czs/" rel="next" title="好男人czs">
+                <i class="fa fa-chevron-left"></i> 好男人czs
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/11/沉默的鹰/" rel="prev" title="沉默的鹰">
+                沉默的鹰 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

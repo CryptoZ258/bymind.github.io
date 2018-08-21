@@ -1,0 +1,787 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="#梳理常见数据结构 by bibodeng 2013-10-25 算法数据囧计算机最最重要的是它的硬件能够快速运算，它的软件具有抽象事物的能力。其中算法，是建立在数据结构上的，而对事物的抽象，则是建立在数据结构上的。近期笔试面试中也常考，虽然尤其是对后台的同学来讲，这方面要求会高一点。但是作为计算机学院的学生，很有必要理解一些经典的数据结构，它的最大特征，注意事项，已经常用方法。 我有一次懵了，居">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="梳理常见数据结构">
+<meta property="og:url" content="https://bibodeng.github.io/2013/10/25/梳理常见数据结构/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="#梳理常见数据结构 by bibodeng 2013-10-25 算法数据囧计算机最最重要的是它的硬件能够快速运算，它的软件具有抽象事物的能力。其中算法，是建立在数据结构上的，而对事物的抽象，则是建立在数据结构上的。近期笔试面试中也常考，虽然尤其是对后台的同学来讲，这方面要求会高一点。但是作为计算机学院的学生，很有必要理解一些经典的数据结构，它的最大特征，注意事项，已经常用方法。 我有一次懵了，居">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://daoluan.net/blog/wp-content/uploads/2012/10/list_node.jpg">
+<meta property="og:image" content="http://daoluan.net/blog/wp-content/uploads/2012/10/deque_in_real.jpg">
+<meta property="og:image" content="http://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Red-black_tree_example.svg/450px-Red-black_tree_example.svg.png">
+<meta property="og:updated_time" content="2018-08-21T08:00:04.094Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="梳理常见数据结构">
+<meta name="twitter:description" content="#梳理常见数据结构 by bibodeng 2013-10-25 算法数据囧计算机最最重要的是它的硬件能够快速运算，它的软件具有抽象事物的能力。其中算法，是建立在数据结构上的，而对事物的抽象，则是建立在数据结构上的。近期笔试面试中也常考，虽然尤其是对后台的同学来讲，这方面要求会高一点。但是作为计算机学院的学生，很有必要理解一些经典的数据结构，它的最大特征，注意事项，已经常用方法。 我有一次懵了，居">
+<meta name="twitter:image" content="http://daoluan.net/blog/wp-content/uploads/2012/10/list_node.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 梳理常见数据结构 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                梳理常见数据结构
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-10-25T15:38:53+08:00" content="2013-10-25">
+              2013-10-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/10/25/梳理常见数据结构/" class="leancloud_visitors" data-flag-title="梳理常见数据结构">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#梳理常见数据结构</p>
+<p>by bibodeng 2013-10-25</p>
+<h2 id="算法数据囧"><a href="#算法数据囧" class="headerlink" title="算法数据囧"></a>算法数据囧</h2><p>计算机最最重要的是它的硬件能够快速运算，它的软件具有抽象事物的能力。其中算法，是建立在数据结构上的，而对事物的抽象，则是建立在数据结构上的。近期笔试面试中也常考，虽然尤其是对后台的同学来讲，这方面要求会高一点。但是作为计算机学院的学生，很有必要理解一些经典的数据结构，它的最大特征，注意事项，已经常用方法。</p>
+<p>我有一次懵了，居然忘了 <code>vector</code> 和 <code>list</code>之间的严格区别，居然闹了笑话。我是一只计算囧。一些程序员追求流行技术的花样，搞得很多框架，模式，有一部分害怕数据，害怕算法，那么终究搞计算机都不是长久之计。</p>
+<h2 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h2><p>主要摘录的数据结构有： vector, list, queue, heap, stack, map, set, hashtable。尤其是stack， hashtable，经常出现在笔试题中。</p>
+<h3 id="vector-容器"><a href="#vector-容器" class="headerlink" title="vector 容器"></a>vector 容器</h3><pre><code>&gt; * 描述：数组的高级版本，可扩充空间，支持随机存取访问，是一段连续线性的空间。
+&gt; * 策略：其实是，当该数组内存不够时，新malloc一块2倍大的内存，将内容复制过去
+&gt; * 常见方法： 使用iterator遍历 vector&lt;int&gt;::iterator beg = iv.begin(); *beg 取得内容。
+&gt;  arr.push_back(1) 加入， arr.erase(ite) 进行删除
+&gt; * 注意： 内存重新复制后迭代子是消失了的
+&gt; * 优点： 快速访问，动态扩展
+&gt; * 缺点： 内存复制，耗费时间
+</code></pre><h3 id="list-链表"><a href="#list-链表" class="headerlink" title="list 链表"></a>list 链表</h3><p><img src="http://daoluan.net/blog/wp-content/uploads/2012/10/list_node.jpg" alt="队列节点"></p>
+<pre><code>&gt; * 描述：用指针将前后节点链接起来，指针个数多样，灵活进行插入删除
+&gt; * 策略：one by one, hand in hand, 需要一个头指针，由stl维护
+&gt; * 常见方法： 迭代器声明方式同vector，lis.push_back(1) 加入， arr.erase(ite) 进行删除
+&gt; * 优点： 添加和删除高效
+&gt; * 缺点： 不能随机访问，要find()需要遍历，这是硬伤
+</code></pre><h3 id="deque-双端队列"><a href="#deque-双端队列" class="headerlink" title="deque 双端队列"></a>deque 双端队列</h3><p><img src="http://daoluan.net/blog/wp-content/uploads/2012/10/deque_in_real.jpg" alt="deque">    </p>
+<pre><code>&gt; * 描述：较陌生，它是“分段存储，整体维护”， stack的和queue的母版，看起来复杂好多
+&gt; * 策略： 使用map表来进行管理缓存，容易扩展
+&gt; * 常见方法： 可以模拟‘随机’访问， de.push_back(), de[i]，*ite访问元素。
+&gt; * 迭代器： 见下面的代码
+&gt; * 注意： algorithm sort不支持这个迭代器，需要把元素都拿出来放到vector中遍历再放回deque
+&gt; * 优点： 强大
+&gt; * 缺点： 迭代器较复杂
+</code></pre><p>迭代器代码,结合上图进行理解</p>
+<pre><code>// 这些是内部维护的，我们不用管
+typedef T** map_pointer;    // T是template类型
+T* cur;        //指向当前元素
+T* first;    //指向缓冲区头
+T* last;    //指向缓冲区尾巴
+map_pointer node;    //二级指针，指向缓冲区地址表中的位置
+</code></pre><h3 id="stack-栈"><a href="#stack-栈" class="headerlink" title="stack 栈"></a>stack 栈</h3><pre><code>&gt; * 描述： 后进先出，一条只容一个人通过的死胡同
+&gt; * 策略： 使用deque来实现，限制其只能从一端的尾部进行操作（添加和弹出）
+&gt; * 常见方法： push 入栈， pop 出栈，top 顶部
+&gt; * 迭代器： 无 不允许遍历
+&gt; * 注意： 可选用底层容器实现stack 如 stack&lt;int,list&lt;int&gt;&gt; is;
+</code></pre><h3 id="queue-队列"><a href="#queue-队列" class="headerlink" title="queue 队列"></a>queue 队列</h3><pre><code>&gt; * 描述： 一条水管，先进先出
+&gt; * 策略： 从尾部添加，从首部弹出
+&gt; * 常见方法： push 入队， pop 出队，que.front() 获得头部，que.back()获得尾部
+&gt; * 迭代器： 无 不允许遍历
+</code></pre><h3 id="heap-堆"><a href="#heap-堆" class="headerlink" title="heap 堆"></a>heap 堆</h3><p>其实它是一种二叉树，一种确保根节点比子节点大的二叉树。我们的堆排序就是利用了这个特性，从而每次从根取出最小或者最大的，从而完成了排序。</p>
+<pre><code>&gt; * 描述： 完全二叉树（若二叉树高h，除过最底层h层，其他层1~h-1都是满的；并且最底层从左到右不能有空隙），可以写成数组形式
+&gt; * 策略： 保证根是最大或最小的，从而保证堆的性质
+&gt; * 常见方法： 上溯：某节点与父节点比较，如果其键值比父节点大，即交换父子节点。从下往上重复； 下溯：与上溯方向相反
+&gt; * 迭代器： vector实现max_heap,则为vector迭代器
+&gt; * 注意： 可以用数组进行存储，有节点i，那么2i即为其左子结点，2i+1即为其右子结点（正是因为其是满二叉树）
+堆带有二叉树的递归性质，故而子堆也具有堆的性质。
+</code></pre><h3 id="map-映射"><a href="#map-映射" class="headerlink" title="map 映射"></a>map 映射</h3><p><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Red-black_tree_example.svg/450px-Red-black_tree_example.svg.png" alt="红黑树"></p>
+<pre><code>&gt; * 描述： 一个键值对应一个实值的映射，不允许键值上的重复，内部是按键值来进行排序存储的，其中键值不允许被更改。
+&gt; * 策略： 由非线性空间来存储的， 由RB_TREE（非强平衡树）实现
+&gt; * 常见方法： map&lt;int,int&gt; im; im.insert(pair&lt;int,int&gt;(7,700)); 插入对。 遍历
+&gt; * 迭代器： map&lt;int,int&gt;::iterator ite； ite-&gt;first, ite-&gt;second 进行访问。
+</code></pre><h3 id="set-集合"><a href="#set-集合" class="headerlink" title="set 集合"></a>set 集合</h3><pre><code>&gt; * 描述：顾名思义，不允许重复，底层是由强大的RB_TREE实现的，set中键值就是实值，实值就是键值
+&gt; * 策略： 由非线性空间来存储的
+&gt; * 常见方法： insert()插入元素， ite.begin(), ite.end() 
+&gt; * 迭代器： set&lt;int&gt;::iterator ite; *ite可访问。
+&gt; * 注意：不允许更新值
+</code></pre><p>对于红黑树，还不算了解，需要找时间彻底地理解map和set的底层。</p>
+<h3 id="hash-table-哈希表"><a href="#hash-table-哈希表" class="headerlink" title="hash_table 哈希表"></a>hash_table 哈希表</h3><p>这是笔试面试中考得最多的了，并且一些关于大数据处理问题，需要hash_table来处理，用于解决快速找到所存储的值。没错，数据库中大量应用了hash_table。</p>
+<pre><code>&gt; * 描述： 通过对值进行散列，对应到一个连续空间中
+&gt; * 策略： 通过计算散列到线性空间，高效查找， 键值对存储。
+&gt; * 常见方法： 用hash_table 实现了 hash_set 和 hash_map,故而操作同上
+&gt; * 迭代器： STL暂无
+&gt; * 注意： 容易发生碰撞，碰撞后往往要线性探测/二次探测/再散列 ，或者是带着一条链表（开链法）。
+</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>思愿同学写的 <a href="http://daoluan.net/blog/confidential-stl/" target="_blank" rel="noopener">STL私房菜</a> 大部分图片从这里来，里面的讲解也深入很多。作为一个计算机学生，的确应该对这些基本的数据结构都熟悉，对他们的优点缺点都，适合干啥，都能明确回答，除此之外用这些数据结构来实现点东西，加深印象，我倒是有点重返C++的冲动啊。</p>
+<hr>
+<p>end</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/10/25/用js实现快排加演示-js排程初探/" rel="next" title="用js实现快排加演示-js排程初探">
+                <i class="fa fa-chevron-left"></i> 用js实现快排加演示-js排程初探
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/10/27/初识NoSQL/" rel="prev" title="初识NoSQL">
+                初识NoSQL <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法数据囧"><span class="nav-number">1.</span> <span class="nav-text">算法数据囧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#笔记"><span class="nav-number">2.</span> <span class="nav-text">笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vector-容器"><span class="nav-number">2.1.</span> <span class="nav-text">vector 容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#list-链表"><span class="nav-number">2.2.</span> <span class="nav-text">list 链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deque-双端队列"><span class="nav-number">2.3.</span> <span class="nav-text">deque 双端队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#stack-栈"><span class="nav-number">2.4.</span> <span class="nav-text">stack 栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#queue-队列"><span class="nav-number">2.5.</span> <span class="nav-text">queue 队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#heap-堆"><span class="nav-number">2.6.</span> <span class="nav-text">heap 堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#map-映射"><span class="nav-number">2.7.</span> <span class="nav-text">map 映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set-集合"><span class="nav-number">2.8.</span> <span class="nav-text">set 集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hash-table-哈希表"><span class="nav-number">2.9.</span> <span class="nav-text">hash_table 哈希表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

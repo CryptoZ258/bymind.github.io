@@ -1,0 +1,809 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="假如本科重来一遍，我还要读计算机，不过我要换一种读法。 我在豆瓣linux小组发起了这个话题——“假如重读计算机”。 学习游泳 现在大三了，越来越感觉到剩下的学习时间已经不多了，而回首过去三年的专业之路，多少会有点遗憾。当然写这篇不是为了要在这里叹息，而是为了向后来人提供一些经验教训。写下来，点点滴滴，实在也算是一种财富。本科四年，就好像学习游泳，4个小时，要一个旱鸭子学会游泳——这很难，但是很">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="假如重读计算机">
+<meta property="og:url" content="https://bibodeng.github.io/2013/04/09/假如重读计算机/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="假如本科重来一遍，我还要读计算机，不过我要换一种读法。 我在豆瓣linux小组发起了这个话题——“假如重读计算机”。 学习游泳 现在大三了，越来越感觉到剩下的学习时间已经不多了，而回首过去三年的专业之路，多少会有点遗憾。当然写这篇不是为了要在这里叹息，而是为了向后来人提供一些经验教训。写下来，点点滴滴，实在也算是一种财富。本科四年，就好像学习游泳，4个小时，要一个旱鸭子学会游泳——这很难，但是很">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:01.435Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="假如重读计算机">
+<meta name="twitter:description" content="假如本科重来一遍，我还要读计算机，不过我要换一种读法。 我在豆瓣linux小组发起了这个话题——“假如重读计算机”。 学习游泳 现在大三了，越来越感觉到剩下的学习时间已经不多了，而回首过去三年的专业之路，多少会有点遗憾。当然写这篇不是为了要在这里叹息，而是为了向后来人提供一些经验教训。写下来，点点滴滴，实在也算是一种财富。本科四年，就好像学习游泳，4个小时，要一个旱鸭子学会游泳——这很难，但是很">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 假如重读计算机 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                假如重读计算机
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-04-09T20:40:10+08:00" content="2013-04-09">
+              2013-04-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/04/09/假如重读计算机/" class="leancloud_visitors" data-flag-title="假如重读计算机">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<div class="art_content"><p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">假如本科重来一遍，我还要读计算机，不过我要换一种读法。</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">我在豆瓣linux小组发起了这个话题——<a href="http://www.douban.com/group/topic/38059307/" target="_blank" rel="noopener">“假如重读计算机”</a>。</p>
+<h3>学习游泳</h3>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">现在大三了，越来越感觉到剩下的学习时间已经不多了，而回首过去三年的专业之路，多少会有点遗憾。当然写这篇不是为了要在这里叹息，而是为了向后来人提供一些经验教训。写下来，点点滴滴，实在也算是一种财富。本科四年，就好像学习游泳，4个小时，要一个旱鸭子学会游泳——这很难，但是很有意思。大一的时候，老师领着我们到了游泳池旁边，对我们说，瞧，这就是游泳池，这是水。一些接触过游泳的同学就会有点烦闷了，谁不知道这是水啊。于是我们大家就在老师的带领下，在岸上学习游泳的动作，这是我们的第一门专业课——计算机文化。就在我们每天翻60页书的时候，到期末了，结果我考了一个60分，老师踢了我一脚，说该下水游泳了。于是我们就上了第二门专业课——C语言编程。刚下水，大家都很激动。我尤其记得，那时候没有电脑，就在本子上抄谭浩强的C语言经典教程。我告诉自己，我很认真地学习游泳，结果后来证明我是真的比较认真地在学。因为其实很大一部分女孩子，都不喜欢编程，他们喜欢别的一些东西。但是我是喜欢会编程的女孩子的，就像喜欢会游泳的女孩子一样。在水里游着游着，我发现我可以动了——编写出了一些简单的程序，哈哈，太激动人心了。就这样又一小时过去了，于是我们就成了本科班里面会游泳的“老人”了，部分大胆的同学到了深水区，他们不听老师讲解技巧，就独自地游了，有的在学蛙泳，有的在学蝶泳，还有的正在从狗刨转变到正常自由泳，当然部分牛逼的已经会蝶泳了，很轻松，但是很快速地游着。到了第三小时，老师就说，你们要自己在外面的河道，或者大海里面游了，所以大家都有点惊慌失措，因为之前谁也没有到过那样充满危险和挑战的地方游泳。其实正是在这时，才有了一点感觉，老师就赶着我们上岸，说别游了，除了选择进修班的，其他统统上岸，等下最后上岸的就是你！哎，到现在我就很想继续学习计算机，很多奥秘还没学会呢，但是谁让这课只有4小时呢，而且这4小时是强制的，这毁了多少不想当水鸭子的人的4小时青春。今后大学要是有一年预科就好了，了解一下究竟什么是你想读的，才去报，而不是糊里糊涂选了一个专业，最后被人莫名其妙踢下水。</p>
+<h3>梦境</h3>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">现在，我躺在床上，迷迷糊糊，突然睡着了，我回到了大一，重读计算机：</p>
+<blockquote>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">大一，我开始看师兄师姐推荐的启蒙读物《疯狂的程序员》《我是一只IT小小鸟》《李开复自传——世界因我不同》</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">看看自己到底是不适合计算机专业，如果看得很兴奋那么，恭喜，你对计算机有激情。</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">有了上次的经验，我这次学乖了，想学习C语言，以前只用过windows系统，没有听说过linux，那么安装一个linux吧，真的不难，把光盘放到电脑里面，next就可以安装好我们的linux操作系统了，真的是激动无比，很有成就感，终于踏上了搞计算机的第一步。（当然要视自己的情况选择linux发行版，如linux，radhat，susu等等）</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">装好了系统，肯定是一阵折腾，安好驱动，各种自己需要的软件后就可以开始搞C语言的开发了。激动ing，那么先上网找一linux的教程吧，搭建好自己的开发环境。然后找一个权威的linux论坛或者博客平台，泡着，学习各种开发和管理用的命令。在linux下你可以完成日常的所有工作，慢慢的我接触了cd，wget，ifconfig 等命令，接触了vim编辑器，gcc编译器，gdb调试器。一开始会很难，但是习惯了，一切就顺利多了。尤其是我发现linux下有很多有趣的，高效的软件，例如guake，geany，eclipse等等。。好开心，每天都有新发现。</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">大一下，我开始写自己的博客，将自己的学习笔记，计算机的一些值得记录的心得，记下来。一篇篇，看着自己在进步，相当有成就感。当然你要选择一个好的博客平台，那里的氛围决定了你的博客价值，好的平台有众多的优秀博文，而且活跃度很高，我可以交到可以互相促进的朋友，当年师兄推荐了CSDN，而我后来发现博客园很不错，牛人众多，博文也简洁优雅。于是我采用了cnblog，慢慢写，等我有一定积累时，（大三时），我就把博客迁出来，然后申请一个独立的域名和空间，这相当cool，就像自己成立了一个公司一样。当然做人呢，很重要的就是要专注。认定一个方向，做到极致，那么你就是卓越的人。</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">以前我不明白为什么师兄叫我要在linux下搞开发，熟悉各种命令，现在我终于体会到他的良苦用心了，因为将来公司招聘的都是那些有linux基础的，因为公司里面用的都是linux比较多。而程序员写代码，很多都用vim，因为它能够用心来编辑，而不仅仅是靠眼睛和键盘。我上次读的时候，还不知道这些，等我知道了，我就快要毕业了。</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">我重读计算机了，感到无比自信，因为我少走了上次的弯路。其他同学还在那里笨拙地学习怎么使用IDE新建工程时，我已经会用makefile来自动化我的编译链接。永远要比别人先走一步，这样才能把握机遇。因为我见到过牛人很认真，很有前瞻眼光，学习什么技术都有很长远的打算，而且成绩斐然。最恐怖的事情莫过于牛人比我更努力，这时候，我只有拿出十二分的认真精神，追赶上去，因为我知道差距就是一天天拉开来的。</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">我重读计算机了，这回我知道要只挑一些经典的书籍来读，对于每一个阶段，每一门技术，都找一本优秀的教材指导自己。只看经典，于是我陆陆续续地看完了《The C programming language》《code complete》《programming pearls》《The introduction of algorithm》《data struct》等等经典的书籍。每读一本，我都是耐着寂寞，坐在图书馆思索，偶尔坐在电脑前编程练习。别人在学什么热门的技术，《30天学通XXX》我看都不会去看。慢慢地，我知道了哪些书是值得一看的，其实只要上豆瓣去看看别人的书评就可以了。当然可以看看<a href="http://www.guokr.com/blog/161798/" target="_blank" rel="noopener">这里</a>的推荐书单。</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">这回，我也看看其他的书籍，长长见识，开阔眼界，数学，心理学，文学这些对于生活，身心有帮助的书籍，我都涉略一些。</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">当然学计算机，肯定要学习一两门拿手的开发技术，例如web开发，linux网络编程等等。但是这次我吸取了教训，那就是好好学习数据结构和算法。以前读大学的时候，总喜欢去选那些新潮的语言开发技术，myphp框架，django框架，xxx模式。但是屡次发现，参加学校的各种比赛的时候，叫我们写算法，贪心，动态规划，排序等等，我们都是手足无措。而最终企业招聘的时候，也点名说要算法和数据结构好的。于是我终于明白，开发技术只是皮毛，理解了深层的算法和数据结构等基础知识，才叫学过了计算机。其实你尽管沉下心来，好好学算法，做ACM的题目，慢慢地你获得的竞赛奖就会越来越多，而最终应聘的时候，可以轻松找到工作。花俏的开发技术，掌握一两门就好了，当然不尝试过也不知道什么是好的适合自己的。所以存在矛盾，但是你尝试过后，要下定决心，要么抛弃，要么坚持。十个半桶水，不如一个满桶水。这是我的深刻的体会。</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">简单说说开发技术，有很多路子可以走：</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">C/C++ 或者java基础编程 &nbsp; 今后很多是服务器编程</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">web开发 &nbsp; php/python/js 等等，掌握好一套的开发技术</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">安全学 &nbsp; &nbsp; &nbsp;当黑客或者安全专家，拥有坚实的算法基础</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">等等</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">其实web程序和pc端的程序都差不多，在其背后，都是对计算机中各种数据的操作存取，然后予以表现，只不过pc端的表现在本地界面，而web程序表现在浏览器端或者是移动客户端的界面。遇到事情，自己先琢磨一下，的确不能解决，我就不能继续下琢磨了，而是转而去学习，寻求帮助，从而找到问题的本质（找到问题的本质，你就找到了问题的解决办法，这招很有效果）。</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">现在我重新读计算机，又到了大二下了，这时候我已经具备了参与项目的能力，于是我们有了自己的想法后，想要组团开发了，于是我们参与1-2个科研立项，锻炼自己在实战中的能力。当然搞项目，团队很重要，我试了结队编程，极限编程等等技术，发现还真的很不错。项目不在多，而在精，挑选你希望能够从他们身上学到东西的组员一起参与，然后在开发中体会你上的软件工程课里面提到的各种经验。软件工程是一门很有必要的课程，它是前人开发软件总结的宝贵经验。这不是在说教，而是切身体会。以前开发的时候，总是急匆匆地写代码，结果改了又改，舍本逐末，事倍功半。还是按照需求分析——》系统分析——》系统设计——》系统实现 这样的流程来，才能好好地搭建好软件系统的大厦。越来越觉得开发软件就像搞建筑一样，先有蓝图，然后打好地基，搭建框架，再填充实体，最后才粉饰墙面。如果你能力很强，团队很给力，那么你将会享受到一个项目成功带来的喜悦！</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">最后，到了大三下，我和几个同学约好了去xx牛逼公司应聘，结果，由于我三年的努力，被录用了，哈哈哈哈，我被录用了~</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+</blockquote>
+突然，我感觉大地在摇晃，天空中响起一个声音：“基础不牢，地动山摇”，声音响彻旷野。额，我醒了，呆呆地坐在床上回味我的梦，原来只是一个梦。<p></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">以上梦境纯属虚构，旨在引导更多想学编程的人走对路子，当然很多都是我自己想重新来过的。大学的四年十分短暂，愿大家都好好把握好时光，踏踏实实地学习好基础知识，积攒一些项目经验，拥有一个美好的计算机生涯的未来。当然，篇幅很短，重来肯定也还有妹子，运动，健康等的话题没有出现，如果有想补充的可以予以补充。另外对于学校的课程结构，我也有很多话要说，但是现在只有一句宋丹丹的“忍着”。</p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;"></p>
+<p style="font-family:'Times New Roman';font-size:medium;line-height:normal;">by bibodeng &nbsp; &nbsp; 2013-04-09</p>
+<div><br>
+<h3>END</h3>
+</div>
+</div>
+<style type="text/css">
+.art_content{
+font-size: 15px;
+letter-spacing: 1px;
+line-height: 1.3em;
+}
+
+.art_content h3{
+background-color:#000000;
+color:#FFFFFF;
+padding: 10px;
+}
+
+blockquote{
+background-color:#CCFF99;
+-webkit-border-radius: 5px;
+}
+
+.part_head{
+background-color:#99FF33;
+padding: 10px;
+}
+
+.example{
+background-color:#CCCCCC;
+font-size:1.2em;
+-webkit-border-radius: 5px;
+}
+
+.small_title{
+font:italic;
+padding: 5px;
+}
+</style>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/04/07/深圳之旅/" rel="next" title="深圳之旅">
+                <i class="fa fa-chevron-left"></i> 深圳之旅
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/04/14/微信公众帐号验证/" rel="prev" title="微信公众帐号验证">
+                微信公众帐号验证 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">学习游泳</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">梦境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">END</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

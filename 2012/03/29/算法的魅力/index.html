@@ -1,0 +1,740 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="正儿八经开始学算法了，没有学习算法之前，总觉得编程就是敲代码，知道怎样使用语言就行了，学习了算法之后，才知道这玩意大有用处，而且和数学有非常紧密的联系。虽然我数学不太好，但是我对数学有一种天生的好感，因为它们总是给人带来一种惊艳感。或许是小时候并不害怕数学的缘故吧，于是勉强坚持一下，老师所讲的那些动态规划、贪心算法居然能听懂了。但是看起《TAOCP》却是真正地无所适从，随时都有一种想要扔下书去干">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法的魅力">
+<meta property="og:url" content="https://bibodeng.github.io/2012/03/29/算法的魅力/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="正儿八经开始学算法了，没有学习算法之前，总觉得编程就是敲代码，知道怎样使用语言就行了，学习了算法之后，才知道这玩意大有用处，而且和数学有非常紧密的联系。虽然我数学不太好，但是我对数学有一种天生的好感，因为它们总是给人带来一种惊艳感。或许是小时候并不害怕数学的缘故吧，于是勉强坚持一下，老师所讲的那些动态规划、贪心算法居然能听懂了。但是看起《TAOCP》却是真正地无所适从，随时都有一种想要扔下书去干">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:05.177Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法的魅力">
+<meta name="twitter:description" content="正儿八经开始学算法了，没有学习算法之前，总觉得编程就是敲代码，知道怎样使用语言就行了，学习了算法之后，才知道这玩意大有用处，而且和数学有非常紧密的联系。虽然我数学不太好，但是我对数学有一种天生的好感，因为它们总是给人带来一种惊艳感。或许是小时候并不害怕数学的缘故吧，于是勉强坚持一下，老师所讲的那些动态规划、贪心算法居然能听懂了。但是看起《TAOCP》却是真正地无所适从，随时都有一种想要扔下书去干">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 算法的魅力 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                算法的魅力
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-03-29T11:58:45+08:00" content="2012-03-29">
+              2012-03-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/03/29/算法的魅力/" class="leancloud_visitors" data-flag-title="算法的魅力">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<div><span style="font-family:'Microsoft YaHei';font-size:14px;">正儿八经开始学算法了，没有学习算法之前，总觉得编程就是敲代码，知道怎样使用语言就行了，学习了算法之后，才知道这玩意大有用处，而且和数学有非常紧密的联系。虽然我数学不太好，但是我对数学有一种天生的好感，因为它们总是给人带来一种惊艳感。或许是小时候并不害怕数学的缘故吧，于是勉强坚持一下，老师所讲的那些动态规划、贪心算法居然能听懂了。但是看起《TAOCP》却是真正地无所适从，随时都有一种想要扔下书去干别的的感觉，而碰到容易的时候、自己能够理解就会非常地开心。</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">算法这种东西，的的确确需要很大的数学功底。我数学功底不好，该怎么拌？我就一行行照着敲代码，敲到我理解整个过程为止。或者对于我的“成果”（敲出来的代码）一行行进行调试，调试一遍就理解程序的基本原理了，但是自己还是写不出来。当然碰到各种递归，分治，调试的时候就超级没有耐心了，跳跃太频繁，人脑是难以接受的。比如一个quick 
+sort 
+，先来一个partition，然后就递归解决前半部分和后半部分。真的是神奇，同样是排序算法，有的算法（快排）天生就比另外一些算法（冒泡、插入）更快，当然并不能一概而论，各种算法都有自己的局限以及长处。就像数据结构里面一样，顺序表和链式表都有各自的优点，但是也有各自的缺点，只有因时而异，因地制宜才能发挥它们最大的功效。算法也是一样，insert 
+sort在样本少的时候是非常方便的，代码也少，适合那些顺序差不多和目的顺序相同的样本空间。而上述情况对于快排来说就是厄运的到来了，因为它们的思想完全不同，有序情况对快排来说是最糟糕的了，因为要partition打乱了，跳跃性太强，需要再继续排。</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">关于排序算法，记得还收藏过了一个排序的全集歌舞，用舞蹈的形式来展示排序的原理，比较容易懂。链接在</span><a href="http://weibo.com/fav?leftnav=1&amp;wvr=4&amp;key=%E6%8E%92%E5%BA%8F" target="_blank" rel="noopener"><span style="font-family:'Microsoft YaHei';font-size:14px;">这里</span></a><span style="font-family:'Microsoft YaHei';font-size:14px;">。很多书上说计算机的世界里面很多需要排序的东西，而排序算法，便成了我们这堆初出茅庐的rookie们的必经之路。一大堆的排序算法，估计是各IT公司面试时最常考的东西，以前看的《疯狂的程序员》绝影最常被考的就是冒泡排序。而今天，对自己的要求当然不仅仅是能写几个排序，而更是要学会设计算法的本领，提高我们的产能，到时候产出自然就大了。前几天，搭车去本部参加ACM的初赛，居然很简单的问题想不出来，怪的就是没有算法的素养，对于题目的分析，解构，以及建模的能力不够，用惯了蛮力破解，却吃尽苦头编出一个超出时间要求的算法，好的算法往往需要一些基本功：递归、动态规划等的时候，就不知道从何处下手。结果可想而知——铩羽而归。当然，这也只是现阶段的情况而已，随着算法课程的推进，我们还是能够比较系统地接触各种算法，从而养成良好的算法素养，到时候就更轻松了。</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">今天读到一篇hack 
+news说一个音乐生，跟着一个老师学才两年就大学毕业了，一个人真的可以学得很快，质的飞跃也往往只是需要半年的时间而已。而如果遇到了适合自己胃口的老师讲课，那么效率便会大大提高。我们于平常的学习中浪费了太多的时间，时间的确像海绵，但是挤出来的都浪费在别处去了。所以更难能可贵的是合理地管理自己，把重要知识掌握了，或者开辟一个大的时间内存，用于高效地运行一个“作业”。计算机能够分时、能够多进程、多线程，虽然从宏观上来讲，我们也是可以多进程的，但是就一个较短的时间段来说，我们还是应当高效地利用时间来学习重要的课程——数据结构和算法。也许读完了《算法导论》就可以很快上道了，要是能硬着头皮把《TAOCP》读完了，也就算得上是学有所成了。对于算法学习，很有必要给自己一个时间范围，给自己一个原则：“真的弄懂学习的算法，并在恰当的时候能够用上”。而且，越来越感觉到代码给人的直观性，敲过之后印象会更深刻。什么听懂了，看懂了，都是屁话，只有拉出来能够自己随手写一个才是真正的懂了。</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">以一个很惊奇的结果做结尾，做为启示：世界上的事物并非无缘无故的，而是有着千丝万缕的联系，而这种联系又是如此的精妙。就在你认为是毫无联系的情况下，有人发现了奇妙的联系。</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">project euler 052：找出一个数x，这个数的1、2、3、4、5、6倍都是由相同的一些数字组成，而且位数相同，求出这个数x。 </span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">咋一看，就是用Bruce 
+方法来破解，去试一试这些所有可能的结果。我苦逼了半天，辛辛苦苦地写出十几二十行代码，求得了正确的结果，可是看到反馈的第一条就是，这个人压根没有用计算机，就算得了结果，我十分地惊讶。</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">这个人说 1/7 = 0.142857... 而2*142857 = 285714； 3*142857 = 428571 ；4*142857 
+=571428 ；5*142857=&nbsp; 714285；6*142857=857142 真的是非常神奇！！ 而7*142857 =999999 </span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">你现在你敢说这些数位和6是没关系的了吗？毕竟6和7有很大关系。而这之间的关系到底有多么深层呢，本质又是什么呢？这估计要去问群论的数学家了吧！</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">&nbsp;</span></div>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><div><span style="font-family:'Microsoft YaHei';font-size:14px;">从中我悟到一个道理，那就是，算法要充分利用事物之间的联系：联系说不定就隐藏在表象的深层，充分利用联系的算法才是好的算法。</span></div>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/03/14/初学算法/" rel="next" title="初学算法">
+                <i class="fa fa-chevron-left"></i> 初学算法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/04/01/清明小记/" rel="prev" title="清明小记">
+                清明小记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

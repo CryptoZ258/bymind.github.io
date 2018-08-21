@@ -1,0 +1,772 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="【编程珠玑】 想不到薄薄的200+页，居然能让我如此地狂笑不止，暗叹妙哉，手不释卷。对于学习计算机算法而言，有一点基础之后就可以翻翻这本“大师系列”的课外读物了。先说说里面的结构篇章，然后再说说它吸引我的地方。第一部分介绍了一些基础知识，但是读起来非常有趣，有些算法简直让人惊叹不已，而后面的编程练习也十分具有挑战性，这部分分为算法、数据结构、编写正确的程序、编程的次要问题。一一介绍了许多软件开发">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编程珠玑——值得阅读">
+<meta property="og:url" content="https://bibodeng.github.io/2012/07/16/编程珠玑——值得阅读/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="【编程珠玑】 想不到薄薄的200+页，居然能让我如此地狂笑不止，暗叹妙哉，手不释卷。对于学习计算机算法而言，有一点基础之后就可以翻翻这本“大师系列”的课外读物了。先说说里面的结构篇章，然后再说说它吸引我的地方。第一部分介绍了一些基础知识，但是读起来非常有趣，有些算法简直让人惊叹不已，而后面的编程练习也十分具有挑战性，这部分分为算法、数据结构、编写正确的程序、编程的次要问题。一一介绍了许多软件开发">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://bibodeng.github.io/content/plugins/kl_album/upload/201207/c91a703ee9be1019794f2dfe58855fbe2012071602431722530.png">
+<meta property="og:updated_time" content="2018-08-21T08:00:05.247Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编程珠玑——值得阅读">
+<meta name="twitter:description" content="【编程珠玑】 想不到薄薄的200+页，居然能让我如此地狂笑不止，暗叹妙哉，手不释卷。对于学习计算机算法而言，有一点基础之后就可以翻翻这本“大师系列”的课外读物了。先说说里面的结构篇章，然后再说说它吸引我的地方。第一部分介绍了一些基础知识，但是读起来非常有趣，有些算法简直让人惊叹不已，而后面的编程练习也十分具有挑战性，这部分分为算法、数据结构、编写正确的程序、编程的次要问题。一一介绍了许多软件开发">
+<meta name="twitter:image" content="https://bibodeng.github.io/content/plugins/kl_album/upload/201207/c91a703ee9be1019794f2dfe58855fbe2012071602431722530.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 编程珠玑——值得阅读 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                编程珠玑——值得阅读
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-07-16T10:43:35+08:00" content="2012-07-16">
+              2012-07-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/07/16/编程珠玑——值得阅读/" class="leancloud_visitors" data-flag-title="编程珠玑——值得阅读">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<div><span style="font-size:14px;"><strong>【编程珠玑】</strong></span></div>
+<div><span style="font-size:14px;">想不到薄薄的200+页，居然能让我如此地狂笑不止，暗叹妙哉，手不释卷。对于学习计算机算法而言，有一点基础之后就可以翻翻这本“大师系列”的课外读物了。先说说里面的结构篇章，然后再说说它吸引我的地方。第一部分介绍了一些基础知识，但是读起来非常有趣，有些算法简直让人惊叹不已，而后面的编程练习也十分具有挑战性，这部分分为算法、数据结构、编写正确的程序、编程的次要问题。一一介绍了许多软件开发中非常有用的方法和技巧：数据表现形式、构造数据、使用断言、记时。第二部分讲了性能分析、算法设计思想、如何多层级地提高性能。还没有看完，所以要慢慢看，看完再敲些代码。里面介绍的都是一些在实践中非常有用的技巧和工具，比如搭建脚手架去测试函数等等，而且以一个problem solver的角度去写程序，真正地是程序员应该学习的“葵花宝典”级的读物。</span></div>
+<div><span style="font-size:14px;">&nbsp;</span></div>
+<div><span style="font-size:14px;"><strong>【解决问题的角度及一般方法】</strong></span></div>
+<div><span style="font-size:14px;">1、问题是什么——问题的精确陈述</span></div>
+<div><span style="font-size:14px;">2、问题有什么可以利用的特征</span></div>
+<div><span style="font-size:14px;">3、怎样的数据表示</span></div>
+<div><span style="font-size:14px;">4、怎样的算法</span></div>
+<div><span style="font-size:14px;">5、验证</span></div>
+<div><span style="font-size:14px;">pascal之父说过，程序=数据结构+算法，那么我们解决一个现实中的问题，首先需要抽象出问题的本质，再抓住关键的性质建立数据模型，然后再对数据模型设计合适的算法。我们大多数人会觉得算法应该是一连串离散的解题步骤，就像数学里面的解题步骤一样，但我们不妨从问题的角度去审视，算法可以说是解决整个问题的办法，而不仅仅是有了数据结构后怎样算的问题。不同的数据结构，算法的思想可能不一样，其实不一样的更多在于细节实现不一样。比如实现一个栈，用数组可以实现一个，用链表也可以实现一个，封装后的操作都是一样的（压栈出栈），但是其实现细节是不同的，一个是用指针，一个是下标，但是归根到底思想是一样的，于是我们叫他们是同一算法的不同实现。有时候要解决一个问题，有一般的方法，或穷举，或贪心，或动态规划等，但是有时候我们也能利用到数据的一些特性来做特别处理，就像书中开篇提出来的例子一样——用位串的方法来排序，最终获得的解法占用空间小，速度也是一般排序算法没得比的。这或许就是哲学书里面提到的“具体问题具体分析”吧。</span></div>
+<div><span style="font-size:14px;">&nbsp;</span></div>
+<div><span style="font-size:14px;"><strong>【算法设计的思想精髓】</strong></span></div>
+<div><span style="font-size:14px;">1、分治（divided and conquer）</span></div>
+<div><span style="font-size:14px;">分治的方法就是将大事化小，小事化了，以达到大事化了的目的。分治的典型应用就是归并和快速排序，将一个大问题化成若干个规模更小的小问题，将小问题逐一击破，最后整合出原问题的答案。人解决问题的时候往往是有自己内在的流程，往往也是这样解决问题的（例如将一个软件工程分派任务），对于计算机而言，将问题分成无耦合的若干个问题，也是能完美运用分治的手法。</span></div>
+<div><span style="font-size:14px;">2、递归</span></div>
+<div><span style="font-size:14px;">与分治相随的是递归，递归是将原问题划分为和原问题性质相同的一些子问题。就以归并而言，算法中将原数组一分为二，先对前一段也是进行这样的操作，如此递归下去，直到只有一个元素无法再分就逐层返回，再对后一段同样操作，最后返回两段合并后的结果。更加典型的要数二叉查找树了，大于根则向右找，小于根就向左找。递归是一个一劳永逸的方法，同一算法既适用于原问题，又适用于子问题，而子问题的解决最终达成原问题的解决（当然递归总有一个结束的地方）。</span><a href="http://bbs.51cto.com/thread-931771-1.html" target="_blank" rel="noopener"><span style="font-size:14px;">这里</span></a><span style="font-size:14px;">总结了一些平常使用递归的例子。</span></div>
+<div><span style="font-size:14px;">&nbsp;</span></div>
+<div><span style="font-size:14px;">算法设计的思想中分治与递归无疑是最闪光的，它们也相当具有启发性，很多很好的算法身上都可以看到它们的影子（如快排）。但是我发现，更好的算法往往更加复杂，复杂得难以理解（如字符串旋转的杂耍算法），只是在眼花缭乱之际，它就已经把工作做完了，故而，仅有分治与递归还不够。</span></div>
+<div><span style="font-size:14px;">&nbsp;</span></div>
+<div><span style="font-size:14px;">&nbsp;</span></div>
+<div><span style="font-size:14px;"><strong>【一些有用的技术】</strong></span></div>
+<div><span style="font-size:14px;">1、断言</span></div>
+<div><span style="font-size:14px;">断言就是某个语句执行完后，某些变量必须要满足的条件。比如：</span></div>
+<div><span style="font-size:14px;">int i=0;</span></div>
+<div><span style="font-size:14px;">if(i==0)</span></div>
+<div><span style="font-size:14px;">{</span></div>
+<div><span style="font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;//i一定是等于0</span></div>
+<div><span style="font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;i++;</span></div>
+<div><span style="font-size:14px;">&nbsp;&nbsp;&nbsp;&nbsp;//执行后，i一定是1</span></div>
+<div><span style="font-size:14px;">}</span></div>
+<div><span style="font-size:14px;">当然这个例子不具有实际意义，但是断言可以保证你的程序不会犯下逻辑错误。书中用二分查找这个算法作为例子，演示了一遍怎样利用断言写一个没有bug的算法。写二分查找要小心谨慎，因为一不考虑周全，可能就会写错。有了断言，你就可以确保在条件满足的情况下执行什么样的操作。</span></div>
+<div><span style="font-size:14px;">&nbsp;</span></div>
+<div><span style="font-size:14px;">2、封底计算</span></div>
+<div><span style="font-size:14px;">封底运算直白地来说就是最大（小）到多少，我们算法中的复杂度记号f(n)=O(g(n))也是一个封底运算，即复杂度最大不会超过g(n)。文中用了很多例子来训练我们估算封底的能力，因为我们要的是针对有意义的例子，而不是宇宙中所有的可能情况。比如一条河流一秒的流量，绕地飞船的最大速度（第一宇宙速度）或者饶地球一圈最短多长时间（这个高中时期计算过）等等。掌握封底运算，我们就能很理性地判别那些东西可信，哪些东西不可信。</span></div>
+<div><span style="font-size:14px;">&nbsp;</span></div>
+<div><span style="font-size:14px;"><strong>【一些有趣的例子】</strong></span></div>
+<div><span style="font-size:14px;">&nbsp;</span></div>
+<div><span style="font-size:14px;">1、开篇的例子——用位串来实现排序</span></div>
+<div><span style="font-size:14px;">&nbsp;</span></div>
+<div><span style="font-size:14px;">书中开篇讲了一个很有趣又很有启发意义的例子，先看问题的精确描述：</span></div>
+<div><span style="font-size:14px;">输入：一个input文件，至多包含n个正整数，n个正整数每个最多出现一次，n=10^7.</span></div>
+<div><span style="font-size:14px;">输出：输出这n个排列好顺序的数到output文件中。</span></div>
+<div><span style="font-size:14px;">解决办法：用一个长度为10^7的初始化为0的位串，如果该数出现了，在对应的位数上记1，到最后扫描完整个input文件，就已经将排序次序记录在位串里面了。输出时只要遍历一下位串的每一位就可以输出有序的数列了。</span></div>
+<div><span style="font-size:14px;">&nbsp;</span></div>
+<div><span style="font-size:14px;">2、字符串旋转——杂耍般的算法</span></div>
+<div><a href="/content/plugins/kl_album/upload/201207/c91a703ee9be1019794f2dfe58855fbe2012071602431722530.png" target="_blank"><img border="0" alt="点击查看原图" src="/content/plugins/kl_album/upload/201207/c91a703ee9be1019794f2dfe58855fbe2012071602431722530.png" width="480" height="179"></a></div>
+<div><span style="font-size:14px;">要旋转一个字符串，可以用递归的办法，先转置a部分，再转置b部分，再转置ab。具体的描述是这样的，a——&gt;a',b——&gt;b',(a'b')——&gt;（a'b'）' = ba. 可以用手试试，最后一步是要两手并在一起往前滚。真是一个很神奇的算法，可以用如下语句描述。</span></div>
+<div><span style="font-size:14px;">reverse(1,5)</span></div>
+<div><span style="font-size:14px;">reverse(6,10);</span></div>
+<div><span style="font-size:14px;">reverse(1,10);</span></div>
+<div><span style="font-size:14px;">&nbsp;</span></div>
+<div><span style="font-size:14px;"><strong>【本书的风格】</strong></span></div>
+<div><span style="font-size:14px;">《编程珠玑》写作风格幽默诙谐，常常引得我发笑，但是又不乏严谨理性，对于每个例子都讲解得很透彻。不得不说的是后面的一些练习，真正能够训练我们解决问题的能力，可惜我没有做多少，将来肯定还要重读此书，或许还会读其后续版本。无论如何我都强烈推荐学了C语言将要学习算法与数据结构的同学看看这本书，可以获益良多。</span></div>
+<div><span style="font-size:14px;">&nbsp;</span></div>
+<div><span style="widows:2;text-transform:none;text-indent:0px;display:inline !important;font:14px Arial;white-space:normal;orphans:2;float:none;letter-spacing:normal;color:#000000;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px;">by bibodeng 2012-07-16 &nbsp; 原载于<a href="/"><span style="font-size:14px;">bibodeng think beyond</span></a></span></div>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/07/14/亲情+友情+爱情 ——改变自己/" rel="next" title="亲情+友情+爱情 ——改变自己">
+                <i class="fa fa-chevron-left"></i> 亲情+友情+爱情 ——改变自己
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/07/18/学习网页制作/" rel="prev" title="学习网页制作">
+                学习网页制作 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

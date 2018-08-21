@@ -1,0 +1,896 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="task命令行GTD工具用户手册by bibodeng 2014-01-25 ###名字（NAME） task - 一款命令行的todo任务管理软件 ###命令（SYNOPSIS） task 过滤符 子命令 [&amp;lt;mods&amp;gt;|&amp;lt;args&amp;gt;]    //调用task子命令 task --version                      //可以获得task的版本号 ##">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="task命令行GTD工具用户手册">
+<meta property="og:url" content="https://bibodeng.github.io/2014/01/25/task命令行GTD工具用户手册/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="task命令行GTD工具用户手册by bibodeng 2014-01-25 ###名字（NAME） task - 一款命令行的todo任务管理软件 ###命令（SYNOPSIS） task 过滤符 子命令 [&amp;lt;mods&amp;gt;|&amp;lt;args&amp;gt;]    //调用task子命令 task --version                      //可以获得task的版本号 ##">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:00.074Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="task命令行GTD工具用户手册">
+<meta name="twitter:description" content="task命令行GTD工具用户手册by bibodeng 2014-01-25 ###名字（NAME） task - 一款命令行的todo任务管理软件 ###命令（SYNOPSIS） task 过滤符 子命令 [&amp;lt;mods&amp;gt;|&amp;lt;args&amp;gt;]    //调用task子命令 task --version                      //可以获得task的版本号 ##">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> task命令行GTD工具用户手册 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                task命令行GTD工具用户手册
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-01-25T17:57:29+08:00" content="2014-01-25">
+              2014-01-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2014/01/25/task命令行GTD工具用户手册/" class="leancloud_visitors" data-flag-title="task命令行GTD工具用户手册">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="task命令行GTD工具用户手册"><a href="#task命令行GTD工具用户手册" class="headerlink" title="task命令行GTD工具用户手册"></a>task命令行GTD工具用户手册</h2><p>by bibodeng 2014-01-25</p>
+<p>###名字（NAME）</p>
+<pre><code>task - 一款命令行的todo任务管理软件
+</code></pre><p>###命令（SYNOPSIS）</p>
+<pre><code>task 过滤符 子命令 [&lt;mods&gt;|&lt;args&gt;]    //调用task子命令
+task --version                      //可以获得task的版本号
+</code></pre><p>###描述（DESCRIPTION）</p>
+<p>taskwarrior是一个命令行式的任务列表管理软件。它可以维持一个你的任务列表，允许你添加/删除/修改任务。它具有丰富的子命令，可以做你想不到的事情。当然，在底层，它是一个任务列表排程程序。你添加文字任务和关于任务的描述，当你用日期来排列时它就是一个日程表，当你用优先级排列时，它就是你的做事顺序。你还可以添加标签，项目组，方便你管理你的这些任务。</p>
+<p>###过滤符（FILTER）</p>
+<p>过滤符号由0或多个查找特征组成，用来选择你想要查看或修改的任务，例如，列出所有<code>Home</code>项目下的任务：</p>
+<pre><code>task project:Home list  // list是一个子命令，列出tasks
+</code></pre><p>你可以指定多个过滤符号：</p>
+<pre><code>task project:Home +weekend graden list
+</code></pre><p>该例中，有三个过滤符： <code>Home</code>项目，weekend标签，还有描述中必须包含<code>garden</code>。当然也可以理解为：</p>
+<pre><code>description.contains:garden
+</code></pre><p>当没有过滤符号的时候，意味着所有tasks都将被选中，这时候你就要小心了，因为修改的时候是应用到所有tasks的，而且不能回滚。例如：</p>
+<pre><code>task modify +work
+this command has no filter, and will modify all tasks. Are you sure?(yes/no)
+</code></pre><p>将会为所有tasks都添加一个work标签，当然前提是你选择了yes。</p>
+<p>更多例子如下：</p>
+<pre><code>task                                        子命令 操作内容
+task 28                                     子命令 操作内容    // 选中第28个task（ID为28）
+task +weekend                               子命令 操作内容    // 选中带weekend标签的
+task project:Home due.before:today          子命令 操作内容    // 选中Home项目，且在今天之前的
+task ebeeab00-ccf8-464b-8b58-f7f2d606edfb   子命令 操作内容    // 选中UUID为这个序列的
+</code></pre><p>默认情况下，过滤器的各个条件是and（与）的，当然or（或）和xor（异或）也是可以用的，如下括弧里面的是支持的：</p>
+<pre><code>task &apos;(/[Cc]at|[Dd]og/ or /[0-9]+/)&apos; 子命令 操作内容  // 这里用到了正则表达式,不懂正则。。那忽略吧，只要注意这里用了括号和or就行了
+</code></pre><p>下面举些用到了ID和UUID的例子：</p>
+<pre><code>task 1,2,3              delete
+task 1-3                info
+task 1,2-5,19           modify pri:H
+task 4-7 ebeeab00-ccf8-464b-8b58-f7f2d606edfb   info
+</code></pre><p>###修改内容（MODIFICATIONS）</p>
+<p>修改内容可以由0个或多个修改组成，如下：</p>
+<pre><code>task 过滤符 子命令 project:Home
+task 过滤符 子命令 +weekend +garden due:tomorrow
+task 过滤符 子命令 Description/annotation text
+task 过滤符 子命令 /from/to/
+</code></pre><p>###子命令（SUBCOMMANDS）</p>
+<p>taskwarrior支持很多子命令，包含 读命令，写命令，杂项命令 和 脚本帮助命令。读命令不允许修改task，写命令对命令进行修改，脚本帮助命令帮助你写附加的脚本，例如shell的自动补全等。</p>
+<p>####读子命令（READ SUBCOMMANDS）</p>
+<p>reports是读子命令。输出和其它一些行为可以在配置文件里面配置，也有一些读子命令不是关于reports的。</p>
+<pre><code>task --version              // 查看task的版本
+
+task 过滤符                // 查看满足条件的tasks
+
+task 过滤符 active         // 查看已经start，正处于激活状态的task
+
+task 过滤符 all            // 显示满足条件的所有tasks，包括递归task的父task
+
+task 过滤符 blocked        // 显示那些依赖于其它task的tasks
+
+task 过滤符 burndown.daily     // 绘制日统计图像
+
+task 过滤符 burndown.weekly    // 绘制周视图
+
+task 过滤符 burndown.monthly   // 绘制月视图
+
+task calendar [due|&lt;month&gt; &lt;year&gt; | &lt;year&gt;] [y] 
+// 尖括号包含的内容替换成相应的量，显示一个月的日历,如果给出年，则显示一年的，如2014，如果给出年月，如`2 2014`则会从2014年2月份开始的几个月的日历。如果是due，则会显示预期最早的task。
+
+task colors [sample | legend]   // 显示支持的颜色，有简单版和完全版之分
+
+task columns                // 显示所有列和样式，在导出报表的时候非常有用
+
+task 过滤符 completed      // 显示已经完成的tasks
+
+task 过滤符 count          // 计算已经完成的tasks数量
+
+task 过滤符 export         // 将选中的task导出成json格式，可以重定向到某个文件里面
+
+task 过滤符 ghistory.annual    // 年报表视图,完成情况
+
+task 过滤符 ghistory.monthly   // 月报表视图
+
+task help   // 获取帮助
+
+task 过滤符 history.annual     // 年报表
+
+task 过滤符 history.monthly    // 月报表
+
+task 过滤符 ids    // 获取被选中项目的id序列，如1-3或2，3这样
+// 当用在修改特定的task时，它可是十分强大的，例如：
+task $(task project:Home ids) modify priority:H
+// 对Home project中的task进行修改，都添加一个高优先级,译者测试不成功，并且有点多此一举，不如用下面的：
+task project:Home modify priority:H
+
+task 过滤符 uuids      // 得到uuid的序列，用逗号分割
+
+task 过滤符 information    // 也写作info，得到选中task的详细信息
+
+task 过滤符 list       // 得到一个标准的列表，包含一些列
+
+task 过滤符 ls         // 得到一个精简了列的task列表
+
+task 过滤器 minimal    // 极简列表
+
+task 过滤符 newest     // 得到最新的tasks
+
+task 过滤符 next       // 显示最紧急的一批tasks,按照urgency这个计算得来的指标排序
+
+task 过滤符 ready      // ready的tasks，指没在时间表中，或者已经过期了的
+
+task 过滤符 oldest     // 最早的tasks,按age排序
+
+task 过滤符 overdue    // 在超出预期未完成的
+
+task 过滤符 projects    // 列出所有的projects
+
+task 过滤符 recurring      // 查找递归
+
+task 过滤符 unblocked      // 没有依赖性的
+
+task 过滤符 waitting       // 显示正在等待的tasks,和顺序有关
+</code></pre><p>####写子命令（WRITE SUBCOMMANDS）</p>
+<pre><code>task add 内容 // 添加一个任务到列表
+
+task 过滤符 annotate 操作内容    // 为task添加注释
+
+task 过滤符 append 内容          // 追加文本到已经存在的task尾部
+
+task 过滤器 delete 操作内容      // 删除满足条件的task
+
+task 过滤符 denotate 操作内容    // 当内容和task原有的notate相符时，则删除notate
+
+task 过滤符 done 操作内容        // 将task标记为已经完成
+
+task 过滤符 duplicate 操作内容 // 复制原有的task,并可以修改,如有操作内容是作为notation
+
+task import &amp;lt;文件1&amp;gt; [&amp;lt;文件2&amp;gt;]   // 从文件中导入tasks
+
+task log 操作内容     // 添加一个新的但是已经完成了的任务,等于做记录
+
+task merge &lt;url&gt;    // 远程合并task数据库，如
+ssh://[user@]host.xz[:port]/path/to/.task/
+rsync://[user@]host.xz[:port]/path/to/.task/
+[user@]host.xz:path/to/.task/
+/path/to/local/.task/
+
+你甚至可以在.taskrc配置文件中对常用的url进行别名设置。
+
+task 过滤符 modify 操作内容    // 修改现有的tasks，操作可以有添加标签，修改project，优先级等
+
+task 过滤符 prepend 操作内容   // 为task添加文字到头部
+
+task pull &lt;url&gt;     // 拉取远程的数据覆盖本地数据库
+
+task push &lt;url&gt;     // 推送自己的版本到远程，这和版本库很类似啊，下次你搭建一个服务器，随处都可以访问了
+
+task 过滤符 start 操作内容   // 标记为开始
+
+task 过滤符 stop 操作内容   // 移除开始标记，暂停
+</code></pre><p>###杂项子命令（MISCELLANEOUS SUBCOMMANDS）</p>
+<pre><code>task config [name [value|&apos;&apos;]] // 查看或者修改某项配置
+
+task diagnostics    // 诊断
+
+task execute 外部命令`// 执行外部命令
+
+task logo       // 显示taskwarrior的logo
+
+task reports    // 列举所有支持的报告项，包括系统报告和用户自定义报告
+
+task shell      // 进入task的命令行，可以直接list这样运行执行
+
+task show [all | substring]     // 显示当前设置
+
+task 过滤符 stats  // 显示统计信息，包括空间及其它状态信息
+
+task 过滤符 tags   // tags的统计信息
+
+task 过滤符 projects   // projects的统计信息
+
+task timesheet [weeks]      // 得到一个周报表，哪些做完了，哪些开始了
+
+task undo   // 撤销最近的动作
+
+task version    // 显示版本号的详细信息
+</code></pre><p>###帮助子命令 （HELPER SUBCOMMANDS）</p>
+<pre><code>... 不想翻译了，翻完上面的手都酸了，我都会用了，原谅我的懒惰...
+</code></pre><hr>
+<p>end<br>    </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/01/23/做自己的英雄——读《DOOM启示录》/" rel="next" title="做自己的英雄——读《DOOM启示录》">
+                <i class="fa fa-chevron-left"></i> 做自己的英雄——读《DOOM启示录》
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/01/25/linux下的幸福生活/" rel="prev" title="linux下的幸福生活">
+                linux下的幸福生活 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#task命令行GTD工具用户手册"><span class="nav-number">1.</span> <span class="nav-text">task命令行GTD工具用户手册</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

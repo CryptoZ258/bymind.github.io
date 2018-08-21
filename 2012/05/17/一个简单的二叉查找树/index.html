@@ -1,0 +1,811 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="【编程珠玑】  看珠玑看了一半了，多是趁着闲着的时候看上几页，思考一下后面的问题。珠玑很薄，才两百来页，但是里面的一些技术却十分地实用，改天一定要好好整理一下，将写的程序和一些有趣的技术（编程思想，断言，数据表现形式）等话题展开探讨。很久没有写技术性的文字了，只是拿来简单的二叉查找树来练练手。  【二叉查找树】  二叉查找树是一种二叉树，由于其具有左子树的元素都小于根节点，右子树元素大于根节点的">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个简单的二叉查找树">
+<meta property="og:url" content="https://bibodeng.github.io/2012/05/17/一个简单的二叉查找树/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="【编程珠玑】  看珠玑看了一半了，多是趁着闲着的时候看上几页，思考一下后面的问题。珠玑很薄，才两百来页，但是里面的一些技术却十分地实用，改天一定要好好整理一下，将写的程序和一些有趣的技术（编程思想，断言，数据表现形式）等话题展开探讨。很久没有写技术性的文字了，只是拿来简单的二叉查找树来练练手。  【二叉查找树】  二叉查找树是一种二叉树，由于其具有左子树的元素都小于根节点，右子树元素大于根节点的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://bibodeng.github.io/content/plugins/kl_album/upload/201205/89bf0a8dae49156fbd2d21a18b2f7e3c201205171438277966.png">
+<meta property="og:updated_time" content="2018-08-21T08:00:00.266Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一个简单的二叉查找树">
+<meta name="twitter:description" content="【编程珠玑】  看珠玑看了一半了，多是趁着闲着的时候看上几页，思考一下后面的问题。珠玑很薄，才两百来页，但是里面的一些技术却十分地实用，改天一定要好好整理一下，将写的程序和一些有趣的技术（编程思想，断言，数据表现形式）等话题展开探讨。很久没有写技术性的文字了，只是拿来简单的二叉查找树来练练手。  【二叉查找树】  二叉查找树是一种二叉树，由于其具有左子树的元素都小于根节点，右子树元素大于根节点的">
+<meta name="twitter:image" content="https://bibodeng.github.io/content/plugins/kl_album/upload/201205/89bf0a8dae49156fbd2d21a18b2f7e3c201205171438277966.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 一个简单的二叉查找树 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                一个简单的二叉查找树
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-05-17T22:12:46+08:00" content="2012-05-17">
+              2012-05-17
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/05/17/一个简单的二叉查找树/" class="leancloud_visitors" data-flag-title="一个简单的二叉查找树">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<p><span style="font-family:'Microsoft YaHei';font-size:14px;">【编程珠玑】</span></p>
+<span style="font-size:14px;"> </span><p><span style="font-family:'Microsoft YaHei';font-size:14px;">看珠玑看了一半了，多是趁着闲着的时候看上几页，思考一下后面的问题。珠玑很薄，才两百来页，但是里面的一些技术却十分地实用，改天一定要好好整理一下，将写的程序和一些有趣的技术（编程思想，断言，数据表现形式）等话题展开探讨。很久没有写技术性的文字了，只是拿来简单的二叉查找树来练练手。</span></p>
+<span style="font-size:14px;"> </span><p><span style="font-family:'Microsoft YaHei';font-size:14px;">【二叉查找树】</span></p>
+<span style="font-size:14px;"> </span><p><span style="font-family:'Microsoft YaHei';font-size:14px;">二叉查找树是一种二叉树，由于其具有左子树的元素都小于根节点，右子树元素大于根节点的这种特性，故而使得查找起来的复杂度是O(lgN)。这种结构编码十分简单，而且效率很高，占用空间少，非常受欢迎。</span></p>
+<span style="font-size:14px;"> </span><p><span style="font-family:'Microsoft YaHei';font-size:14px;">首先定义一个节点数据结构，拥有一个value和左右孩子指针。</span></p>
+<p></p>
+<pre class="brush:cpp; toolbar: true; auto-links: true;">#include &lt;iostream&gt;
+using namespace std;
+
+class  Node
+{
+	public:
+	int value;
+	Node* leftChild;
+	Node* rightChild;
+	public:
+		Node(int i) {value = i;leftChild = NULL;rightChild = NULL;}
+};</pre><p></p>
+<p><span style="font-family:'Microsoft YaHei';font-size:14px;">下面就是一个递归的插入算法，十分地巧妙：</span></p>
+<p></p>
+<pre class="brush:cpp; toolbar: true; auto-links: true;">#include &lt;iostream&gt;
+#include "Node.h"
+#include &lt;stdlib.h&gt;
+#include &lt;time.h&gt;
+using namespace std;
+
+
+//二叉查找树
+Node* insert(Node* p,int element);
+void traverse(Node* p);
+void search(int element,Node *p);
+void main()
+{
+	//Node *root = new Node(0);
+	//insert element into the tree
+	srand(clock());
+	Node *root = new Node(rand()%100);
+	for(int i=1;i&lt;20;i++)
+	{
+		insert(root,rand()%100);
+	}
+        traverse(root);
+        int element ;
+	cin &gt;&gt; element;
+	search(element,root);
+        system("pause");
+}
+
+Node* insert(Node* p,int element)
+{
+	if(p==NULL)
+		p= new Node(element);
+	else if(element &lt; p-&gt;value)
+	{
+		p-&gt;leftChild = insert(p-&gt;leftChild,element);
+	}
+	else if(element &gt;= p-&gt;value)
+	{
+		p-&gt;rightChild = insert(p-&gt;rightChild,element);
+	}
+	return p;
+}
+
+void traverse(Node* p) //中序遍历
+{
+	if(p == NULL)
+		return;
+	traverse(p-&gt;leftChild);
+	cout &lt;&lt; p-&gt;value &lt;&lt; endl;
+	traverse(p-&gt;rightChild);
+	return;
+}</pre> <span style="font-size:14px;font-family:'Microsoft YaHei';">其中插入算法的原理是如果该元素已经找到所在位置，即叶子处（条件p==NULL）,否则如果小于根节点，说明要往左子树插入，递归调用insert函数。同理，如果大于或者等于根节点，则往右子树插入，递归调用insert函数。我们跟踪一次插入，假如有一棵树，如图所示，一开始是空的。</span><p></p>
+<p><a target="_blank" href="/content/plugins/kl_album/upload/201205/89bf0a8dae49156fbd2d21a18b2f7e3c201205171438277966.png"><img src="/content/plugins/kl_album/upload/201205/89bf0a8dae49156fbd2d21a18b2f7e3c201205171438277966.png" width="480" height="338" alt="点击查看原图" border="0"></a></p>
+<p><span style="font-family:'Microsoft YaHei';font-size:14px;">要插入元素5，由于p==NULL，故新建一个节点，插入。而要插入元素3，则满足条件二element&lt;p-&gt;value,故而递归调用insert函数，往左子树插入，接着情况和在一颗空树中插入节点一样，插入节点后返回的是p的指针赋给5的左孩子。故而后面两步也很好理解了。递归的好处就在于，将情况都抽象出来了，编程会变得简单很多。</span></p>
+<p><span style="font-family:''Microsoft YaHei'';"><span style="font-size:14px;line-height:21px;">&nbsp;</span></span></p>
+<p><span style="font-family:''Microsoft YaHei'';"><span style="font-size:14px;line-height:21px;">一颗树构造好之后，就要发挥它的目标功能了——&gt;查找。使用递归定义的中序遍历，我们可以让整棵树从小道大的序列输出。当然我们的查找也非常简单了，假如我们要查找元素6，先从根部出发，因为6&gt;5,故应该在右子树中找，而在右子树中，6&lt;8,在左子树中找，找到了。如果找到null指针，则说明该元素不在二叉查找树中。</span></span></p>
+<p><span style="font-family:''Microsoft YaHei'';"><span style="font-size:14px;line-height:21px;">下面是查找的代码：</span></span></p>
+<p></p>
+<pre class="brush:cpp; toolbar: true; auto-links: true;">void search(int element,Node *p)
+{
+	if(p==NULL)
+		return; //元素不在树中
+	if(element== p-&gt;value)
+		cout &lt;&lt; "found "&lt;&lt;element&lt;&lt;endl;
+	else if(element &lt; p-&gt;value)//左子树递归查找
+		search(element,p-&gt;leftChild);
+	else      //if element &gt; p-&gt;value 右子树递归查找
+		search(element,p-&gt;rightChild);
+}</pre><p><span style="font-family:''Microsoft YaHei'';"><span style="line-height:21px;font-family:'Microsoft YaHei';font-size:14px;">【小结】</span></span></p>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><p><span style="font-family:''Microsoft YaHei'';"><span style="line-height:21px;font-family:'Microsoft YaHei';font-size:14px;">由于树的递归结构，我们可以很方便地使用递归的思想，而我们也可能为了效率而避免使用递归，而使用迭代的方法提高效率。还是继续看珠玑吧。</span></span></p>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><p><span style="font-family:''Microsoft YaHei'';"><span style="line-height:21px;font-family:'Microsoft YaHei';font-size:14px;">by bibodeng 2012-05-17</span></span></p>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><p></p>
+<span style="font-family:'Microsoft YaHei';font-size:14px;"> </span><p><span style="font-family:''Microsoft YaHei'';"><span style="line-height:21px;font-family:'Microsoft YaHei';font-size:14px;"><br>
+</span></span></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/05/14/【转载】知识的责任——谈我们的态度/" rel="next" title="【转载】知识的责任——谈我们的态度">
+                <i class="fa fa-chevron-left"></i> 【转载】知识的责任——谈我们的态度
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/05/27/平淡而绝美的爱情——梁思成与林徽因/" rel="prev" title="平淡而绝美的爱情——梁思成与林徽因">
+                平淡而绝美的爱情——梁思成与林徽因 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
