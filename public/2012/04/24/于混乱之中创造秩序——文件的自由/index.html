@@ -1,0 +1,718 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="【篇首语】自由并不是无拘无束任意妄为，而是在混乱之中创造秩序。对于计算机的文件而言，其所遵守的秩序给我们带来了无比大的好处，让我们可以精确访问我们想要的文件，而且还能共享文件。操作系统的文件管理给我们很大的自由：可以读写执行文件，可以保护自己的文件，可以对文件分门别类，可以对文件创造链接，和别人共享文件。就无比庞大的互联网，也是基于文件的共享的，这样我们才能从此机访问彼机的网页。然后，我们不仅仅">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="于混乱之中创造秩序——文件的自由">
+<meta property="og:url" content="https://bibodeng.github.io/2012/04/24/于混乱之中创造秩序——文件的自由/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="【篇首语】自由并不是无拘无束任意妄为，而是在混乱之中创造秩序。对于计算机的文件而言，其所遵守的秩序给我们带来了无比大的好处，让我们可以精确访问我们想要的文件，而且还能共享文件。操作系统的文件管理给我们很大的自由：可以读写执行文件，可以保护自己的文件，可以对文件分门别类，可以对文件创造链接，和别人共享文件。就无比庞大的互联网，也是基于文件的共享的，这样我们才能从此机访问彼机的网页。然后，我们不仅仅">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://bibodeng.github.io/2012/04/24/admin/ueditor/server/upload/uploadimages/41241335225006.jpg">
+<meta property="og:updated_time" content="2018-08-21T08:00:00.999Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="于混乱之中创造秩序——文件的自由">
+<meta name="twitter:description" content="【篇首语】自由并不是无拘无束任意妄为，而是在混乱之中创造秩序。对于计算机的文件而言，其所遵守的秩序给我们带来了无比大的好处，让我们可以精确访问我们想要的文件，而且还能共享文件。操作系统的文件管理给我们很大的自由：可以读写执行文件，可以保护自己的文件，可以对文件分门别类，可以对文件创造链接，和别人共享文件。就无比庞大的互联网，也是基于文件的共享的，这样我们才能从此机访问彼机的网页。然后，我们不仅仅">
+<meta name="twitter:image" content="https://bibodeng.github.io/2012/04/24/admin/ueditor/server/upload/uploadimages/41241335225006.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 于混乱之中创造秩序——文件的自由 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                于混乱之中创造秩序——文件的自由
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-04-24T07:41:09+08:00" content="2012-04-24">
+              2012-04-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/04/24/于混乱之中创造秩序——文件的自由/" class="leancloud_visitors" data-flag-title="于混乱之中创造秩序——文件的自由">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">【篇首语】</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px;color:#00b050">自由并不是无拘无束任意妄为，而是在混乱之中创造秩序。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">对于计算机的文件而言，其所遵守的秩序给我们带来了无比大的好处，让我们可以精确访问我们想要的文件，而且还能共享文件。操作系统的文件管理给我们很大的自由：可以读写执行文件，可以保护自己的文件，可以对文件分门别类，可以对文件创造链接，和别人共享文件。就无比庞大的互联网，也是基于文件的共享的，这样我们才能从此机访问彼机的网页。然后，我们不仅仅要享受这来自不易的自由，也要知道自由从何而来！</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">【混沌的开始】</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">计算机的硬盘里面，是一堆夹杂着的0，1。没有谁知道里面到底蕴含着什么信息，然而，人类将他们用一些规则把这些01组织成为文件，那么这片magic土地，生长出了无限的生命。然而，接着我们要这一切变得有序而且方便查找，我们知道内存是有序的，那么怎样用小小的内存去寻找大大的硬盘中的文件呢？这就像拿着一张地图，去找想去的地方。我们可以对硬盘进行分割了，成了一些扇区，而文件就存储在这些扇区里面，而怎样才能找到文件所在的确定的扇区呢？这就需要在内存中维护一张文件和硬盘地址的对应关系表，这张表里还维护了文件的许多信息。其中对于一个文件有一个数据结构抽象了它，我们叫做FCB(文件控制块，和进程控制块是一个原理)，这个数据结构里面存储了文件的名字，类型，大小，创建日期，以及各种读写权限等信息。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">有几种方法用来组织这张对应关系表，方便我们查找文件。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">方法一：单级文件目录</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">将所有的文件统统罗列在一起，查找比较费时，而且不允许重名，不管是你的还是我的，都混在一起，不方便分享，不知道那个是你的哪个是我的。不利于插入和删除。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">查找难度系数&nbsp;&nbsp;N</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px"><br></span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">方法二：两级文件目录</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">将各个用户的文件归到各自的目录下，从而更容易区分你我，也可以重名了。你有一个儿子叫小明，我有一个儿子叫小明，你家的是刘小明，我家的叫邓小明。而且查找比较容易了，你要找刘小明，你应该挨家挨户找，找到刘家，然后对刘家进行盘查，找到小明。相比叫所有人出来排好队（单级文件目录）一个个找少了很多工作。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px"><br></span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">查找难度系数&nbsp;M&nbsp;+&nbsp;G&nbsp;&nbsp;&nbsp;&nbsp;M&nbsp;为分组数（多少人家），而G&nbsp;表示某个分组的目录项（一家有多少口人）。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">方法三：树形文件目录</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">树形文件目录用树数据结构来组织文件和目录。这就是我们可以在windows的资源管理器中看到的树形目录，一个目录下可能有很多子目录和一些叶子节点（即文件），这样其从属关系就十分明朗了。而且从根到叶子有且只有只有一条路径，可以通过这条绝对路径来查找文件，而且可以设置当前目录，用相对路径表示到另一个文件的走法，玩过linux的同学肯定知道cd&nbsp;.&nbsp;和cd&nbsp;..等命令吧，用的就是相对路径。当然，这样做有利也有弊端，利在于其在树中的路径是唯一的，可以解决重名问题，而且这个树形结果非常灵活，添加和删除文件或者目录，只需要改变一下树就可以了。比起单级文件要好得多，但是这样查找起来又不是很方便了，必须遍历这棵树，或者根据所给的路径去找文件，当目录层次比较多的时候，树的深度比较深，查找起来就比较耗费时间。但是总的来说，还是这个方法好，比较贴近于我们的思维和计算机的运算方式。</span></p><p><br></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">【如何查找】</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">有了存放目录和文件信息的结构，我们该如何查找需要的文件的信息呢？包括物理地址和文件名等属性。大致有两种方法，一种是线性检索法，一个个找，没什么好说的，就像遍历数组一样。另外一种是hash映射的办法，这种办法是用一个hash表达式计算目录到底放在哪里，这样可能算一下就能找到目录项所在，但是这种方法要避免冲突才是好的。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px"><br></span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">【文件共享问题】</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">如何找的自由已经解决了，接下来就是让文件自由交换的问题了。因为每个文件都有可能属于不同的主人，而主人有很多东西是不能给别人看或者用的（比如牙刷、再比如一个存了银行密码的文件），因为他们有不同的权限，而有些东西是需要共享的，比如团队在工作站中的代码。共享才是王道，为了共享，就很有必要让我可以轻松地访问你的文件，但是复制一份的成本太高了，所以如果能有个链接连到真正的文件会更划算。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">方法一：</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">如果是在树形目录中，要加入链接，势必会破坏树的特性（根到叶子有且仅有一条路径），虽然共享文件有多个父目录了，但是这样会带来混乱。在书中加入链接之后，就成为了图，假如一个目录&nbsp;dir&nbsp;要包含&nbsp;anotherDir&nbsp;里面的&nbsp;&nbsp;file.txt文件，那么就要将file.txt&nbsp;作为一个目录项附加到dir下，但是这样这个文件只会出现在做了此操作的目录下，它记录的是一个另一个目录项，而不是直接的文件，而且其他用户不知道你增加了一个文件，所以不能通过第二个人共享这个文件。所以引入索引节点——存储了文件的物理地址信息的结构，它会记录有多少人共享了它，每在一个地方增加或者删除都能反馈到索引节点中。也就是说，这个文件被共享了，第二者都能看到你多了一个文件。但是这样会产生权限不清的问题，有ABC&nbsp;三个用户，A授权B共享文件file.txt，当A不用了，就在A的目录中删除该项，然而它在磁盘中还是存在的，因为B还要用，而B又可能授权C&nbsp;共享，这样文件的归属就很不明确了，是先属于A后属于B，还是一直属于B；而文件的归属决定谁对file.txt&nbsp;具有管理权限，这是很重要的。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">方法二：</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">符号链接：创建一种文件link（不是编译的那个东西，更像超链接），里面存储着另外一个文件file.exe的绝对地址，然后打开这个文件的时候，运行的却是file.exe.这就是我们经常看到的链接文件——快捷方式。我们的桌面的很多图标等带有小箭头的东西是一个快捷方式，它很小，但是很强大。这样就不用破坏文件的树结构，而只需要添加一条链接可以存储在目录项中，记录这个新的link文件的信息。但目录项中已经没有了直接链接到file.exe的目录项了。link就像我们的超链接一样，可以任意在世界的各个角落穿梭。这就像手持一个GPS,朝着目的地走就是了，不用理会那么多。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">【文件的保护】</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">在上面的文件共享中说到，文件要有个权限记录，记录谁对它有什么样的权利。在linux中权限会有Read&nbsp;&nbsp;Write&nbsp;Execue，对于每个身份（属于某个域），用它们来描述。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">如果一个文件在751&nbsp;，它的各个域的权限如下：</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">第一位7：&nbsp;文件创建者，拥有RWE&nbsp;三项权限&nbsp;111</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">第二位2：文件拥有者同组者，拥有R和E权限&nbsp;&nbsp;101</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">第三位1:&nbsp;&nbsp;其他人，拥有E权限&nbsp;001</span></p><p><br></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">这样就有了一个秩序，不会搞不清等级。这样就能产生一个文件访问矩阵，例如下面的表</span></p><p><img src="../admin/ueditor/server/upload/uploadimages/41241335225006.jpg" width="638" height="480" style="float:none;" border="0" hspace="0" vspace="0"><br></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">单独拿出一列来看，我们以文件为单位，记录各个用户对文件的访问权限&nbsp;——访问控制表（控制对文件而言）。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">单独将一行抽取出来，我们以用户为单位，会有许多项文件的访问权限记录——访问权限表（权限对用户而已）。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">&nbsp;</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">而还有三种特殊的权力，可以修改这两张表和访问矩阵。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">复制权&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同一个文件的权限在不同用户之间复制。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">所有权&nbsp;&nbsp;&nbsp;&nbsp;可以增加或者删除一个文件不同用户的权限。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">控制权&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;控制用户在一个用户中，修改对各种文件的访问权限，可以标志从一个域访问另一个域，方便了进程对文件的修改。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">【小结】</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">操作系统的文件系统是相当复杂的，我们也获得了初步的自由，可以按我们的意愿访问文件，查看或者修改文件的权限等等，我们也知道实现的原理。当然这篇也只是惊鸿一瞥，拾人牙慧。真正要理解文件系统，还得亲手去写才能体会，笔者就十分迫切地动手以加深理解。文件系统最核心的部分还是在于文件的目录表，它决定我们查找的方式，也就决定我们查找的效率。另外，推荐一个软件&nbsp;everything，其查找文件相当快，是技术人必备软件，其速度之快，难以想象。当然它肯定是对文件建立目录，然后迅速查找它建立的目录，而系统自带的查找工具则逊色很多，有兴趣可以研究其目录表和查找算法。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">&nbsp;</span></p><p><span style="font-family:&#39;comic sans ms&#39;;font-size:16px">by&nbsp;bibodeng&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2012-04-24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;原载于http://bibodeng.web-149.com/</span></p><p><br></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/04/20/从生产线到DNA序列检测——强大的动态规划算法/" rel="next" title="从生产线到DNA序列检测——强大的动态规划算法">
+                <i class="fa fa-chevron-left"></i> 从生产线到DNA序列检测——强大的动态规划算法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/04/24/从装配线到DNA比对——神器动态规划/" rel="prev" title="从装配线到DNA比对——神器动态规划">
+                从装配线到DNA比对——神器动态规划 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

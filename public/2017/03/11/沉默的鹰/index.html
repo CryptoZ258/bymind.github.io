@@ -1,0 +1,731 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="wch是我们宿舍公认的oracle璀璨，将来必定会发光发热的，只是现在看起来，太颓废了点。半米阳光的阳台，角落里立了十几个的啤酒瓶（假如我是辅导员，我会装作看不到此句），有的是我们一起参与消费的，而大部分却是wch积累出来的，他是一个经常喝酒的人。  大一的时候，我们都还年轻，围在学生活动中心后面的停车场那里做游戏，那时候对面的艺术馆刚建起来，下面的洼地还没有很多水，可以看到三三两两的野鸭。就是">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="沉默的鹰">
+<meta property="og:url" content="https://bibodeng.github.io/2017/03/11/沉默的鹰/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="wch是我们宿舍公认的oracle璀璨，将来必定会发光发热的，只是现在看起来，太颓废了点。半米阳光的阳台，角落里立了十几个的啤酒瓶（假如我是辅导员，我会装作看不到此句），有的是我们一起参与消费的，而大部分却是wch积累出来的，他是一个经常喝酒的人。  大一的时候，我们都还年轻，围在学生活动中心后面的停车场那里做游戏，那时候对面的艺术馆刚建起来，下面的洼地还没有很多水，可以看到三三两两的野鸭。就是">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:04.240Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="沉默的鹰">
+<meta name="twitter:description" content="wch是我们宿舍公认的oracle璀璨，将来必定会发光发热的，只是现在看起来，太颓废了点。半米阳光的阳台，角落里立了十几个的啤酒瓶（假如我是辅导员，我会装作看不到此句），有的是我们一起参与消费的，而大部分却是wch积累出来的，他是一个经常喝酒的人。  大一的时候，我们都还年轻，围在学生活动中心后面的停车场那里做游戏，那时候对面的艺术馆刚建起来，下面的洼地还没有很多水，可以看到三三两两的野鸭。就是">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 沉默的鹰 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                沉默的鹰
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-11T08:02:22+08:00" content="2017-03-11">
+              2017-03-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2017/03/11/沉默的鹰/" class="leancloud_visitors" data-flag-title="沉默的鹰">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">wch是我们宿舍公认的oracle璀璨，将来必定会发光发热的，只是现在看起来，太颓废了点。半米阳光的阳台，角落里立了十几个的啤酒瓶（假如我是辅导员，我会装作看不到此句），有的是我们一起参与消费的，而大部分却是wch积累出来的，他是一个经常喝酒的人。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">大一的时候，我们都还年轻，围在学生活动中心后面的停车场那里做游戏，那时候对面的艺术馆刚建起来，下面的洼地还没有很多水，可以看到三三两两的野鸭。就是在那样的景色中，我们互相介绍自己，wch操着一口标准的茂名普通话介绍了自己，给我们留下了深刻印象。后来他住隔壁的隔壁，偶尔看到wch酗酒，吻上长出了黑色带粒粒质感的胡茬。他颓废了，因为爱情。也许是感情很深，他貌似很久都没有走出来，而在社交方面也缺乏主动性，落下基础导致在编程方面没有自信。情绪上的调控不太过关，容易被一些事情搞得低落，所以遇到挫折的时候既想进取，又带着烦躁。一次参加一个班级社团活动，他半途而归，我看到了，一问才知道是受挫了。失恋的人，茶饭不思，但是无论如何，不要让自己一直睡，或者沉醉在酒精中，因为这都不是办法。曾听说过这样一句话，男人失去一个人会让他成长，女人得到一个人会让她成长。而失去一个人的时候，正好可以震撼我们自己去反思，我们慢慢地独立和成长，到底是因为了什么，导致了失去。我想应该会有两种心态，一种是渐渐从死到复苏，去健身，去看书，另外一种是沉沦，是长眠。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">后来组进了同一个宿舍，经过观察发现，放下忧郁之后，wch本是一个开朗的人，相比之下我比较冷酷，打闹之时也会有他的参与，我最怕他们联手来整我，因为我会被弄下去地上或者被弄出去门外。不知道与我和桌升在一起，他是否感到了开心，但我敢肯定，同宿舍后，去图书馆的次数也增多了（大概是大家都去，又或者是房间太暗）。他黑瘦黑瘦的，牙齿很白很整齐，能够看到他开心的笑容，于是我在惊叹，原来他也有愁眉苦脸的对立面啊。冬天的晚上，很冷，他都是洗冷水的，看起来挺硬朗的。但是平时不咋锻炼，只有大一的时候我们偶尔打过几次乒乓球，大三的时候打过几次羽毛球，或者偶尔跑跑步。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">有段时间，他和一些网友聊天了，看起来有点线路繁忙的感觉，我们知道他走出来了，卧谈的时候，他会发表一些看起来略带幽默俗套的话语，或者是干脆沉默不语，让我们在继续大篇幅讨论一些杂七杂八的家事国事天下事，其实私下里，我们都是俗人，讨论着生活中最俗不可耐的话题。不过我印象中，伟昌听的歌曲中，更加接近打工一族的风格，略带一种悲苦。虽然我认为喝酒，斗地主，看小说不应该在我们的大学生的生活中占主旋律，但这是个人自由，我认为wch身上的一些气质，大概和他的屡次挫折经历有很大关系，假若真的把心态调整好，多点积极向上，会好很多。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">wch并非是没有特长的，他的字写得挺好看的，对人很热心帮助，尤其是修电脑这种活儿，可能是帮忙多了，跟某些女生的关系也比我们几个呆子强。本来wch是不打游戏的，只是斗斗地主，后来发展到全宿舍都打dota，半个月没见，他的水平就已经称霸C222了（也许是因为我们太水了），我们有好几次都在他的指导下，能够反败为胜（挽狂澜之既倒），说的一些术语很专业。可见个人发展的快缓，只是所花时间的问题。假以时日，他获得了一个机遇，如果好好坚持的话，终究是能够璀璨的。我很喜欢梁启超，我弟弟一针见血地说道，他不是亡国奴么，我顿时脸憋得通红。后来仔细想想，能够挽狂澜之既倒，扶大厦之将倾的人是如此有胆量和能量。他们挽救狂澜的途中，开拓一条新路，但思变之心，可以往好的方向发展，但是不可虎头蛇尾。我想对wch说的也是，行事一以贯之，必能有所成。一次机会，他已经快要和某公司签三方了，可是临时条件变动，本来很坑的条件，变得更加不划算，于是就拒了。这次回来，深受打击，在床上睡了近一个星期，只吃打包的饭或者煮面。强烈追求一样东西的时候，得不到，必定是很痛苦的，颓丧个一两天可以理解，但是太长时间只会带来坏影响。颓丧之中，应总结反思，既然错过了，那就不要悲伤，切实把实力提上来才是正经事。我们这么鼓励他，希望他能够尽快走出阴影。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">在宿舍里，他肯定是压力山大的那个，因为其它舍友都学业，爱情双丰收了，这种强大的压力使得大家都不敢懈怠。但是这种差别也是在一点一滴的积累中形成的，之间的心态是否良好，之间的付出多少，其实大家心里都明白，好在我们还很和谐地生活在一起，都没疯。而我可以预见的未来，只要心态是好的，wch也应该会有一个不错的归宿。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">沉默的鹰，蓝天经常会有（只要不是在北京），任凭翱翔。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">by bibodeng 2014-02-02</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/11/呆子的逆袭/" rel="next" title="呆子的逆袭">
+                <i class="fa fa-chevron-left"></i> 呆子的逆袭
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/13/HTTP请求的幂等性/" rel="prev" title="HTTP请求的幂等性">
+                HTTP请求的幂等性 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

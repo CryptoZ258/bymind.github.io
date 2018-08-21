@@ -1,0 +1,835 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="【js开发的烦恼】  作为一个js学习者，在平时的练习与学习中，所不能避免的一件事就是“浏览器兼容”问题。因为实在是让人头痛，所以记忆深刻。在开发中，时常要小心谨慎地测试。就在上次开发的视力app中，就有不兼容的问题，在ubuntu下用开源chrome打开app则会看到那个焦点块飞走了！！真是干瞪眼，白着急。好在有开发利器jQuery,这个集以下作用于一身的工具： 1、弥合浏览器兼容性的中间体">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js开发利器——jquery">
+<meta property="og:url" content="https://bibodeng.github.io/2012/10/16/js开发利器——jquery/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="【js开发的烦恼】  作为一个js学习者，在平时的练习与学习中，所不能避免的一件事就是“浏览器兼容”问题。因为实在是让人头痛，所以记忆深刻。在开发中，时常要小心谨慎地测试。就在上次开发的视力app中，就有不兼容的问题，在ubuntu下用开源chrome打开app则会看到那个焦点块飞走了！！真是干瞪眼，白着急。好在有开发利器jQuery,这个集以下作用于一身的工具： 1、弥合浏览器兼容性的中间体">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T07:59:59.489Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js开发利器——jquery">
+<meta name="twitter:description" content="【js开发的烦恼】  作为一个js学习者，在平时的练习与学习中，所不能避免的一件事就是“浏览器兼容”问题。因为实在是让人头痛，所以记忆深刻。在开发中，时常要小心谨慎地测试。就在上次开发的视力app中，就有不兼容的问题，在ubuntu下用开源chrome打开app则会看到那个焦点块飞走了！！真是干瞪眼，白着急。好在有开发利器jQuery,这个集以下作用于一身的工具： 1、弥合浏览器兼容性的中间体">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> js开发利器——jquery | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                js开发利器——jquery
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-10-16T19:38:05+08:00" content="2012-10-16">
+              2012-10-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/10/16/js开发利器——jquery/" class="leancloud_visitors" data-flag-title="js开发利器——jquery">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<p></p>
+<h3>【js开发的烦恼】</h3>
+<p></p>
+<p>作为一个js学习者，在平时的练习与学习中，所不能避免的一件事就是“浏览器兼容”问题。因为实在是让人头痛，所以记忆深刻。在开发中，时常要小心谨慎地测试。就在上次开发的视力app中，就有不兼容的问题，在ubuntu下用开源chrome打开app则会看到那个焦点块飞走了！！真是干瞪眼，白着急。好在有开发利器jQuery,这个集以下作用于一身的工具：</p>
+<p>1、弥合浏览器兼容性的中间体</p>
+<p>2、众多实用功能的API提供者</p>
+<p>3、良好的封装体，利于扩展的平台</p>
+<p>有了jQuery可以很方便地选取元素，修改内容，实用AJAX，以及做出非常漂亮的UI。下面一一回顾一下这周所学的jQuery知识点，当然也可以参考jQuery的<a href="http://www.w3school.com.cn/jquery/index.asp" target="_blank" rel="noopener">学习站点w3school</a>。</p>
+<p></p>
+<h3>【jquery的选择器】</h3>
+<p></p>
+<p>jquery实现了一个非常方便的选择器，其形式如同CSS的选择器一般：</p>
+<p>假设页面中有如此一段文档：</p>
+<p></p>
+<blockquote>
+<p>&lt;form&gt;</p>
+<p>&lt;input type="text" id="task"&gt;</p>
+<p>&lt;input type="submit" id="add_btn"&gt;</p>
+<p>&lt;/form&gt;</p>
+<p></p>
+<p>&lt;ul id="task_list"&gt;</p>
+<p>&nbsp; &nbsp; &lt;li&gt;go shopping 7:00 pm&lt;/li&gt;</p>
+<p>&nbsp; &nbsp; &lt;li&gt;send email to Mr Chen&lt;/li&gt;</p>
+<p>&lt;/ul&gt;</p>
+<p>&nbsp;</p>
+</blockquote>
+<p>那么如下代码，可以方便地选取列表中元素，然后绑定点击事件。</p>
+<blockquote>
+<p>$('ul#task_list li').bind('click', function(){</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; this. addClass();</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;});</p>
+</blockquote>
+<p>&nbsp;说明： $() 是选取符号，可以选取文档对象和集合。例如$(document).ready(); $(this).addClass();</p>
+<p>当然该符号也表示对对象进行jQuery的封装，这样就可以调用jQuery库里面的各种函数API了。</p>
+<p>再例如下面的代码，将选取task的内容：</p>
+<p>$('input:text').attr('value')</p>
+<p>然后用该获取的数据赋值或者加工以备使用。可以说jQuery的选择符非常地方便。当然还有find（）、siblings（）查找兄弟节点、next（），prev（），parent（）、children（）等非常有用的API用来选取和过滤元素。还是到用时多翻几次工具书，写过几次便熟悉了。</p>
+<p></p>
+<h3>【jQuery的事件绑定方法】</h3>
+<p></p>
+<p>一般情况下，我们可以使用DOM的 addEventListener()，delegate()或者click()等函数为文档元素添加事件监视，但是这样做可能会不兼容（IE的可能是attachEvent() ，甚至其他浏览器还有不同的API）.而jQuery 提供了强大的事件API:</p>
+<p>bind('事件名'，回调函数);&nbsp;</p>
+<p>$('input:submit').trigger('click'); &nbsp;// 这句模拟触发click事件</p>
+<p>jQuery提供非常丰富的事件API: click() , blur(), focus(), mouseout(), mouseover(),hover(函数一，函数二), toggle(函数一，函数二)</p>
+<p></p>
+<h3>【jQuery访问内容和属性】</h3>
+<p></p>
+<p>jQuery要能方便地读取和修改文档的内容，这样交互起来才让用户觉得其中的体验大大超过查看静态的文档。要访问html文档中的内容可以使用如下的API：</p>
+<p>&nbsp;attr(); // 传入一个参数，获取参数名对应的属性值，可以传入名值对可以设置属性</p>
+<p>例如 attr('id', 'tmpID');</p>
+<p>attr(</p>
+<p>{title:'helloworld',&nbsp;</p>
+<p>id: 'tmpId'</p>
+<p>});</p>
+<p>text() // 访问该元素的文本，不含标记</p>
+<p>html() // 访问该元素内的html内容，包含标记</p>
+<p>append() // 在当前元素的子元素中追加，prepend()为在最首添加。例如 $('ul').prepend('&lt;li&gt;hello&lt;/li&gt;');</p>
+<p>after() &nbsp;// 添加到当前元素之后</p>
+<p>before() // 添加到当前元素之前</p>
+<p>insertAfter() // 将选择集插入到另外一个选择集中之后</p>
+<p>wrap() // 包装为元素 wrap('&lt;div&gt;&lt;/div&gt;');</p>
+<p></p>
+<h3>【jQuery的CSS接口】</h3>
+<p></p>
+<p>$('div').css('font-size'); &nbsp;// 获取div元素的文字大小css属性</p>
+<p>outerWidth() / outerHeight() &nbsp; &nbsp; // 获取大小 包括</p>
+<p>&nbsp;</p>
+<p></p>
+<h3>【ajax】</h3>
+<p></p>
+<p>$.get('xml文件名', 回调函数function($xml){相关操作}); &nbsp; // get xml文档</p>
+<p>要传输一些数据，可以在第二个参数作为参数传输到服务器</p>
+<p>$.getJSON() // 同上，只不过第一个参数请求的是JSON文件，而function里面也可以对JSON数据直接像对象一样操作</p>
+<p>$.load() // 直接加载html文档，同上</p>
+<p>$.post() // 使用post方法</p>
+<p>使用AJAX可以异步传输数据，所谓异步传输，就是不重新加载整个页面，而是一部分内容进行修改，这样页面就可以动态响应用户的操作。例如一个上传文件功能，按下提交按钮后，则悄悄上传了文件，而不必重新加载整个页面。又如注册的时候异步检测用户名是否已经存在。</p>
+<p>&nbsp;</p>
+<p></p>
+<h3>【小结】</h3>
+<p></p>
+<p>另外，jQuery 还有一些非常有用的扩展，例如jQuery UI 还有 移动终端开发HTML5 app的jQTouch。这些工具都很容易上手，往往调用一个API，传入几个参数就可以完成非常复杂的功能。 jQuery所提供的以上功能，能够满足我们的大部分需要，最重要的是使我们免受浏览器兼容之苦，当然以后自己编写jQuery插件的时候，也需要考虑这个问题。有了jQuery开发之后，一些功能变得简单许多，开源的库有的就是这个优点。另外我们的GTD项目，接下来的目标是配合后台PHP打开数据和界面之间的通道。</p>
+<p>&nbsp;</p>
+<p>by bibodeng 2012-10-16</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<style type="text/css">
+body{
+font-size: 14px;
+letter-spacing: 1px;
+line-height: 1.3em;
+}
+
+h3{
+background-color:#000000;
+color:#FFFFFF;
+padding: 10px;
+}
+
+blockquote{
+background-color:#CCFF99;
+-webkit-border-radius: 5px;
+}
+
+.part_head{
+background-color:#99FF33;
+padding: 10px;
+}
+
+.example{
+background-color:#CCCCCC;
+font-size:1.2em;
+-webkit-border-radius: 5px;
+}
+
+.small_title{
+font:italic;
+padding: 5px;
+}
+</style>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/10/09/【app】眼睛放轻松——近视调焦训练app/" rel="next" title="【app】眼睛放轻松——近视调焦训练app">
+                <i class="fa fa-chevron-left"></i> 【app】眼睛放轻松——近视调焦训练app
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/10/18/【app】一个简单有效的title anchor list/" rel="prev" title="【app】一个简单有效的title anchor list">
+                【app】一个简单有效的title anchor list <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">【js开发的烦恼】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">【jquery的选择器】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">【jQuery的事件绑定方法】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">【jQuery访问内容和属性】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">5.</span> <span class="nav-text">【jQuery的CSS接口】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">6.</span> <span class="nav-text">【ajax】</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">7.</span> <span class="nav-text">【小结】</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

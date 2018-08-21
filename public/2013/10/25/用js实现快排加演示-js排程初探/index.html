@@ -1,0 +1,1033 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="用js实现快排加演示by bibodeng 2013-10-24 缘起有很多时候，我们都是需要重新做一个轮子，才知道轮子究竟是什么样子的，然后就可以在下一次碰到这种情况时能够立马写出来，并且能写得很好。本来我打算写一个快排，然后在页面中进行演示，我知道已经有很牛的人实现过了，但是我做这个的时候，遇到了一些困难，使我想起了前段时间想要写某个锁机制队列的时候，后来发现已经有一个同事已经实现了。 实现快">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用js实现快排加演示-js排程初探">
+<meta property="og:url" content="https://bibodeng.github.io/2013/10/25/用js实现快排加演示-js排程初探/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="用js实现快排加演示by bibodeng 2013-10-24 缘起有很多时候，我们都是需要重新做一个轮子，才知道轮子究竟是什么样子的，然后就可以在下一次碰到这种情况时能够立马写出来，并且能写得很好。本来我打算写一个快排，然后在页面中进行演示，我知道已经有很牛的人实现过了，但是我做这个的时候，遇到了一些困难，使我想起了前段时间想要写某个锁机制队列的时候，后来发现已经有一个同事已经实现了。 实现快">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/6666f6b0ea50298df61bfe5cad57efce2013102411275015768.png">
+<meta property="og:updated_time" content="2018-08-21T08:00:04.562Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用js实现快排加演示-js排程初探">
+<meta name="twitter:description" content="用js实现快排加演示by bibodeng 2013-10-24 缘起有很多时候，我们都是需要重新做一个轮子，才知道轮子究竟是什么样子的，然后就可以在下一次碰到这种情况时能够立马写出来，并且能写得很好。本来我打算写一个快排，然后在页面中进行演示，我知道已经有很牛的人实现过了，但是我做这个的时候，遇到了一些困难，使我想起了前段时间想要写某个锁机制队列的时候，后来发现已经有一个同事已经实现了。 实现快">
+<meta name="twitter:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/6666f6b0ea50298df61bfe5cad57efce2013102411275015768.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 用js实现快排加演示-js排程初探 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                用js实现快排加演示-js排程初探
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-10-25T08:27:58+08:00" content="2013-10-25">
+              2013-10-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/10/25/用js实现快排加演示-js排程初探/" class="leancloud_visitors" data-flag-title="用js实现快排加演示-js排程初探">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="用js实现快排加演示"><a href="#用js实现快排加演示" class="headerlink" title="用js实现快排加演示"></a>用js实现快排加演示</h1><p>by bibodeng 2013-10-24</p>
+<h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>有很多时候，我们都是需要重新做一个轮子，才知道轮子究竟是什么样子的，然后就可以在下一次碰到这种情况时能够立马写出来，并且能写得很好。本来我打算写一个快排，然后在页面中进行演示，我知道已经有很牛的人实现过了，但是我做这个的时候，遇到了一些困难，使我想起了前段时间想要写某个锁机制队列的时候，后来发现已经有一个同事已经实现了。</p>
+<h2 id="实现快排"><a href="#实现快排" class="headerlink" title="实现快排"></a>实现快排</h2><p>先来写个快速排序吧。</p>
+<pre><code>var qsort =  function(arr, p, q)
+{
+    var x;
+    if (p &lt; q)    // 需要排序的元素个数不为0
+    {
+        x = partition(arr, p, q);    // 对数组进行partion处理
+        qsort(arr, p, x-1);            // x之前部分  x是该轮确定位置的元素
+        qsort(arr, x+1, q);            // 2次递归
+    }
+};
+
+var partition = function(arr, p, q)
+{
+
+    var tmp = 0,
+        i     = p,
+        j     = q + 1,
+        base = arr[p];    // 首元素作为基准
+
+    // 将数组分成两部分，大于base的，小于base的
+
+    while (1)
+    {
+
+        while (arr[++i] &lt;= base &amp;&amp; i &lt; q)；
+
+        while (arr[--j] &gt; base);        // 向中间逼近
+
+        if (i &gt;= j)    // 交叉了
+        {
+            break;
+        }
+        // 否则就交互两个数，正好比base大的和比base小的换了一下
+
+        // swap(arr[i], arr[j]);
+        tmp = arr[j];
+        arr[j] = arr[i];
+        arr[i] = tmp;
+    }
+    //     交互基准值和中值
+
+    arr[p] = arr[j];    // 将中间元素放到首部
+    arr[j] = base;        // 将基准元素放到中间
+    return j;        // 返回这个位置
+};
+</code></pre><p>没什么特别的，几乎和C++的一模一样，其中swap在js下，因为不是传入参数不是引用类型，故而不起作用，故而直接引入tmp变量进行交换。下面是调用部分：</p>
+<pre><code>$.(function(){
+    // 进行测试
+
+    var myArr = [],
+        total = 50；
+
+    for (var i = 0; i &lt; total; i++)
+    {
+        myArr.push(parseInt((Math.random() * 450)));    // 0 - 450
+    }
+
+    // 绘制方格
+    qsort(myArr, 0, myArr.length-1); 
+});
+</code></pre><p>为了能够体现出排序的可视化效果，我打算绘制一些小方格排列在一起，就像下面这样：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/6666f6b0ea50298df61bfe5cad57efce2013102411275015768.png" alt="排序可视化"></p>
+<p>实现的代码并不麻烦，在ready中加入绘制方格的代码：</p>
+<pre><code>// 绘制方格
+var str = &apos;&apos;;
+for (var j = 0; j &lt; total; j++)
+{
+    str += &quot;&lt;li class=&apos;normal&apos; style=&apos;height:&quot;+myArr[j]+&quot;px;&apos;&gt;&lt;/li&gt;&quot;;    // 添加元素
+}
+$partent.html(str);
+var $list = $(&apos;#sort_list&apos;).find(&apos;li&apos;);
+</code></pre><p>其html代码，主要是提供容器，还有CSS样式。</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+.normal{
+    background-color: #222;
+}
+
+.base{
+    background-color: #f22;
+}
+
+.selected{
+    background-color: #22f;
+}
+
+#main{
+    width: 1000px;
+    height: 600px;
+    margin: 10px auto;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+#sort_list li{
+    float: left;
+    width: 10px;
+    margin: 1px;
+    list-style: none;
+}
+
+&lt;/style&gt;
+&lt;title&gt;快速排序&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;main&quot;&gt;
+        &lt;ul id=&quot;sort_list&quot;&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>接下来就要实现排序过程中的动态效果了，这是一个很麻烦的事情。初步实现的例子是<a href="">这样的</a>。尽管我试着在<code>partition</code>每一步中进行延时，但是排序算法始终太快了，而使用setTimeout的方法进行异步延时，得到的动画效果将和排序结果不兼容的。修改后的代码，增大了递归的时间间隔，但是夹逼的效果闪烁太快了，没有流动的动画效果。这其实是因为代码执行和DOM元素操作不同步引起的。</p>
+<pre><code>var qsort =  function(arr, p, q)
+{
+    var x;
+    if (p &lt; q)    // 需要排序的元素个数不为0
+    {
+        x = partition(arr, p, q);    // 对数组进行partion处理
+
+        setTimeout(function(){
+            qsort(arr, p, x-1);        // x之前部分  x是该轮确定位置的元素
+        }, 1000);
+
+        setTimeout(function(){
+            qsort(arr, x+1, q);        // 2次递归
+        }, 2000);
+
+    }
+
+    console.log(&apos;after sort&apos;, arr);
+};
+</code></pre><p>并且setTimeout这东西，在循环下，是很耗费内存的，会导致页面奔溃，并且它之内将逻辑包围在一个函数参数里面，不太好。当把for循环换成setInterval调用时，元素操作效果倒是流畅了，但是排序结果却不正确了。原因是后续代码已经开始运行了。</p>
+<h2 id="异步的麻烦与解决办法"><a href="#异步的麻烦与解决办法" class="headerlink" title="异步的麻烦与解决办法"></a>异步的麻烦与解决办法</h2><p>异步的麻烦，是真麻烦。我思考了一下，将排序算法和DOM操作混在一起是很野蛮的做法，没有做到数据加工和体现的分离。而当前状态又需要重绘，才能体现出其动态效果，但是重绘的代价也太大了，左思右想，没有想到好的解决办法，于是找到陈皓提到的日本程序员写的<a href="http://coolshell.cn/articles/3933.html" target="_blank" rel="noopener">排序可视化</a>，太强大了，效果也是一级棒，不过要细细剖析源码才知道它是如何实现的，这个改天再一探究竟，今天我要隆重介绍一下一个相当优雅的排程小程序，个人觉得写得相当优雅。</p>
+<p>我们做很多编程工作时，往往想要同步（这里的同步指的是确定顺序，而不是不确定），例如在进行ajax请求时，回调结果往往要等一段时间才能返回，但是我们的程序的<code>return</code>却不知道要从哪里返回，如果在回调的外面，则等不到结果就返回了，如果在回调函数里面，则又返回不到正确的地方，这个时候就很有必要同步了。而一个排程的程序，对各个操作进行同步互斥，则可以让它们乖乖一个接一个按顺序执行，这就好比操作系统里面对资源的锁。具体可以参看<a href="http://myunlessor.me/" target="_blank" rel="noopener">myunlessor写的排程策略详解</a>。直接上代码吧：</p>
+<pre><code>// 排程策略 - 全局定义
+var schedule = (function (self) {
+  var paused = false, // 标记状态
+      queue  = [];     // 队列
+
+  // 入队
+  self.join = function (fn, params) {
+    params = params || {};
+    var args = [].concat(params.args);
+
+    queue.push(function (_) {
+      _.pause();
+      setTimeout(function () {
+        fn.apply(params.context || null, args);
+        _.resume();
+      }, params.delay || 1);
+    });
+
+    return exec();
+  };
+
+  self.pause = function () {
+    paused = true;  // 忙碌
+    return this;
+  };
+
+  // ready and call next
+  self.resume = function () {
+    paused = false; // 空闲
+    setTimeout(exec, 1);
+    return this;
+  };
+
+  function exec() {
+    if (!paused &amp;&amp; queue.length) {
+      queue.shift()(self);  // 出队
+      if (!paused) self.resume();
+    }
+    return self;
+  }
+
+  return self;
+}(schedule || {}));    // 立即执行，self就是schedule本身
+</code></pre><p>我对着这个程序看了十来分钟，越看越有味道，从这个程序中可以看到javascript的很多good part,暂时没有看到缺陷，例如[]，用成了活生生的队列，使用push和shift进行入队出队操作。还有闭包，直接返回一个self，本身参数传的是schedule，而schedule本身是刚刚定义的，需要赋值的，这一切看起来多么地神奇，还有返回this，强大的链式调用，有木有，额有点跑题了。下面我们就应用到我们的排序中：</p>
+<pre><code>var qsort =  function(arr, p, q)
+{
+    var x;
+    if (p &lt; q)    // 需要排序的元素个数不为0
+    {
+        x = partition(arr, p, q);    // 对数组进行partion处理
+
+        schedule
+        .join(qsort,{
+            delay: 100,
+            args: [arr, p, x-1]
+        })
+        .join(qsort, {
+            delay: 100,
+            args: [arr, x+1, q]
+        });
+    }
+};
+</code></pre><p>一切都相当优雅。当我打开浏览器测试时，发现，有了排程，而不是死板的setTimeout，动画变得流畅了很多。接下来的目标是接着优化<code>partition</code>里面的代码，使得这个过程也看起来很流畅。</p>
+<pre><code>var partition = function(arr, p, q)
+{
+
+    var tmp = 0,
+        i     = p,
+        j     = q + 1,
+        base = arr[p];    // 首元素作为基准
+
+    $list.attr(&apos;class&apos;, &apos;normal&apos;);
+    schedule
+    .join(showBase, {
+        delay: 0,
+        args: [p]
+    });
+
+    while (1)
+    {
+
+        while (arr[++i] &lt;= base &amp;&amp; i &lt; q)
+        {
+            ;// 只要是小于base且没到结尾就一直前进
+            schedule.
+            join(moveSelectedRight,{
+                delay: 50,
+                args : [i]
+            });
+        }
+
+        while (arr[--j] &gt; base){
+            schedule.
+            join(moveSelectedRight,{
+                delay: 50,
+                args : [j]
+            });
+        }
+
+        if (i &gt;= j)    // 交叉了
+        {
+            break;
+        }
+        // 否则就交互两个数，正好比base大的和比base小的换了一下
+
+        tmp = arr[j];
+        arr[j] = arr[i];
+        arr[i] = tmp;
+
+        // 交换两元素的位置，这里耍了点小聪明，用高度代替
+        schedule
+        .join(exchangeHeight,{
+            delay: 50,
+            args: [$list.get(i), $list.get(j)]
+        });
+    }
+
+
+    //     交互基准值和中值
+
+    arr[p] = arr[j];    // 将中间元素放到首部
+    arr[j] = base;        // 将基准元素放到中间
+
+    schedule
+    .join(exchangeHeight,{
+        delay: 50,
+        args: [$list.get(p), $list.get(j)]
+    });
+
+    $list.attr(&apos;class&apos;, &apos;normal&apos;);
+    return j;        // 返回这个位置
+};
+
+// 将标志右移 只改颜色
+var moveSelectedRight = function(i){
+    $(&apos;.selected&apos;).attr(&apos;class&apos;, &apos;normal&apos;);
+    $($list.get(i)).attr(&apos;class&apos;, &apos;selected&apos;);
+};
+
+// 将标志左移
+var moveSelectedLeft = function(j){
+    $(&apos;.selected&apos;).attr(&apos;class&apos;, &apos;normal&apos;);
+    $($list.get(j)).attr(&apos;class&apos;, &apos;selected&apos;);
+};
+
+var showBase = function(base){
+    $(&apos;.base&apos;).attr(&apos;class&apos;, &apos;normal&apos;);
+    $($list.get(base)).attr(&apos;class&apos;, &apos;base&apos;);        // 将base染色
+};
+
+// 交换两个元素的位置 A 前 B 后
+var exchange = function(elemA, elemB){
+    var m = $(elemA).next(),
+        n = $(elemB).prev();
+
+    console.log(&apos;交换&apos;);
+    setTimeout(function(){
+        $(elemB).insertBefore(m);
+        $(elemA).insertAfter(n);
+    }, 50);
+
+};
+
+// 只交换两者的高度
+var exchangeHeight = function(elemA, elemB)
+{
+    var tmp = parseInt($(elemA).css(&apos;height&apos;));
+
+    $(elemA).css(&apos;height&apos;, $(elemB).css(&apos;height&apos;));
+    $(elemB).css(&apos;height&apos;, tmp+&apos;px&apos;);
+};    
+</code></pre><p>最后的效果，可以看<a href="http://bibodeng.com/bibodeng/js-algorithms/qsort/index.html" target="_blank" rel="noopener">这里</a>。但是显然这种DOM操作和算法混在一起的日子是不长久的，鬼群里面有人建议使用<a href="http://d3js.org/" title="jquery-d3插件" target="_blank" rel="noopener">D3一个数据DOM体现的插件</a>，有待继续探索。勇敢的骚年，快去创造奇迹！！</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://myunlessor.me/blog/2013/06/04/strategy-for-scheduling-javascript-asynchronous-code/" target="_blank" rel="noopener">js排程策略</a></p>
+<p><a href="http://coolshell.cn/articles/3933.html" target="_blank" rel="noopener">可视化排序</a></p>
+<p><a href="http://d3js.org/" target="_blank" rel="noopener">jQuery D3</a></p>
+<hr>
+<p>end</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/10/23/CSS3 3D六面体效果/" rel="next" title="CSS3 3D六面体效果">
+                <i class="fa fa-chevron-left"></i> CSS3 3D六面体效果
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/10/25/梳理常见数据结构/" rel="prev" title="梳理常见数据结构">
+                梳理常见数据结构 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#用js实现快排加演示"><span class="nav-number">1.</span> <span class="nav-text">用js实现快排加演示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缘起"><span class="nav-number">1.1.</span> <span class="nav-text">缘起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现快排"><span class="nav-number">1.2.</span> <span class="nav-text">实现快排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异步的麻烦与解决办法"><span class="nav-number">1.3.</span> <span class="nav-text">异步的麻烦与解决办法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.4.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

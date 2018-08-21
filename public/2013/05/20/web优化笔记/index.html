@@ -1,0 +1,828 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="方向                       有一段时间因为找不到实习而有点郁闷，必须承认今年的就业形势比较严峻，上次去UC笔试，居然连面试机会都不给！恰好看到了@Fenng 写的这篇 现在的计算机专业学生怎么这个样？ 感觉戳中了很多人的要害。回头看看自己真的是太急躁了，总想找个好的工作，而不考虑自己到底有怎样的深度。仔细想想，还是要沉着冷静，好好将自己的">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web优化笔记">
+<meta property="og:url" content="https://bibodeng.github.io/2013/05/20/web优化笔记/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="方向                       有一段时间因为找不到实习而有点郁闷，必须承认今年的就业形势比较严峻，上次去UC笔试，居然连面试机会都不给！恰好看到了@Fenng 写的这篇 现在的计算机专业学生怎么这个样？ 感觉戳中了很多人的要害。回头看看自己真的是太急躁了，总想找个好的工作，而不考虑自己到底有怎样的深度。仔细想想，还是要沉着冷静，好好将自己的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:00.208Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="web优化笔记">
+<meta name="twitter:description" content="方向                       有一段时间因为找不到实习而有点郁闷，必须承认今年的就业形势比较严峻，上次去UC笔试，居然连面试机会都不给！恰好看到了@Fenng 写的这篇 现在的计算机专业学生怎么这个样？ 感觉戳中了很多人的要害。回头看看自己真的是太急躁了，总想找个好的工作，而不考虑自己到底有怎样的深度。仔细想想，还是要沉着冷静，好好将自己的">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> web优化笔记 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                web优化笔记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-05-20T14:17:47+08:00" content="2013-05-20">
+              2013-05-20
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/05/20/web优化笔记/" class="leancloud_visitors" data-flag-title="web优化笔记">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<link type="text/css" rel="stylesheet" href="http://bibodeng.web-149.com/content/plugins/bibo_mark/article_bibo.css"> <div class="art_content">
+    <h3>
+        ﻿﻿﻿方向
+    </h3>
+    <p>
+            有一段时间因为找不到实习而有点郁闷，必须承认今年的就业形势比较严峻，上次去UC笔试，居然连面试机会都不给！恰好看到了@Fenng 写的这篇 <a href="http://dbanotes.net/review/the_students.html" title="现在的计算机专业学生怎么这个样？" target="_blank">现在的计算机专业学生怎么这个样？</a> 感觉戳中了很多人的要害。回头看看自己真的是太急躁了，总想找个好的工作，而不考虑自己到底有怎样的深度。仔细想想，还是要沉着冷静，好好将自己的技术提升上来。看了 2013腾讯实习生招聘面经 ，就更感觉后悔了，没有利用考完后的那几天好好学习js和jquery，结果就挂了。好吧，现在重整旗鼓，我还会再来的。
+    </p>
+    <p>
+        <br>
+    </p>
+    <p>
+        所以翻出大牛写的前端开发的博客来看：<a href="http://dbanotes.net/web-performance" target="_blank" style="line-height:1.3em;">http://dbanotes.net/web-performance</a><span style="line-height:1.3em;"> </span>     </p>
+    <p>
+        <span style="line-height:1.3em;"><br>
+        </span>     </p>
+    <p>
+            写的是yahoo开发前端的最佳实践笔记，关于前端的优化。看大牛的博客，都有一种莫名的动力，当然，接下来要写更多的代码，将还在脑海里面的 “天使与国王” 实现出来，顺便操练一下自己稍微专注于web前端后学习到的一些技术，看看写出的网页和之前比有多大进步。
+    </p>
+    <p>
+        <br>
+    </p>
+    <h3>
+        笔记
+    </h3>
+    <p>
+        在《编写高质量代码——web前端修炼之道》里面介绍了3个方面来提高web程序的质量。
+    </p>
+    <p>
+        下面记一点简单的笔记：
+    </p>
+    <h4>
+        html 
+    </h4>
+    <p>
+        也即内容上面，尽量语义化，结构化，并且把js和css都剥离出去。减少http请求，能将一起发送的东西就一起发送，避免时时刻刻发送不必要的请求。优化的方法有两条一个是减少请求，另外一个是异步化请求。记得puwoo的一个面试官电面我，问向用户发送一个400k的图片和向用户发送4张100k的图片哪个更加高效？我回答第一个，但解释得不好。因为第一个只需要一次http请求，减少了包的数量，经典例子就是css sprite。
+    </p>
+    <h4>
+        css
+    </h4>
+    <p>
+        与html进行分离，然后用&lt;link&gt;链入，放到css，在浏览器解析的时候方便浏览器尽早进行渲染，减少用户等待。
+    </p>
+    <p>
+        进行分层 base , common , page，按照base定义一些基本的类如boldFont, floatLeft等，便于今后使用。common层定义复杂一些的
+    </p>
+    <p>
+        css模式，例如一个输入框的样式（圆角，发亮，背景颜色），这个层次能够复用，但是定义地比较详细。page层则是针对每页不同的布局或样式进行定制。
+    </p>
+    <p>
+        <br>
+    </p>
+    <p>
+        之前学习过，css将会作为渲染树构造起来，以辅助DOM树形成渲染的原材料。故而css代码也很有考究，尽量要能够多用单层，不用 #id .class 这样的多层规则，这就是为什么要多定义一些类，便于写代码时组合，也便于浏览器渲染。学习一样东西，光知道用，不知道里面怎么运行，是很难知道如何写出高质量的代码来的。我甚至想深入一下了解浏览器内核究竟是怎么工作的。
+    </p>
+    <p>
+        <br>
+    </p>
+    <p>
+        css能够被压缩，以减小文件大小。
+    </p>
+    <h4>
+        js
+    </h4>
+    <p>
+        与html进行分离，在html尾部链入，因为下载脚本时，浏览器不能解析DOM，而js是在DOM下载完了之后的事情，故而应当把js的下载放到载入页面之后。
+    </p>
+    <p>
+        <br>
+    </p>
+    <p>
+        和css一样，可以进行分层。base 封装原子功能，封装各个浏览器之间的差异， common稍微完成一个教大的功能，例如编写一个完成提交表单的功能，要调用base层，page层则针对每个页的交互而写的程序，一般是调用common层。
+    </p>
+    <p>
+        <br>
+    </p>
+    <p>
+        我接到puwoo的电话面试的时候，就回答了一些这个，用来优化前端的性能。
+    </p>
+    <p>
+        <br>
+    </p>
+    <h3>
+        END
+    </h3>
+    <p>
+        这几天离开了学校，去广州大学城那边生活了几天，对于回来应该做的事情就清晰了很多，接下来就看看Jquery的源代码，练习一下前端的各种常用效果，如：瀑布流，星级评分，以及动画，html5。
+    </p>
+    <p>
+        <br>
+    </p>
+    <p>
+        现在有一个方向了，不轻易动摇，“做人要专注”。相信，有梦想，肯努力的同学一定能有个好的未来。
+    </p>
+    <p>
+        <br>
+    </p>
+    <p>
+        by bibodeng 2013-05-15
+    </p>
+    <p>&nbsp;</p>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/05/12/js的面向对象与继承/" rel="next" title="js的面向对象与继承">
+                <i class="fa fa-chevron-left"></i> js的面向对象与继承
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/06/01/迅雷面试行/" rel="prev" title="迅雷面试行">
+                迅雷面试行 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">
+        ﻿﻿﻿方向
+    </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">
+        笔记
+    </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">2.1.</span> <span class="nav-text">
+        html 
+    </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">2.2.</span> <span class="nav-text">
+        css
+    </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">2.3.</span> <span class="nav-text">
+        js
+    </span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">
+        END
+    </span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

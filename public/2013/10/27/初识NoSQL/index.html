@@ -1,0 +1,798 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="#初识NoSQLby bibodeng 2013-10-27 Not only SQL之前就接触过NoSQL，但是从来没有再项目实践中使用过。故而，很有必要从入门之初就动手操练一下，就算不太熟练，也能知道其中精华一二。我告诫自己，要紧凑明确，对任何东西都有意识地围绕最核心的东西去发问，凡事问个为什么，不要浪费太多时间在不重要的踌躇中。我之前看过一点NoSQL，毕竟没有什么实战经验，所以忘得也快，现">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识NoSQL">
+<meta property="og:url" content="https://bibodeng.github.io/2013/10/27/初识NoSQL/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="#初识NoSQLby bibodeng 2013-10-27 Not only SQL之前就接触过NoSQL，但是从来没有再项目实践中使用过。故而，很有必要从入门之初就动手操练一下，就算不太熟练，也能知道其中精华一二。我告诫自己，要紧凑明确，对任何东西都有意识地围绕最核心的东西去发问，凡事问个为什么，不要浪费太多时间在不重要的踌躇中。我之前看过一点NoSQL，毕竟没有什么实战经验，所以忘得也快，现">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/c7f3d4b3c551949a9f63c2dcc656294e2013102707103327065.png">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/0053dd31c19d94a02d797b2f513fb733201310270816487506.png">
+<meta property="og:updated_time" content="2018-08-21T08:00:01.877Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初识NoSQL">
+<meta name="twitter:description" content="#初识NoSQLby bibodeng 2013-10-27 Not only SQL之前就接触过NoSQL，但是从来没有再项目实践中使用过。故而，很有必要从入门之初就动手操练一下，就算不太熟练，也能知道其中精华一二。我告诫自己，要紧凑明确，对任何东西都有意识地围绕最核心的东西去发问，凡事问个为什么，不要浪费太多时间在不重要的踌躇中。我之前看过一点NoSQL，毕竟没有什么实战经验，所以忘得也快，现">
+<meta name="twitter:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/c7f3d4b3c551949a9f63c2dcc656294e2013102707103327065.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 初识NoSQL | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                初识NoSQL
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-10-27T17:35:23+08:00" content="2013-10-27">
+              2013-10-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/10/27/初识NoSQL/" class="leancloud_visitors" data-flag-title="初识NoSQL">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#初识NoSQL<br>by bibodeng 2013-10-27</p>
+<h2 id="Not-only-SQL"><a href="#Not-only-SQL" class="headerlink" title="Not only SQL"></a>Not only SQL</h2><p>之前就接触过NoSQL，但是从来没有再项目实践中使用过。故而，很有必要从入门之初就动手操练一下，就算不太熟练，也能知道其中精华一二。我告诫自己，要紧凑明确，对任何东西都有意识地围绕最核心的东西去发问，凡事问个为什么，不要浪费太多时间在不重要的踌躇中。我之前看过一点NoSQL，毕竟没有什么实战经验，所以忘得也快，现在复习一下。</p>
+<p>现代互联应用网对于数据库的要求：</p>
+<ol>
+<li>低延迟的读写速度：应用快速地反应能极大地提升用户的满意度; </li>
+<li>支撑海量的数据和流量：对于搜索这样大型应用而言，需要利用PB级别的数据和能应对百万级的流量; </li>
+<li>大规模集群的管理：系统管理员希望分布式应用能更简单的部署和管理; </li>
+<li>庞大运营成本的考量：IT经理们希望在硬件成本、软件成本和人力成本能够有大幅度地降低; </li>
+</ol>
+<p>关系型数据库的优势在于：</p>
+<ol>
+<li>事务支持 （如MySQL的 InnoDB引擎）</li>
+<li>进行复杂查询 （join，几个表联合起来查询）</li>
+<li>技术成熟 （oracle， MySQL， SQLServer）</li>
+</ol>
+<p>NoSQL是一种新型的数据库，和关系型数据库有所不同，在以下方面具有优势:</p>
+<ol>
+<li>适合分布式，简单的扩展：典型例子是Cassandra，由于其架构是类似于经典的P2P，所以能通过轻松地添加新的节点来扩展这个集群; </li>
+<li>快速的读写：主要例子有Redis，由于其逻辑简单，而且纯内存操作，使得其性能非常出色，单节点每秒可以处理超过10万次读写操作; </li>
+<li>低廉的成本：这是大多数分布式数据库共有的特点，因为主要都是开源软件，没有昂贵的License成本; </li>
+</ol>
+<p>以上几点来自互联网，到目前我还没有直观的感受。NoSQL有很多种类型，常见的有Memcached, Redis, MongoDB(和JS有很大渊源)等。</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/c7f3d4b3c551949a9f63c2dcc656294e2013102707103327065.png" alt="nosql类型"></p>
+<p>键值存储类型的NoSQL数据库，主要是在内存中记录一些经常使用的数据，例如数据库的主键，这就就能够快速存取，而在内存中虽然快，但是存取不够可靠，有可能会丢失，造成数据的不一致性。故而，有一种策略就是当键值修改频率大过某个值的时候，就将缓存的数据给写到磁盘中去。Memcached也可以同MySQL搭配使用（互补），PHP有提供其驱动及接口，我们熟悉的SAE就是采用主从数据库+Memcached的架构。</p>
+<p>面向文档的数据库，是将数据以文档的形式存储，其实是类似JSON的格式，也是键值对。</p>
+<h3 id="Memcached"><a href="#Memcached" class="headerlink" title="Memcached"></a>Memcached</h3><p>使用散列表的方式存储键值对，全部存储在内存中，故而相当高速，可以很好地改善延迟。</p>
+<p><strong>一致性散列技术</strong>：</p>
+<p>如果有多台服务器，原理上是使用总数据量除以服务器台数取余来决定散列到哪个服务器，但是当有服务器加入进来时，这个计算到的余数会发生变化。如mod 4 变成 mod5,会有相当数据要重新散列。</p>
+<p>而一致性散列将一个范围内的数据，散列到一个圆周上的各个服务器中。并且对于均衡负载，扩展集群，数据迁移等具有良好的支持。并且当有服务器发生故障时，影响的是一部分的数据，有服务器加入进来时，不会因为重新散列找不到数据了，而是只影响少量的数据（需从旧节点迁移到新节点），也即将原来范围内的一部分数据迁移就可以了。如下图所示：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/0053dd31c19d94a02d797b2f513fb733201310270816487506.png" alt="散列一致性"></p>
+<p>那么具体它是怎么计算，让部分服务器4的数据散列到服务器5呢？</p>
+<p>根据key算出hash值，选择第一个大于该hash值的虚节点server，系统维护了一个server list，每个server具有多个虚节点。也即它的数据不是由服务器数量决定放在哪里的，而是对一个更大的数进行散列，由服务器位置来决定的。</p>
+<p><strong>缺陷</strong>：</p>
+<p>一定要使用明确的查询条件，就像hash_table数据结构一样，所以不能像关系型一样用<code>LIKE</code>。</p>
+<p><strong>启动</strong>：</p>
+<pre><code>// 启动   后台运行  端口   用户名    链接数   内存限制
+memcached -d -p 12345 -u uname -c 1024 -m 512 
+</code></pre><p><strong>使用</strong>：</p>
+<pre><code>// 设置键值对 键， 是否压缩， 过期时间戳， 大小
+set &lt;key&gt; &lt;flag&gt; &lt;expires&gt; &lt;byte&gt;
+&lt;value&gt; // 存储的值
+
+// 获取值
+get &lt;key&gt; // 返回key对于的value
+
+// 清空
+flush_all 
+// flush后数据所占的内存并不会被释放，但会被标记为过期，是不能再被取得了
+</code></pre><p><strong>编程语言中的使用</strong>：</p>
+<p>请参考<a href="http://www.php.net/manual/zh/book.memcached.php" target="_blank" rel="noopener">PHP memcached手册</a></p>
+<pre><code>$options = array( 
+    &apos;servers&apos; =&gt; array(&apos;192.168.1.1:11211&apos;), //memcached 服务的地址、端口，可用多个数组元素表示多个 memcached 服务 
+    &apos;debug&apos; =&gt; true,                         //是否打开 debug 
+    &apos;compress_threshold&apos; =&gt; 10240,             //超过多少字节的数据时进行压缩 
+    &apos;persistant&apos; =&gt; false                     //是否使用持久连接 
+); 
+// 创建 memcached 对象实例 
+$mc = new memcached($options); 
+// 设置此脚本使用的唯一标识符 
+$key = &apos;mykey&apos;; 
+// 往 memcached 中写入对象 
+$mc-&gt;add($key, &apos;some random strings&apos;); 
+// 取出该值
+$val = $mc-&gt;get($key); 
+// 替换已写入的对象数据值 
+$mc-&gt;replace($key, array(&apos;some&apos;=&gt;&apos;haha&apos;, &apos;array&apos;=&gt;&apos;xxx&apos;)); 
+// 删除一个值
+$mc-&gt;delete($key); 
+</code></pre><p>可见，在编程语言中，这样使用memcache数据库已经非常方便了，直接对键值进行存取删除。所以我们就可以在程序中将一些常用的值缓存起来，例如一个获取最新微博的查询，那么我们可以缓存这些微博，当有人刷的时候，就从缓存返回，将大大提升访问速度。</p>
+<p>Redis和memcached有点类似，但是它可以进行永久性的键值存储，所以相对又更靠后一点。</p>
+<h3 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h3><p>MongoDB是无需定义表结构的一种文档型数据库，和关系型一定要确定表的结构，存储各个字段有很大不同。MongoDB是以BSON（binary JSON）的方式来存储数据的，也是以键值的方式对应起来。多个文档可以组成一个集合（对应表），多个集合构成了数据库。    </p>
+<p>但是MongoDB不支持JOIN查询以及事务处理。且不是实时写入磁盘，而是有一定的延时。</p>
+<p>其MongoDB shell是数据库的管理工具，其脚本语言和JS类似。一些常用的操作可以参考<a href="http://www.cnblogs.com/archie2010/archive/2012/10/07/2712937.html" target="_blank" rel="noopener">例子</a>。以前我一直在担心，这样的键值对存在文档里面，其存取速度会不会很慢呢？它是取得JSON，转化为内存中的对象进行操作的么？</p>
+<p>我看到了这样一段话：</p>
+<blockquote>
+<p>在使用场合下，千万级别的文档对象，近10G的数据，对有索引的ID的查询不会比mysql慢，而对非索引字段的查询，则是全面胜出。 mysql实际无法胜任大数据量下任意字段的查询，而mongodb的查询性能实在让我惊讶。写入性能同样很令人满意。</p>
+</blockquote>
+<p>具体的测试例子，已经有哥们用号称亿级数据进行了<a href="http://www.cnblogs.com/lovecindywang/archive/2011/03/02/1969324.html" target="_blank" rel="noopener">测试</a>。</p>
+<p>后续将会继续深入探索NoSQL数据库。</p>
+<hr>
+<p>end</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/10/25/梳理常见数据结构/" rel="next" title="梳理常见数据结构">
+                <i class="fa fa-chevron-left"></i> 梳理常见数据结构
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/11/03/事件代理实现/" rel="prev" title="事件代理实现">
+                事件代理实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Not-only-SQL"><span class="nav-number">1.</span> <span class="nav-text">Not only SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Memcached"><span class="nav-number">1.1.</span> <span class="nav-text">Memcached</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB"><span class="nav-number">1.2.</span> <span class="nav-text">MongoDB</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

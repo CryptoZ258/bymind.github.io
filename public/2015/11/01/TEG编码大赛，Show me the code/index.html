@@ -1,0 +1,1171 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="#TEG Code大赛 九月份的时候参加了TEG Code编程大赛，在腾讯，TEG素来以专研技术在各BG中而名，故而有时候会比较强调码农做的事情，有时候也搞一些比较有意思的比赛，具有浓烈的geek风范。技术从来都是疯狂的程序员所热衷所在，否则就不会走上计算机编程这条不归之路。我们两个鲜肉，联合了两个T3-2的大腿也参加了比赛，干脆就取名叫“大腿鲜肉队”。  初赛的题目是要从一个远程的服务器拉取文件">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TEG编码大赛，Show me the code">
+<meta property="og:url" content="https://bibodeng.github.io/2015/11/01/TEG编码大赛，Show me the code/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="#TEG Code大赛 九月份的时候参加了TEG Code编程大赛，在腾讯，TEG素来以专研技术在各BG中而名，故而有时候会比较强调码农做的事情，有时候也搞一些比较有意思的比赛，具有浓烈的geek风范。技术从来都是疯狂的程序员所热衷所在，否则就不会走上计算机编程这条不归之路。我们两个鲜肉，联合了两个T3-2的大腿也参加了比赛，干脆就取名叫“大腿鲜肉队”。  初赛的题目是要从一个远程的服务器拉取文件">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201511/350685835b307ccc05375c75a0ae3ecf201511011801141163677904.jpg">
+<meta property="og:updated_time" content="2018-08-21T08:00:00.109Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TEG编码大赛，Show me the code">
+<meta name="twitter:description" content="#TEG Code大赛 九月份的时候参加了TEG Code编程大赛，在腾讯，TEG素来以专研技术在各BG中而名，故而有时候会比较强调码农做的事情，有时候也搞一些比较有意思的比赛，具有浓烈的geek风范。技术从来都是疯狂的程序员所热衷所在，否则就不会走上计算机编程这条不归之路。我们两个鲜肉，联合了两个T3-2的大腿也参加了比赛，干脆就取名叫“大腿鲜肉队”。  初赛的题目是要从一个远程的服务器拉取文件">
+<meta name="twitter:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201511/350685835b307ccc05375c75a0ae3ecf201511011801141163677904.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> TEG编码大赛，Show me the code | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                TEG编码大赛，Show me the code
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-01T18:03:45+08:00" content="2015-11-01">
+              2015-11-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2015/11/01/TEG编码大赛，Show me the code/" class="leancloud_visitors" data-flag-title="TEG编码大赛，Show me the code">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#TEG Code大赛</p>
+<p>九月份的时候参加了TEG Code编程大赛，在腾讯，TEG素来以专研技术在各BG中而名，故而有时候会比较强调码农做的事情，有时候也搞一些比较有意思的比赛，具有浓烈的geek风范。技术从来都是疯狂的程序员所热衷所在，否则就不会走上计算机编程这条不归之路。我们两个鲜肉，联合了两个T3-2的大腿也参加了比赛，干脆就取名叫“大腿鲜肉队”。</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201511/350685835b307ccc05375c75a0ae3ecf201511011801141163677904.jpg" alt="TEG Code"></p>
+<p>初赛的题目是要从一个远程的服务器拉取文件到本地，文件包含家政服务的信息，需要解析并清洗出订单和服务员两种实体，分别存储到数据库的两个表中（也可以不存储），最后按照规则计算如何分配订单和服务员，才能够让收益最大化。下面是具体的题目，由于我们只做了文件传输和解析部分，故而就远程拉取文件和解析给出我们的答案，有机会再将匹配算法给出。</p>
+<p>##文件服务端<br>第一步，首先要将服务器端的文件读取到内存中，然后通过网络连接将资料通过TCP协议传送到客户端。根据这个思想，我们用C语言实现了一个单线程的版本，如果要尽量快地发送数据，那就要开多个线程将文件包发送出去。首先计算出文件的大小，然后划分成若干个块，分次读取到内存buffer中，而最后一块比较特殊，因为未必能够填满完整的size内存。读取完后，循环监听TCP请求</p>
+<pre><code>//
+//  main.c
+//  TEG code
+//
+//  Created by feihongliu on 15/8/22.
+//  Copyright (c) 2015年 feihongliu. All rights reserved.
+//
+
+////////////////////////////////////
+//服务器代码
+///////////////////////////////////
+//本文件是服务器的代码
+
+#include &lt;netinet in.h=&quot;&quot;&gt;    // for sockaddr_in
+#include &lt;sys types.h=&quot;&quot;&gt;     // for socket
+#include &lt;sys socket.h=&quot;&quot;&gt;    // for socket
+#include &lt;stdio.h&gt;         // for printf
+#include &lt;stdlib.h&gt;        // for exit
+#include &lt;string.h&gt;        // for bzero
+#include &lt;time.h&gt;          //for time_t and time
+
+#define SERVER_PORT 7754
+#define LENGTH_OF_LISTEN_QUEUE 20
+#define BUFFER_SIZE 1024
+
+#define _FILE_OFFSET_BITS 64
+#define MemoryChunk 16777216
+#define FILE_PATH &quot;data/1.dat&quot;
+
+int main(int argc, char **argv)
+{
+    //设置一个socket地址结构server_addr, 代表服务器internet地址, 端口
+    struct sockaddr_in server_addr;
+    bzero(&amp;amp;server_addr, sizeof(server_addr)); //把一段内存区的内容全部设置为0
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = htons(INADDR_ANY);
+    server_addr.sin_port = htons(SERVER_PORT);
+
+    //创建用于internet的流协议(TCP)socket, 用server_socket代表服务器socket
+    int server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_socket &amp;lt; 0)
+    {
+        printf(&quot;Create Socket Failed!&quot;);
+        exit(1);
+    }
+
+    //把socket和socket地址结构联系起来
+    if (bind(server_socket, (struct sockaddr*)&amp;amp;server_addr, sizeof(server_addr)))
+    {
+        printf(&quot;Server Bind Port : %d Failed!&quot;, SERVER_PORT);
+        exit(1);
+    }
+
+    //server_socket用于监听
+    if (listen(server_socket, LENGTH_OF_LISTEN_QUEUE))
+    {
+        printf(&quot;Server Listen Failed!&quot;);
+        exit(1);
+    }
+
+    printf(&quot;Start file read&quot;);
+    FILE * pFile;
+    long lSize;
+
+    pFile = fopen(FILE_PATH, &quot;rb&quot;);
+    fseek(pFile, 0, SEEK_END);
+    lSize = ftell(pFile);
+    rewind(pFile);
+
+    int mount = lSize / MemoryChunk + 1;
+    char ** memaddr_array = (char**)malloc(sizeof(char*)*mount);
+    for (int i = 0; i &amp;lt; mount; i++)
+    {
+        char * buffer;
+        buffer = (char*)malloc(sizeof(char)*MemoryChunk);
+        memaddr_array[i] = buffer;
+    }
+
+    //load file to memery
+    for (int i = 0; i &amp;lt; mount - 1; i++)
+    {
+        fread(memaddr_array[i], MemoryChunk, 1, pFile);
+    }
+    int last_size = lSize - ftell(pFile);
+    fread(memaddr_array[mount - 1], 1, last_size, pFile);
+
+    printf(&quot;End file read&quot;);
+
+
+    //服务器端要一直运行
+    while (1)
+    {
+        struct sockaddr_in client_addr;
+        socklen_t length = sizeof(client_addr);
+        int new_server_socket = accept(server_socket, (struct sockaddr*)&amp;amp;client_addr, &amp;amp;length);
+        if (new_server_socket &amp;lt; 0)
+        {
+            printf(&quot;Server Accept Failed!\n&quot;);
+            break;
+        }
+        //首次发送文件大小
+        char filelength[64];
+        sprintf(filelength, &quot;%ld&quot;, lSize);
+        send(new_server_socket, filelength, 64, 0);
+        //发送文件内容
+        for (int i = 0; i &amp;lt; mount - 1; i++)
+        {
+            send(new_server_socket, memaddr_array[i], MemoryChunk, 0);
+        }
+        send(new_server_socket, memaddr_array[mount - 1], last_size, 0);
+
+        //关闭与客户端的连接
+        close(new_server_socket);
+    }
+
+    //释放资源 关闭监听用的socket
+    close(server_socket);
+    fclose(pFile);
+    for (int i = 0; i &amp;lt; mount; i++)
+    {
+        free(memaddr_array[i]);
+    }
+    free(memaddr_array);
+    return 0;
+}
+</code></pre><p>如上所示，最初版本的读取文件和发送都是串行的，后面将会继续优化。</p>
+<p>##文件读取客户端</p>
+<p>有了服务端，那么我们就要想办法连接TCP，然后将收到的信息存到文件中去。其处理次序与发送相逆，当recv到数据后，append到文件中去，然后对数据进行逐条解析。</p>
+<pre><code>//客户端代码
+
+//本文件是客户机的代码
+#include &lt;netinet in.h=&quot;&quot;&gt;    // for sockaddr_in
+#include &lt;sys types.h=&quot;&quot;&gt;    // for socket
+#include &lt;sys socket.h=&quot;&quot;&gt;    // for socket
+#include &lt;stdio.h&gt;        // for printf
+#include &lt;stdlib.h&gt;        // for exit
+#include &lt;string.h&gt;        // for bzero
+#include &lt;time.h&gt;                //for time_t and time
+#include &lt;arpa inet.h=&quot;&quot;&gt;
+
+#define SERVER_PORT    7754         // server port
+#define BUFFER_SIZE 1024            // write to file buffer
+
+#define FILE_OFFSET_BITS 64         // filesize string offset
+#define MEMORY_CHUNK_SIZE 16777216  // 16MB
+#define DEFAULT_SERVER_IP &quot;127.0.0.1&quot;
+#define FILE_PATH  &quot;data/1.client.dat&quot;
+
+// 钟点工
+struct Worker{
+    int _id;
+    char _gender;
+    char _age;
+    float _score;
+};
+
+// 订单
+struct Bill{
+    int _id;
+    double _px;
+    double _py;
+    char _time;
+    char _time_require;
+    int _begin_time;
+    char* _image;
+
+};
+
+
+
+// download module
+ // by bibo 2015-08-25
+void download_file(char* server_ip, int port)
+{
+    time_t start, end;
+    time(&amp;amp;start);
+
+    FILE *stream;
+
+    //设置一个socket地址结构client_addr,代表客户机internet地址, 端口
+    struct sockaddr_in client_addr;
+    bzero(&amp;amp;client_addr, sizeof(client_addr)); //把一段内存区的内容全部设置为0
+    client_addr.sin_family = AF_INET;    //internet协议族
+    client_addr.sin_addr.s_addr = htons(INADDR_ANY);//INADDR_ANY表示自动获取本机地址
+    client_addr.sin_port = htons(0);    //0表示让系统自动分配一个空闲端口
+
+    //创建用于internet的流协议(TCP)socket,用client_socket代表客户机socket
+    int client_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if( client_socket &amp;lt; 0) {
+        printf(&quot;Create Socket Failed!\n&quot;);
+        exit(1);
+    }
+    //把客户机的socket和客户机的socket地址结构联系起来
+    if( bind(client_socket, (struct sockaddr*)&amp;amp;client_addr, sizeof(client_addr))) {
+        printf(&quot;Client Bind Port Failed!\n&quot;);
+        exit(1);
+    }
+
+    //设置一个socket地址结构server_addr,代表服务器的internet地址, 端口
+    struct sockaddr_in server_addr;
+    bzero(&amp;amp;server_addr, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    //服务器的IP地址来自程序的参数
+    if(inet_aton(server_ip, &amp;amp;server_addr.sin_addr) == 0) {
+        printf(&quot;Server IP Address Error!\n&quot;);
+        exit(1);
+    }
+
+    server_addr.sin_port = htons(port);
+    socklen_t server_addr_length = sizeof(server_addr);
+
+    //向服务器发起连接, 连接成功后client_socket代表了客户机和服务器的一个socket连接
+    if (connect(client_socket, (struct sockaddr*)&amp;amp;server_addr, server_addr_length) &amp;lt; 0) {
+        printf(&quot;Can Not Connect To %s!\n&quot;, server_ip);
+        exit(1);
+    }
+
+    char buffer[BUFFER_SIZE];
+    bzero(buffer, BUFFER_SIZE);
+
+    //从服务器接收数据到buffer中
+    int length = recv(client_socket, buffer, BUFFER_SIZE, 0);
+
+    if(length &amp;lt; 0) {
+        printf(&quot;Recieve Data From Server %s Failed!\n&quot;, server_ip);
+        exit(1);
+    }
+
+    // 先接收长度
+    long lSize;
+    lSize = sscanf(buffer,&quot;%ld&quot;, &amp;amp;lSize); // char array to long
+
+    printf(&quot;\n%s\n&quot;, buffer);
+    bzero(buffer, BUFFER_SIZE);
+
+    // open or create file
+    if ((stream = fopen(&quot;data&quot;,&quot;wb+&quot;)) == NULL) {
+        printf(&quot;The file &apos;data&apos; was not opened! \n&quot;);
+    }
+    else
+    {
+        bzero(buffer, BUFFER_SIZE);
+    }
+
+    length = 0;
+    // 后续是否使用多线程 TODO
+    while (length = recv(client_socket, buffer, BUFFER_SIZE, 0)) {
+        if (length &amp;lt; 0) {
+            printf(&quot;Recieve Data From Server %s Failed!\n&quot;, server_ip);
+            break;
+        }
+
+        int write_length = fwrite(buffer, sizeof(char), length, stream);
+        if (write_length &amp;lt; length) {
+            printf(&quot;File is Write Failed\n&quot;);
+            break;
+        }
+
+        printf(&quot;write data to file!\n&quot;);
+
+        bzero(buffer, BUFFER_SIZE);
+    }
+    printf(&quot;Recieve File From Server[%s] Finished\n&quot;, server_ip);
+
+    fclose(stream);
+    close(client_socket);
+
+    time(&amp;amp;end);
+    double t = difftime(end, start);
+    printf(&quot;download file use: %f &quot;, t);
+
+}
+
+
+//解析文件
+// by bibo 2015-08-25
+
+void parse_file()
+{
+    time_t start, end;
+    time(&amp;amp;start);
+
+    //--------parse---------
+
+    FILE* stream;
+    if ((stream = fopen( FILE_PATH , &quot;rb&quot;)) == NULL)
+    {
+        printf(&quot;The file &apos;data&apos; was not opened! \n&quot;);
+        exit(0);
+    }
+
+
+    // 钟点工 = 长度 + 记录类型（0） + ID + 性别 + 年龄 + 评分
+    // 15 字节 = 4 + 1 + 4 + 1 + + 1 + 4
+
+    // 需求 = 长度 + 记录类型 （1）+ ID + 横坐标 + 纵坐标 + 时长 + 时间要求 + 起始时间 + 图片？
+    // ? = 4 + 1 + 4 + 8 + 8 + 1 + 1 + 4 + ？
+
+
+    printf(&quot;int %ld \n&quot;, sizeof(int));
+    printf(&quot;short %ld \n&quot;, sizeof(short));
+    printf(&quot;float %ld \n&quot;, sizeof(float));
+    printf(&quot;long %ld \n&quot;, sizeof(long));
+    printf(&quot;char %ld \n&quot;, sizeof(char));
+
+    char buffer[BUFFER_SIZE];
+    bzero(buffer, BUFFER_SIZE);
+
+
+    int record_size = 0;
+    long length = 0;
+
+    int bill_num = 0;
+    int worker_num = 0;
+
+    // TODO 想办法将结构树体放到某个数据结构中去存储并计算
+    // 2G数据，必须要进行分治才能高效计算
+
+    // 读取文件到内存中
+    while (length = fread(&amp;amp;record_size, sizeof(int), 1, stream)) {
+
+        // 长度
+        // printf(&quot;record size: %d \n&quot;, record_size);
+        char type = 0;
+
+        //
+        int i = 0;
+        char c = 0;
+        long l = 0;
+        float f = 0;
+        double d = 0;
+
+
+        length = fread(&amp;amp;type, sizeof(char), 1, stream);
+
+        // type
+        if (type == 0)
+        {
+            struct Worker worker;
+
+            fread(&amp;amp;i, sizeof(int), 1, stream); // ID
+            worker._id = i;
+
+            fread(&amp;amp;c, sizeof(char), 1, stream); // gender
+            worker._gender = c;
+
+            fread(&amp;amp;c, sizeof(char), 1, stream); // age
+            worker._age = c;
+
+            fread(&amp;amp;f, sizeof(float), 1, stream); // score
+            worker._score = f;
+
+            printf(&quot;get a worker: %d, %d, %d, %f \n&quot;, worker._id, worker._gender, worker._age, worker._score);
+
+            // free(&amp;amp;worker);
+
+            worker_num++;
+
+        }
+        else if (type == 1)
+        {
+            struct Bill bill;
+
+            fread(&amp;amp;i, sizeof(int), 1, stream); // ID
+            bill._id = i;
+
+            fread(&amp;amp;d, sizeof(double), 1, stream); // px
+            bill._px = d;
+
+            fread(&amp;amp;d, sizeof(double), 1, stream);// py
+            bill._py = d;
+
+            fread(&amp;amp;c, sizeof(char), 1, stream); // time
+            bill._time = c;
+
+            fread(&amp;amp;c, sizeof(char), 1, stream); // time_require
+            bill._time_require = c;
+
+            if (bill._time_require == 1) // 有时间要求
+            {
+                fread(&amp;amp;i, sizeof(int), 1, stream);
+                bill._begin_time = i;
+
+                // 直接略过
+                fseek(stream, sizeof(char) * ( record_size - 27 - 4), SEEK_CUR);
+
+                // bill._image = (char*) malloc(sizeof(char) * (record_size - 27 - 4));
+                // fread(bill._image, sizeof(char), record_size - 27 - 4, stream);
+            }
+            else
+            {
+                bill._begin_time = 0;
+
+                // 直接略过
+                fseek(stream, sizeof(char) * ( record_size - 27), SEEK_CUR);
+
+                // bill._image = (char*)malloc(sizeof(char) * (record_size - 27));
+                // fread(bill._image, sizeof(char), record_size - 27 , stream);
+
+            }
+
+            printf(&quot;get a bill: %d, %f, %f, %d, %d, %d, %s \n&quot;, bill._id, bill._px, bill._py, bill._time, bill._time_require, bill._begin_time, bill._image);
+
+            // 暂时不存储
+            free(bill._image);
+
+            bill_num ++;
+        }
+    }
+
+
+
+
+    //---------------------
+    // show time
+    time(&amp;amp;end);
+    double t = difftime(end, start);
+    printf(&quot;parse file use time: %lf \n&quot;, t);
+
+    printf(&quot;total worker num: %d \n&quot;, worker_num);
+    printf(&quot;total bill num: %d \n&quot;, bill_num);
+
+    scanf(&quot;pleas press key to exit: %lf \n &quot;, &amp;amp;t);
+    return;
+}
+
+// 解析记录
+void parse_record()
+{
+    return;
+}
+
+//---------------------Main-----------------------
+int main(int argc, char **argv)
+{
+    if (argc != 2) {
+        printf(&quot;Usage: ./%s ServerIPAddress\n&quot;, argv[0]);
+        argv[1] = DEFAULT_SERVER_IP;
+        // exit(1);
+    }
+
+
+    download_file(argv[1], SERVER_PORT);
+
+    parse_file();
+
+    return 0;
+}
+</code></pre><p>最终，此次兴趣比赛，因为我们个人没有时间最终没有提交完整的代码。不过，我们最终还是得到了一件文化衫，当时报名也就是为了一件 <code>Talk is cheap , Show me the code</code> 的 T-Shirt，因为于Linux的服务器编程，我们IT部并不在行，而架构平台部，安全平台部比较在行，在决赛的晚会中，他们展示的方案想法其实也差不多，就看谁能够有这么强的代码能力付诸实现。</p>
+<p>–end–<br>by biboedeng 2015-11-01&lt;/time.h&gt;&lt;/string.h&gt;&lt;/stdlib.h&gt;&lt;/stdio.h&gt;&lt;/time.h&gt;&lt;/string.h&gt;&lt;/stdlib.h&gt;&lt;/stdio.h&gt;</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/11/商业头脑的两件小事/" rel="next" title="商业头脑的两件小事">
+                <i class="fa fa-chevron-left"></i> 商业头脑的两件小事
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/03/在工作中想得更多/" rel="prev" title="在工作中想得更多">
+                在工作中想得更多 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

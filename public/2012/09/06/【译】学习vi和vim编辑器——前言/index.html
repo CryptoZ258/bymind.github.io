@@ -1,0 +1,785 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="前言 &amp;nbsp; 文字编辑是计算机系统最常见的任务，vi编辑器是最有用的标准编辑器之一，使用vi编辑器你可以创建新的文件或编辑任何纯文本文件。 vi 就像很多经典的实用程序一样，是在unix的早期开发的，拥有难以替代的声誉。Bram Moolenaar的加强版vi，也叫做vim（vi  improved），已经伴随着unix走了很长的路，并留下了深刻的影响。vim包括许许多多的优点，可视化指导">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【译】学习vi和vim编辑器——前言">
+<meta property="og:url" content="https://bibodeng.github.io/2012/09/06/【译】学习vi和vim编辑器——前言/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="前言 &amp;nbsp; 文字编辑是计算机系统最常见的任务，vi编辑器是最有用的标准编辑器之一，使用vi编辑器你可以创建新的文件或编辑任何纯文本文件。 vi 就像很多经典的实用程序一样，是在unix的早期开发的，拥有难以替代的声誉。Bram Moolenaar的加强版vi，也叫做vim（vi  improved），已经伴随着unix走了很长的路，并留下了深刻的影响。vim包括许许多多的优点，可视化指导">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-21T08:00:05.609Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【译】学习vi和vim编辑器——前言">
+<meta name="twitter:description" content="前言 &amp;nbsp; 文字编辑是计算机系统最常见的任务，vi编辑器是最有用的标准编辑器之一，使用vi编辑器你可以创建新的文件或编辑任何纯文本文件。 vi 就像很多经典的实用程序一样，是在unix的早期开发的，拥有难以替代的声誉。Bram Moolenaar的加强版vi，也叫做vim（vi  improved），已经伴随着unix走了很长的路，并留下了深刻的影响。vim包括许许多多的优点，可视化指导">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 【译】学习vi和vim编辑器——前言 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【译】学习vi和vim编辑器——前言
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-09-06T19:55:50+08:00" content="2012-09-06">
+              2012-09-06
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/09/06/【译】学习vi和vim编辑器——前言/" class="leancloud_visitors" data-flag-title="【译】学习vi和vim编辑器——前言">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+<div><span style="font-family:'Arial Black';font-size:24px;">前言</span></div>
+<div>&nbsp;</div>
+<div>文字编辑是计算机系统最常见的任务，vi编辑器是最有用的标准编辑器之一，使用vi编辑器你可以创建新的文件或编辑任何纯文本文件。 vi 就像很多经典的实用程序一样，是在unix的早期开发的，拥有难以替代的声誉。Bram Moolenaar的加强版vi，也叫做vim（vi 
+improved），已经伴随着unix走了很长的路，并留下了深刻的影响。vim包括许许多多的优点，可视化指导，以及帮助屏。它可以算得上是最留下vi版本了。所以本书第七版的第二部分，将会花费7章来介绍vim。然而许多其他可以借鉴的vi版本依然存在，我们将在第三章介绍三种vi版本。</div>
+<div>&nbsp;</div>
+<div><h3>本书概览</h3>
+</div>
+<div>这本书由18章组成，另外有四个附录。一共分为4大部分，第一部分是 vi基础与高级技巧 
+，是专为你快速上手vi编辑器而准备的，接着的高级技巧将会让你的编辑变得更高效快捷。</div>
+<div><br>
+</div>
+<div><span style="color:#e53333;">第一部分 vi 编辑器基础</span></div>
+<div>&nbsp;</div>
+<div>前两章，第一章，vi编辑器，第二章，简单编辑操作， 
+展示了一些简单的vi命令，它们可以帮助你初级入门。你应当把它们练习得很熟，指导顺手即来为止。在学会基本的编辑工具之前，请不要阅读第二章之后的内容。</div>
+<div>&nbsp;</div>
+<div>vi除了基本字处理之外还能做更多的事情，方便灵活的命令和丰富的选项，让你可以用快捷键完成大部分的工作，从而摆脱编辑的苦工。第三章，快速移动。第四章，基础之外，专门介绍简便的方法完成任务。当你第一次读的时候，你将会意识到vi能做什么，什么命令将能适合你的特别需要，之后，你可以回过头来继续学习接下来的篇章。</div>
+<div>&nbsp;</div>
+<div>第五章，ex编辑器，第六章，全局替换，还有第七章，高级编辑。为你提供工具使得更多的劳累工作转移到计算机身上。它们将会介绍基于vi的ex行编辑器，然后指引你在vi编辑器中组织ex命令。</div>
+<div>&nbsp;</div>
+<div>第八章，介绍vi的克隆版本，介绍四种可用的vi克隆版本，本章将集中于多窗口编辑的描述，GUI界面，扩展正则表达式，以及可用使工作变得简单的灵巧办法。当然还有几个其他的特性，提供了下面学习的路标。还提供了vi源代码的地址，可用在现代unix系统（包括GNU/Linux）上轻松编译运行。</div>
+<div>&nbsp;</div>
+<div><span style="color:#e53333;">第二部分 Vim编辑器，21世纪早期最流行的Vi克隆版本</span></div>
+<div>&nbsp;</div>
+<div>第九章，vim（vi的增强），概要地介绍Vim编辑器，包括去何处找到流行操作系统的二进制代码，以及更多使用Vim的不同方法。</div>
+<div>&nbsp;</div>
+<div>第十章，主要的Vim增强，告诉你主要的Vim改进（相对于Vi），例如内置帮助，初始化控制，附加操作指令，还有正则表达式。</div>
+<div>&nbsp;</div>
+<div>第十一章，Vim的多窗口，专门介绍多窗口编辑，也许是和Vi区别最显著的Vim特性。本章将提供所有创建窗口和如何使用窗口的所有细节。</div>
+<div>&nbsp;</div>
+<div>第十二章，Vim脚本，窥探Vim命令语言，指导你写出可以定制你的Vim以完成你的特别需求的脚本。许许多多方便的开箱即用的许多脚本程序都是许多Vim用户早已经写过并且贡献给了Vim的。</div>
+<div>&nbsp;</div>
+<div>第十三章，图形界面的Vim(gvim),Vim的现代图形界面环境，现在已经是商业Unix系统以及其他像Linux一样的系统的标准。</div>
+<div>&nbsp;</div>
+<div>第十四章，程序员版的Vim增强，集中介绍专门面向程序员的增强编辑器，高于一般的字编辑工具。有特殊价值的代码折叠，大纲工具，缩进排版，代码高亮，以及 
+编辑-编译-bebug 循环加速。</div>
+<div>&nbsp;</div>
+<div>第十五章，其他很棒的Vim成员，涵盖了全书所有章节，介绍几个你可能感兴趣的前面没有介绍的点。</div>
+<div>&nbsp;</div>
+<div><span style="color:#e53333;">第三部分 其他Vi克隆版本，介绍除Vim之外的其他三种vi克隆版本：nvi，elvis，和vile</span></div>
+<div>&nbsp;</div>
+<div>第十六章，nvi： new vi， 第十七章，Elvis，第十八章，vile,像Emacs的vi。 
+通过这三种vi的克隆版本，教你怎样使用Vi的拓展并讨论它们每个的特性。</div>
+<div>&nbsp;</div>
+<div><span style="color:#e53333;">第四部分&nbsp; 附录，提供一些有用的材料</span></div>
+<div>&nbsp;</div>
+<div>附录一， 列出所有的vi 和ex命令，已按照功能排序，也提供字母表的索引。一些选出的vi和ex命令也包含在内。</div>
+<div>&nbsp;</div>
+<div>附录二，设置选项，列出了vi的设置的命令选项。</div>
+<div>&nbsp;</div>
+<div>附录三，问题清单，统一的本书早期建立的清单</div>
+<div>&nbsp;</div>
+<div>附录四，Vi 和因特网，vi 在unix系统以及internet文化中的作用。</div>
+<div><br>
+</div>
+<div>translate by bibodeng &nbsp; 2012-09-05 &nbsp; 请勿转载</div>
+<style type="text/css">
+body{
+font-size: 14px;
+line-space: 1.6em;
+}
+
+h3{
+font-size: 1.5em;
+background-color: #000000;
+color:#ffffff;
+padding: 10px;
+-webkit-border-radius: 5px;
+}
+</style>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/08/30/不如去旅行/" rel="next" title="不如去旅行">
+                <i class="fa fa-chevron-left"></i> 不如去旅行
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/09/07/【译】学习vi和vim编辑器——第一章vi编辑器/" rel="prev" title="【译】学习vi和vim编辑器——第一章vi编辑器">
+                【译】学习vi和vim编辑器——第一章vi编辑器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">本书概览</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

