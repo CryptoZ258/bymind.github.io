@@ -255,6 +255,1242 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/01/TEG编码大赛，Show me the code/" itemprop="url">
+                  TEG编码大赛，Show me the code
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-01T18:03:45+08:00" content="2015-11-01">
+              2015-11-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2015/11/01/TEG编码大赛，Show me the code/" class="leancloud_visitors" data-flag-title="TEG编码大赛，Show me the code">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#TEG Code大赛</p>
+<p>九月份的时候参加了TEG Code编程大赛，在腾讯，TEG素来以专研技术在各BG中而名，故而有时候会比较强调码农做的事情，有时候也搞一些比较有意思的比赛，具有浓烈的geek风范。技术从来都是疯狂的程序员所热衷所在，否则就不会走上计算机编程这条不归之路。我们两个鲜肉，联合了两个T3-2的大腿也参加了比赛，干脆就取名叫“大腿鲜肉队”。</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201511/350685835b307ccc05375c75a0ae3ecf201511011801141163677904.jpg" alt="TEG Code"></p>
+<p>初赛的题目是要从一个远程的服务器拉取文件到本地，文件包含家政服务的信息，需要解析并清洗出订单和服务员两种实体，分别存储到数据库的两个表中（也可以不存储），最后按照规则计算如何分配订单和服务员，才能够让收益最大化。下面是具体的题目，由于我们只做了文件传输和解析部分，故而就远程拉取文件和解析给出我们的答案，有机会再将匹配算法给出。</p>
+<p>##文件服务端<br>第一步，首先要将服务器端的文件读取到内存中，然后通过网络连接将资料通过TCP协议传送到客户端。根据这个思想，我们用C语言实现了一个单线程的版本，如果要尽量快地发送数据，那就要开多个线程将文件包发送出去。首先计算出文件的大小，然后划分成若干个块，分次读取到内存buffer中，而最后一块比较特殊，因为未必能够填满完整的size内存。读取完后，循环监听TCP请求</p>
+<pre><code>//
+//  main.c
+//  TEG code
+//
+//  Created by feihongliu on 15/8/22.
+//  Copyright (c) 2015年 feihongliu. All rights reserved.
+//
+
+////////////////////////////////////
+//服务器代码
+///////////////////////////////////
+//本文件是服务器的代码
+
+#include &lt;netinet in.h=&quot;&quot;&gt;    // for sockaddr_in
+#include &lt;sys types.h=&quot;&quot;&gt;     // for socket
+#include &lt;sys socket.h=&quot;&quot;&gt;    // for socket
+#include &lt;stdio.h&gt;         // for printf
+#include &lt;stdlib.h&gt;        // for exit
+#include &lt;string.h&gt;        // for bzero
+#include &lt;time.h&gt;          //for time_t and time
+
+#define SERVER_PORT 7754
+#define LENGTH_OF_LISTEN_QUEUE 20
+#define BUFFER_SIZE 1024
+
+#define _FILE_OFFSET_BITS 64
+#define MemoryChunk 16777216
+#define FILE_PATH &quot;data/1.dat&quot;
+
+int main(int argc, char **argv)
+{
+    //设置一个socket地址结构server_addr, 代表服务器internet地址, 端口
+    struct sockaddr_in server_addr;
+    bzero(&amp;amp;server_addr, sizeof(server_addr)); //把一段内存区的内容全部设置为0
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = htons(INADDR_ANY);
+    server_addr.sin_port = htons(SERVER_PORT);
+
+    //创建用于internet的流协议(TCP)socket, 用server_socket代表服务器socket
+    int server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_socket &amp;lt; 0)
+    {
+        printf(&quot;Create Socket Failed!&quot;);
+        exit(1);
+    }
+
+    //把socket和socket地址结构联系起来
+    if (bind(server_socket, (struct sockaddr*)&amp;amp;server_addr, sizeof(server_addr)))
+    {
+        printf(&quot;Server Bind Port : %d Failed!&quot;, SERVER_PORT);
+        exit(1);
+    }
+
+    //server_socket用于监听
+    if (listen(server_socket, LENGTH_OF_LISTEN_QUEUE))
+    {
+        printf(&quot;Server Listen Failed!&quot;);
+        exit(1);
+    }
+
+    printf(&quot;Start file read&quot;);
+    FILE * pFile;
+    long lSize;
+
+    pFile = fopen(FILE_PATH, &quot;rb&quot;);
+    fseek(pFile, 0, SEEK_END);
+    lSize = ftell(pFile);
+    rewind(pFile);
+
+    int mount = lSize / MemoryChunk + 1;
+    char ** memaddr_array = (char**)malloc(sizeof(char*)*mount);
+    for (int i = 0; i &amp;lt; mount; i++)
+    {
+        char * buffer;
+        buffer = (char*)malloc(sizeof(char)*MemoryChunk);
+        memaddr_array[i] = buffer;
+    }
+
+    //load file to memery
+    for (int i = 0; i &amp;lt; mount - 1; i++)
+    {
+        fread(memaddr_array[i], MemoryChunk, 1, pFile);
+    }
+    int last_size = lSize - ftell(pFile);
+    fread(memaddr_array[mount - 1], 1, last_size, pFile);
+
+    printf(&quot;End file read&quot;);
+
+
+    //服务器端要一直运行
+    while (1)
+    {
+        struct sockaddr_in client_addr;
+        socklen_t length = sizeof(client_addr);
+        int new_server_socket = accept(server_socket, (struct sockaddr*)&amp;amp;client_addr, &amp;amp;length);
+        if (new_server_socket &amp;lt; 0)
+        {
+            printf(&quot;Server Accept Failed!\n&quot;);
+            break;
+        }
+        //首次发送文件大小
+        char filelength[64];
+        sprintf(filelength, &quot;%ld&quot;, lSize);
+        send(new_server_socket, filelength, 64, 0);
+        //发送文件内容
+        for (int i = 0; i &amp;lt; mount - 1; i++)
+        {
+            send(new_server_socket, memaddr_array[i], MemoryChunk, 0);
+        }
+        send(new_server_socket, memaddr_array[mount - 1], last_size, 0);
+
+        //关闭与客户端的连接
+        close(new_server_socket);
+    }
+
+    //释放资源 关闭监听用的socket
+    close(server_socket);
+    fclose(pFile);
+    for (int i = 0; i &amp;lt; mount; i++)
+    {
+        free(memaddr_array[i]);
+    }
+    free(memaddr_array);
+    return 0;
+}
+</code></pre><p>如上所示，最初版本的读取文件和发送都是串行的，后面将会继续优化。</p>
+<p>##文件读取客户端</p>
+<p>有了服务端，那么我们就要想办法连接TCP，然后将收到的信息存到文件中去。其处理次序与发送相逆，当recv到数据后，append到文件中去，然后对数据进行逐条解析。</p>
+<pre><code>//客户端代码
+
+//本文件是客户机的代码
+#include &lt;netinet in.h=&quot;&quot;&gt;    // for sockaddr_in
+#include &lt;sys types.h=&quot;&quot;&gt;    // for socket
+#include &lt;sys socket.h=&quot;&quot;&gt;    // for socket
+#include &lt;stdio.h&gt;        // for printf
+#include &lt;stdlib.h&gt;        // for exit
+#include &lt;string.h&gt;        // for bzero
+#include &lt;time.h&gt;                //for time_t and time
+#include &lt;arpa inet.h=&quot;&quot;&gt;
+
+#define SERVER_PORT    7754         // server port
+#define BUFFER_SIZE 1024            // write to file buffer
+
+#define FILE_OFFSET_BITS 64         // filesize string offset
+#define MEMORY_CHUNK_SIZE 16777216  // 16MB
+#define DEFAULT_SERVER_IP &quot;127.0.0.1&quot;
+#define FILE_PATH  &quot;data/1.client.dat&quot;
+
+// 钟点工
+struct Worker{
+    int _id;
+    char _gender;
+    char _age;
+    float _score;
+};
+
+// 订单
+struct Bill{
+    int _id;
+    double _px;
+    double _py;
+    char _time;
+    char _time_require;
+    int _begin_time;
+    char* _image;
+
+};
+
+
+
+// download module
+ // by bibo 2015-08-25
+void download_file(char* server_ip, int port)
+{
+    time_t start, end;
+    time(&amp;amp;start);
+
+    FILE *stream;
+
+    //设置一个socket地址结构client_addr,代表客户机internet地址, 端口
+    struct sockaddr_in client_addr;
+    bzero(&amp;amp;client_addr, sizeof(client_addr)); //把一段内存区的内容全部设置为0
+    client_addr.sin_family = AF_INET;    //internet协议族
+    client_addr.sin_addr.s_addr = htons(INADDR_ANY);//INADDR_ANY表示自动获取本机地址
+    client_addr.sin_port = htons(0);    //0表示让系统自动分配一个空闲端口
+
+    //创建用于internet的流协议(TCP)socket,用client_socket代表客户机socket
+    int client_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if( client_socket &amp;lt; 0) {
+        printf(&quot;Create Socket Failed!\n&quot;);
+        exit(1);
+    }
+    //把客户机的socket和客户机的socket地址结构联系起来
+    if( bind(client_socket, (struct sockaddr*)&amp;amp;client_addr, sizeof(client_addr))) {
+        printf(&quot;Client Bind Port Failed!\n&quot;);
+        exit(1);
+    }
+
+    //设置一个socket地址结构server_addr,代表服务器的internet地址, 端口
+    struct sockaddr_in server_addr;
+    bzero(&amp;amp;server_addr, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    //服务器的IP地址来自程序的参数
+    if(inet_aton(server_ip, &amp;amp;server_addr.sin_addr) == 0) {
+        printf(&quot;Server IP Address Error!\n&quot;);
+        exit(1);
+    }
+
+    server_addr.sin_port = htons(port);
+    socklen_t server_addr_length = sizeof(server_addr);
+
+    //向服务器发起连接, 连接成功后client_socket代表了客户机和服务器的一个socket连接
+    if (connect(client_socket, (struct sockaddr*)&amp;amp;server_addr, server_addr_length) &amp;lt; 0) {
+        printf(&quot;Can Not Connect To %s!\n&quot;, server_ip);
+        exit(1);
+    }
+
+    char buffer[BUFFER_SIZE];
+    bzero(buffer, BUFFER_SIZE);
+
+    //从服务器接收数据到buffer中
+    int length = recv(client_socket, buffer, BUFFER_SIZE, 0);
+
+    if(length &amp;lt; 0) {
+        printf(&quot;Recieve Data From Server %s Failed!\n&quot;, server_ip);
+        exit(1);
+    }
+
+    // 先接收长度
+    long lSize;
+    lSize = sscanf(buffer,&quot;%ld&quot;, &amp;amp;lSize); // char array to long
+
+    printf(&quot;\n%s\n&quot;, buffer);
+    bzero(buffer, BUFFER_SIZE);
+
+    // open or create file
+    if ((stream = fopen(&quot;data&quot;,&quot;wb+&quot;)) == NULL) {
+        printf(&quot;The file &apos;data&apos; was not opened! \n&quot;);
+    }
+    else
+    {
+        bzero(buffer, BUFFER_SIZE);
+    }
+
+    length = 0;
+    // 后续是否使用多线程 TODO
+    while (length = recv(client_socket, buffer, BUFFER_SIZE, 0)) {
+        if (length &amp;lt; 0) {
+            printf(&quot;Recieve Data From Server %s Failed!\n&quot;, server_ip);
+            break;
+        }
+
+        int write_length = fwrite(buffer, sizeof(char), length, stream);
+        if (write_length &amp;lt; length) {
+            printf(&quot;File is Write Failed\n&quot;);
+            break;
+        }
+
+        printf(&quot;write data to file!\n&quot;);
+
+        bzero(buffer, BUFFER_SIZE);
+    }
+    printf(&quot;Recieve File From Server[%s] Finished\n&quot;, server_ip);
+
+    fclose(stream);
+    close(client_socket);
+
+    time(&amp;amp;end);
+    double t = difftime(end, start);
+    printf(&quot;download file use: %f &quot;, t);
+
+}
+
+
+//解析文件
+// by bibo 2015-08-25
+
+void parse_file()
+{
+    time_t start, end;
+    time(&amp;amp;start);
+
+    //--------parse---------
+
+    FILE* stream;
+    if ((stream = fopen( FILE_PATH , &quot;rb&quot;)) == NULL)
+    {
+        printf(&quot;The file &apos;data&apos; was not opened! \n&quot;);
+        exit(0);
+    }
+
+
+    // 钟点工 = 长度 + 记录类型（0） + ID + 性别 + 年龄 + 评分
+    // 15 字节 = 4 + 1 + 4 + 1 + + 1 + 4
+
+    // 需求 = 长度 + 记录类型 （1）+ ID + 横坐标 + 纵坐标 + 时长 + 时间要求 + 起始时间 + 图片？
+    // ? = 4 + 1 + 4 + 8 + 8 + 1 + 1 + 4 + ？
+
+
+    printf(&quot;int %ld \n&quot;, sizeof(int));
+    printf(&quot;short %ld \n&quot;, sizeof(short));
+    printf(&quot;float %ld \n&quot;, sizeof(float));
+    printf(&quot;long %ld \n&quot;, sizeof(long));
+    printf(&quot;char %ld \n&quot;, sizeof(char));
+
+    char buffer[BUFFER_SIZE];
+    bzero(buffer, BUFFER_SIZE);
+
+
+    int record_size = 0;
+    long length = 0;
+
+    int bill_num = 0;
+    int worker_num = 0;
+
+    // TODO 想办法将结构树体放到某个数据结构中去存储并计算
+    // 2G数据，必须要进行分治才能高效计算
+
+    // 读取文件到内存中
+    while (length = fread(&amp;amp;record_size, sizeof(int), 1, stream)) {
+
+        // 长度
+        // printf(&quot;record size: %d \n&quot;, record_size);
+        char type = 0;
+
+        //
+        int i = 0;
+        char c = 0;
+        long l = 0;
+        float f = 0;
+        double d = 0;
+
+
+        length = fread(&amp;amp;type, sizeof(char), 1, stream);
+
+        // type
+        if (type == 0)
+        {
+            struct Worker worker;
+
+            fread(&amp;amp;i, sizeof(int), 1, stream); // ID
+            worker._id = i;
+
+            fread(&amp;amp;c, sizeof(char), 1, stream); // gender
+            worker._gender = c;
+
+            fread(&amp;amp;c, sizeof(char), 1, stream); // age
+            worker._age = c;
+
+            fread(&amp;amp;f, sizeof(float), 1, stream); // score
+            worker._score = f;
+
+            printf(&quot;get a worker: %d, %d, %d, %f \n&quot;, worker._id, worker._gender, worker._age, worker._score);
+
+            // free(&amp;amp;worker);
+
+            worker_num++;
+
+        }
+        else if (type == 1)
+        {
+            struct Bill bill;
+
+            fread(&amp;amp;i, sizeof(int), 1, stream); // ID
+            bill._id = i;
+
+            fread(&amp;amp;d, sizeof(double), 1, stream); // px
+            bill._px = d;
+
+            fread(&amp;amp;d, sizeof(double), 1, stream);// py
+            bill._py = d;
+
+            fread(&amp;amp;c, sizeof(char), 1, stream); // time
+            bill._time = c;
+
+            fread(&amp;amp;c, sizeof(char), 1, stream); // time_require
+            bill._time_require = c;
+
+            if (bill._time_require == 1) // 有时间要求
+            {
+                fread(&amp;amp;i, sizeof(int), 1, stream);
+                bill._begin_time = i;
+
+                // 直接略过
+                fseek(stream, sizeof(char) * ( record_size - 27 - 4), SEEK_CUR);
+
+                // bill._image = (char*) malloc(sizeof(char) * (record_size - 27 - 4));
+                // fread(bill._image, sizeof(char), record_size - 27 - 4, stream);
+            }
+            else
+            {
+                bill._begin_time = 0;
+
+                // 直接略过
+                fseek(stream, sizeof(char) * ( record_size - 27), SEEK_CUR);
+
+                // bill._image = (char*)malloc(sizeof(char) * (record_size - 27));
+                // fread(bill._image, sizeof(char), record_size - 27 , stream);
+
+            }
+
+            printf(&quot;get a bill: %d, %f, %f, %d, %d, %d, %s \n&quot;, bill._id, bill._px, bill._py, bill._time, bill._time_require, bill._begin_time, bill._image);
+
+            // 暂时不存储
+            free(bill._image);
+
+            bill_num ++;
+        }
+    }
+
+
+
+
+    //---------------------
+    // show time
+    time(&amp;amp;end);
+    double t = difftime(end, start);
+    printf(&quot;parse file use time: %lf \n&quot;, t);
+
+    printf(&quot;total worker num: %d \n&quot;, worker_num);
+    printf(&quot;total bill num: %d \n&quot;, bill_num);
+
+    scanf(&quot;pleas press key to exit: %lf \n &quot;, &amp;amp;t);
+    return;
+}
+
+// 解析记录
+void parse_record()
+{
+    return;
+}
+
+//---------------------Main-----------------------
+int main(int argc, char **argv)
+{
+    if (argc != 2) {
+        printf(&quot;Usage: ./%s ServerIPAddress\n&quot;, argv[0]);
+        argv[1] = DEFAULT_SERVER_IP;
+        // exit(1);
+    }
+
+
+    download_file(argv[1], SERVER_PORT);
+
+    parse_file();
+
+    return 0;
+}
+</code></pre><p>最终，此次兴趣比赛，因为我们个人没有时间最终没有提交完整的代码。不过，我们最终还是得到了一件文化衫，当时报名也就是为了一件 <code>Talk is cheap , Show me the code</code> 的 T-Shirt，因为于Linux的服务器编程，我们IT部并不在行，而架构平台部，安全平台部比较在行，在决赛的晚会中，他们展示的方案想法其实也差不多，就看谁能够有这么强的代码能力付诸实现。</p>
+<p>–end–<br>by biboedeng 2015-11-01&lt;/time.h&gt;&lt;/string.h&gt;&lt;/stdlib.h&gt;&lt;/stdio.h&gt;&lt;/time.h&gt;&lt;/string.h&gt;&lt;/stdlib.h&gt;&lt;/stdio.h&gt;</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/10/11/商业头脑的两件小事/" itemprop="url">
+                  商业头脑的两件小事
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-10-11T00:07:45+08:00" content="2015-10-11">
+              2015-10-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2015/10/11/商业头脑的两件小事/" class="leancloud_visitors" data-flag-title="商业头脑的两件小事">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<p style="font-family:'Helvetica Neue';font-size:14px;line-height:normal;widows:auto;">最近听闻我的一个大学舍友要在所在的大城市买房了，感叹同样是毕业一年的学生，怎么赚钱的能力差那么大呢。</p>
+<p style="font-family:'Helvetica Neue';font-size:14px;line-height:normal;widows:auto;"></p>
+<p style="font-family:'Helvetica Neue';font-size:14px;line-height:normal;widows:auto;">我大学毕业以来，进入BAT其中的T工作，而他进入的公司后来被A收购，工资算起来都差不多，但是很要命的是，我们的收入差距居然这么巨大，我到如今所有的积蓄加起来也才那么一点，老家的首付都还远远不够，这令我有点诧异。据我观察，潮汕的同学，有许多都肯动脑筋去想怎么赚钱，而一些专业领域的秘密，正是源源不断的钱的发源地。大学的时候，室友先是开发了一个App挂在未知名的广告平台上供人下载源码，结果收入并不多，一次几毛钱，最终也才累积到十几块钱，后来又开发了一个山寨的flappy bird游戏，虽然使用游戏引擎做起来并不算很复杂，但是借这个势头，在各个广告平台投放广告，赚到了第一桶金，对于尚在学校的我们来说，还算比较客观，而这种轻松的赚钱方法是拼命工作所无法比拟的。可以想见，进入一个游戏广告公司，知道了这种盈利的方式，这就是一种壁垒或者叫商业秘密，一般人不得门而入，但是也不能说是永远无门的，因为只要你开始接触这个领域，做了一款App，接入某个广告平台，你就会越来越深入地窥探到其中的秘密。可以这么说，对于商机，你需要留意并且钻营，一开始可能很小，小到你不以为意，但是当你发现一个大的秘密的时候，赚大钱的机会就来了。</p>
+<p style="font-family:'Helvetica Neue';font-size:14px;line-height:normal;widows:auto;"></p>
+<p style="font-family:'Helvetica Neue';font-size:14px;line-height:normal;widows:auto;">另外一个女同学，刚好也是潮汕人，她自己运营了一个微信公众账号，运用一些营销的手法，如推广公众号，写一些相关文章，竟然使得阅读量能够达到上千，而我久久经营的公众号，因为许久不更新，而订阅量越来越少。我细细一想其中的差别，潮汕的同学的商业头脑，体现在他们能够想办法去把一些与人有关，与钱有关的资源运营和控制起来，从而就把握住了一些商机。而我自己，虽然也在运营，但更多的是出于一种兴趣，想要尝试一下而已，或者说比较清高，只是写自己想写的，没有想着怎么去运用一些营销手段。另外一个我没有做好的地方，是我应当多写一点对别人有益的东西，做到言之有物，而不仅仅是在倾诉着自己的遭遇，于别人有价值，别人才会赋予它价值。</p>
+<p style="font-family:'Helvetica Neue';font-size:14px;line-height:normal;widows:auto;"></p>
+<p style="font-family:'Helvetica Neue';font-size:14px;line-height:normal;widows:auto;">by bibodeng 2015-10-11</p>
+<p style="font-family:'Helvetica Neue';font-size:14px;line-height:normal;widows:auto;"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/09/13/大城小爱/" itemprop="url">
+                  大城小爱
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-13T00:51:18+08:00" content="2015-09-13">
+              2015-09-13
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2015/09/13/大城小爱/" class="leancloud_visitors" data-flag-title="大城小爱">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+今天，是我和你在一起五个月，很快，我们就要结束异地，相聚在同一个城市了。
+
+做出这个决定，我相信你也是用了很大的勇气，毕竟要来到一个陌生的城市，开始全新的生活。当然想到，能够常常见到，在一个环境很好天空很蓝的城市，一同奋斗，这份小小的爱，在大城里应该会很甜蜜。
+
+当初追求你的时候，我常常跑去广州，但是并不总是能够见到，有时候是你拒绝，有时候是没时间，总算有一次，大家说出来去沙面游玩，才跟着一起去，非常想能见到你，结果那天玩的还算挺开心的，拍了一些照片，获得了好评，当时跟你也踊跃地拍了几张合照，其中一张在门的两边，一张站在窗台上，笑的都挺好的，最后，我鼓起勇气和你合照了一张，并斗胆把手搭在了你的肩上，据说那个举动吓到了你，但总算是有了一个小小的开端。
+
+过了不久，是她的生日，我叫上了她的好闺蜜，策划了一个属于我们江头小伙伴的party，准备party之前，彬彬，雄洲，我们三个先去踩点，终于到了生日那天，我们在维多利广场吃饭，然后到钱柜去唱K。晚饭的时候，都还比较尴尬，小伙伴们也算是借这个机会聚了一下，当天晚上准备了蛋糕，吃完饭出来夜色刚刚好，橘黄色的灯照耀着优衣库下面的小广场，一切是这么地美好，然后就去唱k了，途中，只和你说了几句话，稍微没有那么尴尬了。唱K途中由于紧张，唱得不好，只是好基友们在一起烘托氛围，热情献唱。直到吃过蛋糕，已经很晚了，大家都已经回去，剩下我的几个基友，还有你的好闺蜜钟，表白的过程异常艰辛，我好不容易鼓起勇气，却又不敢看你，不敢和你说话，直到十二点多，才鼓起勇气坐过去，聊了一下，拿出电脑播放我制作的幻灯片，期间几个照片你笑了，然后送上生日礼物—— 一本专属相册，一个QQ公仔，想不到你居然欣然接受。播完视频，气氛再度冷落下来，我没有勇气说出最重要的话，待在一旁踟蹰。最后被钟一脚踢过去了，才鼓起勇气表白了，两个人说了一些悄悄话，最后我问，愿不愿意做我的女朋友，你显得非常紧张，我想去拉你的手，你却把它压在大腿下，最后硬牵了一会，然后你说要好好考虑。这个时候钟不知道对你说了什么，然后你就笑了，当我再次问的时候，就说答应了，这个时候好基友们在唱《今年你要嫁给我》等很欢快的歌，我顺利地牵起了女神的手一起欢唱这最后一首歌，必须给亲爱的小伙伴们点赞。可是，这时候的我，却异常地平静，好友们却激动得不行，仿佛自己恋爱了一般。我知道，我得到了一个好女孩，还有非常好朋友在身边，很幸福。
+
+回去睡了一觉，回到已经非常晚了，我非常平静，好基友们在激动地谈论，或者是感叹就我有女朋友了，他们都还单身哪，这么卖力，是不是要我把袜子，内裤都帮他们洗了。第二天醒来，发现莫名地想念，非常想见到你。于是第二天专门请了一天假，去和心爱的你约会，第一次约会，谈了很多很多，从中午谈到下午，然后依依不舍地分别了，地铁关上门那一刻，都忍不住多看对方两眼。我坐在高铁上，看着窗外的夜景，居然哭了，哭得稀里哗啦的，十年前，我开始喜欢你，中间几经波折，也许久不联系，但是最终，我们真的走在了一起，这一切的想念，委屈，高兴都在这一刻爆发了。
+
+
+
+后来，你告诉我，那天晚上你心动了，我们是两情相悦。你还告诉我，我穿着白色衬衫的样子很帅，而我觉得你穿着白色上衣的样子，不可替代。如今看起来，都觉得很不可思议，当时是多么尴尬，而现在却又是那么地甜蜜，一切都是最好的安排。有时候我会有很强的预感，预感到我人生的一些旅程场景，而对于你，异常强烈。每一段爱情故事，都是那么传奇，而在一起之后，过得却是平淡的生活，没有那么传奇，却是实在的开心。祝愿有情人终成眷属。
+
+by bibodeng 2015-09-12
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/07/01/本地安装NuGet包/" itemprop="url">
+                  本地安装NuGet包
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-01T10:56:02+08:00" content="2015-07-01">
+              2015-07-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2015/07/01/本地安装NuGet包/" class="leancloud_visitors" data-flag-title="本地安装NuGet包">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#本地安装NuGet包</p>
+<p>由于内部开发时使用的是开发域的网络，Visual Studio中的包管理器无法通过网络访问NuGet仓库，故而我们需要想办法来通过下载到包，然后手动安装到我们的项目中。</p>
+<p>##第一步 下载NuGet包</p>
+<p>可以通过NuGet网站 <code>https://www.nuget.org/</code> 来查找要安装的包，记住包名PackageId。</p>
+<pre><code>https://www.nuget.org/api/v2/package/{packageId}/{version}
+</code></pre><p>以包 <code>Microsoft.AspNet.WebApi</code> 为例，下面通过链接来下载该包的5.2.3版本，在浏览器中输入</p>
+<pre><code>https://www.nuget.org/api/v2/package/Microsoft.AspNet.WebApi/5.2.3
+</code></pre><p>将下载到的NuGet包拷贝到开发机中的本地硬盘某个位置。</p>
+<p>##第二步 安装NuGet包</p>
+<p>要安装NuGet包，需要在项目中打开NuGet Manager, 选中项目，右键点击菜单，选中Manage NuGet Package，然后点击 Setting进入到设置界面， 配置添加一个源到Package Source中，待会在安装中即可选择这个本地源了。</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201507/216964db532c1a9231695eed0bac46c5201507011058361414530903.png" alt="Manage NuGet Package界面"></p>
+<p>Manage NuGet Package界面</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201507/6e85d7818d8da83fd4f6cba85313c94c201507011058361170095749.png" alt="添加本地源"></p>
+<p>添加本地源</p>
+<p>添加完本地源后，例子中我们添加了一个localNuGet，地址是E盘下的nuget目录。刚刚我们把下载到的NuGet包放在了这里，今后要安装包，从这里选择即可。再次打开Manage NuGet Package界面，即可看到Online菜单下面有我们添加的localNuget源了，从里面可以选中我们要安装的包进行安装。</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201507/ca3e2db8d762a134508a330ceef67def201507011058361783180342.png" alt="从本地源安装包"></p>
+<p>从本地源安装包</p>
+<p>##后记<br>在安装一些依赖很多的包的时候，常常出现无法解决依赖的错误，依赖无法满足则包不能被安装成功。所以本地源手动安装包非常麻烦，需要把依赖的包都安装好后，才能安装自己想要安装的那个包，不像联网的时候需要什么包就自动去根据依赖去获取，而且这些包的依赖，各种版本虽然能够对应，但保不齐不出什么问题。所以能够联网安装包尽量联网安装，这样省心省力。</p>
+<p>另外，推荐一个Web API文档自动生成的工具swagger，可以通过NuGet安装Swashbuckle来引入，祝开发愉快！</p>
+<p>by bibodeng 2015-07-01</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/06/26/RSA算法长文本加密/" itemprop="url">
+                  RSA算法长文本加密
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-26T16:49:19+08:00" content="2015-06-26">
+              2015-06-26
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2015/06/26/RSA算法长文本加密/" class="leancloud_visitors" data-flag-title="RSA算法长文本加密">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<div style="font-family:微软雅黑, 'Microsoft YaHei', Georgia, Helvetica, Arial, sans-serif, 宋体, PMingLiU, serif;font-size:14px;line-height:21px;widows:auto;">RSA是最常用的非对称加密算法，公钥用于加密，私钥用来解密。私钥还可以用来签名，公钥可以认证该签名。<span style="font-size:10.5pt;line-height:1.5;">我们可以使用生成的公钥和密钥进行RSA的加密和解密，简单的文本加解密如下，主要思路就是，根据传入的密钥，构造Provider，然后使用Provider执行加解密操作。使用公钥加密完成后，可以转换成Base64编码，也可以保存在Byte[]，响应地解密时需要传入Byte[]类型的密文。</span></div>
+<div style="font-family:微软雅黑, 'Microsoft YaHei', Georgia, Helvetica, Arial, sans-serif, 宋体, PMingLiU, serif;font-size:14px;line-height:21px;widows:auto;"><br>
+</div>
+<div style="font-family:微软雅黑, 'Microsoft YaHei', Georgia, Helvetica, Arial, sans-serif, 宋体, PMingLiU, serif;font-size:14px;line-height:21px;widows:auto;"><div><pre class="prettyprint linenums prettyprinted" style="font-size:13px;font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;background-color:#f7f7f9;padding:10px;border:1px solid #e1e1e8;tab-size:4;box-shadow:#fbfbfc 40px 0px 0px inset, #ececf0 41px 0px 0px inset;"><div class="linenums" style="color:#1e347b;margin-top:0px;margin-bottom:0px;padding-left:0px;"><div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="com" style="color:#93a1a1;">//string xmlPublicKey : xml 格式的公钥字符串</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="com" style="color:#93a1a1;">//string m_strEncryptString: 明文字符串</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">static</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSAEncrypt</span><span class="pun" style="color:#93a1a1;">(</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> xmlPublicKey</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> plainText</span><span class="pun" style="color:#93a1a1;">)</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">RSACryptoServiceProvider</span><span class="pln" style="color:#48484c;"> provider </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSACryptoServiceProvider</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	provider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">FromXmlString</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">xmlPublicKey</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">byte</span><span class="pun" style="color:#93a1a1;">[]</span><span class="pln" style="color:#48484c;"> bytes </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">UnicodeEncoding</span><span class="pun" style="color:#93a1a1;">().</span><span class="typ" style="color:teal;">GetBytes</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">plainText</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">return</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Convert</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">ToBase64String</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">provider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Encrypt</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">bytes</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">false</span><span class="pun" style="color:#93a1a1;">));</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="com" style="color:#93a1a1;">//string xmlPrivateKey ：xml 格式的私钥字符串</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="com" style="color:#93a1a1;">//string encryptedText : 解密字符串</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">static</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSADecrypt</span><span class="pun" style="color:#93a1a1;">(</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> xmlPrivateKey</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> encryptedText</span><span class="pun" style="color:#93a1a1;">)</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">RSACryptoServiceProvider</span><span class="pln" style="color:#48484c;"> provider </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSACryptoServiceProvider</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	provider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">FromXmlString</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">xmlPrivateKey</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">byte</span><span class="pun" style="color:#93a1a1;">[]</span><span class="pln" style="color:#48484c;"> rgb </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Convert</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">FromBase64String</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">encryptedText</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">byte</span><span class="pun" style="color:#93a1a1;">[]</span><span class="pln" style="color:#48484c;"> bytes </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> provider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Decrypt</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">rgb</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">false</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">return</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">UnicodeEncoding</span><span class="pun" style="color:#93a1a1;">().</span><span class="typ" style="color:teal;">GetString</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">bytes</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;">}</span></code></div>
+</div>
+</pre></div>
+<div>下面用一个例子进行测试：</div>
+</div>
+<div style="font-family:微软雅黑, 'Microsoft YaHei', Georgia, Helvetica, Arial, sans-serif, 宋体, PMingLiU, serif;font-size:14px;line-height:21px;widows:auto;"><pre class="prettyprint linenums prettyprinted" style="font-size:13px;font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;background-color:#f7f7f9;padding:10px;border:1px solid #e1e1e8;tab-size:4;box-shadow:#fbfbfc 40px 0px 0px inset, #ececf0 41px 0px 0px inset;"><div class="linenums" style="color:#1e347b;margin-top:0px;margin-bottom:0px;padding-left:0px;"><div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="com" style="color:#93a1a1;">// RSAUtil类，可以用来模拟生成公钥和私钥</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">class</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSAUtil</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSACryptoServiceProvider</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RsaProvider</span><span class="pun" style="color:#93a1a1;">;</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSAUtil</span><span class="pun" style="color:#93a1a1;">()</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="com" style="color:#93a1a1;">// 创建一对公钥私钥</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="typ" style="color:teal;">RsaProvider</span><span class="pln" style="color:#48484c;"> </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSACryptoServiceProvider</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// &lt;summary&gt;</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// 获取RSA的公钥xml</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// &lt;/summary&gt;</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// &lt;returns&gt;&lt;/returns&gt;</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">GetRSAPublicKeyXML</span><span class="pun" style="color:#93a1a1;">()</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">return</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RsaProvider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">ToXmlString</span><span class="pun" style="color:#93a1a1;">(</span><span class="kwd" style="color:#1e347b;">false</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// &lt;summary&gt;</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// 返回公钥及私钥xml</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// &lt;/summary&gt;</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// &lt;returns&gt;&lt;/returns&gt;</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">GetRSAKeyPairXML</span><span class="pun" style="color:#93a1a1;">()</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">return</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RsaProvider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">ToXmlString</span><span class="pun" style="color:#93a1a1;">(</span><span class="kwd" style="color:#1e347b;">true</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// &lt;summary&gt;</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// 获取RSA的公钥</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// &lt;/summary&gt;</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// &lt;returns&gt;&lt;/returns&gt;</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSAParameters</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">GetRSAPublicKey</span><span class="pun" style="color:#93a1a1;">()</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">return</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RsaProvider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">ExportParameters</span><span class="pun" style="color:#93a1a1;">(</span><span class="kwd" style="color:#1e347b;">false</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<p style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">}</span></code></p>
+<p style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;"> </span></code></p>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// &lt;summary&gt;</span></code></div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// 返回公钥及私钥</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// &lt;/summary&gt;</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">/// &lt;returns&gt;&lt;/returns&gt;</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSAParameters</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">GetRSAKeyPair</span><span class="pun" style="color:#93a1a1;">()</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">return</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RsaProvider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">ExportParameters</span><span class="pun" style="color:#93a1a1;">(</span><span class="kwd" style="color:#1e347b;">true</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;">}</span></code></div>
+</div>
+</pre></div>
+<div style="font-family:微软雅黑, 'Microsoft YaHei', Georgia, Helvetica, Arial, sans-serif, 宋体, PMingLiU, serif;font-size:14px;line-height:21px;widows:auto;"><div><pre class="prettyprint linenums prettyprinted" style="font-size:13px;font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;background-color:#f7f7f9;padding:10px;border:1px solid #e1e1e8;tab-size:4;box-shadow:#fbfbfc 40px 0px 0px inset, #ececf0 41px 0px 0px inset;"><div class="linenums" style="color:#1e347b;margin-top:0px;margin-bottom:0px;padding-left:0px;"><div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="kwd" style="color:#1e347b;">class</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Program</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">// 测试</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">static</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">void</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">TestRSA</span><span class="pun" style="color:#93a1a1;">()</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="typ" style="color:teal;">RSAUtil</span><span class="pln" style="color:#48484c;"> rsaUtil </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSAUtil</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="com" style="color:#93a1a1;">// 生成一对密钥</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="typ" style="color:teal;">RSAParameters</span><span class="pln" style="color:#48484c;"> params1 </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> rsaUtil</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">GetRSAPublicKey</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="typ" style="color:teal;">RSAParameters</span><span class="pln" style="color:#48484c;"> params2 </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> rsaUtil</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">GetRSAKeyPair</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> publicKey </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> rsaUtil</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">GetRSAPublicKeyXML</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> privateKey </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> rsaUtil</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">GetRSAKeyPairXML</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="com" style="color:#93a1a1;">// 下面尝试加密解密</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> msg </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="str" style="color:#dd1144;">@"hello world"</span><span class="pun" style="color:#93a1a1;">;</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> encodeMsg </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSAEncrypt</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">publicKey</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> msg</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> decodeMsg </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSADecrypt</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">privateKey</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> encodeMsg</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="typ" style="color:teal;">Console</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">WriteLine</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">decodeMsg</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;">}</span></code></div>
+</div>
+</pre></div>
+<div><br>
+</div>
+<div>在Main函数中运行该TestRSA()函数，结果为正确helllo world，说明解密成功。然而这样的做法存在问题，当明文长度过长，则以上函数无法使用，因为RSA1024只能加密117个字节以内的数据。<span style="font-size:10.5pt;line-height:1.5;">RSA算法能够对数据进行非对称加密，但是非对称加密的成本是很高的。1024bit的密钥，只能加密1024 / 8 - 11 = 117字节长度的明文，生成的密文长度最大为1024/8=128字节（此外RSA的签名能够生成一个和密钥长度相等的签名，用C#内置的Verify方法可以进行验证）。故而我们需要重写我们的加解密函数，按最大117一组来进行加密，反之，按最大128字节一组来解密。</span></div>
+</div>
+<div style="font-family:微软雅黑, 'Microsoft YaHei', Georgia, Helvetica, Arial, sans-serif, 宋体, PMingLiU, serif;font-size:14px;line-height:21px;widows:auto;"><span style="font-size:10.5pt;line-height:1.5;"><br>
+</span></div>
+<div style="font-family:微软雅黑, 'Microsoft YaHei', Georgia, Helvetica, Arial, sans-serif, 宋体, PMingLiU, serif;font-size:14px;line-height:21px;widows:auto;"><div><pre class="prettyprint linenums prettyprinted" style="font-size:13px;font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;background-color:#f7f7f9;padding:10px;border:1px solid #e1e1e8;tab-size:4;box-shadow:#fbfbfc 40px 0px 0px inset, #ececf0 41px 0px 0px inset;"><div class="linenums" style="color:#1e347b;margin-top:0px;margin-bottom:0px;padding-left:0px;"><div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">static</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSAEncryptForLongString</span><span class="pun" style="color:#93a1a1;">(</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> xmlPublicKey</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> plainText</span><span class="pun" style="color:#93a1a1;">)</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">RSACryptoServiceProvider</span><span class="pln" style="color:#48484c;"> provider </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSACryptoServiceProvider</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<p style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	provider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">FromXmlString</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">xmlPublicKey</span><span class="pun" style="color:#93a1a1;">);</span></code></p>
+<p style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;"> </span></code></p>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">Byte</span><span class="pun" style="color:#93a1a1;">[]</span><span class="pln" style="color:#48484c;"> plainTextData </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Encoding</span><span class="pun" style="color:#93a1a1;">.</span><span class="pln" style="color:#48484c;">UTF8</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">GetBytes</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">plainText</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">int</span><span class="pln" style="color:#48484c;"> maxBlockSize </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> provider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">KeySize</span><span class="pln" style="color:#48484c;"> </span><span class="pun" style="color:#93a1a1;">/</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">8</span><span class="pln" style="color:#48484c;"> </span><span class="pun" style="color:#93a1a1;">-</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">11</span><span class="pun" style="color:#93a1a1;">;</span></code></div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">if</span><span class="pln" style="color:#48484c;"> </span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">plainTextData</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Length</span><span class="pln" style="color:#48484c;"> </span><span class="pun" style="color:#93a1a1;">&lt;=</span><span class="pln" style="color:#48484c;"> maxBlockSize</span><span class="pun" style="color:#93a1a1;">)</span><span class="pln" style="color:#48484c;">   </span><span class="com" style="color:#93a1a1;">// 长度不满一节</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">return</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Convert</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">ToBase64String</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">provider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Encrypt</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">plainTextData</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">false</span><span class="pun" style="color:#93a1a1;">));</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">// 超长</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	using </span><span class="pun" style="color:#93a1a1;">(</span><span class="typ" style="color:teal;">MemoryStream</span><span class="pln" style="color:#48484c;"> plainStream </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">MemoryStream</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">plainTextData</span><span class="pun" style="color:#93a1a1;">))</span></code></div>
+<div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	using </span><span class="pun" style="color:#93a1a1;">(</span><span class="typ" style="color:teal;">MemoryStream</span><span class="pln" style="color:#48484c;"> cryptStream </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">MemoryStream</span><span class="pun" style="color:#93a1a1;">())</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="com" style="color:#93a1a1;">// read from plainStream </span></code></div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="typ" style="color:teal;">Byte</span><span class="pun" style="color:#93a1a1;">[]</span><span class="pln" style="color:#48484c;"> buffer </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Byte</span><span class="pun" style="color:#93a1a1;">[</span><span class="pln" style="color:#48484c;">maxBlockSize</span><span class="pun" style="color:#93a1a1;">];</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="typ" style="color:teal;">int</span><span class="pln" style="color:#48484c;"> blockSize </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> plainStream</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Read</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">buffer</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> maxBlockSize</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">while</span><span class="pln" style="color:#48484c;"> </span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">blockSize </span><span class="pun" style="color:#93a1a1;">&gt;</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">)</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			</span><span class="com" style="color:#93a1a1;">// 实际读取到的长度</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			</span><span class="typ" style="color:teal;">Byte</span><span class="pun" style="color:#93a1a1;">[]</span><span class="pln" style="color:#48484c;"> toEncrypt </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Byte</span><span class="pun" style="color:#93a1a1;">[</span><span class="pln" style="color:#48484c;">blockSize</span><span class="pun" style="color:#93a1a1;">];</span></code></div>
+<div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			</span><span class="com" style="color:#93a1a1;">// 拷贝到toEncrypt</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			</span><span class="typ" style="color:teal;">Array</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Copy</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">buffer</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> toEncrypt</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> blockSize</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			</span><span class="com" style="color:#93a1a1;">// 得到加密片段</span></code></div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			</span><span class="typ" style="color:teal;">Byte</span><span class="pun" style="color:#93a1a1;">[]</span><span class="pln" style="color:#48484c;"> cryptograph </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> provider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Encrypt</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">toEncrypt</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">false</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			</span><span class="com" style="color:#93a1a1;">// 放到输出流中</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			cryptStream</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Write</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">cryptograph</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> cryptograph</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Length</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			blockSize </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> plainStream</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Read</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">buffer</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> maxBlockSize</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">return</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Convert</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">ToBase64String</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">cryptStream</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">ToArray</span><span class="pun" style="color:#93a1a1;">());</span></code></div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;">&nbsp;</code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">static</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSADecryptForLongString</span><span class="pun" style="color:#93a1a1;">(</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> xmlPrivateKey</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> encryptText</span><span class="pun" style="color:#93a1a1;">)</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">RSACryptoServiceProvider</span><span class="pln" style="color:#48484c;"> provider </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSACryptoServiceProvider</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	provider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">FromXmlString</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">xmlPrivateKey</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">Byte</span><span class="pun" style="color:#93a1a1;">[]</span><span class="pln" style="color:#48484c;"> encryptTextData </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Convert</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">FromBase64String</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">encryptText</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">Console</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">WriteLine</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">encryptTextData</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Length</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">// 每个加密块最大长度</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">int</span><span class="pln" style="color:#48484c;"> maxBlockSize </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> provider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">KeySize</span><span class="pln" style="color:#48484c;"> </span><span class="pun" style="color:#93a1a1;">/</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">8</span><span class="pun" style="color:#93a1a1;">;</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">// 无需分段</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">if</span><span class="pln" style="color:#48484c;"> </span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">encryptTextData</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Length</span><span class="pln" style="color:#48484c;"> </span><span class="pun" style="color:#93a1a1;">&lt;</span><span class="pln" style="color:#48484c;"> maxBlockSize</span><span class="pun" style="color:#93a1a1;">)</span></code></div>
+<div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">return</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Encoding</span><span class="pun" style="color:#93a1a1;">.</span><span class="pln" style="color:#48484c;">UTF8</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">GetString</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">provider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Decrypt</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">encryptTextData</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">false</span><span class="pun" style="color:#93a1a1;">));</span></code></div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">// 需要分段</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	using </span><span class="pun" style="color:#93a1a1;">(</span><span class="typ" style="color:teal;">MemoryStream</span><span class="pln" style="color:#48484c;"> cryptStream </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">MemoryStream</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">encryptTextData</span><span class="pun" style="color:#93a1a1;">))</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	using </span><span class="pun" style="color:#93a1a1;">(</span><span class="typ" style="color:teal;">MemoryStream</span><span class="pln" style="color:#48484c;"> plainStream </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">MemoryStream</span><span class="pun" style="color:#93a1a1;">())</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="typ" style="color:teal;">Byte</span><span class="pun" style="color:#93a1a1;">[]</span><span class="pln" style="color:#48484c;"> buffer </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Byte</span><span class="pun" style="color:#93a1a1;">[</span><span class="pln" style="color:#48484c;">maxBlockSize</span><span class="pun" style="color:#93a1a1;">];</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		cryptStream</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Position</span><span class="pln" style="color:#48484c;"> </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">;</span></code></div>
+<div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="typ" style="color:teal;">int</span><span class="pln" style="color:#48484c;"> blockSize </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> cryptStream</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Read</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">buffer</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> maxBlockSize</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">while</span><span class="pln" style="color:#48484c;"> </span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">blockSize </span><span class="pun" style="color:#93a1a1;">&gt;</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">)</span></code></div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			</span><span class="typ" style="color:teal;">Byte</span><span class="pun" style="color:#93a1a1;">[]</span><span class="pln" style="color:#48484c;"> toDecrypt </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Byte</span><span class="pun" style="color:#93a1a1;">[</span><span class="pln" style="color:#48484c;">blockSize</span><span class="pun" style="color:#93a1a1;">];</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			</span><span class="typ" style="color:teal;">Array</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Copy</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">buffer</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> toDecrypt</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> blockSize</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			</span><span class="typ" style="color:teal;">Byte</span><span class="pun" style="color:#93a1a1;">[]</span><span class="pln" style="color:#48484c;"> plainText </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> provider</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Decrypt</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">toDecrypt</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">false</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			plainStream</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Write</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">plainText</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> plainText</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Length</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">			blockSize </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> cryptStream</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">Read</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">buffer</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> </span><span class="lit" style="color:#195f91;">0</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> maxBlockSize</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">		</span><span class="kwd" style="color:#1e347b;">return</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">Encoding</span><span class="pun" style="color:#93a1a1;">.</span><span class="pln" style="color:#48484c;">UTF8</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">GetString</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">plainStream</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">ToArray</span><span class="pun" style="color:#93a1a1;">());</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="pun" style="color:#93a1a1;">}</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;">}</span></code></div>
+</div>
+</pre></div>
+<div>测试运行：</div>
+</div>
+<div style="font-family:微软雅黑, 'Microsoft YaHei', Georgia, Helvetica, Arial, sans-serif, 宋体, PMingLiU, serif;font-size:14px;line-height:21px;widows:auto;"><div><pre class="prettyprint linenums prettyprinted" style="font-size:13px;font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;background-color:#f7f7f9;padding:10px;border:1px solid #e1e1e8;tab-size:4;box-shadow:#fbfbfc 40px 0px 0px inset, #ececf0 41px 0px 0px inset;"><div class="linenums" style="margin-top:0px;margin-bottom:0px;padding-left:0px;"><div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="com" style="color:#93a1a1;">// 测试公钥私钥产生及加密</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="kwd" style="color:#1e347b;">public</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">static</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">void</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">TestRSA</span><span class="pun" style="color:#93a1a1;">()</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pun" style="color:#93a1a1;">{</span></code></div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">RSAUtil</span><span class="pln" style="color:#48484c;"> rsaUtil </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="kwd" style="color:#1e347b;">new</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSAUtil</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">// 生成一对密钥</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">RSAParameters</span><span class="pln" style="color:#48484c;"> params1 </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> rsaUtil</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">GetRSAPublicKey</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">RSAParameters</span><span class="pln" style="color:#48484c;"> params2 </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> rsaUtil</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">GetRSAKeyPair</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> publicKey </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> rsaUtil</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">GetRSAPublicKeyXML</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> privateKey </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> rsaUtil</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">GetRSAKeyPairXML</span><span class="pun" style="color:#93a1a1;">();</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L3" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">// 下面尝试加密解密</span></code></div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> msg </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="str" style="color:#dd1144;">@"最近用了近两三天来翻完了《大话设计模式》这本书，</span></code></div>
+<span style="color:#1e347b;"> </span><div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="str" style="color:#dd1144;">	里面一一展示了29种设计模式，这些设计模式都是基于面向对象的，</span></code></div>
+<span style="color:#1e347b;"> </span><div class="L6" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="str" style="color:#dd1144;">	根据各种法则推演出来，是面向对象的“类的结构”.</span></code></div>
+<span style="color:#1e347b;"> </span><div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="str" style="color:#dd1144;">	里面很多结构都是借鉴了生活中的一些解耦的思想，</span></code></div>
+<span style="color:#1e347b;"> </span><div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="str" style="color:#dd1144;">	我们开发的过程中应当有意识地在编写代码的时候怎么样让程序结构更好。</span></code></div>
+<span style="color:#1e347b;"> </span><div class="L9" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="str" style="color:#dd1144;">	这其实是用一种面向对象的思想来思考程序的各个模块，</span></code></div>
+<span style="color:#1e347b;"> </span><div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="str" style="color:#dd1144;">	而我们的世界本来就是各种对象的协作，</span></code></div>
+<span style="color:#1e347b;"> </span><div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="str" style="color:#dd1144;">	我们是要让程序模拟我们的现实世界"</span><span class="pun" style="color:#93a1a1;">;</span></code></div>
+<div class="L2" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L4" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">// 根据上面生成的公钥进行加密</span></code></div>
+<div class="L5" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> encodeMsg </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSAEncryptFromStream</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">publicKey</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> msg</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L7" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="com" style="color:#93a1a1;">// 根据密钥进行解密</span></code></div>
+<div class="L8" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="kwd" style="color:#1e347b;">string</span><span class="pln" style="color:#48484c;"> decodeMsg </span><span class="pun" style="color:#93a1a1;">=</span><span class="pln" style="color:#48484c;"> </span><span class="typ" style="color:teal;">RSADecryptFromStream</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">privateKey</span><span class="pun" style="color:#93a1a1;">,</span><span class="pln" style="color:#48484c;"> encodeMsg</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L0" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;"><code class="language-cs" style="font-family:Consolas, 'Liberation Mono', Menlo, Courier, monospace;word-wrap:break-word;"><span class="pln" style="color:#48484c;">	</span><span class="typ" style="color:teal;">Console</span><span class="pun" style="color:#93a1a1;">.</span><span class="typ" style="color:teal;">WriteLine</span><span class="pun" style="color:#93a1a1;">(</span><span class="pln" style="color:#48484c;">decodeMsg</span><span class="pun" style="color:#93a1a1;">);</span></code></div>
+<div class="L1" style="color:#bebec5;line-height:18px;padding-left:0px;list-style-type:none;">
+</div>
+<div class="L2" style="line-height:18px;padding-left:0px;list-style-type:none;"><span style="color:#93a1a1;">}</span></div>
+</div>
+</pre></div>
+<div><br>
+</div>
+</div>
+<div style="font-family:微软雅黑, 'Microsoft YaHei', Georgia, Helvetica, Arial, sans-serif, 宋体, PMingLiU, serif;font-size:14px;line-height:21px;widows:auto;">by bibodeng 2015-06-26</div>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/06/24/端午巽寮湾游记/" itemprop="url">
                   端午巽寮湾游记
                 </a>
@@ -1021,688 +2257,11 @@ window.onload = function(){
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/04/20/下载/" itemprop="url">
-                  下载
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-20T21:55:46+08:00" content="2015-04-20">
-              2015-04-20
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2015/04/20/下载/" class="leancloud_visitors" data-flag-title="下载">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<link type="text/css" rel="stylesheet" href="/content/plugins/bibo_mark/article_bibo.css"> <div class="art_content">
-    <h3>
-        ﻿电子书 ebooks
-    </h3>
-    <p>
-        <a href="http://pan.baidu.com/s/1bno7IyV" target="_blank" rel="noopener">微盘下载</a>     </p>
-    <h3>
-        软件 源代码
-    </h3>
-    <p>
-        <a href="https://github.com/bibodeng/pyCodeCounter" target="_blank" rel="noopener">PycodeCounter</a>             代码计数器                                                                        bibo&amp;daoluan
-    </p>
-    <p>
-        <a href="https://github.com/bibodeng/pyWeiXin_SAElog" target="_blank" rel="noopener">Pyweixin_saeLog</a>          带微信功能的sae平台博客系统                                             <span style="font-size:15px;letter-spacing:1px;line-height:19.5px;">bibo&amp;daoluan</span><br>
-    </p>
-    <p>
-        <a href="http://ugeek.sinaapp.com/" target="_blank" rel="noopener">ugeekGTD</a>                    任务管理软件 PC/Android/Web                                            ugeek team
-    </p>
-    <h3>
-        工具
-    </h3>
-    <p>
-        <a href="http://www.voidtools.com/downloads/" target="_blank" rel="noopener">search everything</a>         查找文件
-    </p>
-    <p>
-        <a href="http://www.vim.org/download.php" target="_blank" rel="noopener">vim</a>                             程序员的编辑器
-    </p>
-    <p>
-        <br>
-    </p>
-    <h3>
-        END
-    </h3>
-    <p>
-        <br>
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        by bibodeng 2013-05-12
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        <br>
-    </p>
-</div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/04/15/今天是你的生日/" itemprop="url">
-                  今天是你的生日
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-15T14:41:20+08:00" content="2015-04-15">
-              2015-04-15
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2015/04/15/今天是你的生日/" class="leancloud_visitors" data-flag-title="今天是你的生日">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<div style="margin:0px;padding:0px;border:0px;line-height:20px;font-family:Helvetica, Arial, 'Droid Sans', sans-serif;font-size:14px;"><span style="line-height:1.42857em;font-family:Times;-webkit-text-stroke-color:#000000;">二十三年前，我降临到这个世界上，爸爸对你说，看，是个男孩，你把我当做礼物一样，倍加爱护。从小到大这二十多年来都是您记着我们的生日，而如今，就让我来记着您的生日吧。<br>
-</span><span style="line-height:1.42857em;font-family:'Times New Roman';-webkit-text-stroke-color:#000000;"><br>
-<br>
-</span><span style="line-height:1.42857em;font-family:Times;-webkit-text-stroke-color:#000000;">今天是你的生日，妈妈，我很想你，长这么大，第一次对你说。春节临别前，我在翻阅着家里的老照片，照片里，我还小，被你揽在怀里，照片里的你年轻又漂亮，安静而又温柔。我小时候，体弱多病，都是你背着我去医院，在奔波路上，我都是在你的背上睡着的，长大了回忆起来，才发现，妈妈你的怀抱是最温暖的海洋，妈妈你的背，是最舒适的依靠。后来，我慢慢长大，你怀了弟弟，我得自己走，去上学，去玩耍。而每到傍晚，你总会在大门口呼唤着我的乳名，叫我回家吃饭。谢谢你无微不至的关爱，让我得以有美好的童年，充分享受着被爱的感觉。<br>
-</span><span style="line-height:1.42857em;font-family:'Times New Roman';-webkit-text-stroke-color:#000000;"><br>
-<br>
-</span><span style="line-height:1.42857em;font-family:Times;-webkit-text-stroke-color:#000000;">今天是你的生日，妈妈，我很爱你，长这么大，第一次对你说。记得我刚上初中那会，家里出了变故，经济条件大不如前，我们搬去外公家住，而经济的重担使得你苦不堪言，为此我还还对某些厂子一天工作十多小时而感到愤愤不平。初中时我和弟弟依旧过着单纯快乐的少年时代，但我们知道那几年你的精力和精神都备受摧残，是你为我们撑起了这个家。就当爸爸重整旗鼓，我即将毕业，情况有所好转的时候，你却已经接近崩溃的边缘，开始胡思乱想，疑神疑鬼，就像美丽心灵的纳什那样，充满着恐惧与焦虑的被害妄想。察觉后，我对你说：</span><span style="line-height:1.42857em;font-family:'Times New Roman';-webkit-text-stroke-color:#000000;">“</span><span style="line-height:1.42857em;font-family:Times;-webkit-text-stroke-color:#000000;">妈，你一定要相信我，相信科学，一切都会好起来的</span><span style="line-height:1.42857em;font-family:'Times New Roman';-webkit-text-stroke-color:#000000;">”</span><span style="line-height:1.42857em;font-family:Times;-webkit-text-stroke-color:#000000;">，最后，你终于肯配合治疗，情况大大好转。这些年，是你的泪水激励我们成长，我懂得了你为什么而哭泣，也看到了世界上女人都有的一颗美丽的心灵。<br>
-</span><span style="line-height:1.42857em;font-family:'Times New Roman';-webkit-text-stroke-color:#000000;"><br>
-<br>
-</span><span style="line-height:1.42857em;font-family:Times;-webkit-text-stroke-color:#000000;">今天是你的生日，妈妈，我想告诉你，我找到了真正的爱情。她的模样，有点像年轻时候的你。我遇到了最喜欢的女孩，并牵住她的手。不知道为什么说到最爱自己的女人时，总会说起自己最喜欢的女人，就像那个两人同时落水的命题一样，千古不休。我想也许是因为爱与被爱都很重要吧，二者都是幸福的根源。如今我已经到了你和爸爸生我的那个年纪，我也长成了一张青春的脸庞，我想是时候开始自己的爱情和家庭了，将你们教给我的爱传递到孩子们身上。<br>
-</span><span style="line-height:1.42857em;font-family:'Times New Roman';-webkit-text-stroke-color:#000000;"><br>
-<br>
-母亲的爱是无私的，就像</span><span style="line-height:1.42857em;font-family:Times;-webkit-text-stroke-color:#000000;">电影《麦兜我和我的妈妈》里，妈妈对麦兜说的那样：</span><span style="line-height:1.42857em;font-family:'Times New Roman';-webkit-text-stroke-color:#000000;">“</span><span style="line-height:1.42857em;font-family:Times;-webkit-text-stroke-color:#000000;">就算全世界人不信你，我都会信你，就算全世界人不疼你，我都会疼你，我爱你爱到入那肉，我信你信到落脚趾尾</span><span style="line-height:1.42857em;font-family:'Times New Roman';-webkit-text-stroke-color:#000000;">”</span><span style="line-height:1.42857em;font-family:Times;-webkit-text-stroke-color:#000000;">，我想说，正是因为你爱我，信我，我才成长为今天的模样。今天是你的生日，</span><span style="line-height:1.42857em;font-family:'Times New Roman';-webkit-text-stroke-color:#000000;">happy birthday, I love you</span><span style="line-height:1.42857em;font-family:Times;-webkit-text-stroke-color:#000000;">。<br>
-</span><span style="line-height:1.42857em;font-family:'Times New Roman';-webkit-text-stroke-color:#000000;"><br>
-<br>
-</span></div>
-<div style="margin:0px;padding:0px;border:0px;line-height:20px;font-family:Helvetica, Arial, 'Droid Sans', sans-serif;font-size:14px;"><span style="line-height:1.42857em;font-family:'Times New Roman';">by bibodeng 2015-04-15</span></div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/28/李健的歌/" itemprop="url">
-                  李健的歌
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-28T21:58:40+08:00" content="2015-03-28">
-              2015-03-28
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2015/03/28/李健的歌/" class="leancloud_visitors" data-flag-title="李健的歌">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#李健的歌</p>
-<p>by bibodeng 2015-03-28</p>
-<hr>
-<p>水木年华，顾名思义，水木清华，青春年华，卢庚戌和李健2001年成立组合的时候，正是从清华毕业的大好青春年华。他们唱的民谣《一生有你》，听着总是有那种生涩的青春的感觉，想来距今也已十多年了。而在《我是歌手》的舞台上，只要李健一开口，那空灵忧郁的声音便会把你拉回青春气息的年华。</p>
-<p>清华，也许是我们小时候的梦想，梦想那个地方绿树如茵，荷花盛放，人才济济。然而因为历史的局限性以及自身的不够牛逼，这个梦想是基本上很难实现的。据说五弟岚清的爷爷一开始给他起的名字是清华，是希望他将来能够考上清华，这估计是教师家庭所普遍具有的期望，在广东，这个目标变成中山大学。而作为一个非典型理科生，所具备的那种低调务实的气质，再加上折腾音乐文学染上了文艺气息，便给人那种书香门第，典雅青春的温馨氛围，李健给人的感觉就是这样。</p>
-<p>##传奇<br>传奇的原唱是李健，“只因为在人群中多看了你一眼，再也没能忘掉你容颜”，对于能跳入你心灵的人，你总会多看几眼，有些人你初次遇到，就会预感你们之间是否会有故事发生，而另外一些人，并不会。因为他（她）的那种气质吸引着你，让你痴狂，让你偏执，让你挣扎。爱，恐怕真的是有天意的，世间万物，是随机，也是必然。细胞的产生是几乎不可能，而万一它发生了，它就会演化出后续的变化，翻天覆地。而那一眼，那一个念头，也像细胞的发生那样，产生了奇妙的化学反应，而后深深扎根心底，生命力顽强，冬严寒，夏酷暑，春也不死吾心。也许每个人心中都曾有一个传奇，只是随着成长和际遇，传奇慢慢褪去变成平淡的陪伴，不管他（她）还是不是最初的那个，在你心里的兴许都是同一个人。</p>
-<p>##中学时代<br>这首歌虽然是唱的中学时代，但是抛出的疑问是“爱是什么？”，二十多年的生命，对于这个问题多少也有体会，你的幸福最终来源于那些爱你的人，自你小的时候，没有意识，是你的爸爸妈妈揽你在怀，轻抚你的肌肤，亲吻你的脸颊，逗你笑，喂你吃饭。是你的亲人给你洗澡，把玩具三轮车扛回家，他们虽然也打过你，骂过你，但是却给你最好的，这种陪伴和照顾所积累的爱，是想起来便会流下眼泪的，它们弥足珍贵，不可再得。</p>
-<p>爱也来源于你爱的人，包括你的朋友，你喜欢的人。你的付出，他们快乐了，你会觉得有力量，否则你会觉得无力，就算赢了世界又如何。而这种成熟的付出，是你具备了给予的能力，是你爱的能力。中学时代其实蛮懵懵懂懂，虽然生龙活虎，但却对这些一无所知，继续怀揣梦想，踏上旅程。</p>
-<p>##尘缘<br>“漫漫长路，起伏不能由我”，不知为何，想起了《诗经》的第一首《关雎》：</p>
-<p>&gt;关关雎鸠，在河之洲。<br>窈窕淑女，君子好逑。<br>参差荇菜，左右流之。<br>窈窕淑女，寤寐求之。<br>求之不得，寤寐思服。…</p>
-<p>不知道经过漫漫长路时，你心情是否也有这种困顿，无奈的情绪，任多少深情也独向寂寞，思不可得的你辗转难眠。我知道，你懂的。</p>
-<p>##启程<br>在临近大学毕业的时候，听的最多的一首歌就是《启程》，哈哈，当然不是小虎队的《放心去飞》，我们已经不是那个年代的了。这首歌在中学时代就听过了，但是一直不知道原唱就是水木年华，倒是后来羽泉也唱了，而且参加了我是歌手还拿了歌王，对他们的印象比较深。大学的时候，念叨着做一个相册，纪念纪念最美的时光，但临近毕业仍然没有做成，那就干脆切实际点，好好旅行或者准备职业生涯。你在一段旅途中，得到了很多，领悟了很多，那就够了，过去的，就让它过去吧，过去的那个稚嫩的你，却又执着的那个你，时而萎靡的那个你，时而风发的那个你，过去的每个你都促成了现在的这个你。</p>
-<p>##生日&amp;陀螺<br>母亲，毫无疑问是最爱你的女人，母亲的臂弯是最温暖的摇篮，母亲的背是最舒适的倚靠，记得小时候伏在妈妈的背上，妈妈告诉我，可能以后就不能这样背着你了，我问为什么，母亲说因为你很快就要有弟弟了。儿时父母给你的爱，会一直影响着你以后怎么看待他人和事情。如果他们爱你很多，那么我们的童年便多了很多快乐，回想起来都是开心的，这些是给你积极心态的回忆，你可以不用备受打击就领会到很多东西。而备受打击的孩子，会自卑，会没有信心，更加难以把握人生中困难挫折。当提到最爱你的人时候，不免会想到那个你最爱的人，你的真正的爱情，具备母亲身上那种善良和美丽，因为你期待你的另一半也和母亲一样美好，并把爱传承到孩子们身上。</p>
-<p>也许现如今，父母开始老了，他们在社会里打拼，经历了人生里面的重大挫折，会感到对现实感到无力和厌倦，开始咒骂这场游戏，因为它是如此地让人疯狂，而又必须不断地运转下去。现在轮到儿女给父母力量，继续整个家庭的建设，甚至是新建立一个家庭。陀螺还是要继续转的，高举着你的鞭，继续转下去，像他们关爱我们一样，关爱他们，一切都会好起来的。</p>
-<p>##风吹麦浪<br>我想去华北的蔚蓝天空的一天，去看看那金色的麦浪，仿佛看到我们骑单车经过它，我想去内蒙古的大草原上驰骋，一把释放胸中的豪迈，仿佛看到我们在绿色地毯上打滚，我想去大理那静谧绝美的苍山洱海，去享受那里的阳光和深邃，仿佛看到我们在其中沐浴和呼吸。想去的地方有很多，这些地方都想和心爱的人一起去，并用相机拍下来，珍藏起来，也愿你的生活也有这美好愿望，更愿这些愿望成为现实。</p>
-<p>李健的歌，歌唱山川河流，清风麦浪，爱我们的人，我们爱的人，柔肠百转，婉转悠扬，我们一杯饮下，化作万般思量。</p>
-<hr>
-<p>End</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/16/做出决策/" itemprop="url">
-                  做出决策
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-16T23:08:04+08:00" content="2015-03-16">
-              2015-03-16
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2015/03/16/做出决策/" class="leancloud_visitors" data-flag-title="做出决策">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<p class="p1" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;">最近一个舍友坚决地从鹅厂离职了，重新投入到前端的怀抱，我刚出来工作的时候也不知道今后在工作中应该偏重前端方向，还是应该照着现在的步伐继续做应用开发，现在我有个明确答案了。这关系到技术方向，决定这近几年内到底走向何方，这样的问题十分头疼，但一旦你做出了决定，这个问题就不复存在了。那么在这么多的抉择当中，究竟应该如何做出抉择。我给自己几个原则:<br style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">
-</p>
-<p class="p2" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"></p>
-<p class="p4" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><br style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">
-</p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><strong style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">决定前途命运的事情要慎重</strong></p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><strong style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;"><br style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">
-</strong></p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><span class="s1" style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">对于婚姻大事，换工作，创业，买房子等一些重大决策，应该慎重再慎重，必须是要再冷静的时候做出的决策，否则缺乏理性。只有当你十分肯定的时候，你才应该做出这样的决定。有些东西不能将就，不是说到了26，27了就一定要找个人嫁了，遇到的不是很好的，就不得不妥协和将就。这其实是很不负责的，其实这些决定会影响你一生，找个相爱的人结婚，换到更有前途更适合自己的地方工作，是买房子还是创业等等，会严重影响你将来的生活品质。tony谈创业的时候说得很好，“创业是到了一定成熟的时候，你自己都觉得一定要出来干的时候做出的决定”。</span></p>
-<p class="p4" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><br style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">
-</p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><strong style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">一般的事情权衡利弊</strong></p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><strong style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;"><br style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">
-</strong></p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><span class="s1" style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">生活中大部分的事情就是这种权衡利弊的事情，也是最难抉择的。条件有限，必须选一个，要了这个就不能要另外一个。碰到这种事情，要分析，分析这事情是好处大还是弊端大，未来会造成什么后果，例如朋友找你借钱，数目还不小，你们关系也不错，那么你是借还是不借，这是个问题。所以你要考虑到各种风险，例如朋友拖欠很久不还，或者是把两人关系搞僵。但一般来说，碰到的抉择，能够克服你的负面情绪的，能够让你获得幸福的，可能你有什难处的，都应该去做，有两个有效的选择，选抵抗力最大的路径走，比如大冷天坚持了半年的跑步计划要不要进行（答案是要吧，这种克服惰性的都应该养成为习惯，不给自己去挣扎的机会）。还有很多人找工作时会在事业单位还是民营单位之间，北上广深之间纠结，这个时候就应该逐条分析利弊，然后遵从内心。而且一定要做的决定，一定要及时做出，要不然会比较被动，因为时间永远是一个限制条件，就好像那些大龄青年会更加着急恋爱结婚的事情了，毕竟没有之前那么多时间可以试错。</span></p>
-<p class="p4" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><br style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">
-</p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><strong style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">有益处的事能就做，能早做就早做</strong></p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><strong style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;"><br style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">
-</strong></p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><span class="s1" style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">有备无患，一些有益处的事情，只要有条件就做，而且能早做就早做。大学毕业前夕，很多同学预料到了毕业以后考驾照会比较难，故而利用毕业前的空闲期，用较低的价格就考完了驾照，而一些没有钱（我就是这类）或者没有想到的同学今后要考就比较被动了，因为要在工作之余挤出时间去学，还要花费更多的money。当初要是借点钱，说不定这会早就拿到驾照了。对于可以预期的将来，可以把要办的东西都办好，如护照，港澳通行证等，对于想要出去外面看看的人总有用得着的时候。我们的知识技能储备上，多接触一点业余之外的东西，也能让你受益匪浅，乔布斯学习艺术字的故事就不说了，有额外的才能总是能加分的，说不定哪天就能用上了，学了再说。</span></p>
-<p class="p4" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><br style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">
-</p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><span class="s1" style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">不要惧怕未来，因为随着时间的推移，未来不攻自破，前提是你能够赶上时间的步伐，而不是被它甩在后面。一生的时间真的非常有限，总共大概3万天，地球公转80圈而已。能够活的很快乐，并且有所成就是一件很长远但是又无时不在进行的任务。凡事权衡下利弊，你就不会去做一些看起来很傻，事实上也很傻的事情，比如转发点赞红包啊，搞些什么鬼性格测试啊，我看了下我的same，各个频道之中，发布内容数量 感情交际 &gt;  音乐娱乐 &gt; 无聊发呆 &gt; 逗比搞笑 &gt; 兴趣 &gt; 愿望， 原来工作之外的时间都是这么花的，特别是进入移动互联网时代，如果你有心，确应该想一下该如何分配自己的时间。主动将带来更多幸福，被动地接收，在这个竞争激烈的时代不合时宜，随波逐流的人和傻子一样蠢，聪明人都独立地思考。你抽出时间做的阅读，保健等这些积累习惯的事情，才是真正改变你处境的动力，此外那些想办法吸引你眼球霸占你时间的人可不是为了健身健体，是为了从你的身上分一份最宝贵的财富。</span></p>
-<p class="p4" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><br style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">
-</p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><span class="s1" style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">by bibodeng 2015-03-08</span></p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;"><span class="s1" style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;"><br style="margin:0px;padding:0px;max-width:100%;box-sizing:border-box !important;word-wrap:break-word !important;">
-</span></p>
-<p class="p3" style="margin-top:0px;margin-bottom:0px;padding:0px;max-width:100%;clear:both;min-height:1em;white-space:pre-wrap;color:#3e3e3e;font-family:'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Î¢ÈíÑÅºÚ, Arial, sans-serif;font-size:15px;line-height:24px;box-sizing:border-box !important;word-wrap:break-word !important;">ps: 计划不要变成自己的负担，就像给女孩子打电话千万不要计划，这样反而有厌恶情绪，想打就打，过度计划，变成记忆负担了也不好</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/03/01/Rebuild/" itemprop="url">
-                  Rebuild
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-03-01T11:59:08+08:00" content="2015-03-01">
-              2015-03-01
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2015/03/01/Rebuild/" class="leancloud_visitors" data-flag-title="Rebuild">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><span style="font-size:14px;">自从出了校门，你就不能如此单纯任性地思考问题了，是时候要有自己的主见了，脑子里不仅要装得下饭碗，也要装下妹（汉）子，以及乐子。首先这里有一个生存的前提，其次才是更多其它追求。而要生存得很好，就看你对生活中的事物是否有深刻的认识，并能把握住其中的方法。最近看了几本书和影视作品，觉得很好，想要推荐给大家，一本是小道消息Fenng老师推荐的《光荣与梦想》，最近很火的《从0到1》，以及电影《甘地传》，都给我很大震撼。</span></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><strong><span style="font-size:14px;">确定or不确定</span></strong></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><span style="font-size:14px;">无论是宏观经济的发展还是微观粒子的运动都在确定和不确定中摇摆，以前的人们认为一切是确定的，数学是完美的，戴着“定域且实在”的王冠。但是后来在量子力学的理论探索中被证明数学的定域性和实在性必须放弃一个，也就是说世界是不确定的与世界是虚幻的之间选一个，我们活在不确定的隐忧之间。微小的粒子们，是一种概率波，也是一种粒子，它到底是什么，取决于你怎么观察。我作为二传手，也不过是说的是《上帝掷骰子吗？》里面的东西，有兴趣的看一下这本书吧，它让你高中物理的知识活灵活现起来，颠覆你对这个世界的认识。哲学上的这种不确定性会影响到社会的意识形态，具体的可以看看《从0到1》这本创业手册说的四种情况：确定的乐观，确定的悲观，不确定的乐观，不确定的悲观，而我们需要把不确定的变成确定的乐观，才会去有所作为。这本书的其它观点也会让你为之一震。即使很多东西是不确定的，但是你要找到你，我也说不清理解这些东西对我们有什么好处，但我慢慢觉得这种崭新的世界观和方法论会让我们受益。</span></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><strong><span style="font-size:14px;">行为习惯</span></strong></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><span style="font-size:14px;">你能想象一个早上六七点就起床，看书学习的人，期末会挂科吗？你会想象一个工作井井有条，严谨务实的人会犯一些低级错误吗？很显然，这样的概率很小很小。有句话说得好“不仅仅是制订目标，而是培养那些达成目标的习惯”，我看到这句话的时候仔细地回想了一下我之前的行为，的确是这样的，我的收获大多都受益于好的习惯，例如每周去图书馆看书（然后别人说我很有见解），每周去打打球（逐渐健壮了），试试用这样的思维去做，你会发现你会比大多数人做得好。在我们的发小群，我发现逐渐我们哥几个都有了kindle，也逐渐养成看书的习惯，看的书更多了，年轻人多看书总不会有错的。</span></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><strong><span style="font-size:14px;">比较思维？！</span></strong></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><span style="font-size:14px;">人是通过比较来发现和理解差别的，也是用这种方法去探索发现的。凡事有其相应的思维和方法，其中不乏有相似之处，可以相互借鉴，但重要的是你发现你的问题本质相似时，才能用类似的方法去解决。例如香蕉和苹果，你剥开它们的方法不同，一个是把外皮扒开即可，苹果皮太薄又结实，你得用刀削。下次你碰到一个梨子的时候，你会用什么办法去吃它？通过比较你发现它比较像一个苹果，都是皮薄的球形果实。下次你碰到一个芒果怎么办？（我想你想起了如何优雅地吃一个芒果，而不会蠢到去削皮），我想你会慢慢总结出一个吃水果剥皮的首要原则。很多时候我们都有思维盲点，你可能照搬了之前能够行得通的办法，用在一个新的事物上，同时理解事物之间的相同与不同之处，这是决定你采取的方法的所在。很多时候我们换个思路看问题，就是为了去寻求我们忽略掉的相同或者不同之处，等你发现它的时候，你恍然大悟。</span></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><span style="font-size:14px;">但是做人方面却不是比较得越多越好，工作以后，你可能会想，同样毕业的小伙伴，Ta的薪水已经是你的n倍，最近又买了房，即将买车。比较是生活中痛苦的根源，如果家在小城镇，你就会发现那些亲戚往往拿自家的和别人家的进行比较，张家的读了研究生，李家的又考上公务员了，这给他们带来羡慕嫉妒恨，然后接着就祭出命运决定论，我对此表示很不屑，但也只好听着，这其实只是人生的一些初级目标。没错，我们从小到大都在比较，争第一，博表现，有竞争的地方就有比较。但人的考量，不是一个因素而定的，所以才不要简单地进行比较。适当地比较，能够给你带来反差和进步的动力，但长远的，你需要有一个第一原则，你的价值观，用你自己的原则去判断，就不会被别人所轻易左右，你有了独到见解，而不是愚昧如大多数人一样在比较中忘记目标。</span></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><strong><span style="font-size:14px;">智商真的是硬伤</span></strong></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><span style="font-size:14px;">有些人真的很蠢（与逗逼不同），笨，且不会想办法去医治自己的笨，叫蠢，并且消耗时间在一些人云亦云或者无关痛痒的感慨中，知乎上越来越多这样的傻逼，提些 “如何评价xxx” 的问题，蠢还有一个特性就是无聊（这种无聊是指那种丰富度深度的缺乏）。相反有些人一开始会钝一点，但会受到触动而有所改进，假如得到良师益友，加上勤能补拙，必定会大有进步，将有所成就。还有一类是上天眷顾的天之骄子，聪明又漂亮，做什么东西好像不费力就能做得很好，这类人也往往能够意识到人生价值，处事，自我完善等方面的关键点，他们shocking smart and fucking great，所以你会看到非常聪明的人却极度勤奋，他们懂勤奋的必要性，做的事情多过你好几倍，也好过你好几倍，仿佛就是神一般的存在。那些最伟大的人，我没见过哪个是傻子的，此外也不要以为读了本科硕士博士的人就应该不会蠢了吧，这个还真说不定，也不要认为自己就没有蠢的时候，也会有的，要做到不蠢，要察觉自身，看看有没有特别偏执或者没有动脑就行事。</span></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><span style="font-size:14px;">在我回深圳上班的时候就亲眼见证了什么叫做“蠢”，车站车子马上要发车了，结果还有一个人还没上车，他的同伴，穿了一件红色衣服，我们就叫阿红吧，在等待，她为此拖延了我们十分钟，这个时候他还没来，结果司机不耐烦了，要发车，结果阿红告诉落下的那位到出站口等大巴，然后上车，结果落下那位找不着北了，虽然出站口非常显眼，他还是找不到，最终阿红气得暴跳下了车，全车人无语，然后几位大叔评论了一番。如果智商不行，那你也别指望他别的了，不怕神一样的对手，就怕猪一样的队友啊。</span></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><strong><span style="font-size:14px;">立于不败之地</span></strong></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><span style="font-size:14px;">这和比较有很大关系，你个人的发展以及你做任何事情，并不是通过比较来体现其价值的，而是你这一步的表现，会给你下一步带来什么影响，从而给你带来什么价值。为了立于不败之地，你需要一个很长远的规划，而不会在迷阵中真的迷失，因为你很清楚你要抵达的目的地。佛罗多不会因为在途中的种种遭遇而忘记他要去的是摧毁魔戒的火山；甘地不会在民众的拥戴和内战混乱中忘记他的初衷是印度的独立，人人权利的平等；罗斯福不会在人们的骂声和敬仰夹杂时忘记他危难之时许下答应力挽狂澜帮助美国摆脱经济危机的诺言。</span></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><span style="font-size:14px;"><br>
-</span></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><span style="font-size:14px;">这些人有坚定的信念，惊人的毅力，勤勉的习惯，超人的才华，但是就没有挫折了吗？不，绝对会有挫折，只不过你要明白，挫折是暂时的，而每抵达一步，你都超前料到了自己的失落和痛苦或者欢喜和狂热，从而学会用一种新的角度去审视你的处境，发挥出该处境才有的优势。这样你的战略高度就更高，具备更多主动权。孙子兵法有言“故善战者，立于不败之地，而不失敌之败也，是故胜兵先胜而求战，败兵先战而求胜”，你既然把你所认为的理念认为是正确的，那么它即是胜的，充足准备后，战的结果才会更多胜算，败了，没事退回来再上，总之，你总能把事情搞成，那就是牛逼的体现，不败的体现。</span></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><span style="font-size:14px;">by bibodeng 2015-03-01</span></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"><span style="font-size:14px;display:inline-block;width:595px;overflow:hidden;"><br>
-</span></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"></p>
-<p style="clear:both;font-family:sans-serif;line-height:normal;font-size:13px;orphans:2;widows:2;"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1743,13 +2302,20 @@ window.onload = function(){
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-count">185</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>

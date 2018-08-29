@@ -1,0 +1,733 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="BCH 比特币 粉尘交易," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="什么是粉尘交易？什么是粉尘交易，或者说粉尘交易的定义是什么，对于开发者来还是比较重要的。钱包或者交易所等基础设施，如果一不小心构造出一个粉尘交易，是无法广播到网络，被矿工打包的，这样会严重影响到用户体验。另外一方面，粉尘交易也和区块链网络安全息息相关，如果如果网络中充斥着一些微不足道的交易，而矿工们毫无差别地打包交易，那么这些价值小，但是总体体积很大的交易，就会阻碍到其它正常交易的打包确认。粉尘交">
+<meta name="keywords" content="BCH 比特币 粉尘交易">
+<meta property="og:type" content="article">
+<meta property="og:title" content="粉尘交易的定义与处理">
+<meta property="og:url" content="https://bibodeng.github.io/2018/08/29/粉尘交易的定义与处理/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="什么是粉尘交易？什么是粉尘交易，或者说粉尘交易的定义是什么，对于开发者来还是比较重要的。钱包或者交易所等基础设施，如果一不小心构造出一个粉尘交易，是无法广播到网络，被矿工打包的，这样会严重影响到用户体验。另外一方面，粉尘交易也和区块链网络安全息息相关，如果如果网络中充斥着一些微不足道的交易，而矿工们毫无差别地打包交易，那么这些价值小，但是总体体积很大的交易，就会阻碍到其它正常交易的打包确认。粉尘交">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-29T00:36:33.906Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="粉尘交易的定义与处理">
+<meta name="twitter:description" content="什么是粉尘交易？什么是粉尘交易，或者说粉尘交易的定义是什么，对于开发者来还是比较重要的。钱包或者交易所等基础设施，如果一不小心构造出一个粉尘交易，是无法广播到网络，被矿工打包的，这样会严重影响到用户体验。另外一方面，粉尘交易也和区块链网络安全息息相关，如果如果网络中充斥着一些微不足道的交易，而矿工们毫无差别地打包交易，那么这些价值小，但是总体体积很大的交易，就会阻碍到其它正常交易的打包确认。粉尘交">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 粉尘交易的定义与处理 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                粉尘交易的定义与处理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-08-29T08:35:17+08:00" content="2018-08-29">
+              2018-08-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2018/08/29/粉尘交易的定义与处理/" class="leancloud_visitors" data-flag-title="粉尘交易的定义与处理">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="什么是粉尘交易？"><a href="#什么是粉尘交易？" class="headerlink" title="什么是粉尘交易？"></a>什么是粉尘交易？</h2><p>什么是粉尘交易，或者说粉尘交易的定义是什么，对于开发者来还是比较重要的。钱包或者交易所等基础设施，如果一不小心构造出一个粉尘交易，是无法广播到网络，被矿工打包的，这样会严重影响到用户体验。另外一方面，粉尘交易也和区块链网络安全息息相关，如果如果网络中充斥着一些微不足道的交易，而矿工们毫无差别地打包交易，那么这些价值小，但是总体体积很大的交易，就会阻碍到其它正常交易的打包确认。粉尘交易也可以看成是区块链网络上DDOS攻击的一种，攻击者通过发送许多这样小金额的交易，来堵塞整个网络。</p>
+<p>那么有没有确切的标准来判定一笔交易是不是“粉尘交易”呢？答案是有的。</p>
+<p>通过一番搜寻，得到一个普遍的答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &quot;Dust&quot; is defined in terms of CTransaction::minRelayTxFee, which has</span><br><span class="line"> * units satoshis-per-kilobyte. If you&apos;d pay more than 1/3 in fees to</span><br><span class="line"> * spend something, then we consider it dust. A typical spendable</span><br><span class="line"> * non-segwit txout is 34 bytes big, and will need a CTxIn of at least</span><br><span class="line"> * 148 bytes to spend: so dust is a spendable txout less than</span><br><span class="line"> * 546*minRelayTxFee/1000 (in satoshis). A typical spendable segwit</span><br><span class="line"> * txout is 31 bytes big, and will need a CTxIn of at least 67 bytes to</span><br><span class="line"> * spend: so dust is a spendable txout less than 294*minRelayTxFee/1000</span><br><span class="line"> * (in satoshis).</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+<p>也就是说，在比特币的网络中，如果交易费用高于1/3的交易价值，则被视为粉尘交易，说完了。</p>
+<p>常规的来说，一个P2PKH交易，由于其最小体积时为一个输入，一个输出，总共 <code>148 + 34 = 182</code> 字节，而交易手续费是由每个节点配置的minRelayTxFee（比特币中默认为<code>0.00001BTC/KB</code>）决定的，故而手续费就是 <code>182 / 1000 * minRelayTxFee</code>，那么其的3倍即 <code>546 / 1000 * minRelayTxFee</code>，也即默认为 <code>0.00000546 BTC</code>，在BCH网络上也是一样的。</p>
+<p>其它类型的交易以此类推，交易中输出金额有低于 <code>体积 * 3 / 1000 * minRelayTxFee</code> 的，即为粉尘交易。</p>
+<p>我在BCH的网络上亲自试验了一番，对于P2PKH交易果真是如此，大于等于0.00000546的交易可以发出，而小于0.00000546的交易，则无法发出。</p>
+<h2 id="如何避免粉尘交易"><a href="#如何避免粉尘交易" class="headerlink" title="如何避免粉尘交易"></a>如何避免粉尘交易</h2><p>既然知道了粉尘交易的定义，那么我们就可以按照定义，避免构造出粉尘交易了。首先，可以在构造交易的过程中，根据交易的类型，计算出交易的最低金额，同时对每个输出进行判断，如果低于该金额，则不能继续构造该笔交易。特别的，如果这个输出刚好发生在找零上，且金额对于你来说不太大，则可以通过舍弃该部分的粉尘输出，以充作交易手续费来避免构造出粉尘交易。</p>
+<h2 id="发展中的问题"><a href="#发展中的问题" class="headerlink" title="发展中的问题"></a>发展中的问题</h2><p>如果一个区块能够容纳的交易数量越来越多，币也变得越来越值钱，即使是1聪也值很多钱，则这个规则有可能被改变。不过，现在的定义非常巧妙，足以支持到足够久远的未来，定义的公式中，所用到的 minRelayTxFee 是由节点决定的，而节点可以将这个值设置的更低，以容纳更低手续费的交易，但是这必须要得到网络中其它成员的认可，才能保证该交易被其它矿工打包。具有交易加速器的矿池，其实就是将这个值设置得足够低，才能打包那些不被网络确认的交易，从而提高交易的虚拟手续费，通过插队的方式，完成确认。如果要在网络中达成一致地修改配置，最好是通过一次硬分叉，大家统一修改，算是对共识的升级。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/BCH-比特币-粉尘交易/" rel="tag">#BCH 比特币 粉尘交易</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/29/解密比特币改善提案BIP21/" rel="next" title="解密比特币改善提案BIP21">
+                <i class="fa fa-chevron-left"></i> 解密比特币改善提案BIP21
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">185</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是粉尘交易？"><span class="nav-number">1.</span> <span class="nav-text">什么是粉尘交易？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何避免粉尘交易"><span class="nav-number">2.</span> <span class="nav-text">如何避免粉尘交易</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发展中的问题"><span class="nav-number">3.</span> <span class="nav-text">发展中的问题</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

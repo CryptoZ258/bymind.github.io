@@ -1,0 +1,770 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="BCH DApp IFPassword," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="DApp的兴起现在的区块链，处在一个爆发的前夕，之前的ICO狂躁，带来了一定的迷茫，但是大家都在说2018年是区块链应用元年，今年一定会有区块链的杀手级应用落地，然而得有人不断地在里面投入和试错，才能诞生这么一个杀手级应用。为此我们也进行了初期的尝试，基于BCH的公链，做了一款身份验证、密码管理的应用。做区块链DApp的过程中，时常会怀疑自己做的是不是伪需求，因为区块链的个性鲜明，使得开发起来挺别">
+<meta name="keywords" content="BCH DApp IFPassword">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一款BCH DApp的诞生">
+<meta property="og:url" content="https://bibodeng.github.io/2018/08/29/一款BCH-DAPP的诞生/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="DApp的兴起现在的区块链，处在一个爆发的前夕，之前的ICO狂躁，带来了一定的迷茫，但是大家都在说2018年是区块链应用元年，今年一定会有区块链的杀手级应用落地，然而得有人不断地在里面投入和试错，才能诞生这么一个杀手级应用。为此我们也进行了初期的尝试，基于BCH的公链，做了一款身份验证、密码管理的应用。做区块链DApp的过程中，时常会怀疑自己做的是不是伪需求，因为区块链的个性鲜明，使得开发起来挺别">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://user-images.githubusercontent.com/1180416/41348653-e877b006-6f3f-11e8-862e-624ea539efc2.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/1180416/41348657-ed46da8a-6f3f-11e8-8ec4-f6cc8349afae.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/1180416/41348670-f930563c-6f3f-11e8-8f8e-492f77c3643f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/1180416/41348682-00cad4da-6f40-11e8-8c4b-2b2b80bff480.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/1180416/41348691-05e9f7e8-6f40-11e8-9b1a-2c03ee758a95.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/1180416/41348712-1738ead6-6f40-11e8-9f6a-7b17d2691b47.png">
+<meta property="og:updated_time" content="2018-08-29T00:32:51.673Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一款BCH DApp的诞生">
+<meta name="twitter:description" content="DApp的兴起现在的区块链，处在一个爆发的前夕，之前的ICO狂躁，带来了一定的迷茫，但是大家都在说2018年是区块链应用元年，今年一定会有区块链的杀手级应用落地，然而得有人不断地在里面投入和试错，才能诞生这么一个杀手级应用。为此我们也进行了初期的尝试，基于BCH的公链，做了一款身份验证、密码管理的应用。做区块链DApp的过程中，时常会怀疑自己做的是不是伪需求，因为区块链的个性鲜明，使得开发起来挺别">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/1180416/41348653-e877b006-6f3f-11e8-862e-624ea539efc2.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 一款BCH DApp的诞生 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                一款BCH DApp的诞生
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-08-29T08:31:49+08:00" content="2018-08-29">
+              2018-08-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2018/08/29/一款BCH-DAPP的诞生/" class="leancloud_visitors" data-flag-title="一款BCH DApp的诞生">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="DApp的兴起"><a href="#DApp的兴起" class="headerlink" title="DApp的兴起"></a>DApp的兴起</h2><p>现在的区块链，处在一个爆发的前夕，之前的ICO狂躁，带来了一定的迷茫，但是大家都在说2018年是区块链应用元年，今年一定会有区块链的杀手级应用落地，然而得有人不断地在里面投入和试错，才能诞生这么一个杀手级应用。为此我们也进行了初期的尝试，基于BCH的公链，做了一款身份验证、密码管理的应用。做区块链DApp的过程中，时常会怀疑自己做的是不是伪需求，因为区块链的个性鲜明，使得开发起来挺别扭的。虽然获得了数据的安全性，但是开发效率却不高，需要自己定义一套协议，存取的方式也需要做一次加解密。</p>
+<h2 id="报名BCH-Geek大赛"><a href="#报名BCH-Geek大赛" class="headerlink" title="报名BCH Geek大赛"></a>报名BCH Geek大赛</h2><p>近期，刚好来自重庆的盖茨实验室举办了一场BCH和EOS社区的极客大赛，大赛吸引了一批开发者和在校大学生的踊跃参与，从中也诞生了许多的优秀的应用，给我们带来许多启发，虽然暂时还只是一个雏形，不能有清晰明确的商业模式，但也是非常伟大的尝试。当然，我们也报名参加了这次的大赛，虽然仅了解了一点皮毛，但是我们还是鼓起勇气报名了。</p>
+<p>我们给战队取名叫【神雕侠侣】，因为神雕侠和satoshi还挺谐音的，算是致敬中本聪吧。我们团队由两人组成，一个是我，另外一个是我女朋友，两个人一个负责开发，一个负责产品和运营。</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/41348653-e877b006-6f3f-11e8-862e-624ea539efc2.png" alt="image"><br>邓国东，曾任职于腾讯、ViaBTC，从事Web系统、数字货币矿池及钱包开发，是一个面向全栈的技术开发人员。有志于通过技术，让更多人从区块链中受益。</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/41348657-ed46da8a-6f3f-11e8-8ec4-f6cc8349afae.png" alt="image"><br>杨春萍，任职于漫游超人，擅长品牌及产品社交媒体运营运营，精通两微一端及数字媒体传播，曾主要负责漫游超人品牌植入《唐人街探案2》项目营销。</p>
+<p>刚上台介绍战队的时候，我一个人上去，他们以为我是那只雕。。。<br>既然报名了，那就硬着头皮也要上，于是也赶工了几天，终于将这个demo给做出来了。</p>
+<h2 id="为啥要做一个密码管理DApp"><a href="#为啥要做一个密码管理DApp" class="headerlink" title="为啥要做一个密码管理DApp"></a>为啥要做一个密码管理DApp</h2><p>我们生活中需要使用到非常多的账号密码，然而这里有非常多的安全隐患，有许多人使用的账号密码甚至泄露已久，相当于在互联网里面裸奔，并没有什么隐私可言，甚至切身利益有可能被人随时掠夺。就密码来说，我们有许多的痛点：</p>
+<ul>
+<li>密码多（多到记不住）</li>
+<li>密码弱（密码很容易破解）</li>
+<li>密码重复（一个被破解，连带其它遭殃）</li>
+<li>不好输入（手动输入很繁琐）</li>
+</ul>
+<p>我一开始就有一个愿望解决这些真实存在的痛点，能否开发一个使用区块链作为分布式存储方案的密码管理器呢？<br>答案是可行的，参考LastPass和1Password等竞品后，我们设计出了IFPassword，基本思路如下：</p>
+<ul>
+<li>IFPassword配套有网站、小程序、浏览器插件</li>
+<li>用户通过浏览器插件可方便地添加账号密码、填写账号密码</li>
+<li>重要的密码数据将存储在去中心化存储上</li>
+<li>不重要的信息存储在IFPassword服务器上</li>
+</ul>
+<p>于是我们初步实现了添加账号密码、填写账号密码的基础功能，当然，一开始只是为了验证这个流程，没有做到非常好的用户体验。</p>
+<h2 id="区块链知识"><a href="#区块链知识" class="headerlink" title="区块链知识"></a>区块链知识</h2><p>BCH上有一个OP_RETURN的操作码，在写入一笔交易的时候，允许在OP_RETURN上附带一个数据，大小为220Byte，足够塞下一条微博、一段哈希了。像之前诞生的memo——区块链上的微博，keyport——区块链上的微信等等都是基于OP_RETURN来存储的数据，我们实现的这个密码管理器，也是讲数据通过比特币采用的椭圆曲线算法加密后放置到OP_RETURN上的，它的安全级别和比特币是一样的。</p>
+<p>那么如何写入这个OP_RETURN呢？其实也很简单，如果你连接的是一个比特币的节点，那么你只需要构造交易的时候，将这段数据写入输出的<code>data</code>字段，然后签名之后广播即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli createrawtransaction &apos;[&#123;&quot;txid&quot;:&quot;3b0da5fd1beb71e1f47da2f3e9bd1af2e7026fd0282d18d9777a13e49089d146&quot;, &quot;vout&quot;:0&#125;]&apos; &apos;&#123;&quot;bitcoincash:qpktcr9pj6dh8vgepuvumymhwrg7536d7u4qsvdvhc&quot;: 0.00001500, &quot;data&quot;: &quot;6f11616d6f4141414b3034514477712b77574b384b462f567a793362375a4a6c6d4549475a79783070464d73347842447432424d4c4c65414a547449376b63622b43377a6e69455132554e4968353734626c4d5456534d786a43654d764f617162636641465966677868594a39557642526b687a365a63776361377437506a315a367171704e2f46363955774d2f68514a776c432b71694254314f596470686352656c4e664945314e55484a30745450742f644e4746565731712b673d3d&quot;&#125;&apos;</span><br></pre></td></tr></table></figure>
+<p>如上面代码所示，将加密后的数据编码成了16进制写入了交易中，广播出去之后，就可以在区块链浏览器中看到这样的数据了，这个数据就是日后恢复数据的关键，不过千万不能把私钥给泄露了出去，泄露出去拿到私钥的人就可以解密这段消息了。<br><img src="https://user-images.githubusercontent.com/1180416/41348670-f930563c-6f3f-11e8-8f8e-492f77c3643f.png" alt="image"></p>
+<h2 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h2><p>编程实现了上述的写入区块链的逻辑以及相关的交互之后，大致的最终效果如下：</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/41348682-00cad4da-6f40-11e8-8c4b-2b2b80bff480.png" alt="image"><br>用插件管理TOTP二次验证，实现快速查看填写。</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/41348691-05e9f7e8-6f40-11e8-9b1a-2c03ee758a95.png" alt="image"><br>在插件中添加站点的账号密码。</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/41348712-1738ead6-6f40-11e8-9f6a-7b17d2691b47.png" alt="image"><br>在插件中查看各个网站的账号密码，可以复制粘贴到登录表单中。</p>
+<h2 id="启发"><a href="#启发" class="headerlink" title="启发"></a>启发</h2><p>现在的互联网进入移动互联网以后，变成了一个个信息孤岛，大家在岛上玩得不亦乐乎，但是如果一个岛要到另外一个岛，那成本就高了。然而发明互联网的初衷，就是让人与人、人与物能够互相联通，然而现在却是越来越封闭了，并且原本属于用户的数据以及权利，被各个大公司垄断，并且他们还不能提供连续的服务，说不定哪天说停就停。我们需要一个能够持久存储你的数字资产的东西，一个人人能够使用，信息能够充分流淌的工具，就像早期的互联网一样，在上面探索可以不断发现新的东西，在区块链上，也是这样，顺藤摸瓜，能够发现许多的新东西。</p>
+<p>我们做的这个玩意，它对我们还是有一点启发的：</p>
+<ol>
+<li>数据是用户的资产，用户可以选择公开、加密它，也可以选择转让、授权给他人</li>
+<li>数据是不需要依赖一个中心的，大家存储，大家使用，突破空间、突破时间的限制</li>
+</ol>
+<p>未来，信息存储的方式以及内容分发的方式将产生极大的改变，试想这样一个问题，你是如何存储你的所有照片的？存在自己硬盘，需要常常备份，还是存在照片管理软件或在线空间，非常不方便管理和移动。然而，其实你的照片可以存储得无处不在，随时要随时取，并且永久保存，不会消失，你拥有对它的所有权利，你可以加密，你可以卖给别人，可以授权他人使用，等等。用户将重新获得数据的自由。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/BCH-DApp-IFPassword/" rel="tag">#BCH DApp IFPassword</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/29/K线和深度图的实现/" rel="next" title="K线和深度图的实现">
+                <i class="fa fa-chevron-left"></i> K线和深度图的实现
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/29/成年人应当这样获取信息/" rel="prev" title="成年人应当这样获取信息">
+                成年人应当这样获取信息 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">185</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DApp的兴起"><span class="nav-number">1.</span> <span class="nav-text">DApp的兴起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#报名BCH-Geek大赛"><span class="nav-number">2.</span> <span class="nav-text">报名BCH Geek大赛</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为啥要做一个密码管理DApp"><span class="nav-number">3.</span> <span class="nav-text">为啥要做一个密码管理DApp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区块链知识"><span class="nav-number">4.</span> <span class="nav-text">区块链知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最终效果"><span class="nav-number">5.</span> <span class="nav-text">最终效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启发"><span class="nav-number">6.</span> <span class="nav-text">启发</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

@@ -255,6 +255,644 @@
             
               
                 
+                <a class="post-title-link" href="/2018/08/29/粉尘交易的定义与处理/" itemprop="url">
+                  粉尘交易的定义与处理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-08-29T08:35:17+08:00" content="2018-08-29">
+              2018-08-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2018/08/29/粉尘交易的定义与处理/" class="leancloud_visitors" data-flag-title="粉尘交易的定义与处理">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="什么是粉尘交易？"><a href="#什么是粉尘交易？" class="headerlink" title="什么是粉尘交易？"></a>什么是粉尘交易？</h2><p>什么是粉尘交易，或者说粉尘交易的定义是什么，对于开发者来还是比较重要的。钱包或者交易所等基础设施，如果一不小心构造出一个粉尘交易，是无法广播到网络，被矿工打包的，这样会严重影响到用户体验。另外一方面，粉尘交易也和区块链网络安全息息相关，如果如果网络中充斥着一些微不足道的交易，而矿工们毫无差别地打包交易，那么这些价值小，但是总体体积很大的交易，就会阻碍到其它正常交易的打包确认。粉尘交易也可以看成是区块链网络上DDOS攻击的一种，攻击者通过发送许多这样小金额的交易，来堵塞整个网络。</p>
+<p>那么有没有确切的标准来判定一笔交易是不是“粉尘交易”呢？答案是有的。</p>
+<p>通过一番搜寻，得到一个普遍的答案：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * &quot;Dust&quot; is defined in terms of CTransaction::minRelayTxFee, which has</span><br><span class="line"> * units satoshis-per-kilobyte. If you&apos;d pay more than 1/3 in fees to</span><br><span class="line"> * spend something, then we consider it dust. A typical spendable</span><br><span class="line"> * non-segwit txout is 34 bytes big, and will need a CTxIn of at least</span><br><span class="line"> * 148 bytes to spend: so dust is a spendable txout less than</span><br><span class="line"> * 546*minRelayTxFee/1000 (in satoshis). A typical spendable segwit</span><br><span class="line"> * txout is 31 bytes big, and will need a CTxIn of at least 67 bytes to</span><br><span class="line"> * spend: so dust is a spendable txout less than 294*minRelayTxFee/1000</span><br><span class="line"> * (in satoshis).</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+<p>也就是说，在比特币的网络中，如果交易费用高于1/3的交易价值，则被视为粉尘交易，说完了。</p>
+<p>常规的来说，一个P2PKH交易，由于其最小体积时为一个输入，一个输出，总共 <code>148 + 34 = 182</code> 字节，而交易手续费是由每个节点配置的minRelayTxFee（比特币中默认为<code>0.00001BTC/KB</code>）决定的，故而手续费就是 <code>182 / 1000 * minRelayTxFee</code>，那么其的3倍即 <code>546 / 1000 * minRelayTxFee</code>，也即默认为 <code>0.00000546 BTC</code>，在BCH网络上也是一样的。</p>
+<p>其它类型的交易以此类推，交易中输出金额有低于 <code>体积 * 3 / 1000 * minRelayTxFee</code> 的，即为粉尘交易。</p>
+<p>我在BCH的网络上亲自试验了一番，对于P2PKH交易果真是如此，大于等于0.00000546的交易可以发出，而小于0.00000546的交易，则无法发出。</p>
+<h2 id="如何避免粉尘交易"><a href="#如何避免粉尘交易" class="headerlink" title="如何避免粉尘交易"></a>如何避免粉尘交易</h2><p>既然知道了粉尘交易的定义，那么我们就可以按照定义，避免构造出粉尘交易了。首先，可以在构造交易的过程中，根据交易的类型，计算出交易的最低金额，同时对每个输出进行判断，如果低于该金额，则不能继续构造该笔交易。特别的，如果这个输出刚好发生在找零上，且金额对于你来说不太大，则可以通过舍弃该部分的粉尘输出，以充作交易手续费来避免构造出粉尘交易。</p>
+<h2 id="发展中的问题"><a href="#发展中的问题" class="headerlink" title="发展中的问题"></a>发展中的问题</h2><p>如果一个区块能够容纳的交易数量越来越多，币也变得越来越值钱，即使是1聪也值很多钱，则这个规则有可能被改变。不过，现在的定义非常巧妙，足以支持到足够久远的未来，定义的公式中，所用到的 minRelayTxFee 是由节点决定的，而节点可以将这个值设置的更低，以容纳更低手续费的交易，但是这必须要得到网络中其它成员的认可，才能保证该交易被其它矿工打包。具有交易加速器的矿池，其实就是将这个值设置得足够低，才能打包那些不被网络确认的交易，从而提高交易的虚拟手续费，通过插队的方式，完成确认。如果要在网络中达成一致地修改配置，最好是通过一次硬分叉，大家统一修改，算是对共识的升级。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/08/29/解密比特币改善提案BIP21/" itemprop="url">
+                  解密比特币改善提案BIP21
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-08-29T08:34:26+08:00" content="2018-08-29">
+              2018-08-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2018/08/29/解密比特币改善提案BIP21/" class="leancloud_visitors" data-flag-title="解密比特币改善提案BIP21">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="BIP及提案过程"><a href="#BIP及提案过程" class="headerlink" title="BIP及提案过程"></a>BIP及提案过程</h2><p>BIP全称Bitcoin Improvement Proposal，意为比特币改善提案，是人们提出的改进比特币及其应用的一个工具，通过收集各种提案，通过讨论，大家能够推进比特币的发展和改良。有意思的是，BIP的第一个提案，就是关于BIP的详细提案规则。</p>
+<p>BIP的提案过程如下：<br><img src="https://en.bitcoin.it/w/images/en/e/ea/BIP_Workflow.png" alt=""></p>
+<h2 id="BIP21"><a href="#BIP21" class="headerlink" title="BIP21"></a>BIP21</h2><p>我们今天使用比特币钱包能如此方便，要感谢BIP21，接下来我们详细分析一下BIP21。</p>
+<p>这个提案要解决的是比特币应用层（这里指钱包）的一个扫码及链接支付的标准提议。该提议介绍了一种URI的语法，这种URI语法可以使得用户可以通过一个链接来发起一笔交易，交易里面指定了一些参数，如金额、备注等，当然这个链接也可以编码成一个二维码，用户通过钱包扫码，就能理解获得一个支付地址。BIP21使得比特币的支付非常简单和普及，该标准使得可以在众多钱包中相互转账，甚至在页面里面实现点击链接转账。</p>
+<p>对于请求支付的人来说，应该按照这个标准来构造这样一个URI，或者是二维码，而对于支付方，则需要能够解析对方给出的URI，把里面的关键信息提取出来，完成后续的转账操作。其实这两个步骤，一般都不需要用户介入，钱包商会搞定一切，最终钱包用起来就像是微信支付一样，非常方便。</p>
+<h3 id="BIP32协议内容"><a href="#BIP32协议内容" class="headerlink" title="BIP32协议内容"></a>BIP32协议内容</h3><p>提案提议的格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 协议:地址?参数串</span><br><span class="line">&quot;bitcoin&quot;: bitcoinaddress [ &quot;?&quot; bitcoinparams ]</span><br><span class="line">// 地址为base58编码的字符串</span><br><span class="line">bitcoinaddress = *base58</span><br><span class="line">// 参数串由一个个参数用&amp;连接起来</span><br><span class="line"> bitcoinparams  = bitcoinparam [ &quot;&amp;&quot; bitcoinparams ]</span><br><span class="line">// 参数类型</span><br><span class="line"> bitcoinparam   = [ amountparam / labelparam / messageparam / otherparam / reqparam ]</span><br><span class="line">// amount 参数：amount=数字</span><br><span class="line"> amountparam    = &quot;amount=&quot; *digit [ &quot;.&quot; *digit ]</span><br><span class="line">// label 参数：label=字符串</span><br><span class="line"> labelparam     = &quot;label=&quot; *qchar</span><br><span class="line">// message 参数：message=字符串</span><br><span class="line"> messageparam   = &quot;message=&quot; *qchar</span><br><span class="line">// 其它自定义参数：参数名=参数值</span><br><span class="line"> otherparam     = qchar *qchar [ &quot;=&quot; *qchar ]</span><br><span class="line">// req参数：req-参数名=参数值 req表示是不可缺参数</span><br><span class="line"> reqparam       = &quot;req-&quot; qchar *qchar [ &quot;=&quot; *qchar ]</span><br></pre></td></tr></table></figure>
+<p>从上面的定义和注释我们可以看出它和网页URL很相似，也是一个协议，加地址，再带上若干参数。实际上除了双斜杠之外，其它基本是一样的，而且该提案定义了几个参数，如amount/label/message等。</p>
+<p>bitcoin协议名可以大写也可以小写，但是各个参数名是大小写敏感的，不能随便更改。</p>
+<h3 id="简化版本"><a href="#简化版本" class="headerlink" title="简化版本"></a>简化版本</h3><p>上面的协议其实还是略微复杂难懂，简化版本如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin:&lt;address&gt;[?amount=&lt;amount&gt;][?label=&lt;label&gt;][?message=&lt;message&gt;]</span><br></pre></td></tr></table></figure></p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>举个例子，bibo请求一个20.3BTC的捐赠：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=20.3&amp;label=bibo&amp;message=donation</span><br></pre></td></tr></table></figure></p>
+<p>扫码者，将通过钱包支付给比特币地址<code>175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W</code>一笔<code>20.3 BTC</code>的转账，标记为<code>bibo</code>，备注为<code>donation</code>。</p>
+<h3 id="BIP21的若干语言实现："><a href="#BIP21的若干语言实现：" class="headerlink" title="BIP21的若干语言实现："></a>BIP21的若干语言实现：</h3><ul>
+<li>Javascript - <a href="https://github.com/bitcoinjs/bip21" target="_blank" rel="noopener">https://github.com/bitcoinjs/bip21</a></li>
+<li>Java - <a href="https://github.com/SandroMachado/BitcoinPaymentURI" target="_blank" rel="noopener">https://github.com/SandroMachado/BitcoinPaymentURI</a></li>
+<li>Swift - <a href="https://github.com/SandroMachado/BitcoinPaymentURISwift" target="_blank" rel="noopener">https://github.com/SandroMachado/BitcoinPaymentURISwift</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/08/29/成年人应当这样获取信息/" itemprop="url">
+                  成年人应当这样获取信息
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-08-29T08:33:36+08:00" content="2018-08-29">
+              2018-08-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2018/08/29/成年人应当这样获取信息/" class="leancloud_visitors" data-flag-title="成年人应当这样获取信息">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="人是一台“电脑”"><a href="#人是一台“电脑”" class="headerlink" title="人是一台“电脑”"></a>人是一台“电脑”</h2><p>假如将人比作一台电脑，需要输入信息，存储数据，运算思考，输出表达。而其中输入信息，作为第一步，也是非常重要的。那么作为一个成年人，应当怎么样去收集信息，才能够尽可能快，尽可能全面呢？</p>
+<p>从小到大，其实从来没有人教过我们如何收集信息，而这看起来好像是一个无意识的过程。不就是刷刷微博、看看新闻、读读书、看看文章嘛，大家都会嘛。然而，这种无意识，往往不是最有效的方式，甚至会让你觉得非常苦恼。</p>
+<p>我一直在思考这个问题，如何搭建自己的信息收集渠道？因为过去收集信息，没有一个完整的体系，都是无头的苍蝇，乱撞。在浏览信息的时候，还容易因为一些别的话题将注意力分散开，像猴子掰玉米一样，大量的时间花在不断地分心上面，真正关心的信息却没有找到。</p>
+<h2 id="结构化思维方法"><a href="#结构化思维方法" class="headerlink" title="结构化思维方法"></a>结构化思维方法</h2><p>首先，在找到答案前，先让我们确立一些原则。作为一个成年人，<strong>应当具备结构化的思维</strong>，这个是我的一个指导原则之一。其实我们遇到的大多数问题，是因为没有结构化思维工具，所以才会不知如何下手，不知道怎么收集信息，不知道怎么思考，不知道怎么做决定，等等。这些问题，统统都是因为没有一个稳定的思维结构，注定会导致过程的混乱和随意，最终得不到一个满意的答案。</p>
+<p>结构化思维方法具有很多优势，它将问题拆分成更多维度，之前想到的是一个个零散的点，而结构化思维，让你从一个面、一个体、或者更高维度的视角去分析问题。这种多维度，让你看到事物的很多面，对事情有更加清晰的认识，将会帮助你解决手头的问题。</p>
+<p>这个纷繁复杂的世界，就是由很多很多类的事物组成，而每一样事物，都有其规律可循，通过多个维度的观察、总结，那么你就更能掌握了这个规律，从而使得做起事情很轻松。</p>
+<h2 id="信息收集的方法论"><a href="#信息收集的方法论" class="headerlink" title="信息收集的方法论"></a>信息收集的方法论</h2><p>信息收集也一样，有它特有的方法论，总结了这种方法论，可以为绝大多数人、绝大多数场景使用。</p>
+<h3 id="信息结构模型"><a href="#信息结构模型" class="headerlink" title="信息结构模型"></a>信息结构模型</h3><p>信息包含了几种类型：</p>
+<ul>
+<li>结构化的核心知识</li>
+<li>零散的知识点</li>
+<li>即时信息</li>
+</ul>
+<p>我们的信息组成应当是一个同心圆，核心是一些最重要的结构化知识，这些知识需要艰苦地学习才能获得，成为我们思考和行动的最主要依据。比如从小接受的科学教育，让我们理解这个世界是由粒子组成，再比如，你的工作技能，需要辛苦习得，而且每天都在应用，这是我们每个人吃饭的家伙。</p>
+<p>我们的信息结构不断完善的过程，就是新知识不断加入，融汇贯通到已有的结构里面，成为你信息结构的一部分。这个过程也是你的信息圈不断扩大的过程，它看起来就像是下面这样。<br><img src="https://user-images.githubusercontent.com/1180416/42136028-f2e88a06-7d86-11e8-88c4-210e21f20ed3.png" alt="image"></p>
+<h2 id="信息的重要性及时间分配"><a href="#信息的重要性及时间分配" class="headerlink" title="信息的重要性及时间分配"></a>信息的重要性及时间分配</h2><p>根据二八法则，核心知识在我们的信息里面，是最重要的百分之八十，它们起的作用最大，而剩下的零散知识点和即时信息，则没有那么重要了。零散知识点可以作为我们扩展信息广度的方法，快速了解一些未掌握的信息。而即时信息，比如新闻、微博等，大多时候作为我们的一个社交谈资，作为一个普通人，你谈不谈论世界杯，也并不会对你生活有什么很大的影响。</p>
+<p>重要的信息，需要我们花时间花精力去掌握，一门课程、一本书籍、一种技能，都需要扎扎实实地花时间去搭建整个结构。比如练吉他，首先需要知道一些简单的乐理，然后学会和弦、看谱，然后勤奋练习，最终才有可能弹奏出一首曲子来；而即时消息，则可以用一些碎片时间来刷，上班路上，刷一刷微信公众号和朋友圈，看看有啥新鲜事在发生。</p>
+<p>所以时间分配上是：<strong>80%</strong>时间放在核心知识，剩余<strong>20%</strong>放在零散知识点和即时信息。</p>
+<h3 id="搭建你的信息渠道"><a href="#搭建你的信息渠道" class="headerlink" title="搭建你的信息渠道"></a>搭建你的信息渠道</h3><p>每个人都有自己常用的信息渠道，常见的有几种：</p>
+<ul>
+<li>书籍</li>
+<li>网络信息</li>
+<li>社交圈</li>
+</ul>
+<p>举个例子：小郑，是区块链工程师，他本科通过计算机科学专业的学习，掌握了编程的技能，他通过阅读技术书籍来学习新的技术，提高自己的水平，有时候他也逛逛知名博客以及开发者社区，了解一些技术动向。此外，他每天通过Reddit或者微博，看到一些新鲜事，他通过数字货币交流群里获得一些币圈消息，也会看朋友圈里面，大家发了什么新动态。</p>
+<p>那么怎么设计自己的信息获取渠道呢？推荐的方法如下：</p>
+<ul>
+<li>通过书籍、论文等来获得结构化的核心知识，比如一门学科、一种技术</li>
+<li>通过杂志、网络的Wiki来辅助自己丰富要搭建的新知识结构，并且不断内化提升认知</li>
+<li>通过朋友、社交网络来获取一手的新闻，但是前提是要加以甄别，做一个批判性信息收集者</li>
+</ul>
+<p>时间上：</p>
+<ul>
+<li>挤出大块的时间来啃结构化的核心知识（比如上学、上班期间，周末的一大块时间，集中精力攻克）</li>
+<li>抽出一小块时间，浏览零散的信息（如微信公众号、社区文章、杂志等，也可以收藏以后再看，或者通过语音听取知识付费的文章）</li>
+<li>利用碎片时间，瞥一下最新的快讯、新闻、消息推送（如ReadHub.me，消息来了看一眼，有个基本的判断就得了，不重要的略过，重要的要进入下一步）</li>
+</ul>
+<p>行动上：</p>
+<ul>
+<li>知道什么信息从什么地方获取，节省你的精力和时间（比如，你想知道怎么开发Android App，你有一个朋友就是做这个的，问问他就是了）</li>
+<li>更加靠近准确信息的源头，有助于提升信息即时性和有效性</li>
+<li>提高敏感度和执行力，核心知识上做好准备，得到最新消息后立即行动</li>
+</ul>
+<h3 id="最重要的还是我们自己"><a href="#最重要的还是我们自己" class="headerlink" title="最重要的还是我们自己"></a>最重要的还是我们自己</h3><p>无论收集的信息多么准确，多么及时，圈子多么大，最重要的还是我们自己，对关键信息是否敏感，对于信息的提取和利用是否有效。</p>
+<p>如果对关键信息不敏感，那么也还是抓不住机会，比如，很早就知道比特币的人，可能通过朋友之口或者某个文章得知，但最终知道了就知道了，并没有深挖，也没有进一步行动，最终大腿拍烂，而有的人，抓住了一个信息，深挖下去，获得了回报。</p>
+<p>对信息的提取和利用，如果获得了信息，首先要评判信息的真伪可靠性，做一些基本的调查和过滤，才能为你所用，而不能听风就是雨，这样你将会成为信息的奴隶，而不是信息的主人。</p>
+<p>那么我们就要有意地锻炼自己的信息敏感度和提取信息、利用信息的能力，得到最新的消息，要试着想想这个消息蕴含着什么隐藏信息，是否代表着什么趋势和潮流，值不值得深挖下去。如果值得，那么深挖下去就好了，最终将信息为你所用。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>信息，总是无处不在的，在于你用发现的眼光去看待它，并且找到一种合适的方法， 沉淀下来，最终成为你的一部分。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/08/29/一款BCH-DAPP的诞生/" itemprop="url">
+                  一款BCH DApp的诞生
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-08-29T08:31:49+08:00" content="2018-08-29">
+              2018-08-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2018/08/29/一款BCH-DAPP的诞生/" class="leancloud_visitors" data-flag-title="一款BCH DApp的诞生">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="DApp的兴起"><a href="#DApp的兴起" class="headerlink" title="DApp的兴起"></a>DApp的兴起</h2><p>现在的区块链，处在一个爆发的前夕，之前的ICO狂躁，带来了一定的迷茫，但是大家都在说2018年是区块链应用元年，今年一定会有区块链的杀手级应用落地，然而得有人不断地在里面投入和试错，才能诞生这么一个杀手级应用。为此我们也进行了初期的尝试，基于BCH的公链，做了一款身份验证、密码管理的应用。做区块链DApp的过程中，时常会怀疑自己做的是不是伪需求，因为区块链的个性鲜明，使得开发起来挺别扭的。虽然获得了数据的安全性，但是开发效率却不高，需要自己定义一套协议，存取的方式也需要做一次加解密。</p>
+<h2 id="报名BCH-Geek大赛"><a href="#报名BCH-Geek大赛" class="headerlink" title="报名BCH Geek大赛"></a>报名BCH Geek大赛</h2><p>近期，刚好来自重庆的盖茨实验室举办了一场BCH和EOS社区的极客大赛，大赛吸引了一批开发者和在校大学生的踊跃参与，从中也诞生了许多的优秀的应用，给我们带来许多启发，虽然暂时还只是一个雏形，不能有清晰明确的商业模式，但也是非常伟大的尝试。当然，我们也报名参加了这次的大赛，虽然仅了解了一点皮毛，但是我们还是鼓起勇气报名了。</p>
+<p>我们给战队取名叫【神雕侠侣】，因为神雕侠和satoshi还挺谐音的，算是致敬中本聪吧。我们团队由两人组成，一个是我，另外一个是我女朋友，两个人一个负责开发，一个负责产品和运营。</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/41348653-e877b006-6f3f-11e8-862e-624ea539efc2.png" alt="image"><br>邓国东，曾任职于腾讯、ViaBTC，从事Web系统、数字货币矿池及钱包开发，是一个面向全栈的技术开发人员。有志于通过技术，让更多人从区块链中受益。</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/41348657-ed46da8a-6f3f-11e8-8ec4-f6cc8349afae.png" alt="image"><br>杨春萍，任职于漫游超人，擅长品牌及产品社交媒体运营运营，精通两微一端及数字媒体传播，曾主要负责漫游超人品牌植入《唐人街探案2》项目营销。</p>
+<p>刚上台介绍战队的时候，我一个人上去，他们以为我是那只雕。。。<br>既然报名了，那就硬着头皮也要上，于是也赶工了几天，终于将这个demo给做出来了。</p>
+<h2 id="为啥要做一个密码管理DApp"><a href="#为啥要做一个密码管理DApp" class="headerlink" title="为啥要做一个密码管理DApp"></a>为啥要做一个密码管理DApp</h2><p>我们生活中需要使用到非常多的账号密码，然而这里有非常多的安全隐患，有许多人使用的账号密码甚至泄露已久，相当于在互联网里面裸奔，并没有什么隐私可言，甚至切身利益有可能被人随时掠夺。就密码来说，我们有许多的痛点：</p>
+<ul>
+<li>密码多（多到记不住）</li>
+<li>密码弱（密码很容易破解）</li>
+<li>密码重复（一个被破解，连带其它遭殃）</li>
+<li>不好输入（手动输入很繁琐）</li>
+</ul>
+<p>我一开始就有一个愿望解决这些真实存在的痛点，能否开发一个使用区块链作为分布式存储方案的密码管理器呢？<br>答案是可行的，参考LastPass和1Password等竞品后，我们设计出了IFPassword，基本思路如下：</p>
+<ul>
+<li>IFPassword配套有网站、小程序、浏览器插件</li>
+<li>用户通过浏览器插件可方便地添加账号密码、填写账号密码</li>
+<li>重要的密码数据将存储在去中心化存储上</li>
+<li>不重要的信息存储在IFPassword服务器上</li>
+</ul>
+<p>于是我们初步实现了添加账号密码、填写账号密码的基础功能，当然，一开始只是为了验证这个流程，没有做到非常好的用户体验。</p>
+<h2 id="区块链知识"><a href="#区块链知识" class="headerlink" title="区块链知识"></a>区块链知识</h2><p>BCH上有一个OP_RETURN的操作码，在写入一笔交易的时候，允许在OP_RETURN上附带一个数据，大小为220Byte，足够塞下一条微博、一段哈希了。像之前诞生的memo——区块链上的微博，keyport——区块链上的微信等等都是基于OP_RETURN来存储的数据，我们实现的这个密码管理器，也是讲数据通过比特币采用的椭圆曲线算法加密后放置到OP_RETURN上的，它的安全级别和比特币是一样的。</p>
+<p>那么如何写入这个OP_RETURN呢？其实也很简单，如果你连接的是一个比特币的节点，那么你只需要构造交易的时候，将这段数据写入输出的<code>data</code>字段，然后签名之后广播即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bitcoin-cli createrawtransaction &apos;[&#123;&quot;txid&quot;:&quot;3b0da5fd1beb71e1f47da2f3e9bd1af2e7026fd0282d18d9777a13e49089d146&quot;, &quot;vout&quot;:0&#125;]&apos; &apos;&#123;&quot;bitcoincash:qpktcr9pj6dh8vgepuvumymhwrg7536d7u4qsvdvhc&quot;: 0.00001500, &quot;data&quot;: &quot;6f11616d6f4141414b3034514477712b77574b384b462f567a793362375a4a6c6d4549475a79783070464d73347842447432424d4c4c65414a547449376b63622b43377a6e69455132554e4968353734626c4d5456534d786a43654d764f617162636641465966677868594a39557642526b687a365a63776361377437506a315a367171704e2f46363955774d2f68514a776c432b71694254314f596470686352656c4e664945314e55484a30745450742f644e4746565731712b673d3d&quot;&#125;&apos;</span><br></pre></td></tr></table></figure>
+<p>如上面代码所示，将加密后的数据编码成了16进制写入了交易中，广播出去之后，就可以在区块链浏览器中看到这样的数据了，这个数据就是日后恢复数据的关键，不过千万不能把私钥给泄露了出去，泄露出去拿到私钥的人就可以解密这段消息了。<br><img src="https://user-images.githubusercontent.com/1180416/41348670-f930563c-6f3f-11e8-8f8e-492f77c3643f.png" alt="image"></p>
+<h2 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h2><p>编程实现了上述的写入区块链的逻辑以及相关的交互之后，大致的最终效果如下：</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/41348682-00cad4da-6f40-11e8-8c4b-2b2b80bff480.png" alt="image"><br>用插件管理TOTP二次验证，实现快速查看填写。</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/41348691-05e9f7e8-6f40-11e8-9b1a-2c03ee758a95.png" alt="image"><br>在插件中添加站点的账号密码。</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/41348712-1738ead6-6f40-11e8-9f6a-7b17d2691b47.png" alt="image"><br>在插件中查看各个网站的账号密码，可以复制粘贴到登录表单中。</p>
+<h2 id="启发"><a href="#启发" class="headerlink" title="启发"></a>启发</h2><p>现在的互联网进入移动互联网以后，变成了一个个信息孤岛，大家在岛上玩得不亦乐乎，但是如果一个岛要到另外一个岛，那成本就高了。然而发明互联网的初衷，就是让人与人、人与物能够互相联通，然而现在却是越来越封闭了，并且原本属于用户的数据以及权利，被各个大公司垄断，并且他们还不能提供连续的服务，说不定哪天说停就停。我们需要一个能够持久存储你的数字资产的东西，一个人人能够使用，信息能够充分流淌的工具，就像早期的互联网一样，在上面探索可以不断发现新的东西，在区块链上，也是这样，顺藤摸瓜，能够发现许多的新东西。</p>
+<p>我们做的这个玩意，它对我们还是有一点启发的：</p>
+<ol>
+<li>数据是用户的资产，用户可以选择公开、加密它，也可以选择转让、授权给他人</li>
+<li>数据是不需要依赖一个中心的，大家存储，大家使用，突破空间、突破时间的限制</li>
+</ol>
+<p>未来，信息存储的方式以及内容分发的方式将产生极大的改变，试想这样一个问题，你是如何存储你的所有照片的？存在自己硬盘，需要常常备份，还是存在照片管理软件或在线空间，非常不方便管理和移动。然而，其实你的照片可以存储得无处不在，随时要随时取，并且永久保存，不会消失，你拥有对它的所有权利，你可以加密，你可以卖给别人，可以授权他人使用，等等。用户将重新获得数据的自由。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/08/29/K线和深度图的实现/" itemprop="url">
+                  K线和深度图的实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-08-29T08:29:12+08:00" content="2018-08-29">
+              2018-08-29
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2018/08/29/K线和深度图的实现/" class="leancloud_visitors" data-flag-title="K线和深度图的实现">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>K线和深度图在股票及数字货币交易中到处可见，然而这个K线和深度图的实现，如果没有真实写过一次，对里面的一些坑还是有可能避免不了。最近由于我们的产品中开发了一个云算力合约的交易K线，所以我也实现了一个简单的K线图和深度图。</p>
+<p>K线长下面这样：<br><img src="https://user-images.githubusercontent.com/1180416/39085992-d4ef78bc-45bd-11e8-87ba-1db9bc2b0eb8.png" alt="image"></p>
+<p>要实现一个K线，首先要知道K线是什么，K线由于长得就像一根根蜡烛，所以又被称为蜡烛图，是用来反映价格走势的一种图表。K线可以按照不同的周期进行划分，例如15分钟、1小时、1天等等，它的每一根“蜡烛”反映的是那个周期内的开盘价、收盘价、最高价和最低价，而底部还会有一个成交量。</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/39085996-e1006616-45bd-11e8-8227-eda209da1424.png" alt="image"></p>
+<p>K线的开盘价，就是“蜡烛”矩形的底边或者顶边，收盘价就是另外一边，绘制时，先绘制开盘价，如果收盘价高于开盘价，那么就绘制在开盘价上方，整个矩形的颜色是绿色（假设绿涨红跌），反之，则这个周期内是跌的，则会绘制成红色。</p>
+<p>每根蜡烛，还会有一根细线贯穿，这根就叫“引线”，引线顶端代表该周期的最高价，底端代表着最低价，这根引线反应了这个周期内的价格震动幅度。</p>
+<p>一根根蜡烛排列起来，就能看到价格的走势，一眼就可以看出是涨是跌，同时也能看住单个周期内的涨跌情况。一般除了蜡烛之外，还有一些其它指标，如MACD，KDJ等。这里讨论比较常见的MACD，也即平滑异同移动均线，它是采用每个周期的收盘价，做一个平均值，有MA7、MA30等不同周期长度的平均值，一般绘制K线的组件已经提供了该功能，只要填入数据，它将自动计算该周期及前六个周期的收盘价平均值，如果不满七个周期，那么则不计算。</p>
+<h2 id="K线图的实现"><a href="#K线图的实现" class="headerlink" title="K线图的实现"></a>K线图的实现</h2><p>K线图要实现快速的加载，必须要添加缓存，否则每次都是用成交单据实时计算，则非常耗时。对于我们上面提到的单根蜡烛的数据，我们要将它按不同的周期存起来。以15分钟的为例，每根K线，是一个数据项。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    [time1, open1, high1, low1, close1],</span><br><span class="line">    [time2, open2, high2, low2, close2]</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>拉取K线数据时优先从缓存中取，如果缓存中取不到，那么则从DB中根据过往的成交记录生成，然后存储到缓存中，以备下次使用，一般来说，首次加载是比较耗时的，因为这个时候所有K线数据都还没有。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">points = []</span><br><span class="line">r = redis_store.hmget(market_type + &apos;_hash_trade_kline_&apos; + period_type, keys)</span><br><span class="line">for index, value in enumerate(r):</span><br><span class="line">    t = int(keys[index])</span><br><span class="line">    is_cache = ((index + 1) != len(r))</span><br><span class="line">    if not value:</span><br><span class="line">        v = get_kline_point(market_type, period_type, t, t + interval)</span><br><span class="line">        if v[5] == 0:</span><br><span class="line">            if not last_v:</span><br><span class="line">                continue</span><br><span class="line">            last_close = last_v[4]</span><br><span class="line">            v[1] = last_close # open</span><br><span class="line">            v[2] = last_close # high</span><br><span class="line">            v[3] = last_close # low</span><br><span class="line">            v[4] = last_close # close</span><br><span class="line">        if is_cache: // 防至缓存</span><br><span class="line">            redis_store.hset(market_type + &apos;_hash_trade_kline_&apos; + period_type, t, json.dumps(v))</span><br><span class="line">    else:</span><br><span class="line">        v = json.loads(value) // 直接读取缓存</span><br><span class="line">    points.append(v)</span><br><span class="line">    last_v = v</span><br><span class="line">return points</span><br></pre></td></tr></table></figure></p>
+<p>值得一提的是，如果当前周期没有成交，那怎么办？如果没有成交，那么开盘价、收盘价、最高价、最低价要以昨日的收盘价为准，这样才能保证K线是平滑变化的，而不会因为这个周期没有成交量，而导致K线断开，或者突然跌到0。</p>
+<h2 id="K线的绘制"><a href="#K线的绘制" class="headerlink" title="K线的绘制"></a>K线的绘制</h2><p>K线是在前端进行绘制的，通过highlight或者Trading View等一些专业的K线绘制工具，就能将K线数据绘制出来了，一般只要配置组件的参数，将请求得到的数据放入即可，另外，MA7、MA30等一些指标，组件也可以自动根据历史数据计算出来。</p>
+<p>MA7，即过往七个周期的收盘价格的移动平均值，依此类推，MA30，就是30个周期的收盘价格的移动平均值。所谓移动，就是说随着周期往前移动，进入一个最新数据，就会剔除一个最老数据，类似一个队列一样。MA值能够反映价格的变化趋势，是人们判断价格走势的常用工具。虽然无需我们自己计算，但我们不妨看看它们的计算公式：</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/39086035-5d803b30-45be-11e8-85f4-753d5394270e.png" alt="image"></p>
+<h2 id="深度图"><a href="#深度图" class="headerlink" title="深度图"></a>深度图</h2><p>对于用户的挂单，我们往往要展示一个深度图。深度图展示的是买卖单的价格及数量情况，通过对比买盘和买盘，我们就知道是买盘强劲还是买盘强劲，以及交易的活跃程度。</p>
+<p><img src="https://user-images.githubusercontent.com/1180416/39086038-675aa3ac-45be-11e8-99c7-85215d158fd8.png" alt="image"></p>
+<p>如上图的深度图，展示了各个价格的买卖量，然后根据买卖数量，来绘制红色区块和绿色区块的长度。这个长度是由两个因素决定的，一个是该档价格的累计委托量，这个累计委托量的意思就是，这个量是所有上的数量一直加下来累加的，而不仅仅是这档价格的量，它将作为分子，另外一个是所有委买或者委卖的量里面的最大值。比如，价格为0.0043这档，买入合计529.44，而总体的买入合计为1739，总体卖出为7867。则这一个块的绿色部分长度就是 529.44 / 7867 * 方块最大长度。我们可以看到上图右侧的卖出合计比较大，所以它的红色色块会长一点。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>很多经验，自己不试一次，还真就不知道K线是这样绘制出来的，而这也仅仅只是金融图表的最简单的一种，金融领域还有很多指标可以用来反映价格和市场的变化，如果能够掌握它们，用来帮助自己或者用户来把握趋势，都是意义的事情。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/05/12/数字货币的盈利模式/" itemprop="url">
                   数字货币的盈利模式
                 </a>
@@ -895,615 +1533,11 @@ tmux // 创建一个系统自动编号的会话
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/13/HTTP请求的幂等性/" itemprop="url">
-                  HTTP请求的幂等性
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-13T08:58:56+08:00" content="2017-03-13">
-              2017-03-13
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2017/03/13/HTTP请求的幂等性/" class="leancloud_visitors" data-flag-title="HTTP请求的幂等性">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-HTTP的请求有许多种，而无外乎都是 增、删、改、查，和数据库是很类似的，服务器托管的资源，其实只需要这几个方法就覆盖绝大多数的需求了，它们分别对应 POST、DELETE、PUT、GET，然而它们的幂等性需要被重视，因为在开发中如果忽视了幂等性，则可能会在程序中留下漏洞。
-
-以RESTful的现代API来看，一个URL后面对应的就是一个资源，对于这个资源会有以下操作：
-
-* POST 创建一个资源，非幂等
-* GET 获取这个资源，幂等
-* DELETE 删除这个资源，幂等
-* PUT 更新这个资源，幂等
-
-所谓幂等，就是无论请求多少次，都和请求一次是一样的效果，这个幂等性不是HTTP请求方法自带的，而是开发者在编程的时候实现的，如果你希望它幂等，则每次都一样地处理类似的需求，如果你不希望它幂等，则需要做些额外处理，对，需要你处理。
-
-方法幂等，我们也期待它幂等（GET，DELETE，PUT）的情况，GET毫无疑问，你读一个资源多少次，都是一样的结果；DELET一个资源成功后，再次DELETE应当什么也不做，这样无论做多少次，都只删除了这个资源一次，而PUT，我们也是直接更新这个资源，次数并不会产生影响。
-
-比较特殊的是POST方法，某些情况下，我们可能不希望它每POST一次，都产生一个新的结果，故而我们需要额外处理，例如同样的注册过程，我提交了一次表单，注册了一个账号，同样的内容再提交一次，再注册一个账号，因为我们不允许多个相同账号，所以我们拒绝了。再比如，用户在处理一个表单提交时使用的是POST（提交订单[wait_pay]-&gt;确认支付[pay]），但是我们希望用户只保持一个wait_pay状态的资源实例，也即这一步提交后点一次刷新不应该再能提交成功，于是我们应该拒绝这样的多次请求，防止资源被创建多次。很多情况下，我们希望用户继续处理未完成的单据，则需要阻止POST的这种非幂等，除此之外，还要配套一个GET请求，让用户能够处理这种状态的资源，形成闭环。
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/11/沉默的鹰/" itemprop="url">
-                  沉默的鹰
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-11T08:02:22+08:00" content="2017-03-11">
-              2017-03-11
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2017/03/11/沉默的鹰/" class="leancloud_visitors" data-flag-title="沉默的鹰">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">wch是我们宿舍公认的oracle璀璨，将来必定会发光发热的，只是现在看起来，太颓废了点。半米阳光的阳台，角落里立了十几个的啤酒瓶（假如我是辅导员，我会装作看不到此句），有的是我们一起参与消费的，而大部分却是wch积累出来的，他是一个经常喝酒的人。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">大一的时候，我们都还年轻，围在学生活动中心后面的停车场那里做游戏，那时候对面的艺术馆刚建起来，下面的洼地还没有很多水，可以看到三三两两的野鸭。就是在那样的景色中，我们互相介绍自己，wch操着一口标准的茂名普通话介绍了自己，给我们留下了深刻印象。后来他住隔壁的隔壁，偶尔看到wch酗酒，吻上长出了黑色带粒粒质感的胡茬。他颓废了，因为爱情。也许是感情很深，他貌似很久都没有走出来，而在社交方面也缺乏主动性，落下基础导致在编程方面没有自信。情绪上的调控不太过关，容易被一些事情搞得低落，所以遇到挫折的时候既想进取，又带着烦躁。一次参加一个班级社团活动，他半途而归，我看到了，一问才知道是受挫了。失恋的人，茶饭不思，但是无论如何，不要让自己一直睡，或者沉醉在酒精中，因为这都不是办法。曾听说过这样一句话，男人失去一个人会让他成长，女人得到一个人会让她成长。而失去一个人的时候，正好可以震撼我们自己去反思，我们慢慢地独立和成长，到底是因为了什么，导致了失去。我想应该会有两种心态，一种是渐渐从死到复苏，去健身，去看书，另外一种是沉沦，是长眠。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">后来组进了同一个宿舍，经过观察发现，放下忧郁之后，wch本是一个开朗的人，相比之下我比较冷酷，打闹之时也会有他的参与，我最怕他们联手来整我，因为我会被弄下去地上或者被弄出去门外。不知道与我和桌升在一起，他是否感到了开心，但我敢肯定，同宿舍后，去图书馆的次数也增多了（大概是大家都去，又或者是房间太暗）。他黑瘦黑瘦的，牙齿很白很整齐，能够看到他开心的笑容，于是我在惊叹，原来他也有愁眉苦脸的对立面啊。冬天的晚上，很冷，他都是洗冷水的，看起来挺硬朗的。但是平时不咋锻炼，只有大一的时候我们偶尔打过几次乒乓球，大三的时候打过几次羽毛球，或者偶尔跑跑步。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">有段时间，他和一些网友聊天了，看起来有点线路繁忙的感觉，我们知道他走出来了，卧谈的时候，他会发表一些看起来略带幽默俗套的话语，或者是干脆沉默不语，让我们在继续大篇幅讨论一些杂七杂八的家事国事天下事，其实私下里，我们都是俗人，讨论着生活中最俗不可耐的话题。不过我印象中，伟昌听的歌曲中，更加接近打工一族的风格，略带一种悲苦。虽然我认为喝酒，斗地主，看小说不应该在我们的大学生的生活中占主旋律，但这是个人自由，我认为wch身上的一些气质，大概和他的屡次挫折经历有很大关系，假若真的把心态调整好，多点积极向上，会好很多。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">wch并非是没有特长的，他的字写得挺好看的，对人很热心帮助，尤其是修电脑这种活儿，可能是帮忙多了，跟某些女生的关系也比我们几个呆子强。本来wch是不打游戏的，只是斗斗地主，后来发展到全宿舍都打dota，半个月没见，他的水平就已经称霸C222了（也许是因为我们太水了），我们有好几次都在他的指导下，能够反败为胜（挽狂澜之既倒），说的一些术语很专业。可见个人发展的快缓，只是所花时间的问题。假以时日，他获得了一个机遇，如果好好坚持的话，终究是能够璀璨的。我很喜欢梁启超，我弟弟一针见血地说道，他不是亡国奴么，我顿时脸憋得通红。后来仔细想想，能够挽狂澜之既倒，扶大厦之将倾的人是如此有胆量和能量。他们挽救狂澜的途中，开拓一条新路，但思变之心，可以往好的方向发展，但是不可虎头蛇尾。我想对wch说的也是，行事一以贯之，必能有所成。一次机会，他已经快要和某公司签三方了，可是临时条件变动，本来很坑的条件，变得更加不划算，于是就拒了。这次回来，深受打击，在床上睡了近一个星期，只吃打包的饭或者煮面。强烈追求一样东西的时候，得不到，必定是很痛苦的，颓丧个一两天可以理解，但是太长时间只会带来坏影响。颓丧之中，应总结反思，既然错过了，那就不要悲伤，切实把实力提上来才是正经事。我们这么鼓励他，希望他能够尽快走出阴影。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">在宿舍里，他肯定是压力山大的那个，因为其它舍友都学业，爱情双丰收了，这种强大的压力使得大家都不敢懈怠。但是这种差别也是在一点一滴的积累中形成的，之间的心态是否良好，之间的付出多少，其实大家心里都明白，好在我们还很和谐地生活在一起，都没疯。而我可以预见的未来，只要心态是好的，wch也应该会有一个不错的归宿。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">沉默的鹰，蓝天经常会有（只要不是在北京），任凭翱翔。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">by bibodeng 2014-02-02</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/11/呆子的逆袭/" itemprop="url">
-                  呆子的逆袭
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-11T08:01:50+08:00" content="2017-03-11">
-              2017-03-11
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2017/03/11/呆子的逆袭/" class="leancloud_visitors" data-flag-title="呆子的逆袭">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">呆子的逆袭</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">fatcat 是那种看上去是个呆子的人，或者说是人物，因为他常常会令你惊奇，因为和他交谈，你自己看起来更像是傻子。没错，他是那种大智若愚型的。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">大多数看起来呆呆的人，体育都是不太好的，fatcat也一样。以前和肥猫不熟，却和他一起上体育课，练的是乒乓球，虽然大多数男男女女对于我们的国球看起来并不是那么熟练，但是肥猫的笨拙在我看来，的确挺滑稽的。他一兜一兜的动作，还有脸上挂着的傻笑，的确让人严肃不起来。但是期末考试是考一分钟内接球次数最多的，而肥猫的呆板和认真，让我们合作起来拿到了高分。虽然我自认为在乒乓球上上有那么一丢丢的基础，但是和他合作起来一点也不感到怠惰。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">某次，学校院运会，下面正在热火朝天地比赛，场地中间人们来来往往为班里的队友加油鼓起，主席台上高音喇叭在播着新一轮的获奖名单和下一轮的比赛安排，看台上，大家都在讨论着下面的赛事，或者在拍照。但是这层阶梯的靠边处，有个人在端着一本高数课本在看，我们感叹道，还有这样的人！没错，那就是fatcat，他魁梧的身躯在太阳下面显更加庞大，只见他聚精会神，盯着一页看了许久，然后抬头呵呵应对那些带有一点惊奇和调侃的问话。从此，我深深记住了这个身形魁梧的fatcat。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">令人意想不到的是，第二个学期颁发班级奖励，我们都被吓尿了，看起来像呆子一样的肥猫，他的绩点，，居然高达4.2，我的天哪，要知道我第一学期的可是和他的倒过来啊，而4.0以上的很少见。从此，我们都有了一个共识：肥猫是一个猛人。也许天才的缺陷都很明显，尽管他体育很菜，行动很慢，但是这丝毫不能掩盖他的光芒。大一的老师说了一句：“是金子，到哪里都会发光”。在一次去北京参加一次专业竞赛之后，他竟然拿到了全国一等奖，在这之前俺们学院可是没有人获得过啊。再后来，我们就一起搬进了C222，一间一天到晚暗无天日的房子，这间神奇的房间，开始我们暗无天日但是还算开心的大三生活。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">很多人看起来很呆，那是因为他们单纯，对目标执着，肯去努力，所以往往能够创造出令人惊叹的成绩。但是，我再清楚不过，考试要么是功课做在之前，要么小抄带在身边。而每到期末的时候，我们在抱佛脚，肥猫这只学霸就会很淡定，早早睡觉，其实是他在图书馆已经温习过一遍了。我见到过他抱着八百多页的英文版《算法导论》很仔细地看，其专注精神，在他长期安静坐在图书馆的场景之中，可见一斑。而且他看问题的角度，总是让我们大吃一惊。这让我穿凿附会的思路，看起来是多么地苍白无力。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">当然，学霸也有放松的时候，例如他的《三国杀》，他的《塔防三国志》，dota，都是他娱乐的节目，但是你决定想不到，他玩完之后还会记笔记。擦，从来没有见过这么认真的人。过年之后，他就要继续他的研究生学习了，当然这也是精通技术和理论的肥猫最好的选择。作为舍友，记住更多的是他魁梧的身材，秀气的手指，还有与沉默之鹰的粤语的吧的，欢欣雀跃时的可爱蹦跳姿态。他是那种学得踏实，玩得痛快的人，无论是图书馆呆一天，还是睡一天，玩半天游戏，都是全身心的。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">对你身边这样的呆子好一点 : )</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">by bibodeng 2014-01-29</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/11/好男人czs/" itemprop="url">
-                  好男人czs
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-11T08:00:49+08:00" content="2017-03-11">
-              2017-03-11
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2017/03/11/好男人czs/" class="leancloud_visitors" data-flag-title="好男人czs">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">自从上了大三，我们宿舍就变得不大一样了，大概是因为搬进了这个暗无天日的C222房间，大家都纷纷在外面奔走，不想呆在这里枯坐。即使是聚在了一起，也是如网吧通宵一样一字排开，走近一看全是dota。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">升哥，我们也称桌上，是我平日里最亲密的小伙伴。泡图书馆，呆实验室，搭275去广州，或者挤地铁，简直称得上是形影不离，并且在宿舍常常打闹，每次都是我被推出门外。以我对他的了解，连他的wifi密码我都是知道的。遥想当年在314，都记不得怎么稀里糊涂就成了舍友。不过认识他的人，都知道他很牛，无论是他踢足球，还是追的人，都牛逼死了。虽然桌上实习的导师对他说过：“第一眼看你，我觉得你很不靠谱”， 但是我觉得他还是特别靠谱，反正是比我靠谱多了，否则也不会批评我不靠谱。我们宿舍有个只有早上能够晒到太阳的阳台，而他照常7点靠8点起床后，就靠着栏杆下看他的手机，这时候很安静，隐约可以看到桌上帅气的脸庞，阳光打在他英俊的眉宇上，泛着亮光。自从有了小米手机后，就每天端着个手机看，吃饭，睡觉前，这是近些个月最大的改变，当然更大的改变是他成了继oracle小王子之后的n%2==0(n&gt;0)第二人。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">神奇的人，从身体上就是神奇的，不瞒你说，他非常强壮，力量可怖，好几次要打爆冲凉房的门，平时说话声音低沉，但是他吼一声"fuck"，你绝对会虎躯一震，菊花一紧，之后耳朵嗡嗡一阵。每次见到他那条黄金小腿，射门金刚，我们都会唏嘘一阵，但是你绝对想不到，他皮肤细腻，手指秀气。整个手，白得女孩子都无地自容，简直可以算得上完美无瑕，很结实却很秀气。也许是老妈怀孕时吃了很多富含维生素的食物，才会如此地细皮嫩肉。自从大二后，不踢足球很久了，于是天天在宿舍折腾室内运动，有时候我就担当他的沙包，但是我绝对不会任由他打，往往我们会商量个一人一拳的协议，当然翻脸的时候就要互使千年杀，弄得整个宿舍充满一片小学生打闹味道。每次刷牙，上厕所，最好都关上门，或者小心点，否则又会遭到不必要的袭击。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">除了体格强健，其风格是一贯靠谱的，桌上在广州跑了一个月，参加各种校招，最后进了UC，成为了大家都称道的壕。当然，技术上的踏实，是获得成功的基础，他专攻安卓手机的应用开发，一年多的积累，让他具备实力做出他想做的应用。记得大三上，我走前端道路，但是各个方面都要接触一下，这种不确定的方向，让桌上君多次批评。当然，我后来努力在一方面进行发展，但是到头来发现居然还要去学.net。从技术上，就看得出升哥的专一，而我是往全栈发展了。。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">桌上从来都是一个大方的人，我们有（que）困（qian）难（hua）都找他，他准能给你，但是据说，但是如果你打算不还，那趁早躲开。自从成了土豪，他经常在朋友圈发些很有诗意的段子，而且还经常发带着一个money的句子，终于我又失去了一个小伙伴，他开始埋头在手机上，连吃饭都是这样。一日，升哥说起了某个日本歌星，然后继续展开后面的故事，此处省略50字，接着就得出了一个结论：“成长也是有烦恼的”，当时笑趴了我，放心，你是get不到这个point的。而升哥的成熟也从我们分化的世界开始，他的淡定，他的靠谱，他的不靠谱（调皮什么的都是和我瞎闹的时候传染给他的）都是这个好男人的重要特质。还据说，他对女生很好，当然也要分是谁。不远的将来，桌上当上CTO，迎娶白富美。我将致以祝福，只要升哥不要把手里的关于我的王牌打出来，我们还是好朋友。人们都说，爱情事业双丰收，我们宿舍的2B们，貌似都在往这个方向发展，眼看就要全国解放，祖国统一了。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">毕业前一定要和升哥大战dota 300回合，蓝猫，这个升哥塑造了全地图到处飞来飞去的角色，请输一次给我吧！</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">by bibodeng 2014-01-30</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/11/奇葩小王子/" itemprop="url">
-                  奇葩小王子
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-11T07:58:29+08:00" content="2017-03-11">
-              2017-03-11
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2017/03/11/奇葩小王子/" class="leancloud_visitors" data-flag-title="奇葩小王子">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">奇葩小王子</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">我们宿舍，还有一朵奇葩，和我同宿舍的最久的亲密小伙伴，他就是燎原。第一眼看燎原，我就觉得这哥们挺土的，虽然我也好不到哪里去，但是从衣着和听歌的品味，都带着一种尘封的历史感。他喜欢的都是一些80年代的歌曲，比如《你究竟有几个好妹妹》，每天在宿舍自习的时候他就播这首歌，百听不厌。虽然戴着耳机，但是我们依旧能够听到这熟悉的旋律。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">我们曾经作了一首打油诗：</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">我们宿舍有三宝，</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">xx晚洗澡，</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">xx酒瓶倒，</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">还有燎原的闹钟真是吵！（已对原文做改编）</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">燎原有相当一段时间是设三个闹钟的，而且都是那种大家都睡的正响的时候，如6点多的时候闹的。可能因为他的手机是国产机（国产机的特征就是夸张，可以有跑马灯，声音嘹亮），居然可以每分钟闹一次。这个时候，往往闹了好几轮，我们都醒了，燎原还没有醒来呢。文杰会发出一句幽怨的“广欣〜”，燎原这才慢慢醒来，按下了闹钟。后来因为这事，大家都投诉他，我们觉得这个问题很严重，扰乱到了大家的睡眠质量。后来，燎原换了智能手机，就很少听到他的闹钟了，这时我反而觉得不习惯了。有时候观察到舍友，打鼾，磨牙，什么的，我们就会窃笑，然后睡下。打鼾的人自己是听不到自己在打鼾的，几乎我们每个人都会有打鼾的时候，所以，谁也别说谁，都早点睡才是王道。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">燎原的性子很直，有什么话都直来直去的，有时候难免搞得对方不爽。当然，这不算什么事，和我们在一起的时候，多是一起去吃饭，泡馆（貌似除了这几样三点一线的事情，也没有什么事做了），大部分时间都是和谐的，每个人有每个人的性格和原则。但就是这种较真的精神头，不是谁都有的。大部分人马马虎虎地过日子，不去明辨什么是正确的，或者做个懦弱者，低调无谓地存在着。有时候关涉到一些利益，原则的问题，他都能够挺身而出，较真也是一种真性情。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">夜里一点多，C222屋子里面还亮着显示屏，或者在床上亮着一盏灯，这个人十有八九就是燎原。他可以熬夜干很多事情，例如捧着一本《Java讲义》（多达1000页），只是看，从不敲程序。我问他，怎么不边看边敲呢？他答曰：等全部都看完了再敲。我很怀疑这本书有看完的时候，等过了半个学期，我问他现在敲了没有呢？他说他已经在看第二遍了，我彻底无语了。其实我一直反对这种学习方法，这样看完之后，前面的早忘光了，计算机科学重在实践和理论结合。包括他熬夜看书，复习，我都是不赞成的。有段时间我们觉得他的方法效率慢，耗时长，效果不知道咋样。桌上批评这种做法是学渣，但是事实证明，广欣给了我们一个强力回应：他的绩点超越了我们两人（事实是我们经常翘数据仓库的课，导致平时分创历史新低的20和13，刚好组合成2013，也算是留下纪念了）。绩点不能说明什么，但是可以看出一个人的努力程度，广欣就是这么努力的一个人。大三暑假，他到UC去实习，后来校招的时候进了金山（他校招的时候书包里面总是装着好几本大部头，和装铅条一样重），也算是和他的努力相符了。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">最传奇的，是他的爱情故事。当听到他结束单身的时候，我高兴得快掉下眼泪了，我从没有为谁这样高兴过。起先，大一到大三，我们都老老实实，该上课上课，该去图书馆去图书馆，从来不跑外面瞎混。据说有女孩子喜欢他，而且还传过所谓的“绯闻”，但是他好像无动于衷，一再说明只是普通朋友。一度我还怀疑他是同性恋，而且我们又那么亲密，搞得我有点担心。却想不到，一个暑假回来了，他就是有女朋友的人了。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">他一开始就那么笃定，她是他的高中同学，据说从高中他就喜欢她，但是一直没说，直到高中毕业后分道扬镳。从此再也没有见过了，一次放假回家，女孩说，咱们两年没见了，不如一起聚聚。因为一些原因，他们没有见着，也许他们是相爱的，只是像要失之交臂了。在校的时候，偶然联系，说的话也不多。女孩说，你为什么不来看我呢？佛山距离广州就两个小时的距离，但是他还是没去。每次他跟我说，大学不想谈恋爱，说可能要等到30岁才会考虑。从此燎原便有了一个外号“道长”，而且是那种坚持单身的道长。后来他告诉我，每次我们跟他开玩笑，他心里都有一个底线。终于到了大三的暑假，由于在广州实习，于是女孩抱怨道：“你在广州，也不来找我。。”，于是他们便约了在一个校园里面漫步，回忆起三年前的往事，袒露了自己的心声，才知道两个人爱着对方，oracle小王子和他的公主，很自然地就走在了一起。在某次奔赴校园招聘的时候，被目击牵手了，幸福来得很慢，只要它是真的，慢点也无所谓。这个我们称之为道长的人，居然给我们吃了一斤。事实告诉我们，那些不说话的人，他们往往一鸣惊人。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">之后，他又再次发扬了他不奇葩会死的风格，每天留给我们的印象就是在打电话，要么就是在视频，总之就是完全变了。有一次，我们去图书馆，结果就看到一个和他长相相似的在门口徘徊，我就纳闷了，走近一看，发现是小王子。在图书馆也不忘接老婆电话啊，作为一个男人，的确让人肃然起敬，但是作为一名图书馆的读者，这也太缠绵了吧。当然，我是体会不到这种爱的魔力的，但愿宽恕我的爆料，文章需要啊。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">加油吧，奇葩小王子，人类已经无法阻止你如此奇葩的人了，请往你理想进发吧。</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;">by bibodeng 2014-02-01</p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-<p style="margin-top:0px;margin-bottom:0px;font-family:&quot;Helvetica Neue&quot;;font-size:15px;line-height:24px;widows:1;"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1544,13 +1578,20 @@ HTTP的请求有许多种，而无外乎都是 增、删、改、查，和数据
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-count">185</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>

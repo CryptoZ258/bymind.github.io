@@ -255,6 +255,1245 @@
             
               
                 
+                <a class="post-title-link" href="/2013/10/25/梳理常见数据结构/" itemprop="url">
+                  梳理常见数据结构
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-10-25T15:38:53+08:00" content="2013-10-25">
+              2013-10-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/10/25/梳理常见数据结构/" class="leancloud_visitors" data-flag-title="梳理常见数据结构">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#梳理常见数据结构</p>
+<p>by bibodeng 2013-10-25</p>
+<h2 id="算法数据囧"><a href="#算法数据囧" class="headerlink" title="算法数据囧"></a>算法数据囧</h2><p>计算机最最重要的是它的硬件能够快速运算，它的软件具有抽象事物的能力。其中算法，是建立在数据结构上的，而对事物的抽象，则是建立在数据结构上的。近期笔试面试中也常考，虽然尤其是对后台的同学来讲，这方面要求会高一点。但是作为计算机学院的学生，很有必要理解一些经典的数据结构，它的最大特征，注意事项，已经常用方法。</p>
+<p>我有一次懵了，居然忘了 <code>vector</code> 和 <code>list</code>之间的严格区别，居然闹了笑话。我是一只计算囧。一些程序员追求流行技术的花样，搞得很多框架，模式，有一部分害怕数据，害怕算法，那么终究搞计算机都不是长久之计。</p>
+<h2 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h2><p>主要摘录的数据结构有： vector, list, queue, heap, stack, map, set, hashtable。尤其是stack， hashtable，经常出现在笔试题中。</p>
+<h3 id="vector-容器"><a href="#vector-容器" class="headerlink" title="vector 容器"></a>vector 容器</h3><pre><code>&gt; * 描述：数组的高级版本，可扩充空间，支持随机存取访问，是一段连续线性的空间。
+&gt; * 策略：其实是，当该数组内存不够时，新malloc一块2倍大的内存，将内容复制过去
+&gt; * 常见方法： 使用iterator遍历 vector&lt;int&gt;::iterator beg = iv.begin(); *beg 取得内容。
+&gt;  arr.push_back(1) 加入， arr.erase(ite) 进行删除
+&gt; * 注意： 内存重新复制后迭代子是消失了的
+&gt; * 优点： 快速访问，动态扩展
+&gt; * 缺点： 内存复制，耗费时间
+</code></pre><h3 id="list-链表"><a href="#list-链表" class="headerlink" title="list 链表"></a>list 链表</h3><p><img src="http://daoluan.net/blog/wp-content/uploads/2012/10/list_node.jpg" alt="队列节点"></p>
+<pre><code>&gt; * 描述：用指针将前后节点链接起来，指针个数多样，灵活进行插入删除
+&gt; * 策略：one by one, hand in hand, 需要一个头指针，由stl维护
+&gt; * 常见方法： 迭代器声明方式同vector，lis.push_back(1) 加入， arr.erase(ite) 进行删除
+&gt; * 优点： 添加和删除高效
+&gt; * 缺点： 不能随机访问，要find()需要遍历，这是硬伤
+</code></pre><h3 id="deque-双端队列"><a href="#deque-双端队列" class="headerlink" title="deque 双端队列"></a>deque 双端队列</h3><p><img src="http://daoluan.net/blog/wp-content/uploads/2012/10/deque_in_real.jpg" alt="deque">    </p>
+<pre><code>&gt; * 描述：较陌生，它是“分段存储，整体维护”， stack的和queue的母版，看起来复杂好多
+&gt; * 策略： 使用map表来进行管理缓存，容易扩展
+&gt; * 常见方法： 可以模拟‘随机’访问， de.push_back(), de[i]，*ite访问元素。
+&gt; * 迭代器： 见下面的代码
+&gt; * 注意： algorithm sort不支持这个迭代器，需要把元素都拿出来放到vector中遍历再放回deque
+&gt; * 优点： 强大
+&gt; * 缺点： 迭代器较复杂
+</code></pre><p>迭代器代码,结合上图进行理解</p>
+<pre><code>// 这些是内部维护的，我们不用管
+typedef T** map_pointer;    // T是template类型
+T* cur;        //指向当前元素
+T* first;    //指向缓冲区头
+T* last;    //指向缓冲区尾巴
+map_pointer node;    //二级指针，指向缓冲区地址表中的位置
+</code></pre><h3 id="stack-栈"><a href="#stack-栈" class="headerlink" title="stack 栈"></a>stack 栈</h3><pre><code>&gt; * 描述： 后进先出，一条只容一个人通过的死胡同
+&gt; * 策略： 使用deque来实现，限制其只能从一端的尾部进行操作（添加和弹出）
+&gt; * 常见方法： push 入栈， pop 出栈，top 顶部
+&gt; * 迭代器： 无 不允许遍历
+&gt; * 注意： 可选用底层容器实现stack 如 stack&lt;int,list&lt;int&gt;&gt; is;
+</code></pre><h3 id="queue-队列"><a href="#queue-队列" class="headerlink" title="queue 队列"></a>queue 队列</h3><pre><code>&gt; * 描述： 一条水管，先进先出
+&gt; * 策略： 从尾部添加，从首部弹出
+&gt; * 常见方法： push 入队， pop 出队，que.front() 获得头部，que.back()获得尾部
+&gt; * 迭代器： 无 不允许遍历
+</code></pre><h3 id="heap-堆"><a href="#heap-堆" class="headerlink" title="heap 堆"></a>heap 堆</h3><p>其实它是一种二叉树，一种确保根节点比子节点大的二叉树。我们的堆排序就是利用了这个特性，从而每次从根取出最小或者最大的，从而完成了排序。</p>
+<pre><code>&gt; * 描述： 完全二叉树（若二叉树高h，除过最底层h层，其他层1~h-1都是满的；并且最底层从左到右不能有空隙），可以写成数组形式
+&gt; * 策略： 保证根是最大或最小的，从而保证堆的性质
+&gt; * 常见方法： 上溯：某节点与父节点比较，如果其键值比父节点大，即交换父子节点。从下往上重复； 下溯：与上溯方向相反
+&gt; * 迭代器： vector实现max_heap,则为vector迭代器
+&gt; * 注意： 可以用数组进行存储，有节点i，那么2i即为其左子结点，2i+1即为其右子结点（正是因为其是满二叉树）
+堆带有二叉树的递归性质，故而子堆也具有堆的性质。
+</code></pre><h3 id="map-映射"><a href="#map-映射" class="headerlink" title="map 映射"></a>map 映射</h3><p><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Red-black_tree_example.svg/450px-Red-black_tree_example.svg.png" alt="红黑树"></p>
+<pre><code>&gt; * 描述： 一个键值对应一个实值的映射，不允许键值上的重复，内部是按键值来进行排序存储的，其中键值不允许被更改。
+&gt; * 策略： 由非线性空间来存储的， 由RB_TREE（非强平衡树）实现
+&gt; * 常见方法： map&lt;int,int&gt; im; im.insert(pair&lt;int,int&gt;(7,700)); 插入对。 遍历
+&gt; * 迭代器： map&lt;int,int&gt;::iterator ite； ite-&gt;first, ite-&gt;second 进行访问。
+</code></pre><h3 id="set-集合"><a href="#set-集合" class="headerlink" title="set 集合"></a>set 集合</h3><pre><code>&gt; * 描述：顾名思义，不允许重复，底层是由强大的RB_TREE实现的，set中键值就是实值，实值就是键值
+&gt; * 策略： 由非线性空间来存储的
+&gt; * 常见方法： insert()插入元素， ite.begin(), ite.end() 
+&gt; * 迭代器： set&lt;int&gt;::iterator ite; *ite可访问。
+&gt; * 注意：不允许更新值
+</code></pre><p>对于红黑树，还不算了解，需要找时间彻底地理解map和set的底层。</p>
+<h3 id="hash-table-哈希表"><a href="#hash-table-哈希表" class="headerlink" title="hash_table 哈希表"></a>hash_table 哈希表</h3><p>这是笔试面试中考得最多的了，并且一些关于大数据处理问题，需要hash_table来处理，用于解决快速找到所存储的值。没错，数据库中大量应用了hash_table。</p>
+<pre><code>&gt; * 描述： 通过对值进行散列，对应到一个连续空间中
+&gt; * 策略： 通过计算散列到线性空间，高效查找， 键值对存储。
+&gt; * 常见方法： 用hash_table 实现了 hash_set 和 hash_map,故而操作同上
+&gt; * 迭代器： STL暂无
+&gt; * 注意： 容易发生碰撞，碰撞后往往要线性探测/二次探测/再散列 ，或者是带着一条链表（开链法）。
+</code></pre><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>思愿同学写的 <a href="http://daoluan.net/blog/confidential-stl/" target="_blank" rel="noopener">STL私房菜</a> 大部分图片从这里来，里面的讲解也深入很多。作为一个计算机学生，的确应该对这些基本的数据结构都熟悉，对他们的优点缺点都，适合干啥，都能明确回答，除此之外用这些数据结构来实现点东西，加深印象，我倒是有点重返C++的冲动啊。</p>
+<hr>
+<p>end</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/10/25/用js实现快排加演示-js排程初探/" itemprop="url">
+                  用js实现快排加演示-js排程初探
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-10-25T08:27:58+08:00" content="2013-10-25">
+              2013-10-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/10/25/用js实现快排加演示-js排程初探/" class="leancloud_visitors" data-flag-title="用js实现快排加演示-js排程初探">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="用js实现快排加演示"><a href="#用js实现快排加演示" class="headerlink" title="用js实现快排加演示"></a>用js实现快排加演示</h1><p>by bibodeng 2013-10-24</p>
+<h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>有很多时候，我们都是需要重新做一个轮子，才知道轮子究竟是什么样子的，然后就可以在下一次碰到这种情况时能够立马写出来，并且能写得很好。本来我打算写一个快排，然后在页面中进行演示，我知道已经有很牛的人实现过了，但是我做这个的时候，遇到了一些困难，使我想起了前段时间想要写某个锁机制队列的时候，后来发现已经有一个同事已经实现了。</p>
+<h2 id="实现快排"><a href="#实现快排" class="headerlink" title="实现快排"></a>实现快排</h2><p>先来写个快速排序吧。</p>
+<pre><code>var qsort =  function(arr, p, q)
+{
+    var x;
+    if (p &lt; q)    // 需要排序的元素个数不为0
+    {
+        x = partition(arr, p, q);    // 对数组进行partion处理
+        qsort(arr, p, x-1);            // x之前部分  x是该轮确定位置的元素
+        qsort(arr, x+1, q);            // 2次递归
+    }
+};
+
+var partition = function(arr, p, q)
+{
+
+    var tmp = 0,
+        i     = p,
+        j     = q + 1,
+        base = arr[p];    // 首元素作为基准
+
+    // 将数组分成两部分，大于base的，小于base的
+
+    while (1)
+    {
+
+        while (arr[++i] &lt;= base &amp;&amp; i &lt; q)；
+
+        while (arr[--j] &gt; base);        // 向中间逼近
+
+        if (i &gt;= j)    // 交叉了
+        {
+            break;
+        }
+        // 否则就交互两个数，正好比base大的和比base小的换了一下
+
+        // swap(arr[i], arr[j]);
+        tmp = arr[j];
+        arr[j] = arr[i];
+        arr[i] = tmp;
+    }
+    //     交互基准值和中值
+
+    arr[p] = arr[j];    // 将中间元素放到首部
+    arr[j] = base;        // 将基准元素放到中间
+    return j;        // 返回这个位置
+};
+</code></pre><p>没什么特别的，几乎和C++的一模一样，其中swap在js下，因为不是传入参数不是引用类型，故而不起作用，故而直接引入tmp变量进行交换。下面是调用部分：</p>
+<pre><code>$.(function(){
+    // 进行测试
+
+    var myArr = [],
+        total = 50；
+
+    for (var i = 0; i &lt; total; i++)
+    {
+        myArr.push(parseInt((Math.random() * 450)));    // 0 - 450
+    }
+
+    // 绘制方格
+    qsort(myArr, 0, myArr.length-1); 
+});
+</code></pre><p>为了能够体现出排序的可视化效果，我打算绘制一些小方格排列在一起，就像下面这样：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/6666f6b0ea50298df61bfe5cad57efce2013102411275015768.png" alt="排序可视化"></p>
+<p>实现的代码并不麻烦，在ready中加入绘制方格的代码：</p>
+<pre><code>// 绘制方格
+var str = &apos;&apos;;
+for (var j = 0; j &lt; total; j++)
+{
+    str += &quot;&lt;li class=&apos;normal&apos; style=&apos;height:&quot;+myArr[j]+&quot;px;&apos;&gt;&lt;/li&gt;&quot;;    // 添加元素
+}
+$partent.html(str);
+var $list = $(&apos;#sort_list&apos;).find(&apos;li&apos;);
+</code></pre><p>其html代码，主要是提供容器，还有CSS样式。</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+.normal{
+    background-color: #222;
+}
+
+.base{
+    background-color: #f22;
+}
+
+.selected{
+    background-color: #22f;
+}
+
+#main{
+    width: 1000px;
+    height: 600px;
+    margin: 10px auto;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+#sort_list li{
+    float: left;
+    width: 10px;
+    margin: 1px;
+    list-style: none;
+}
+
+&lt;/style&gt;
+&lt;title&gt;快速排序&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;main&quot;&gt;
+        &lt;ul id=&quot;sort_list&quot;&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>接下来就要实现排序过程中的动态效果了，这是一个很麻烦的事情。初步实现的例子是<a href="">这样的</a>。尽管我试着在<code>partition</code>每一步中进行延时，但是排序算法始终太快了，而使用setTimeout的方法进行异步延时，得到的动画效果将和排序结果不兼容的。修改后的代码，增大了递归的时间间隔，但是夹逼的效果闪烁太快了，没有流动的动画效果。这其实是因为代码执行和DOM元素操作不同步引起的。</p>
+<pre><code>var qsort =  function(arr, p, q)
+{
+    var x;
+    if (p &lt; q)    // 需要排序的元素个数不为0
+    {
+        x = partition(arr, p, q);    // 对数组进行partion处理
+
+        setTimeout(function(){
+            qsort(arr, p, x-1);        // x之前部分  x是该轮确定位置的元素
+        }, 1000);
+
+        setTimeout(function(){
+            qsort(arr, x+1, q);        // 2次递归
+        }, 2000);
+
+    }
+
+    console.log(&apos;after sort&apos;, arr);
+};
+</code></pre><p>并且setTimeout这东西，在循环下，是很耗费内存的，会导致页面奔溃，并且它之内将逻辑包围在一个函数参数里面，不太好。当把for循环换成setInterval调用时，元素操作效果倒是流畅了，但是排序结果却不正确了。原因是后续代码已经开始运行了。</p>
+<h2 id="异步的麻烦与解决办法"><a href="#异步的麻烦与解决办法" class="headerlink" title="异步的麻烦与解决办法"></a>异步的麻烦与解决办法</h2><p>异步的麻烦，是真麻烦。我思考了一下，将排序算法和DOM操作混在一起是很野蛮的做法，没有做到数据加工和体现的分离。而当前状态又需要重绘，才能体现出其动态效果，但是重绘的代价也太大了，左思右想，没有想到好的解决办法，于是找到陈皓提到的日本程序员写的<a href="http://coolshell.cn/articles/3933.html" target="_blank" rel="noopener">排序可视化</a>，太强大了，效果也是一级棒，不过要细细剖析源码才知道它是如何实现的，这个改天再一探究竟，今天我要隆重介绍一下一个相当优雅的排程小程序，个人觉得写得相当优雅。</p>
+<p>我们做很多编程工作时，往往想要同步（这里的同步指的是确定顺序，而不是不确定），例如在进行ajax请求时，回调结果往往要等一段时间才能返回，但是我们的程序的<code>return</code>却不知道要从哪里返回，如果在回调的外面，则等不到结果就返回了，如果在回调函数里面，则又返回不到正确的地方，这个时候就很有必要同步了。而一个排程的程序，对各个操作进行同步互斥，则可以让它们乖乖一个接一个按顺序执行，这就好比操作系统里面对资源的锁。具体可以参看<a href="http://myunlessor.me/" target="_blank" rel="noopener">myunlessor写的排程策略详解</a>。直接上代码吧：</p>
+<pre><code>// 排程策略 - 全局定义
+var schedule = (function (self) {
+  var paused = false, // 标记状态
+      queue  = [];     // 队列
+
+  // 入队
+  self.join = function (fn, params) {
+    params = params || {};
+    var args = [].concat(params.args);
+
+    queue.push(function (_) {
+      _.pause();
+      setTimeout(function () {
+        fn.apply(params.context || null, args);
+        _.resume();
+      }, params.delay || 1);
+    });
+
+    return exec();
+  };
+
+  self.pause = function () {
+    paused = true;  // 忙碌
+    return this;
+  };
+
+  // ready and call next
+  self.resume = function () {
+    paused = false; // 空闲
+    setTimeout(exec, 1);
+    return this;
+  };
+
+  function exec() {
+    if (!paused &amp;&amp; queue.length) {
+      queue.shift()(self);  // 出队
+      if (!paused) self.resume();
+    }
+    return self;
+  }
+
+  return self;
+}(schedule || {}));    // 立即执行，self就是schedule本身
+</code></pre><p>我对着这个程序看了十来分钟，越看越有味道，从这个程序中可以看到javascript的很多good part,暂时没有看到缺陷，例如[]，用成了活生生的队列，使用push和shift进行入队出队操作。还有闭包，直接返回一个self，本身参数传的是schedule，而schedule本身是刚刚定义的，需要赋值的，这一切看起来多么地神奇，还有返回this，强大的链式调用，有木有，额有点跑题了。下面我们就应用到我们的排序中：</p>
+<pre><code>var qsort =  function(arr, p, q)
+{
+    var x;
+    if (p &lt; q)    // 需要排序的元素个数不为0
+    {
+        x = partition(arr, p, q);    // 对数组进行partion处理
+
+        schedule
+        .join(qsort,{
+            delay: 100,
+            args: [arr, p, x-1]
+        })
+        .join(qsort, {
+            delay: 100,
+            args: [arr, x+1, q]
+        });
+    }
+};
+</code></pre><p>一切都相当优雅。当我打开浏览器测试时，发现，有了排程，而不是死板的setTimeout，动画变得流畅了很多。接下来的目标是接着优化<code>partition</code>里面的代码，使得这个过程也看起来很流畅。</p>
+<pre><code>var partition = function(arr, p, q)
+{
+
+    var tmp = 0,
+        i     = p,
+        j     = q + 1,
+        base = arr[p];    // 首元素作为基准
+
+    $list.attr(&apos;class&apos;, &apos;normal&apos;);
+    schedule
+    .join(showBase, {
+        delay: 0,
+        args: [p]
+    });
+
+    while (1)
+    {
+
+        while (arr[++i] &lt;= base &amp;&amp; i &lt; q)
+        {
+            ;// 只要是小于base且没到结尾就一直前进
+            schedule.
+            join(moveSelectedRight,{
+                delay: 50,
+                args : [i]
+            });
+        }
+
+        while (arr[--j] &gt; base){
+            schedule.
+            join(moveSelectedRight,{
+                delay: 50,
+                args : [j]
+            });
+        }
+
+        if (i &gt;= j)    // 交叉了
+        {
+            break;
+        }
+        // 否则就交互两个数，正好比base大的和比base小的换了一下
+
+        tmp = arr[j];
+        arr[j] = arr[i];
+        arr[i] = tmp;
+
+        // 交换两元素的位置，这里耍了点小聪明，用高度代替
+        schedule
+        .join(exchangeHeight,{
+            delay: 50,
+            args: [$list.get(i), $list.get(j)]
+        });
+    }
+
+
+    //     交互基准值和中值
+
+    arr[p] = arr[j];    // 将中间元素放到首部
+    arr[j] = base;        // 将基准元素放到中间
+
+    schedule
+    .join(exchangeHeight,{
+        delay: 50,
+        args: [$list.get(p), $list.get(j)]
+    });
+
+    $list.attr(&apos;class&apos;, &apos;normal&apos;);
+    return j;        // 返回这个位置
+};
+
+// 将标志右移 只改颜色
+var moveSelectedRight = function(i){
+    $(&apos;.selected&apos;).attr(&apos;class&apos;, &apos;normal&apos;);
+    $($list.get(i)).attr(&apos;class&apos;, &apos;selected&apos;);
+};
+
+// 将标志左移
+var moveSelectedLeft = function(j){
+    $(&apos;.selected&apos;).attr(&apos;class&apos;, &apos;normal&apos;);
+    $($list.get(j)).attr(&apos;class&apos;, &apos;selected&apos;);
+};
+
+var showBase = function(base){
+    $(&apos;.base&apos;).attr(&apos;class&apos;, &apos;normal&apos;);
+    $($list.get(base)).attr(&apos;class&apos;, &apos;base&apos;);        // 将base染色
+};
+
+// 交换两个元素的位置 A 前 B 后
+var exchange = function(elemA, elemB){
+    var m = $(elemA).next(),
+        n = $(elemB).prev();
+
+    console.log(&apos;交换&apos;);
+    setTimeout(function(){
+        $(elemB).insertBefore(m);
+        $(elemA).insertAfter(n);
+    }, 50);
+
+};
+
+// 只交换两者的高度
+var exchangeHeight = function(elemA, elemB)
+{
+    var tmp = parseInt($(elemA).css(&apos;height&apos;));
+
+    $(elemA).css(&apos;height&apos;, $(elemB).css(&apos;height&apos;));
+    $(elemB).css(&apos;height&apos;, tmp+&apos;px&apos;);
+};    
+</code></pre><p>最后的效果，可以看<a href="http://bibodeng.com/bibodeng/js-algorithms/qsort/index.html" target="_blank" rel="noopener">这里</a>。但是显然这种DOM操作和算法混在一起的日子是不长久的，鬼群里面有人建议使用<a href="http://d3js.org/" title="jquery-d3插件" target="_blank" rel="noopener">D3一个数据DOM体现的插件</a>，有待继续探索。勇敢的骚年，快去创造奇迹！！</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://myunlessor.me/blog/2013/06/04/strategy-for-scheduling-javascript-asynchronous-code/" target="_blank" rel="noopener">js排程策略</a></p>
+<p><a href="http://coolshell.cn/articles/3933.html" target="_blank" rel="noopener">可视化排序</a></p>
+<p><a href="http://d3js.org/" target="_blank" rel="noopener">jQuery D3</a></p>
+<hr>
+<p>end</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/10/23/CSS3 3D六面体效果/" itemprop="url">
+                  CSS3 3D六面体效果
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-10-23T17:55:01+08:00" content="2013-10-23">
+              2013-10-23
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/10/23/CSS3 3D六面体效果/" class="leancloud_visitors" data-flag-title="CSS3 3D六面体效果">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="CSS-3D效果"><a href="#CSS-3D效果" class="headerlink" title="CSS 3D效果"></a>CSS 3D效果</h1><p>by bibodeng 2013-10-23</p>
+<h2 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h2><p>无意之中看到<a href="http://beiyuu.com/" target="_blank" rel="noopener">beiyuu</a>写的CSS3动画详解，而我之前没有怎么系统学习过CSS3和HTML5，故而对其炫酷的效果非常动心，并且觉得这个技术在一些地方肯定非常棒。他的讲解例子很丰富，但是我还是花了一些功夫去理解。轻松获得的东西，也容易轻松失去，如果其中过程很难忘，那么的确可以学到一些东西。而这个折腾的过程，我也动手亲自实践了一下，一起来吧！</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/8d3daa4bfcfccc75819d06cf1f79bce42013102307565821497.png" alt="成为最强的人"></p>
+<p>一直觉得很自卑，想要成为一个很强的人 : P</p>
+<h2 id="CSS3-3D"><a href="#CSS3-3D" class="headerlink" title="CSS3 3D"></a>CSS3 3D</h2><p>如果突然给个例子你，很可能会消磨掉你的耐性，一切应当在愉悦的氛围下学习，但是也要留下深刻的印象，其基础是理解，这样很容易就知道如何写一个3D的东西了，将来也可以写更加复杂的效果（如果你数学好的话）。</p>
+<h3 id="3D坐标系"><a href="#3D坐标系" class="headerlink" title="3D坐标系"></a>3D坐标系</h3><p>计算机技术源于数学，而3D坐标系，是3D空间的基础。2D空间中，容易理解，就是一个十字，横向为x轴，纵向为y轴。如下：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/282308e18cf25d10bf245c2d511a642d2013102308173126290.png" alt="二维坐标轴"></p>
+<p>三维的坐标轴稍有不同，举起你的右手，手心对着你的脸，大拇指头就是x, 中指是z， 而食指是y轴。如下图所示：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/6b2ef4260a2a5c0d2e4525830869303b2013102309193132740.png" alt="三维坐标轴"></p>
+<p>下面将会理解怎么布局3维的东西，这个图对于理解rotate（旋转）， transform（位移）都将有帮助。也可以看看这里的<a href="http://desandro.github.io/3dtransforms/examples/cube-01-steps.html" target="_blank" rel="noopener">分步过程</a>,分为以下步骤：</p>
+<ol>
+<li>形成平面叠加</li>
+<li>平面旋转，上下左右，前后，但是还有一些重叠在一起</li>
+<li>对平面进行位移，形成3维视觉效果</li>
+<li>整体旋转3D物体</li>
+</ol>
+<h3 id="将元素转化为3D空间"><a href="#将元素转化为3D空间" class="headerlink" title="将元素转化为3D空间"></a>将元素转化为3D空间</h3><p>假设我们正在做一个骰子一样的六面体，我们希望它的六个面能够像坐标中的那个立方体一样。首先写出如下的html代码，构建出基本元素。</p>
+<pre><code>&lt;div id=&quot;cube-con&quot;&gt; &lt;!-- 主容器 --&gt;
+    &lt;div id=&quot;cube&quot;&gt;
+        &lt;figure class=&quot;front&quot;&gt;1&lt;/figure&gt;
+        &lt;figure class=&quot;back&quot;&gt;2&lt;/figure&gt;
+        &lt;figure class=&quot;right&quot;&gt;3&lt;/figure&gt;
+        &lt;figure class=&quot;left&quot;&gt;4&lt;/figure&gt;
+        &lt;figure class=&quot;top&quot;&gt;5&lt;/figure&gt;
+        &lt;figure class=&quot;bottom&quot;&gt;6&lt;/figure&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;cube_btns&quot;&gt;    &lt;!-- 用于控制翻转的按钮,供js调用 --&gt;
+    &lt;input type=&quot;button&quot; value=&quot;前&quot; id=&quot;cube_btn1&quot;&gt;
+    &lt;input type=&quot;button&quot; value=&quot;后&quot; id=&quot;cube_btn2&quot;&gt;
+    &lt;input type=&quot;button&quot; value=&quot;右&quot; id=&quot;cube_btn3&quot;&gt;
+    &lt;input type=&quot;button&quot; value=&quot;左&quot; id=&quot;cube_btn4&quot;&gt;
+    &lt;input type=&quot;button&quot; value=&quot;上&quot; id=&quot;cube_btn5&quot;&gt;
+    &lt;input type=&quot;button&quot; value=&quot;下&quot; id=&quot;cube_btn6&quot;&gt;
+&lt;/div&gt;
+</code></pre><p>下面要写CSS3代码，整出3D效果：</p>
+<pre><code>#cube-con {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    margin: 40px auto 40px;
+    -webkit-perspective:1000px;    /*从多远的距离进行观察，值越大，立体部分拉升越小*/
+       -moz-perspective:1000px;
+         -o-perspective:1000px;
+            perspective:1000px;
+}
+#cube {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    -webkit-transform-style:preserve-3d; /*转换成3D空间！*/
+       -moz-transform-style:preserve-3d;
+         -o-transform-style:preserve-3d;
+            transform-style:preserve-3d;
+    -webkit-transition:-webkit-transform 1s;
+       -moz-transition:-moz-transform 1s;
+         -o-transition:-o-transform 1s;
+            transition:transform 1s;
+    -webkit-transform:translateZ( -100px );
+       -moz-transform:translateZ( -100px );
+         -o-transform:translateZ( -100px );
+            transform:translateZ( -100px );
+}
+
+#cube figure {
+    width:196px;
+    height:196px;
+    display:block;
+    margin: 0; /* 如果没有这个，各个面可能不居中，导致翻转不绕中心*/
+    position:absolute;    /*应该使用绝对定位，因为它已经不是DOM流的形式了，更像float*/
+    border:2px solid black;
+    color:#fff;
+    font-size:130px;
+    font-weight:bold;
+    text-align:center;
+    line-height:190px;
+    opacity:0.8;
+}
+</code></pre><p>所谓<code>translateZ</code>就是指在该轴方向进行位移，负值表示往正方向相反的方向移动，故而<code>translateZ(-100px)</code>的作用是往后推100个像素，浏览器会自动进行根据拉伸进行计算实际的尺寸。在这里是为了中点维持在中心，因为待会各个面还需要位移，以使得体现立体效果。</p>
+<h3 id="移动，旋转元素"><a href="#移动，旋转元素" class="headerlink" title="移动，旋转元素"></a>移动，旋转元素</h3><p>现在所有的面都像一个普通平面图形一样面对着我们，接着对各个面进行处理，把各个面给拉开距离，并且旋转到合适的角度。俯视示意图如下：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/27945e857498ff05eb14e830e98e84a3201310230919311155.png" alt="四面示意图"></p>
+<p>其中正方体的边长为<strong>200px</strong>。</p>
+<pre><code>#cube .front {        /*绕y轴旋转为0，故而正对我们，并且向前一步走（100像素）*/
+    background:#1abc9c;
+    -webkit-transform:rotateY(0deg) translateZ(100px);
+       -moz-transform:rotateY(0deg) translateZ(100px);
+         -o-transform:rotateY(0deg) translateZ(100px);
+            transform:rotateY(0deg) translateZ(100px);
+}
+#cube .back {       /*绕x轴旋转180度，并且向前位移100，这个稍微有点难理解，看正文*/
+    background:#3498db;
+    -webkit-transform: translateZ(100px) rotateX(180deg);
+       -moz-transform: translateZ(100px) rotateX(180deg);
+         -o-transform: translateZ(100px) rotateX(180deg);
+            transform: translateZ(100px) rotateX(180deg);
+}
+#cube .right {        /*绕y轴转90度*/
+    background:#8e44ad;
+    -webkit-transform: translateZ(100px) rotateY(90deg);
+       -moz-transform: translateZ(100px) rotateY(90deg);
+         -o-transform: translateZ(100px) rotateY(90deg);
+            transform: translateZ(100px) rotateY(90deg);
+}
+#cube .left {        
+    background:#34495e;
+    -webkit-transform: translateZ(100px) rotateY(-90deg);
+       -moz-transform: translateZ(100px) rotateY(-90deg);
+         -o-transform: translateZ(100px) rotateY(-90deg);
+            transform: translateZ(100px) rotateY(-90deg);
+}
+#cube .top {        
+    background:#f39c12;
+    -webkit-transform: translateZ(100px) rotateX(90deg);
+       -moz-transform: translateZ(100px) rotateX(90deg);
+         -o-transform: translateZ(100px) rotateX(90deg);
+            transform: translateZ(100px) rotateX(90deg);
+}
+#cube .bottom {        
+    background:#c0392b;
+    -webkit-transform: translateZ(100px) rotateX(-90deg);
+       -moz-transform: translateZ(100px) rotateX(-90deg);
+         -o-transform: translateZ(100px) rotateX(-90deg);
+            transform: translateZ(100px) rotateX(-90deg);
+}
+</code></pre><p>重点解释一下<code>translateZ(100px)</code>,尤其是在背面的时候，不是应该后退一步么？那是因为它的角度的问题，想象一下你站在原地，要以原点为对称点翻个身到后面的100px距离处，是不是先要向前一步走，然后翻到后面去。这就是为什么是向前一步走，而不是退后一步了。侧面也很好理解，由于本身是在xy平面的（0,0）处的，所以要往前站半个边长，才能让x轴正对身体中部。这些完全是坐标的关系导致的必须遵守的规则。</p>
+<p>这样六个面就形成了。下面进行整体的旋转。</p>
+<h3 id="整体的旋转"><a href="#整体的旋转" class="headerlink" title="整体的旋转"></a>整体的旋转</h3><p>是对cube整体的旋转和位移，六个面作为一个整体一起运动。注意是对cube添加css布局类。</p>
+<pre><code>#cube.show-front {
+  -webkit-transform:translateZ(-100px); /* -100px 表示将cube拉后到z为0的平面，这样大小就不会变化了*/
+     -moz-transform:translateZ(-100px);
+       -o-transform:translateZ(-100px);
+          transform:translateZ(-100px);
+}
+#cube.show-back {
+  -webkit-transform:  rotateX(-180deg) translateZ(-100px);
+     -moz-transform: rotateX(-180deg) translateZ(-100px);
+       -o-transform: rotateX(-180deg) translateZ(-100px);
+          transform: rotateX(-180deg) translateZ(-100px);
+}
+#cube.show-right {
+  -webkit-transform: rotateY(-90deg) translateZ(-100px);
+     -moz-transform: rotateY(-90deg) translateZ(-100px);
+       -o-transform: rotateY(-90deg) translateZ(-100px);
+          transform: rotateY(-90deg) translateZ(-100px);
+}
+#cube.show-left {
+  -webkit-transform: rotateY(90deg) translateZ(-100px);
+     -moz-transform: rotateY(90deg) translateZ(-100px);
+       -o-transform: rotateY(90deg) translateZ(-100px);
+          transform: rotateY(90deg) translateZ(-100px);
+}
+#cube.show-top {
+  -webkit-transform: rotateX(-90deg) translateZ(-100px);
+     -moz-transform: rotateX(-90deg) translateZ(-100px);
+       -o-transform: rotateX(-90deg) translateZ(-100px);
+          transform: rotateX(-90deg) translateZ(-100px);
+}
+#cube.show-bottom {
+  -webkit-transform: rotateX(90deg) translateZ(-100px);
+     -moz-transform: rotateX(90deg) translateZ(-100px);
+       -o-transform: rotateX(90deg) translateZ(-100px);
+          transform: rotateX(90deg) translateZ(-100px);
+}
+</code></pre><p>想象一下，怎样翻转会让各个面转动到面对着你。以<code>.show-right</code>为例吧，我们需要让它绕y轴反方向转动90度，总之面是怎么旋转的，我们现在只要对cube反着来就可以了。</p>
+<pre><code>/*右面的旋转角度*/
+rotateY(90deg)
+
+/*把它转回正面，我们就反着来*/
+rotateY(-90deg)
+</code></pre><p>这样就能达到整体的效果了。剩下的就是绑定事件，需要旋转时，给它设置对应的css类就ok了。下面是事件绑定的js代码：</p>
+<pre><code>$(function(){
+    // 省略其他
+    // for cube
+    var cubeClassArray = [
+        &apos;show-front&apos;,
+        &apos;show-back&apos;,
+        &apos;show-right&apos;,
+        &apos;show-left&apos;,
+        &apos;show-top&apos;,
+        &apos;show-bottom&apos;
+    ];
+
+    $(&apos;#cube_btns input&apos;).click(function(){
+        var i = $(this).index();
+        $(&apos;#cube&apos;).attr(&apos;class&apos;, cubeClassArray[i]);    // 设置cube的css类，进行旋转
+    });
+
+});
+</code></pre><p>好，一切大工告成了，你可以看到一个很酷的旋转六面体。</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/51d8fd0bc5f9f4258f731e504edbd0572013102309512713254.png" alt="3D cube"></p>
+<p>参考：</p>
+<ul>
+<li>了解transform和animation<a href="http://beiyuu.com/css3-animation/" target="_blank" rel="noopener">css3动画详解</a></li>
+</ul>
+<hr>
+<p>end</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/10/20/十月小记/" itemprop="url">
+                  十月小记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-10-20T09:46:45+08:00" content="2013-10-20">
+              2013-10-20
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/10/20/十月小记/" class="leancloud_visitors" data-flag-title="十月小记">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="十月小记"><a href="#十月小记" class="headerlink" title="十月小记"></a>十月小记</h1><p>by bibodeng 2013-10-19</p>
+<h2 id="实习"><a href="#实习" class="headerlink" title="实习"></a>实习</h2><p>在这几个月里，发生的最重要的事情就是实习。从七月初，到前几天离职，3个月零15天。也算是蛮长的了。在实习中我尝试到了很多不同的东西，认识了一些有趣的人。同时也对我的身心有了一定的冲击，有健康的和不健康的。</p>
+<h3 id="身体"><a href="#身体" class="headerlink" title="身体"></a>身体</h3><p>首先说说身体，在学校上课，我们都舒舒服服地坐着，而且不会一整天都呆在电脑面前。但是工作不一样，几乎一天八小时都坐在电脑面前，盯着屏幕，对于眼睛和脊椎都是很大的考验。刚开始来的时候，用的是台式机，台式机比较高，对坐姿要求比较高，但是累了之后一般姿势就没有那么好了，所以容易扭曲，导致脖子会有酸痛，一开始的时候这种感觉特别强烈。后来，我用自己的笔记本办公，这样脖子好受一些了，因为桌子比椅子要高出许多，用台式的时候感觉还行，但是用笔记本的时候，发现自己的手肘部分会长期支撑上半身，变得很疼痛。而且由于手硬，柔韧性不太好，所以敲键盘多了也会产生一定的疼痛。当然这也是和键盘的尺寸有关系的，手指太长了对于打字不是太方便，另外也和个人的打字习惯有关系，我习惯用小指来按<code>Ctrl</code>键，而且养成了保存的习惯，所以非常容易劳累。很奇特的是，当我全神贯注在工作的时候，往往注意不到这种不适，在一个问题反复折腾的时候，就会比较容易累。值得一提的是，长期在电脑面前，我的眼睛居然还行，并没有觉得特别地劳损。但是当看到一些不近视的程序员同事们的时候，还是会有点诧异。</p>
+<p>工作后，很明显的一件事就是锻炼减少了，很多人一周都不锻炼一次，最多去打一次羽毛球或者乒乓球，当需求催得紧的时候，整个人都投入进去了，很难抽出时间去搞运动。健康是很重要的，即使现在看起来运动的要求并不紧迫，但是等到肥胖来临，或者健康状况下降的时候，我们就会后悔了。人是首先健康地生活，然后才能健康地工作。</p>
+<h3 id="技能"><a href="#技能" class="headerlink" title="技能"></a>技能</h3><p>工作中，有压力的情况下，技能习得的效率是比平时在校园里悠闲自在来得高一点。我会不自主地花时间去解决我的剩余的功能实现以及debug。任何事情，只要你开始花时间去了解它，那么你就已经开始在解决问题了。第一步往往很重要，它标志着你克服了心理上的障碍，动员了全身力量去完成目标。这个力量是非常巨大的，尤其是在压力大增的情况下，你甚至会比平常更加出色地完成任务，我自己也曾暗暗赞叹自己居然能够想出这么好的解决办法。这应该归功于我的头脑，以及我付出的艰辛。</p>
+<p>最好的技能习得，就是在实践中学习。在学校，比较偏重的是理论的学习，除了实验课，我们都懒得写代码，但是在公司，没有代码就没有进度。而且，我们从别人那里，或者书籍文档中，会了解到一些新的东西，补充我们原来的不成熟的认识。项目中的需求，也驱动着我去学习新的东西，例如flash接口，canvas等等，还有一大部分就是兴趣驱使。<em>问题是进步的重要的标志</em>，有了问题，就标志着我们要去解决问题，也就会使得我们对知识及技能更加熟练，认识更加深刻。如果没有问题，那么必定是没有做多少思考，慢慢会在工作的重压中变得越来越愚钝。问题本身也推动着我们的进步，遇到问题应该高兴，弄懂之后，便进步了一点（举个例子，如果不是为了解决一个布局问题，我也不会从七宝那里得知clear属性是清除自身的浮动，而不是清除别人的浮动）。</p>
+<h2 id="领悟"><a href="#领悟" class="headerlink" title="领悟"></a>领悟</h2><p>前几天看到一篇陌陌的同学写的文章<a href="http://craylin.blog.163.com/blog/static/169631722201261421149449/" target="_blank" rel="noopener">写给进步缓慢却全然不知的IT人</a>，他说的几句话打醒了我：</p>
+<blockquote>
+<p>这些孩纸们入了某一行，涉足某个领域，却从没想过这个领域最高境界是啥样子，最牛逼的几个人是谁。他们的评判标准就只看是否满足领导的要求，是否比身边另两个笨蛋利索些，是否成为他们的技术指导。</p>
+</blockquote>
+<p>的确，我们接触一个行业，一种技能，都不想想最高境界是什么，于是狭隘地以为做到还行就可以了，而且完全不知道自己和更高层次的人的差别。这是非常恐怖的事情，更加坚定我心中<strong>眼界</strong>在学习和生活中的重要性。同时也给我们一个启发，学习一个专业的方法应该是如何的？</p>
+<ul>
+<li>了解它是什么能干什么 （历史）</li>
+<li>最牛的人是谁，怎么向他们靠拢</li>
+<li>踏实去做</li>
+</ul>
+<p>我连夜找出了几个在前端开发领域的大牛，如 玉伯，js编程精粹作者 等等，这里有一个在线ppt，给你一个发现web前端大牛的机会： <a href="https://speakerdeck.com/josephj/f2e-the-keystone" target="_blank" rel="noopener">前端开发实务</a>。关注大牛，等于你多了一个武功盖世的导师，给你指点了方向。那你自然就会朝着牛逼的方向前行。我自己也发现，比平时更喜欢上博客园了，而不是去51CTO, 我还看了一句话 “来博客园的都是大牛，要么就是朝着大牛发展的小牛”，看着这句话，我笑了。某个时刻，我感觉到自己就要朝着牛逼发展了，心中非常地激动，好像浑身都在升华一样，这种感觉就像枯草盼望到了春雨，浑身都在萌动，小宇宙在爆发。</p>
+<p>曾经有一段日子，我每天都很忙，其实实习期间，我养成了早起的习惯（确切地说，我大学期间就是这个习惯），往往六七点就起来了，静坐一下，写一下日记，然后就洗涮出发赶公车。我很早就去到公司，然后浏览一下博客，写点代码。但是我们部门的总监，比我还早，7点多就到公司了，有几次我在等公交的时候遇见他，还对了一下时间，我的快了十多分钟，他意味深长地说了一句“时间还是要调准的，否则会错过很多事情”，然后就互相问了一下那么早到公司都做什么，我问他要不要写代码，他说还要写代码。而且每次碰到他，他都说“好好努力，争取留在公司”。</p>
+<p>忙碌的日子，非常充实，想的东西也非常实在。有几次回来已经非常累了，倒在床上睡着了，第二天才起来洗澡。那时候，感觉自己和时间融合在了一起，随着它一起流动。我很享受这样的时光，也很喜欢深圳的秋天，早上吹一阵风，就能精神一整天。而晚上搭公车回家，也会觉得异常放松，连皮肤也变得细腻起来，这些微妙的感觉不知道别人有没有。深圳还是挺宜居的，几次在街上漫步都感觉非常惬意，但是没有人陪，走了几步就掉头回宿舍了。</p>
+<h3 id="连接万岁"><a href="#连接万岁" class="headerlink" title="连接万岁"></a>连接万岁</h3><p>人是自然的一部分，其使命是与自然联接，融于一体，人与人之间，也应该连接起来（想象一下阿凡达怎么驾驭飞龙的）。如果你掌握一样纯熟的技能，你就好像与这个技能本身连接起来，并且对于它的本质具有敏感的直觉。凡事就是这样，open your mind,然后你才可以接受各种信号。良好的情景，对于连接具有很大的沉浸作用。这就是为什么嘹亮军歌让你不自觉挺直身体，而太极音乐则让你思绪飘渺，动作自然流畅。</p>
+<p>再来谈谈人与人的联接，某天看到一句这样的话：</p>
+<blockquote>
+<p>爱是感应的能力，和response更贴近</p>
+</blockquote>
+<p>对此，我深以为然，没有感应了，那就没有感情了，如果有只能算作留恋。人与人之间，就好像两台电脑，要互相都打开心灵窗口，才能沟通。平常与人交往中，我们常常send,receive, 要是只有send，没有receive，那么就没有了下文。这是断开了连接，失去了感应的能力，人际关系也渐渐淡了。还有一种情况，也很糟糕，那就是交际中带有负面的情绪，例如猜忌，尴尬，则会严重影响沟通的质量，因为这本身也是一种关闭，摒弃了坦诚的沟通。如果不予以改善的话，必定会导致关系的破裂，而坦诚的沟通又会修复这样的破裂。通信的时机也很重要，要是对方处在忙碌时期，心情急躁，根本无暇理睬稍微次要的东西，那么这样的沟通也将沦落成为敷衍。人们对于敷衍，可是非常地敏感的。从对方的眼神中，言语中很容易就察觉到细微的不耐烦，如果心不在焉那还不如不说话。下面总结一下，质量不高的沟通：</p>
+<ul>
+<li>不确定，不安全的 （猜疑/尴尬/恐惧）</li>
+<li>传输质量不高的（心不在焉）</li>
+<li>不可理解的 （都不懂，对牛弹琴啊）</li>
+</ul>
+<p>沟通的内容不在于聊什么，最重要的是通信双方的互相信任，敞开心扉。即使是与物打交道的时候，即使最死的东西，如石头，它也有它的表达，如果我们心灵中对其有发现美的眼睛，那么也会对其动心。而你也会以为它其实是有神韵的。和人交流会更加复杂，但是总体的原则就是保持阳光，和谐的心态，避开上面所说的负面情绪，则关系就不会降温，而质量也会一直较高。所以啊，男生表白，不要搞得尴尬，恐惧，人最首要的需求是生存，如果都没有安全感，对方很容易就say no的。也不要过分去猜测对方的意图，不要过分的压迫感，顺其自然就好了，营造一个良好的氛围，比啥都重要。</p>
+<hr>
+<p>end</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/10/10/理解JSONP原理与使用/" itemprop="url">
+                  理解JSONP原理与使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-10-10T23:51:00+08:00" content="2013-10-10">
+              2013-10-10
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/10/10/理解JSONP原理与使用/" class="leancloud_visitors" data-flag-title="理解JSONP原理与使用">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="关于JSONP"><a href="#关于JSONP" class="headerlink" title="关于JSONP"></a>关于JSONP</h1><p>by bibodeng 2013-10-10</p>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>之前也不知道什么东东是JSONP（尽情笑话我吧）,只是听我的导师说前端和后台分开放，但是其绑定了不同的子域名，于是需要使用jQuery里面的JSONP支持，给服务端发送请求的时候给一个callback=?参数，然后返回的时候用callback包裹里面的数据。当我看到这篇关于 <a href="http://www.ibm.com/developerworks/cn/web/wa-aj-jsonp1/" target="_blank" rel="noopener">跨域JSON请求</a> 的文章的时候我才理解了这个做法。</p>
+<h2 id="什么是JSONP"><a href="#什么是JSONP" class="headerlink" title="什么是JSONP"></a>什么是JSONP</h2><p>到底什么是JSONP，其原理如何呢？<br>JSONP 是英文 json in padding,json就是javascript的字符串表现形式，服务器端可以对json进行收发解析。上面的文章给出了很详尽的解释，我就我学习中遇到的困难进行说明。</p>
+<p>由于无法无法从不同源头的网站上直接获取JSON，但是我们平常的<code>&lt;script&gt;</code>标签是能够获取到别的网站的js文件，想想我们常常使用google的jquery吧，就像图片一样，可以随意使用。那么我们是不是可以将这个脚本的地址指向一个动态生成JSON的脚本呢？从而让它能够将生成的东西传到前端。显然这是可以的，和引入js相比只是动态与不动态的区别而已。但是传回来的东西应该是js代码，JSON不能直接使用，于是就用一个回调函数进行包裹。当它传回前端的时候就可以直接执行了。</p>
+<p>维基百科的解释很容易懂，尤其是这个padding的意思：</p>
+<p>这个时候，把 <code>&lt;script&gt;</code> 元素的 src 属性设成一个回传 JSON 的 URL 是可以想像的，这也代表从 HTML 页面透过 script 元素抓取 JSON 是可能的。然而，一份 JSON 文件并不是一个 JavaScript 程式。为了让浏览器可以在<code>&lt;script&gt;</code>元素执行，从 src 里 URL 回传的必须是可执行的 JavaScript。在 JSONP 的使用模式里，该 URL 回传的是由函数呼叫包起来的动态生成 JSON，这就是JSONP 的“填充（padding）”或是“前辍（prefix）”的由来。</p>
+<h2 id="padding的形象体验"><a href="#padding的形象体验" class="headerlink" title="padding的形象体验"></a>padding的形象体验</h2><p>我在实际的编程中也用到了JSONP，本来可以直接使用<code>$callback.&#39;(&#39;.json_encode($data).&#39;)&#39;;</code>的方式直接返回的，但是这样每次都要写括号，很难看。于是我就将它写成了一个函数，并且支持多个参数：</p>
+<pre><code>// PHP代码
+
+// 带回调的响应
+function callbackResponse($callback, $status=200, $data=&quot;&quot;, $extra=array())
+{
+    // 这里就是padding了,中间的JSON被夹起来了！形象吧
+    echo $callback.&apos;(&apos;.ajaxResponse($status, $data, $extra).&apos;)&apos;;
+    // include callback return of server end json data
+    exit(0);
+}
+
+// 还是应该对返回内容进行merge后encode
+function ajaxResponse($status=200, $data=&quot;&quot;, $extra=array()) {
+    $ret = array(&quot;status&quot;=&gt;$status, &quot;data&quot;=&gt;$data);
+    $ret = array_merge($ret, $extra);
+    return json_encode($ret);
+}
+
+// ————————调用的例子————————
+$callback = $_GET[&apos;callback&apos;];
+callbackResponse($callback, 200, &quot;我爱编程&quot;);
+</code></pre><p>在客户端可以是这样请求并处理的：</p>
+<pre><code>// js代码
+// callback作为一个参数传到服务端
+$.getJSON(php_path+&apos;php/index.php?callback=?&apos;, function(ret_data) {
+    if (ret_data.status == 200) 
+    {
+        console.log(ret_data[&apos;data&apos;]); // 我爱编程
+        return;
+    }
+});
+</code></pre><h2 id="jQuery的做法"><a href="#jQuery的做法" class="headerlink" title="jQuery的做法"></a>jQuery的做法</h2><p>上面看到jQuery中的$.getJSON方法支持在链接中直接放入callback函数，并且callback=?,其实它是把$.getJSON的第二个参数（一个匿名函数）作为一个callback函数，我们查看服务器返回的数据常常能够看到 <code>jQuery152042227689944248825_1317400799214({&quot;status&quot;: 200,&quot;data&quot;:&quot;我爱编程&quot;})</code>形式的包。本来是一个名字的，例如一个叫parseData的函数，callback=parseData,当JSONP返回之后，将直接执行<code>parseData({&quot;status&quot;: 200,&quot;data&quot;:&quot;我爱编程&quot;})</code>,也就是回调了。而jQuery直接帮我们处理了匿名函数的问题，相当于产生了一个名字随机的对象，让它等于这个匿名的回调函数。具体的还得看jQuery的源代码（笔者才看了一点，还没到能够解决这个问题的程度）。</p>
+<p>如下jQuery源码:</p>
+<pre><code>// 获取时间戳
+var jsc = jQuery.now(), 
+jsre = /(\=)\?(&amp;|$)|\?\?/i;
+
+// 默认的jsonp设置
+jQuery.ajaxSetup({
+  jsonp: &quot;callback&quot;,   // 默认使用callback
+  jsonpCallback: function() {
+    return jQuery.expando + &quot;_&quot; + ( jsc++ );    // 构造回调前缀
+  }
+});
+// 下面的代码，额。。
+jQuery.ajaxPrefilter( &quot;json jsonp&quot;, function( s, originalSettings, jqXHR ) {
+
+  var inspectData = s.contentType === &quot;application/x-www-form-urlencoded&quot; &amp;&amp;
+    ( typeof s.data === &quot;string&quot; );
+
+  if ( s.dataTypes[ 0 ] === &quot;jsonp&quot; ||
+    s.jsonp !== false &amp;&amp; ( jsre.test( s.url ) ||
+        inspectData &amp;&amp; jsre.test( s.data ) ) ) {
+
+    // 设置jsonCallback,当回调时，就能直接调用了
+    var responseContainer,
+      jsonpCallback = s.jsonpCallback =
+        jQuery.isFunction( s.jsonpCallback ) ? s.jsonpCallback() : s.jsonpCallback,
+      previous = window[ jsonpCallback ],
+      url = s.url,
+      data = s.data,
+      replace = &quot;$1&quot; + jsonpCallback + &quot;$2&quot;;
+
+    if ( s.jsonp !== false ) {
+      url = url.replace( jsre, replace );
+      if ( s.url === url ) {
+        if ( inspectData ) {
+          data = data.replace( jsre, replace );
+        }
+        if ( s.data === data ) {
+          url += (/\?/.test( url ) ? &quot;&amp;&quot; : &quot;?&quot;) + s.jsonp + &quot;=&quot; + jsonpCallback;
+        }
+      }
+    }
+
+    s.url = url;
+    s.data = data;
+
+    window[ jsonpCallback ] = function( response ) {
+      responseContainer = [ response ];
+    };
+
+    jqXHR.always(function() {
+
+      window[ jsonpCallback ] = previous;
+
+      if ( responseContainer &amp;&amp; jQuery.isFunction( previous ) ) {
+        window[ jsonpCallback ]( responseContainer[ 0 ] );
+      }
+    });
+
+    s.converters[&quot;script json&quot;] = function() {
+      if ( !responseContainer ) {
+        jQuery.error( jsonpCallback + &quot; was not called&quot; );
+      }
+      return responseContainer[ 0 ];
+    };
+
+    s.dataTypes[ 0 ] = &quot;json&quot;;
+
+
+    return &quot;script&quot;;
+  }
+});
+</code></pre><p>// TODO: 读通源代码</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="http://zh.wikipedia.org/wiki/JSONP" target="_blank" rel="noopener">wikipadia</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/10/05/初探web中的XSS和CSRF攻击/" itemprop="url">
                   初探web中的XSS和CSRF攻击
                 </a>
@@ -1298,1043 +2537,11 @@ blockquote {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/07/29/速6开发小记/" itemprop="url">
-                  速6开发小记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-07-29T19:02:03+08:00" content="2013-07-29">
-              2013-07-29
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/07/29/速6开发小记/" class="leancloud_visitors" data-flag-title="速6开发小记">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<link rel="stylesheet" type="text/css" href="/content/plugins/bibo_mark/article_bibo.css"> <div class="art_content">
-<p><a target="_blank" href="/content/plugins/kl_album/upload/201307/439691e3e080478367c0567ebff57b34201307291110484255.png"><img src="/content/plugins/kl_album/upload/201307/439691e3e080478367c0567ebff57b34201307291110484255.png" width="480" height="285" alt="点击查看原图" border="0"></a></p>
-<p>经过3个星期的开发和测试，我参与的专题速度与激情总算是上线发布了，如今也运行了接近三天。发放了近500份奖品，为活动提供了游戏的基础。这次开发和许多同事进行了合作和接触，最多的要数重构工程师和测试，还有编辑了。当然离不开我的leader的辅助和背后的支持。当我在战战兢兢面对困难的时候，他们很轻松就能把问题化得简单，并且启发我去思考。</p>
-<div></div>
-<div>&nbsp;</div>
-<h3>遇到的挑战</h3>
-<div>IE6下问题多多，但是也是检验你的程序是否过关，你对兼容性是否了解的试金石。怪不得微博上那么多黑IE6的，要是我，绝对不用提供网页给那些IE6用户继续使用。</div>
-<div>&nbsp;</div>
-<div>IE6下的png图片显示bug，透明度会消失，这时候你就要专门对ie6写一个hack，从而挽回一点点可怜的显示效果。一种方法是用js来修正，另外一种是用css直接遮罩，或者写一个特别的滤镜样式。</div>
-<div>&nbsp;</div>
-<div>IE6下的url的bug，因为IE6对utf8支持不完全，所以有些代码会这样：</div>
-<div><a href="http://topics.kankan.com/main.php?title" target="_blank" rel="noopener"><span style="color:#ff0000;">http://topics.kankan.com/main.php?title</span></a><span style="color:#ff0000;">=迅雷看看零距离体验第%4 %期</span> 这样奇怪的问题，所以你必须要用一个<span style="color:#ff0000;">encodeURIComponent( 
-)</span>函数来对url的字符做一个转换，这样才能防止它在被点击的时候传递的参数乱码。</div>
-<div>其它就略了，还有好多下次一并总结出来，包括php端的编程可以提升的地方。</div>
-<div>&nbsp;</div>
-<h3>总结一下各种效果：</h3>
-<div>震颤效果</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>
-<div>// 震动效果</div>
-<div>function shake(obj){</div>
-<div>&nbsp;&nbsp;&nbsp; var $panel = $(obj);</div>
-<div>&nbsp;&nbsp;&nbsp; var box_left = parseInt($panel.css('left'));</div>
-<div>&nbsp;&nbsp;&nbsp; $panel.css({'left': box_left});</div>
-<div>&nbsp;&nbsp;&nbsp; for(var i=1; i&lt;=4; i++){</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $panel.animate({left:box_left-(40-10*i)},50);</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $panel.animate({left:box_left+2*(40-10*i)},50);</div>
-<div>&nbsp;&nbsp;&nbsp; }</div>
-<div>}</div>
-</div>
-<div>&nbsp;</div>
-<div>窗口左右晃动4次，每次幅度逐渐减小</div>
-<div>&nbsp;</div>
-<div>向上滚动效果</div>
-<div>
-<div>// 向上滚动列表</div>
-<div>function scroll_list(list)</div>
-<div>{</div>
-<div>&nbsp;&nbsp;&nbsp; var list_height = 0;</div>
-<div>&nbsp;&nbsp;&nbsp; $(list).children('li').each(function(index){</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list_height += $(this).height();</div>
-<div>&nbsp;&nbsp;&nbsp; });</div>
-<div>&nbsp;&nbsp;&nbsp; // 设置向上滚动</div>
-<div>&nbsp;&nbsp;&nbsp; setInterval(function(){</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var top = parseInt($(list).css('top'));</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var p_height = $(list).parent().height();</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(top &lt; 0-list_height)</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; top =&nbsp; p_height;&nbsp;&nbsp;&nbsp;&nbsp; // 从右开始</div>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $(list).css('top', (top-1)+'px');&nbsp; // 每次移动1个像素*/</div>
-<div>&nbsp;&nbsp;&nbsp; }, 60);</div>
-<div>}</div>
-</div>
-<div>&nbsp;</div>
-<div>像卷轴门一样向上滚动，如果滚完了就重头再来。</div>
-<div>&nbsp;</div>
-<div>对于工程来说，每一次经验都能够加深一些体会，同时也提升编程技能。很多时候对于一个功能，往往能够抽象出来成为一个库中的工具把它写到common.php或common.js中。我发现前端工程师也可以使用很多架构的方法，例如用面向对象来实现整个功能，还可以将功能按照模块来划分。虽然听说前端只是薄薄的一层，再深入也还是那样子。而且说到跨浏览器我都怕了，程序员只有几个，但是浏览器层出不穷，而且有些互相不兼容，有时候拆了东墙补西墙，或者是为了找到一种hack，google了几十次。貌似搞前端都需要样样精通。相对来讲，在写php的过程中明显感到要太平许多，这次没有被产品和测试折磨死就已经算不错了。</div>
-<div>&nbsp;</div>
-<h3>分工明确的优缺点</h3>
-<div>在公司里面，有一个很明显的感受就是分工明确，产品提供整个需求，编辑提供内容，设计搞ps，重构写好html和css，而研发则写js和php逻辑部分。分工明确有好处也有坏处，总体来说还是好处比较多，要是一个人全干了那会累死。既然分工明确，那你只要把好你分内的关就ok了，要修改的时候一定要通知合作的同事去修改，只要沟通渠道良好，效率一般也很高，例如你提出一个地方要修改的时候，告诉对方，几分钟就搞定了。这就是专业的速度，如果自己去弄未必有这么快。</div>
-<div><strong>分工明确的优点：</strong></div>
-<ol>
-<li>专业，质量有保证</li>
-<li>工作量降低</li>
-<li>流程明确，效率看沟通</li>
-</ol>
-<div>&nbsp;</div>
-<div><strong>分工明确也有缺点：</strong></div>
-<ol>
-<li>难协调</li>
-<li>增加沟通成本</li>
-</ol>
-<div>首先是难协调，工作时间，还有整个项目的内容和代码，有时候需要等他人完成之后你才能继续开始，浪费了一部分时间，而忙的时候又不可开交。还有项目的内容很多也是要经过协商，不是你一个人说了就算，所以有时候很忙，往往是忙在发邮件，发消息上。其次是当出现同事不了解谁负责哪块的时候，往往找错人，增加了不必要的沟通负担。</div>
-<div>&nbsp;</div>
-<h3>需要保持的习惯：</h3>
-<div><strong>随时和同事同步你的工作内容</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-在这次的项目中没有使用svn这样的版本管理工具，估计是一些非开发人员他们可能不会用。但是这样就让我很麻烦，每次都需要保持若干个版本，放在不同的文件夹，但是总体来说还是能够保持一致的。而且每个人都有每个人自己的版本，那个拥有最全版本的人就苦逼了，他需要负责将各个版本都综合起来，然后到最后发布。这个人就是开发！因为其他的同事都是上游，而开发是下游，当然也只有开发才有权限将代码发布到外网服务器上（电信和网通两种服务器都要）。</div>
-<div>&nbsp;</div>
-<div><strong>注重细节，有良好的debug能力</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个太重要了，很多细节的地方不注意，往往能够让你找半天找不到错误所在，而细节有时候也能看出来基础扎不扎实。注意各种细节是一个良好的习惯，从小学时代的考试开始就一直很重要，注意好细节能够让程序更加严谨。有时候我们会感叹测试的眼睛怎么那么利，测试的用例比你的少，但是他们看出来的问题真多，也许是因为自己陷在自己的逻辑中比较难看出破绽，但是错了的时候，你还是有直觉的。很可能就是难以注意到的地方，让程序出人意料。如果需求定义得很明确的话，那么开发很牛，那么基本上不会出什么纰漏，测试也找不出什么漏洞，但是对于经验缺乏的菜鸟而言，那么多浏览器在向他狰狞地微笑，一切都没那么简单。</div>
-<div>&nbsp;</div>
-<div><strong>淡定</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当项目快要到期了，那边催你赶紧上线，而测试催你修bug的时候，这个时候最考验心理素质了。由于第一次上线发布，当时我还不知道怎么操作，而我的工作导师又离开去开会了，碰到了问题请教了许多人，但是还是弄了好久才解决。我在这里心理素质一般，但做大事的人一定要有胆色，够淡定。做小事需要细心，上面讲了。刘铭传年纪轻轻上去割了强盗的头，邺侯孩提之时就对皇帝的问题对答如流，并无惧色。有时候做人就得猛一点，内心强大一点。</div>
-<div>&nbsp;</div>
-<div><strong>生活与工作兼顾</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;身体是革命的本钱，在上周的开发过程中，我过于专注了，导致忘了点饭，然后吃了泡面，又稀里糊涂地把伞给弄落在大巴上了，结果深圳天气又多变，第二天淋雨上班，壮烈地感冒了，为此规好师兄还教导了我一番。本来工作就累，要自己照顾自己，病了可怎么工作呢，好在周末我呼呼大睡了好多个半天，才慢慢好起来。这让我意思到好好保养自己，增强自己的体质才是最重要的。身体是革命的本钱，革命尚未成功，可不能先挂了。今后尽量要让自己生活健康规律，充满乐趣。锻炼，游玩，交友都应该占生活更多的比重。学习工作靠的是效率，过度是不值得提倡的。还是找个人一起相互扶持照顾最好。</div>
-<div>&nbsp;</div>
-<div>附上链接一个： http://topics.kankan.com/speedAndPassion</div>
-<div><br>
-</div>
-<div>我自认为将来是要为自己打工的，所以对于运作和见识方面也有心留意。像周鸿祎那样振奋我心的偶像的故事，给我打鸡血一样的动力。</div>
-<div><br>
-</div>
-<div>by bibodeng</div>
-</div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/07/17/工作闲话/" itemprop="url">
-                  工作闲话
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-07-17T18:00:15+08:00" content="2013-07-17">
-              2013-07-17
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/07/17/工作闲话/" class="leancloud_visitors" data-flag-title="工作闲话">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<title>自从上周接到任务</title> <meta content="text/html; charset=unicode" http-equiv="Content-Type"><!--defaultCSS--><meta name="GENERATOR" content="MSHTML 10.00.9200.16635"> <style id="wiz_custom_css" type="text/css">
-body
-{
-    font-family: "Microsoft YaHei UI","Microsoft YaHei",SimSun,"Segoe UI",Tahoma,Helvetica,Sans-Serif,"Microsoft YaHei", Georgia,Helvetica,Arial,sans-serif,宋体, PMingLiU,serif;
-    font-size: 10.5pt;
-    line-height: 1.5;
-}
-html, body
-{
-    
-    
-}
-h1 {
-    font-size:1.5em;
-    font-weight:bold;
-}
-h2 {
-    font-size:1.4em;
-    font-weight:bold;
-}
-h3 {
-    font-size:1.3em;
-    font-weight:bold;
-}
-h4 {
-    font-size:1.2em;
-    font-weight:bold;
-}
-h5 {
-    font-size:1.1em;
-    font-weight:bold;
-}
-h6 {
-    font-size:1.0em;
-    font-weight:bold;
-}
-img {
-    border:0;
-    max-width: 100%;
-}
-blockquote {
-    margin-top:0px;
-    margin-bottom:0px;
-}
-
-
-</style>
-<link rel="stylesheet" type="text/css" href="/content/plugins/bibo_mark/article_bibo.css"> <div class="art_content">
-<h3 class="art_content">前言</h3>
-自从上周接到任务，紧张工作一周后，专题《速度与激情6》逐渐完善了，这个专题也快告一段落了。在工作之余，我也抽空写一篇博文，梳理一下这几周的生活。自从来迅雷报到以来，我的日子大致就是这样的节奏： <div>早起 》上班 》工作 》下班 》回家 》娱乐 》 睡觉</div>
-<div>周末是这样的：</div>
-<div>睡觉 》娱乐 》 睡觉</div>
-<div>&nbsp;</div>
-<div>所以一直没有时间去总结思考，这是应当反省的地方之一。平时虽然很累，却过于注重放松了，浪费了平时的琐碎时间，很多想做的事情都没有做。而耽搁了一段时间，想要下定决心，还需要一定的勇气。其实，我宁愿累并有规律地生活，也不愿意过度放纵自己在娱乐上面。细水长流，这才是养生，安心的生活方式。其实反思一下自己，无非就是欲求之物不可得，又不愿意付出点滴时间去做有意义的事情。这与我的初衷是很不合的，故而应当痛下决心，工作之余也要有自己的追求。</div>
-<div>&nbsp;</div>
-<div>吉他没带来</div>
-<div>运动不常搞</div>
-<div>学习不自主</div>
-<div>&nbsp;</div>
-<div>当然我想在家用latex来写那本《南苑随笔》还是很需要耐心的，要以之为乐趣。矛盾就在于我的渴望与意志力不相配合，也证明我不够渴望。凡成大事者，要不就对自己做的事情有无限激情，有超拔之才，要么就是有超拔之志。工作后的一种体会就是，就这样算了吧，反正也不能做得全能、完美。尤其在读了《曾国藩传》之后，觉得自己半个秀才都算不上，书读得不够多，读的又不能深切领悟。而全国之内，不知道有多少俊杰用自己的才能，胆识创下了成就。一个人未来的发展，不取决于他现在处于什么位置，也不在于他拥有什么，而在于他正在做什么，在想什么。持续的努力，才有可能获得更大的成就。</div>
-<div>&nbsp;</div>
-<h3>工作学习</h3>
-<div>我所在的是迅雷看看的视频研发部门，我目前接到的任务是完成一个专题，用于介绍一部电影，然后提供一个抽奖的小游戏，主要就是抽奖的逻辑（包括前端和后台）。所以用到的知识大多是学校学习到的jquery，以及PHP知识，当然我的PHP基础不算好，故而很多时候我都要google一下。所以，我的实践水平还有待提高。在公司的工作量，大概是一天写100行代码，一个专题大概有500行代码，当然这些开发很多是有共同点的，可以抽出一个自己的基础库，下次开发的时候还能用。我的开发很大得益于前人写的代码，我通过阅读，模仿，也可以实现相关的功能。有时候涉及比较高深的技术，以及常用的接口、业务逻辑的时候，要向同事求教，当然也有一些要讨论。最烦的就是需求改变，连设计都要遭殃，而我又要重新编写代码。当然我要改的并不多，但是各个版本的东西让我很不爽，因为不确定所有的东西都能修改得能够合乎最新版本的重构页面。有时候也发现，重构写的一些页面结构让我的编程比较尴尬，但是大部分时候还是好的。而我觉得在公司的编程，比起在学校闭门造车来要有进步。当然也不要把公司的开发想得那么高，很多时候还是和业余的一样不那么规范。当然了，一个公司必须要有点牛人，才能撑得起来，我在看同事们的代码时，发现有许多可圈可点的闪光点，当时看到的时候是心里一阵激动，特别是对比自己又臭又长的代码而言，另外更加钦佩他们的开发能力了。因为他们的代码写得比我的要简洁，而且更加清晰，这点上，我还是有很多要学习的地方。相比桌升，我的脚步更加轻松，而且有人指导，而桌升的则是用项目来锻炼自己，也相当有压力，自然也就有动力。写代码的能力还是要修炼上几年的。公司的同事都相当地年轻，而且有些结了婚都看不出来，还以为是和我一样的光棍郎。当然也有些事情有明显的“代沟”，例如看的电影，以及打的游戏。不过总体大家还是同龄人，而且经常在组里发一些段子。组内有许多北方的同学，也有深大的，也有一些工作几年跳槽过来的。目前，只跟6个同事较为熟识，也渐渐地融入到他们的生活圈子当中。</div>
-<div>&nbsp;</div>
-<h3>生活</h3>
-<div>生活上我变得很腐化，对物质的要求也高了点，不过我还是尽量保持节俭，毕竟挣钱不多，勉强够养活自己。工作一天，往往很累，回到住处也不太想洗澡，于是就煲剧，然后这种惰性一直延续到12点，有时候还会熬夜看。本应是工作日的，却过得像周末一样，就算是周末，拿来这样用也太浪费了一点，周末是应该拿来到处走走，访亲问友的。上周，就和各位同学在思萍师姐处聚了一下，师姐煮好各种菜款待我们，大家也聊的挺开心，随后我们又去找了规好师兄，师兄陪了我们一下午，还带我们吃了猪肚煲。工作之余，能够见见亲友，也很好。周六的时候去了趟深大，领略了一下有钱学校的生活，吃的东西挺便宜的，我还去了保龄球馆，生平第一次打保龄球，这种东西以前只在电视上见过，黄勇球技很好，而我还指甲太长，还把指甲给弄裂了。登上深大的最高楼，俯瞰下去，郁郁葱葱，还有一大片高尔夫球场草地。远处可以看到一座大桥通往香港。夜景还算美，陪上海风，无比惬意。</div>
-<div><br>
-</div>
-<div>by bibodeng 2013-7-17</div>
-</div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/06/09/迅雷HR面/" itemprop="url">
-                  迅雷HR面
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-06-09T15:19:11+08:00" content="2013-06-09">
-              2013-06-09
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/06/09/迅雷HR面/" class="leancloud_visitors" data-flag-title="迅雷HR面">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<style type="text/css"></style>
-<style type="text/css"></style>
-﻿﻿<link type="text/css" rel="stylesheet" href="http://bibodeng.web-149.com/content/plugins/bibo_mark/article_bibo.css"> <div class="art_content"><span style="line-height:1.3em;">拖了很长时间才写这篇，3日下午收到了迅雷的HR面通知，据说是去谈待遇的，我欣然答应明天下午3：00到他们公司接受考验（除了接受，还有别的选择吗？）。今天晚上我再做一下“垂死挣扎”，准备一下面试官可能要问的问题。</span><br>
-    <p>
-        <br>
-    </p>
-    <h3>
-        YY的问题
-    </h3>
-    <p>
-        团队方面：你当团队负责人的时候，怎么进行团队成员的协调和部署的？
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        我都是让大家自由发挥，先将系统划分好模块，然后让大家针对自己感兴趣或者是擅长的方面选择，然后大家既干得有热情，又完成得很出色，同时我的工作也轻松了。我们组内都是一些很优秀的同学，他们责任心很强，有点技术很牛，能够独当一面。而我则凝聚起大家伙，然后让他们干他们擅长干的事情。有时候偶尔组织会议，和大家一起总结项目上一步的经验，然后启动下一步的计划，最终我们顺利完成了课题。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        为什么要来迅雷呢？
-    </p>
-    <p>
-        我觉得：
-    </p>
-    <p>
-        1 个人很喜欢，适合搞IT的我来闯荡，而且生活环境不错
-    </p>
-    <p>
-        2 迅雷是一个知名企业，而我面的是前端，做对用户有直接影响的事情，让我有成就感
-    </p>
-    <p>
-        3 公司的企业文化吸引我，迅雷不及掩耳，有点google的风格，我挺喜欢
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        你觉得你要多少薪资呢？
-    </p>
-    <p>
-        怎么说呢？我觉得公司肯定也会按照我的才能来衡量我的薪水的吧。就我个人来讲：
-    </p>
-    <p>
-        我挺喜欢深圳，但是深圳的消费水平也高，这点我跑了两次深圳算是有体会了。
-    </p>
-    <p>
-        公司肯定也希望我能够将衣食住行这些打点好，好让我能够全心全力地投入到工作中来。
-    </p>
-    <p>
-        而且公司是知名企业，对于一个实习生来说，应该能够出得起￥xxxx这个水平吧，我自认为还有点潜力，你觉得算不算过分？
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        你为什么而工作？<br>
-    </p>
-    <p>
-        我为了提升我自己并且养活我自己而活着，同时我也为了个人幸福而工作。我人生三年一次大的转折，对于我的工作和学习，我都会订立相应的目标，并为之而努力。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        你了解迅雷吗？
-    </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;font-size:13px;line-height:18px;background-color:#ffffff;"><span style="font-size:16px;">2002年邹胜龙先生及程浩先生始创于美国硅谷，带着硅谷的血液来到中国。据说</span><span style="font-size:16px;">迅雷拥有业界最好的休闲咖啡吧，可以畅谈技术。迅雷不及掩耳，是公司的一种文化，不仅仅是因为产品的速度是核心竞争力，而且因为互联网行业发展迅速，我们必须紧紧跟着时代的潮流，去开拓去创新。</span></span><br>
-    </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;font-size:13px;line-height:18px;background-color:#ffffff;"><span style="font-size:16px;"><br>
-            </span></span>     </p>
-    <h3>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;">实际问的问题</span></span>     </h3>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;"><br>
-            </span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;">很可惜上面的问题都没有问</span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;"><br>
-            </span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;">HR：你和上次的面试官沟通觉得怎么样？</span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;">bibo：我觉得还好啊，我有问题可以直接说出来，而且他们也很nice，帮我补充或者纠正，当然我们是很平等地交流，感觉交流没有问题。</span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;"><br>
-            </span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;">HR：那家里有兄弟姐妹吗？</span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;">bibo：哦，有一个弟弟，读高中。</span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;">HR：有个弟弟是比较好，有个伴，童年不会孤单。</span></span>     </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;"><br>
-        </span>     </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;">HR：那么你的实习津贴是￥xxxx一个月，公司包两餐，不包住</span><br>
-    </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;">bibo：恩，好 </span>     </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;"><br>
-        </span>     </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;">HR：你还有什么问题要问吗？</span>     </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;">bibo：你们这里招C/C++的程序员吗？我看到那边都有做游戏的组？</span>     </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;">HR：哦，我们这里不招C++的实习生</span>     </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;"><br>
-        </span>     </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;">HR：那么你需要尽早去三甲医院做一个体检，然后发给我，我才发offer证明给你，到时候你拿着offer来报到就行了。</span>     </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;">然后有继续聊了一下实习时间的问题。</span>     </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;"><br>
-        </span>     </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;">好吧其实我搭几个小时的车来到深圳，就是为了这半个钟，为了工作，花了不少大洋。好吧，既然谈妥了，就好好准备期末考吧。到时候再去亲人那儿一趟，然后就暑假报到去。</span>     </p>
-    <p>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;"><br>
-        </span>     </p>
-    <h3>
-        <span style="line-height:18px;font-family:arial, helvetica, sans-serif;">其他</span>     </h3>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;">这次碰到很多有趣的人，一个来自海南，跨专业的，花了1W培训了几个月，坐在那儿等笔试结果，过了许久，来了一个前台说：你可以先回去了，笔试没通过。 顿时很同情这个同龄人，当然也不失为是一个经验。他说他有可能会走会专业路线。他们的专业是电信，个人觉得比较难，而且就业门槛比计算机都高。另外一个去应聘的是来自南昌的技术人员，一来就跟我聊雷的待遇，我去，而且他还大摇大摆地和他在迅雷的朋友去喝茶，结果前台MM找了半天才找到他。</span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;"><br>
-            </span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;">搭高铁回程的时候，旁边坐了一个大四的广美的师姐，我问了问她是不是来面试的，以及她们的专业，就没有多聊了，高铁不像绿皮火车，没多少时间可以聊，况且那个师姐貌似也对陌生人之间的谈话不是很感冒。</span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;"><br>
-            </span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;"><span style="line-height:18px;">面完之后发现，未来没有多么地完美，自己还是自己，任重而道远，虽然找到实习的人比较少，可能会有优越感，但是其实是没有的。只有自己才知道，需要付出多少，需要如何继续下去。如果堕落下去，随时都会被人超越，而这完全不是我的风格，再接再厉。</span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;font-size:13px;line-height:18px;background-color:#ffffff;"><span style="font-size:16px;"><br>
-            </span></span>     </p>
-    <p>
-        <span style="font-family:arial, helvetica, sans-serif;font-size:13px;line-height:18px;background-color:#ffffff;"><span style="font-size:16px;">by bibodeng</span></span>     </p>
-</div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/06/01/迅雷面试行/" itemprop="url">
-                  迅雷面试行
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-06-01T22:12:21+08:00" content="2013-06-01">
-              2013-06-01
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/06/01/迅雷面试行/" class="leancloud_visitors" data-flag-title="迅雷面试行">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<link type="text/css" rel="stylesheet" href="http://bibodeng.web-149.com/content/plugins/bibo_mark/article_bibo.css"> <div class="art_content">
-    <h3>
-        ﻿﻿在广州
-    </h3>
-    <p>
-        记不得是在哪里海投的职位，就收到迅雷MM打来的电话，约定了面试的日期，我将面试时间推后了一个星期，一来让我有时间应付一个考试，同时也让我对它的职位做一点准备。带着一点激动，一点期待的心情踏上了征程，首先去了广州面了恒拓开源，先让我做了一份JSP的试题，其中有两道智力题被我搞定了：如何用一笔画出4条直线将一个3*3的点阵连接起来，另外一题是下水道井盖为啥是圆的，我不知道答案，但是想想就回答了是因为直径够大，掉不下去，而方形的有可能掉落下去。面试就是聊一些大学里面的事情，聊就业怎样，完全不像是面试，不过这恒拓开源应该靠谱，只是我想往前端发展，他们却想要java的人才，我想面试面试就行了吧。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        面完和思愿他们分别了，然后我就去我的姐姐家，住了两天，顺便看看书。两天好吃好住，心情很好，虽然两天闭门不出，但是现在想起来，就好像一瞬间的事情，再长的时间，成为了过去，就短过瞬间。在这两天复习了一下PHP 还有了解了一下noSQL的基本知识，以备他们提问。
-    </p>
-    <p>
-        <br>
-    </p>
-    <h3>
-        面试过程
-    </h3>
-    <p>
-        12：44搭乘高铁到深圳北，14：30的面试，我以为我会迟到，可是我用手机搜了一条直达迅雷的公交车 深圳北——&gt;朗山路中，结果提早到达了，上去之后，先做一份题目，都是一些基础，有两道是js的编程，然后有一个系统设计，此外还有XSS和CSRF，反正就是不懂。交了卷子，等了半个钟，又叫我去上机测试，写一个文件上传的功能，有一些细节的要求。我本来想写漂亮一点，但是没有jQuery,也没有chrome浏览器，面对着一个WAMP，还有一个IE浏览器，算了，写个简单的form就行了，其实主要的还是php的部分，对文件进行读取，然后移动到合适的文件夹，有重复的就报错。做完了，一个面试官走过来看了一下，我解说了一下，然后他看了一下，删除了我写的代码，把我带去了一个像小酒吧样子的地方，其实是一个休息过道，然后他就开始问各种问题了，进行了两轮面试，两个面试官分别面试我。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        其中问了我什么是js的闭包，为什么会有闭包，我回答说是闭包是能够在函数内包函数，而且函数执行后，里面的变量依然存在，而闭包的作用是做封装，作为私有的，不要和别人的打架。他补充说，这是因为js的面向对象的支持是不完整的，故而需要实现一个封装，而且缺乏private的支持，故而使用闭包来弥补不足。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        还问了项目的一些事情：你们在项目中碰到的最大的困难是什么？是怎么解决的？
-    </p>
-    <p>
-        我就说了GTD的项目，说之前我是不知道怎样使用框架的，但是经过接触MVC发现能快速开发出程序，我用了一个多礼拜学习了一个speedPHP框架，然后就用这个完成了项目。个人觉得这个问题答的不好。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        又问了一个关于怎么学习新的东西？我回答说看博客，上stack overflow看别人的解答，在github看别人的源代码，其实我在这两个社区都不算很活跃，积分也不多，唯有博客园去得比较多。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        你了解过什么框架？我说是jQuery, YUI, dojo等，还说自己看了一点jQuery的代码，他又继续问是否了解过node.js，我说不了解，他就解释了一番，说用js来写服务端的一些代码。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        对于一个项目，你怎么优化前端的性能？我就回答了 减少http请求，压缩文件，制作合适web的图片， 采用异步等等，还说貌似笔试就有一道是这样的，他说，那主要还是后台方面的。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        两次面试都没有怎么刁难我，但是我感觉自己二面的表现明显差了，有些回答又像腾讯那次一样，被问题打乱了阵脚，最后还忘了问啥时侯有通知。二面问了一些比较前卫的东西，我都不了解，不知道这些会不会成为我的失败原因。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        这个过程中，我感觉比上次面腾讯，自己是有进步的，最后还问了一下，我的笔试成绩怎样？他说还可以，还笑着说我就没有见过做满分的人，虽然题目是自己人出的。看来是对我勉强满意，只是我的表达烂得不行，很难想象自己是那个高中作文55分的人。聊的很开心，不过很多人都是笑着被干掉的。真是谈笑间，offer灰飞烟灭。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        个人认为上面这些都不属于机密吧，披露细节也无妨。
-    </p>
-    <p>
-        <br>
-    </p>
-    <h3>
-        等待结局
-    </h3>
-    <p>
-        面完已经是晚上8点，面试官说叫我去吃饭回家，我当时没有听清楚，还在踌躇中，丧失了问他何时有通知的问题。我走出公司，就打电话给桌升和师兄，找睡觉的地方。我先吃了饭，然后乘车与师兄会合。其实我想叫迅雷连续给我面试，不要让我跑来跑去，以节省人力物力，但是我不知道我有没有然后。所以打算在深圳等一天，师兄帮我订了一个酒店，当天晚上就在7天酒店下榻，话说深圳消费真高，一晚上就接近300大洋，买瓶水都是8块，对于我这个学生仔来说贵了点。当天晚上我硬是看了三部电影《钢铁侠3》，还有一部《白鹿原》，还有一部喜剧《小狐仙》，最后困得不行就睡下了。第二天中午等不到迅雷的通知，于是我就奔高铁去了，买票回广州。唉，看来桌升说的很对，我不专注，什么都来，结果什么都不够精，前端时间才下苦功深入了一下前端。一个大三的实习生，就是急切地想要得到别人的肯定，没有获得别人的肯定也不要紧，不代表我就渣渣都不如。既然打定主意搞前端，那么就更加需要踏实下来，接下来就不海投了，确定几家想去的企业和职位，等待机会吧。等待结局中。
-    </p>
-    <p>
-        <br>
-    </p>
-    <h3>
-        亲友的襄助
-    </h3>
-    <p>
-        这次的深圳行，得到很多亲友的关心和襄助，尤其是我的姐姐国玉，还有亲密的规好师兄，在物质和精神上给我很大的支持。在广州两天，都是姐姐亲自下厨，我胃口大开，得以好好看书。不过广州的夏天真的热死了，深圳的天气会好点，但是这两天太阳也超级猛烈。深圳是一个美丽的城市，我挺喜欢，将来就去那儿找工作了。儿时我就体会到个人成功，和他人的支持和帮助分不开。国东现在不名一文，且看半年之后，是何等模样，是否对得起亲友相助。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        经过面试，会清楚地发现自己缺什么，我觉得缺乏的是代码。所以考完试我专门抽出两周来写一个大点的项目前端，用代码来理解那些技术。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        by bibodeng 2013-05-31
-    </p>
-</div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/05/20/web优化笔记/" itemprop="url">
-                  web优化笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-05-20T14:17:47+08:00" content="2013-05-20">
-              2013-05-20
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/05/20/web优化笔记/" class="leancloud_visitors" data-flag-title="web优化笔记">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<link type="text/css" rel="stylesheet" href="http://bibodeng.web-149.com/content/plugins/bibo_mark/article_bibo.css"> <div class="art_content">
-    <h3>
-        ﻿﻿﻿方向
-    </h3>
-    <p>
-            有一段时间因为找不到实习而有点郁闷，必须承认今年的就业形势比较严峻，上次去UC笔试，居然连面试机会都不给！恰好看到了@Fenng 写的这篇 <a href="http://dbanotes.net/review/the_students.html" title="现在的计算机专业学生怎么这个样？" target="_blank">现在的计算机专业学生怎么这个样？</a> 感觉戳中了很多人的要害。回头看看自己真的是太急躁了，总想找个好的工作，而不考虑自己到底有怎样的深度。仔细想想，还是要沉着冷静，好好将自己的技术提升上来。看了 2013腾讯实习生招聘面经 ，就更感觉后悔了，没有利用考完后的那几天好好学习js和jquery，结果就挂了。好吧，现在重整旗鼓，我还会再来的。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        所以翻出大牛写的前端开发的博客来看：<a href="http://dbanotes.net/web-performance" target="_blank" style="line-height:1.3em;">http://dbanotes.net/web-performance</a><span style="line-height:1.3em;"> </span>     </p>
-    <p>
-        <span style="line-height:1.3em;"><br>
-        </span>     </p>
-    <p>
-            写的是yahoo开发前端的最佳实践笔记，关于前端的优化。看大牛的博客，都有一种莫名的动力，当然，接下来要写更多的代码，将还在脑海里面的 “天使与国王” 实现出来，顺便操练一下自己稍微专注于web前端后学习到的一些技术，看看写出的网页和之前比有多大进步。
-    </p>
-    <p>
-        <br>
-    </p>
-    <h3>
-        笔记
-    </h3>
-    <p>
-        在《编写高质量代码——web前端修炼之道》里面介绍了3个方面来提高web程序的质量。
-    </p>
-    <p>
-        下面记一点简单的笔记：
-    </p>
-    <h4>
-        html 
-    </h4>
-    <p>
-        也即内容上面，尽量语义化，结构化，并且把js和css都剥离出去。减少http请求，能将一起发送的东西就一起发送，避免时时刻刻发送不必要的请求。优化的方法有两条一个是减少请求，另外一个是异步化请求。记得puwoo的一个面试官电面我，问向用户发送一个400k的图片和向用户发送4张100k的图片哪个更加高效？我回答第一个，但解释得不好。因为第一个只需要一次http请求，减少了包的数量，经典例子就是css sprite。
-    </p>
-    <h4>
-        css
-    </h4>
-    <p>
-        与html进行分离，然后用&lt;link&gt;链入，放到css，在浏览器解析的时候方便浏览器尽早进行渲染，减少用户等待。
-    </p>
-    <p>
-        进行分层 base , common , page，按照base定义一些基本的类如boldFont, floatLeft等，便于今后使用。common层定义复杂一些的
-    </p>
-    <p>
-        css模式，例如一个输入框的样式（圆角，发亮，背景颜色），这个层次能够复用，但是定义地比较详细。page层则是针对每页不同的布局或样式进行定制。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        之前学习过，css将会作为渲染树构造起来，以辅助DOM树形成渲染的原材料。故而css代码也很有考究，尽量要能够多用单层，不用 #id .class 这样的多层规则，这就是为什么要多定义一些类，便于写代码时组合，也便于浏览器渲染。学习一样东西，光知道用，不知道里面怎么运行，是很难知道如何写出高质量的代码来的。我甚至想深入一下了解浏览器内核究竟是怎么工作的。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        css能够被压缩，以减小文件大小。
-    </p>
-    <h4>
-        js
-    </h4>
-    <p>
-        与html进行分离，在html尾部链入，因为下载脚本时，浏览器不能解析DOM，而js是在DOM下载完了之后的事情，故而应当把js的下载放到载入页面之后。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        和css一样，可以进行分层。base 封装原子功能，封装各个浏览器之间的差异， common稍微完成一个教大的功能，例如编写一个完成提交表单的功能，要调用base层，page层则针对每个页的交互而写的程序，一般是调用common层。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        我接到puwoo的电话面试的时候，就回答了一些这个，用来优化前端的性能。
-    </p>
-    <p>
-        <br>
-    </p>
-    <h3>
-        END
-    </h3>
-    <p>
-        这几天离开了学校，去广州大学城那边生活了几天，对于回来应该做的事情就清晰了很多，接下来就看看Jquery的源代码，练习一下前端的各种常用效果，如：瀑布流，星级评分，以及动画，html5。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        现在有一个方向了，不轻易动摇，“做人要专注”。相信，有梦想，肯努力的同学一定能有个好的未来。
-    </p>
-    <p>
-        <br>
-    </p>
-    <p>
-        by bibodeng 2013-05-15
-    </p>
-    <p>&nbsp;</p>
-</div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2375,13 +2582,20 @@ blockquote {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-count">185</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
