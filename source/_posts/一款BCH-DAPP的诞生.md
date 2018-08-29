@@ -1,7 +1,7 @@
 ---
 title: 一款BCH DApp的诞生
 date: 2018-08-29 08:31:49
-tags: BCH DApp IFPassword
+tags: [BCH, DApp, IFPassword]
 ---
 
 ## DApp的兴起

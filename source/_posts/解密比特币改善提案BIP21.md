@@ -1,7 +1,7 @@
 ---
 title: 解密比特币改善提案BIP21
 date: 2018-08-29 08:34:26
-tags: BCH BIP 比特币
+tags: [BCH, BIP, 比特币]
 ---
 ## BIP及提案过程
 BIP全称Bitcoin Improvement Proposal，意为比特币改善提案，是人们提出的改进比特币及其应用的一个工具，通过收集各种提案，通过讨论，大家能够推进比特币的发展和改良。有意思的是，BIP的第一个提案，就是关于BIP的详细提案规则。
