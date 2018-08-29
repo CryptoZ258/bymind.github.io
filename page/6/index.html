@@ -255,6 +255,740 @@
             
               
                 
+                <a class="post-title-link" href="/2014/05/12/信息服务社交网站设计与实现/" itemprop="url">
+                  信息服务社交网站设计与实现
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-05-12T21:50:40+08:00" content="2014-05-12">
+              2014-05-12
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2014/05/12/信息服务社交网站设计与实现/" class="leancloud_visitors" data-flag-title="信息服务社交网站设计与实现">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="信息服务社交网站设计与实现"><a href="#信息服务社交网站设计与实现" class="headerlink" title="信息服务社交网站设计与实现"></a>信息服务社交网站设计与实现</h1><p>by bibodeng 2014-05-12</p>
+<p>##缘起<br>一直以来想要尝试实现一个社交网站，好让自己体会一把马克的瘾。于是在毕业论文选题的时候，选了《信息服务社交网站设计与实现》这个题目，指导老师是曾碧卿老师，事实证明他非常地靠谱。一开始我只是打算实现一个师兄认识师妹那种社交网站，但是老师给我的意见是结合地理信息服务，以及电子商务，我顿时就傻眼了，这个工程量得多大啊，这不是一个大众点评网么，于是硬着头皮慢慢着手开发。</p>
+<p>##设计<br>整个系统分为四个模块，用户管理，LBS接口，SNS社交，以及EC电子商务，其实这每一块要好好做都是一个艰巨的任务，用户管理稍微容易一些，包括用户登录注册，个人信息等等，而SNS模块的体验也和新浪微博类似，总之，这么大一个东西，这么多小的模块，也只能点到为止。<br><img src="https://note.wiz.cn/unzip/3eb90c0e-f584-11e0-a072-00237def97cc/1083d116-57f0-1c3c-6f41-368045854997.temp/index_files/1b61f80af79507069e7a7609604eee9f.jpeg" alt="总体模块图"></p>
+<p>最终的部署目的和接口调用将如下所示：<br><img src="https://note.wiz.cn/unzip/3eb90c0e-f584-11e0-a072-00237def97cc/1083d116-57f0-1c3c-6f41-368045854997.temp/index_files/176d087642cc81fa2e88dd2bd1bc9d00.jpeg" alt=""></p>
+<p>在自己的数据库存储所有的应用表，包括地点等地理信息，以及商家等商务信息，然后调用百度的API在浏览器中进行浮层绘制。故而了解了一下百度的LBS API和其中的例子之后，实现了一个功能，事实证明这是可行的。想要了解百度LBS API的同学可以点<a href="http://developer.baidu.com/map/jshome.htm" target="_blank" rel="noopener">这里</a>，此外这里有大量的<a href="http://developer.baidu.com/map/jsdemo.htm" target="_blank" rel="noopener">例子</a>可以实现地图山的各种功能。<br><img src="https://note.wiz.cn/unzip/3eb90c0e-f584-11e0-a072-00237def97cc/1083d116-57f0-1c3c-6f41-368045854997.temp/index_files/47e9e86e6ad005f0296d12a7bb638fa6.png" alt="地图效果"></p>
+<p>整个过程从总体设计过渡到数据库设计，最终转化成django的model，通过dbsync命令同步到本地测试数据库服务器中。后来对该图的一些进行了修改，而现实中的各种表，也达到了将近20个。</p>
+<p><img src="https://note.wiz.cn/unzip/3eb90c0e-f584-11e0-a072-00237def97cc/1083d116-57f0-1c3c-6f41-368045854997.temp/index_files/c59a2ca7798e78f6bb91c6fb1d2ed262.jpg" alt="系统ER图"></p>
+<p>##编码<br>编码耗费的时间最多，写代码中常常遇到一些问题，往往最有效的就是查看django手册，其次就是google了。其实还是使用常规的MVC（MVT）方法，故而对于每个url请求，定义相应的函数进行处理，当要对功能进行拓展的时候，就增加新的函数。如此下来，总体的逻辑较为清晰。</p>
+<p>举一个上传图片到sae的storage的例子，实现对图片的额外存储，然后将记录放到数据库中：</p>
+<pre><code>@login_required
+def _upload_pic_sae_storage(request):
+        &apos;&apos;&apos;上传文件到sae的storage&apos;&apos;&apos;
+        file_name = str(uuid.uuid1())+&quot;.jpg&quot;
+        # assert False, file_name
+        file_upload = request.FILES[&apos;Filedata&apos;]
+        if file_upload:
+            # 将图片放到storage中
+            import sae.const   
+            access_key = sae.const.ACCESS_KEY   
+            secret_key = sae.const.SECRET_KEY   
+            appname = sae.const.APP_NAME   
+            domain_name = &quot;idianping&quot;  #设置的storage domain                    
+            import sae.storage   
+            st = sae.storage.Client()   
+            obj = sae.storage.Object(file_upload.read())  # 上传的对象   
+            url = st.put(domain_name, file_upload.name, obj)   # 存储
+
+            # attach
+            att = add_attach(request, file_name, &apos;jpeg&apos;, 1000, url, url)
+            # a  =&apos;{&quot;url&quot;:&quot;&apos;+url+&apos;&quot;,&quot;title&quot;:&quot;&apos;+file.name +&apos;&quot;,&quot;state&quot;:&quot;SUCCESS&quot;}&apos; 
+            return HttpResponse(pack_as_json(att.as_dict()), mimetype=&apos;application/json&apos;)
+        else:
+            return False
+</code></pre><hr>
+<p><img src="https://note.wiz.cn/unzip/3eb90c0e-f584-11e0-a072-00237def97cc/1083d116-57f0-1c3c-6f41-368045854997.temp/index_files/c9c7d158802b2bfef9992a8d14f672c9.png" alt="对话框"></p>
+<p>此外，前端的编码比较轻松，主要使用ajax的方法获取信息，然后进行相应操作，没有使用很深奥的技术，其中实现的一个简单的聊天对话框，是定时向服务器查询，是否有新的对话，如果有便显示出来。我查看过新浪的发送请求方式，它的查询间隔稍微大一点，可能是检测了用户的活跃程度，但是在网页上实现这样的对话框，总还是要做查询的，新浪用的是专门的子域名。</p>
+<pre><code>http://12.98.web1.im.weibo.com/im?jsonp=parent.org.cometd.script._callback23&amp;amp;message=%5B%7B%22channel%22%3A%22%2Fmeta%2Fconnect%22%2C%22connectionType%22%3A%22callback-polling%22%2C%22id%22%3A25%2C%22clientId%22%3A%2219mud2o31wmsmzzr4bqfd1ag9e1uzm%22%7D%5D&amp;amp;1399900582273
+// 以上是新浪的请求方式，使用的是jsonp的方式
+
+// 源代码片段 dialog.html
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(document).ready(function(){
+        // 设置ajax的csrf_token
+        $.ajaxSetup({
+            headers: { &quot;X-CSRFToken&quot;: getCookie(&quot;csrftoken&quot;) }
+        });
+
+        // 对话popover
+        $(&quot;[data-toggle=popover]&quot;).popover({
+            html:true,
+            selector: &apos;.msg_list&apos;
+            // container: $(this).find(&apos;.popover_container&apos;)
+        }).popover(&apos;show&apos;);
+
+        // 监听提交事件，并从服务端获取
+        $(&apos;.send_btn&apos;).click(function(e){
+            e.preventDefault();
+            console.log(e);
+            // $(this).parents(&apos;form&apos;).submit();
+            // get new msg from server
+            var msg_to = $(&apos;#send_form&apos;).find(&quot;[name=msg_to]&quot;).val();
+            var msg_content = $(&apos;#send_form&apos;).find(&quot;[name=msg_content]&quot;).val();
+
+            $.post(&quot;/send_msg/&quot;, {&quot;msg_to&quot;: msg_to, &quot;msg_content&quot;: msg_content},function(data){
+                if (data)
+                {
+                    // 清除输入框
+                    $(&apos;#send_form&apos;).find(&quot;[name=msg_content]&quot;).val(&quot;&quot;);
+                }
+            });
+        });
+
+        function get_new_msgs()
+        {
+            var max_index = $(&apos;.msg_text:last-child&apos;).attr(&apos;index&apos;);
+            // alert(max_index);
+            var max_time = $(&apos;.msg_text:last-child&apos;).attr(&apos;post-time&apos;);
+            var from_user_id = {{from_user.id}};
+            var to_user_id = {{to_user.id}};
+
+            $.getJSON(&quot;/get_new_msgs/&quot;, {
+                                &apos;max_index&apos;: max_index,
+                                &apos;max_time&apos;: max_time,
+                                &apos;from_user_id&apos;:from_user_id, 
+                                &apos;to_user_id&apos;:to_user_id}, function(data){
+                console.log(data);
+                // 追加到消息末尾
+                for(var i=0, n=data.length; i&lt;n; i++)
+                {
+                    var $new_msg = $(&apos;.msg_text_temp&apos;).clone();
+
+                    $new_msg.attr(&apos;index&apos;, data[i].id);
+                    $new_msg.attr(&apos;post-time&apos;, data[i].post_time);
+                    $new_msg.find(&apos;button&apos;).attr(&apos;data-content&apos;, data[i].content);
+                    $new_msg.find(&apos;button&apos;).text(data[i].from_user);
+                    if (data[i].from_user_id=={{from_user.id}})  // 对方
+                    {
+                        $new_msg.find(&apos;button&apos;).addClass(&apos;pull-left&apos;).attr(&apos;data-placement&apos;, &apos;right&apos;);
+                    }
+                    else    // 己方
+                    {
+                        $new_msg.find(&apos;button&apos;).addClass(&apos;pull-right&apos;).attr(&apos;data-placement&apos;, &apos;left&apos;);
+                    }
+
+                    // 显示用户名
+                    $new_msg.removeClass(&apos;msg_text_temp&apos;).appendTo($(&apos;.msg_list&apos;)).show();
+                    // 显示对话
+                    $new_msg.find(&quot;[data-toggle=popover]&quot;).popover({
+                        html:true,
+                        selector: &apos;.msg_list&apos;
+                    }).popover(&apos;show&apos;);
+
+                    // 拉动滚动条到最底部，显示最新消息
+                    $(&apos;.msg_box&apos;).scrollTop($(&apos;.msg_box&apos;).scrollTop()+100);
+                }
+            });
+        }
+
+        // 每500ms获取新消息
+        setInterval(get_new_msgs, 1000);
+
+        // 对话列表的滚动监听
+        // $(&apos;.msg_list&apos;).scrollspy({ target: &apos;.navbar-example&apos; })
+
+    });
+&lt;/script&gt;
+</code></pre><p>##部署项目<br>项目是在sae或bae上创建一个应用，然后使用svn版本管理器同步到本地进行开发，要发布或在线测试的时候就提交到sae上。bae虽然看起来强大，但是有个图片PIL库的某个依赖没有处理好，迫不得已转回了sae，sae运营比较长时间，各种需求bug都已经有人提过，自然就比较齐全。其实最好的还是腾讯或阿里的云服务，可以直接VPS，什么开发环境都可以自己部署，而且阿里云比较高性能，速度快。</p>
+<p>##测试</p>
+<p>发现了一个用于做压力测试的工具，webbench，用来模拟大量的客户端并发地访问网站页面，从而测试性能，例如使用一个命令进行：</p>
+<pre><code>webbench -c 5000 -t 30 http://127.0.0.1:8000/index/
+Speed=5322 pages/min, 1266426bytes/sec.
+Requests: 2619 susceed, 42 failed.
+</code></pre><p><img src="https://note.wiz.cn/unzip/3eb90c0e-f584-11e0-a072-00237def97cc/1083d116-57f0-1c3c-6f41-368045854997.13610/index_files/b78dffce76928aabe66832d9368ed49a.png" alt="测试"></p>
+<p>得到的表单使用ascii_chart这个小工具，从数据文件data中读取并自动绘制。</p>
+<pre><code>ascii_chart -TX -t &quot;fail response&quot; -X &quot;client num&quot; -Y &quot;fail num&quot; &amp;lt; data
+</code></pre><p>##成果<br>感兴趣的同学可以点击这里访问<a href="http://idianping.sinaapp.com" target="_blank" rel="noopener">idianping</a>网，这里对大众点评网做了一定的模仿。模式上将LBS-SNS-EC三者联系在了一起，虽然说没有第三者的生活才是幸福的，这句话还是有一定道理，但是我觉得只要将数据打通了，想以怎样的方式接入都可以。</p>
+<p><img src="https://note.wiz.cn/unzip/3eb90c0e-f584-11e0-a072-00237def97cc/1083d116-57f0-1c3c-6f41-368045854997.temp/index_files/2a48a30af4e508cbc8b1c3ea40653c36.png" alt="购物车"></p>
+<p>##其它<br>该毕业设计最终候选为优秀毕业论文，得到了老师的肯定。但其实我知道，还有很多技术细节没有实现，而这个网站目前的应用性也很弱，毕竟只是一个实验品。不幸被老师言中了，在毕业设计完成答辩之后，我是没有什么动力去完善整个网站了。</p>
+<p>临近毕业，又没有去实习，生活显得有点空洞，我的本意是留多一点时间将大学学过的知识巩固一下，包括算法和数据结构，linux的编程，工作中要使用的C#，都需要花时间去钻研。但事实是，放假后的日子过得很堕落，压根没有时间学习，一直在跑朋友的毕业照，虽说想去旅游，但由于经济和天气的原因，去的地方也很有限。</p>
+<p>最近一直在睡，在玩，再加上空间被流氓攻击，流量消耗太快，导致网站关闭，所以拖了很久才写这么一篇博客，今后将慢慢恢复写作习惯，多思考，多总结。</p>
+<hr>
+<p>end</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/05/12/聊聊人们的思考模式/" itemprop="url">
+                  聊聊人们的思考模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-05-12T15:23:16+08:00" content="2014-05-12">
+              2014-05-12
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2014/05/12/聊聊人们的思考模式/" class="leancloud_visitors" data-flag-title="聊聊人们的思考模式">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+聊聊人们的思考模式
+===
+
+by bibodeng 2014-05-05
+
+前段时间和文杰聊天，我问到了他是怎么思考问题的？为什么会好像某些问题，你总能够巧妙地想到，而这个过程又是怎样的？是刻意的还是下意识的。我提出了这么一大堆的问题，文杰跟我慢慢聊。
+
+正好这几天也在看《失控》这本书，书中涉及了生物生态学，哲学，计算机网络等等方面，想象大胆，而且也暗示着我们未来的方向，也就是这个世界慢慢走向失控，机械也将变得更加自由，有自己的意识，能够自我统治。作为人类我们一直具有某种优越感，觉得自己是万物之灵，拥有真正的意识和智慧。而事实上，意识其实是一种群体所涌现出来的属性，是足够复杂的具备自治的个体聚集成自我认知和自我控制的一种存在。脱离了物质，意识无从寄托，我们的意识，也即是全身系统细胞群体涌现的存在。
+
+我们在思考某个问题的时候，我们的大脑是分区域分工的，但我们不知道里面是怎么分工的，我们知道整个自我意识（身体里的细胞群体涌现）之外的，却很难知道自己脑子里面怎么想的，因为脑子里没有像眼睛鼻子一样的传感器，大脑切掉一部分还是可以思考。这很大程度上也佐证了，我们的意识是一个群体涌现，而这给我们很大的启发性。让有自治能力的个体去以一种群体模式聚集，即使个体数量有小变化，也对整体影响不大。
+
+当我们在思考时，我们其实不会去留意自己是怎么想的，固化在脑海里的东西，你不知道它如何蹦出来，而你反复需要努力思考的东西，是有迹可循的。其实我们所接受的训练，无论是口语，还是游泳，单车，算术，这些都是熟能生巧，这是一个不断固化的过程，知道最后成为一种条件反射。而我们惊讶于聪明天才的奇思妙想，其实很可能是他的长时间训练固化，或者是天生就有这样的思维回路。文杰他也是这么说的，他说他想问题的时候也是这样，觉得是一个很自然而然的过程，就比如做数学题，你试试这个条件，推导出一些东西，然后又发现新的东西，渐渐地就完成了整道数学题。高中时代，我遇到过很多真正称得上聪明的人，他们思考的方式也是很巧妙，能够发现问题中的关键所在，甚至用不同的角度解题，又快又妙。
+
+我问，你解决一个问题的时候，你是否会问自己，这个问题的本质是什么，可以抽象成什么？就比如你当初解两个5L和6L水壶如何倒出3L水那个问题一样，你是否有去思考一个更加抽象的模型，如 5*a-6*b = 3, 可以通过尝试得到a=3,b=2,这样整个思路就出来了，将5L的一直灌满，再倒到6L的容器中去，那么今后遇到任何这类的问题，你都有了一个解决的模式。他说他没有刻意这么想去抽象它，而是之前的思考或者知识导致他很快地想到了这个问题的解法。
+
+当我们还像一个老鼠一样四处乱撞的时候，聪明人已经站在制高点俯瞰全局了，并且快速走出了迷宫。嗯，就是这样的，思考的量(之前的学习量)和角度，决定你思考的质量。有很多时候，天才并不怎么努力，也可以得到结果，但是作为一般人来将，通过努力，量变引起质变，有可能让自己稍微聪明一点。
+
+---
+end
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/03/09/观《坂上之云》/" itemprop="url">
+                  观《坂上之云》
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-03-09T10:44:15+08:00" content="2014-03-09">
+              2014-03-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2014/03/09/观《坂上之云》/" class="leancloud_visitors" data-flag-title="观《坂上之云》">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<div><span style="font-size:16px;">昨天晚上看完了《坂上之云》这部长日剧，阮一峰老师也</span><a href="http://www.ruanyifeng.com/blog/2009/12/clouds_over_the_hill.html" target="_blank" rel="noopener"><span style="font-size:16px;">推荐过此剧</span></a><span style="font-size:16px;">，觉得拍的很好，深受启发，尤其是日本崛起的时代，它的国民如何积极进取，斗志昂扬。而这也更坚定中国热血青年今后复兴中华的决心，以及今后中国之发展，是否能够健康而高效。</span></div>
+<span style="font-size:16px;"> </span><div><br>
+</div>
+<span style="font-size:16px;"> </span><div><span style="font-size:16px;">弱肉残食，亘古不变之理。野猪野狗之于山野，食物链中层，食植物、羊兔，虎豹之于山野，食物链上层，则食野猪野狗，人之于山野，若不以智力想方设法，则未必敌过野猪野狗。然而如果像《荒野求生》中一样，用技巧和思考为工具，则能在艰险环境中存活。创造有利条件，维持自己的生存是很重要的，却也避免不了弱肉残食。是以人以智为贵，生而不聪明者，以学为贵，学而至于智也。在帝国主义时代，便是如此，中国被百般蹂躏，先是西方列强英法联军，后来日本效仿西方强大了，参与八国联军，后是日俄侵占东北，并在此开战，后又是日本全面侵华。经过如此半个世纪，中国才渐渐抓到了重点，走上了独立自主的道路。也亏先行者及马克思主义哲学，与一帮聪明能干的有志青年，辛勤创业，才让中华民族得了解放，中国走出了一条新路（效仿+创新），倒也不失中华民族之根本，思今日之繁荣，来之不易。独立自主向来是国家根本，自己的事情能够自己做主，才算是成人了独立了，固其根本，根深则脉达，方能够国家富强。若大权在旁人之手，各种胁迫掣肘，将一事无成。</span></div>
+<span style="font-size:16px;"> </span><div><span style="font-size:16px;"> </span></div>
+<span style="font-size:16px;"> </span><div><a target="_blank" href="/content/plugins/kl_album/upload/201403/4b6468454b921cb8fa34e59b61be628720140309024635894411347.jpg"><img src="/content/plugins/kl_album/upload/201403/4b6468454b921cb8fa34e59b61be628720140309024635894411347.jpg" width="480" height="271" title="点击查看原图" alt="2014-03-09" border="0"></a></div>
+<span style="font-size:16px;"> </span><div><span style="font-size:16px;">图为丁汝昌访问日本横须贺港，神情甚是威武，然而最终却一败涂地。</span></div>
+<div><br>
+</div>
+<span style="font-size:16px;"> </span><div><span style="font-size:16px;"> </span></div>
+<span style="font-size:16px;"> </span><div><span style="font-size:16px;">大清之所以在甲午战争的时候败给日本，是因为日本从上层觉醒，自上而下改革，故而通行无阻。中国先于日本引进西洋技术，是为“师夷长技以制夷”。然而此种觉悟若不由首脑而出，必然处处受阻，首脑之所指，手足皆可使，而四肢之所指，效用微也，如慈禧太后阻挠变法者，如挪用军费以过生日者，如因私恨而冷落忠勇之士者，如贪生怕死而弃船弃炮者，皆自私而不顾千万百姓之死活，是故曾李数十年经营毁于一旦，生灵遭于涂炭。夫中国人也，当不失先贤之仁爱之心，亦应有中华之血性，智则应博览群书，汲取世界璀璨文明，体则应克勤克俭，锻炼身心。今后中国之发展，必定由技术转为创新，方能像美国如此强大，引领世界潮流。夫中国之大学生，更加应当立身，立业，国家民族方能长盛不衰。这便是我的中国梦。</span></div>
+<div><br>
+</div>
+<span style="font-size:16px;"> </span><div><span style="font-size:16px;"> </span></div>
+<span style="font-size:16px;"> </span><div><span style="font-size:16px;">人生当有两件大事，不仅仅是结婚生子，生老病死，支撑着整个人生的是——劳动，思考。有一天，一个同学问我，你认为上帝存在吗？我回答说“不吧”，一来没有见到过，就算有它也不会让我看见。大抵有用的东西，都衍生自思考和劳动，而思考和劳动的题材，不拘一格，也最是应该自由的东西，思考应当自由，劳动不应该被强迫。所谓的真理，都是这样出来的吧，而不是上帝说了算的，而世间自然而有的定律规则，也必定是在一定条件下可以适用，而谁也不敢打包票，这个肯定是永远不错的。我相信必定如我们所看到的规律中亦有偶然，偶然中形成规律那样，等着我们去探求，等着我们去改变。</span></div>
+<div><br>
+</div>
+<span style="font-size:16px;"> </span><div><span style="font-size:16px;"> </span></div>
+<span style="font-size:16px;"> </span><div><span style="font-size:16px;">by bibodeng 2014-03-09</span></div>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/02/16/假期小记/" itemprop="url">
+                  假期小记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-02-16T08:57:05+08:00" content="2014-02-16">
+              2014-02-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2014/02/16/假期小记/" class="leancloud_visitors" data-flag-title="假期小记">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="假期小记"><a href="#假期小记" class="headerlink" title="假期小记"></a>假期小记</h1><p>by bibodeng 2014-02-12</p>
+<p>我的假期即将结束了，一切都过得这么快，眨眼间，一个月的假期就说要结束了。短短的30天，做的最多的就是睡和吃了，一秤发现，两斤到手。</p>
+<p>如此放松的假期中，陪父母的时间算比较多，因为除了出外聚会，走亲访友，都呆在家里。一家人围炉而坐，看着各种文艺汇演，聊聊家常，听母亲唠叨，然后低头看看双亲的手掌，又平添了几多皱纹。</p>
+<h2 id="时间都去哪儿了"><a href="#时间都去哪儿了" class="headerlink" title="时间都去哪儿了"></a>时间都去哪儿了</h2><p>当听到那首《时间都去哪儿了》不免得感动得涕泪齐下，父母都还年轻，但是谁没有老的时候，想想未来我们渐渐成熟，他们也变得老了。也许来不及好好看看他们，陪陪他们，时间就这样走了。俗话说男儿有泪不轻弹，只因未到伤心处，小时候，总觉得要做一个孝子贤孙，在祖父母，父母膝下好好尽孝，现在却发现自己做的远远不够。所谓百善孝为先，心中有父母长辈，才会有所牵挂，做一只有线的风筝，踏踏实实去飞。</p>
+<h2 id="读书睡觉的日子"><a href="#读书睡觉的日子" class="headerlink" title="读书睡觉的日子"></a>读书睡觉的日子</h2><p>过年前后，都是很闲的日子，尤其是天冷的时候，更加是都是在床上打发的。于是就找了些小说等闲书来看看。</p>
+<p>《天龙八部》家里的卫星信号不太好，而天龙八部这部经典我都没有看完，是以在kindle上看完了。金庸的小说，乍读一点，好像平淡无奇，但是读着读着便大开大阖，波澜壮阔。情节是丰富的，人物更加是令人想不到，但是我也发现了有几处牵强之处，但总体还是情节波澜起伏。例如如何阿紫和甘星竹等会在小镜湖遇到，而且乔峰的迷案最终把阿朱给害死了，这可纠结得紧。但是好歹有这些情节供我消遣，也不至于无聊。</p>
+<p>《日本简史》，日本这个岛国，倒是很牛逼的，虽然它不比得大陆有灿烂的五千年文化，但是其发展也是很惊人的，唐朝时代，日本受大陆影响蛮大，从服饰，文字，宗教（主要是佛教）方面都可以看出来。具体的什么天皇名字和年号我是不会去记的，但是几个时代如推古时代，飞鸟时代，镰仓幕府时代，德川幕府时代我还是记得一点的。其宗教方面佛教，神社，基督等历程，脉络稍微清晰一点。但是日本的政治让人感觉很累，一开始是天皇统治，无比神圣，再然后是太上皇院政（偶尔夹带一个关白摄政时代）掌握实权，控制了天皇的权利,再然后就是幕府大将军控制公家，后面又是幕府里面的执政控制幕府。直到最后倒幕，又恢复了天皇为中心的公家政治，即后来的明治天皇（其后出现过门阀内阁），最后形成了类似英国的君主立宪政体，多党轮番执政。由于外来的侵略和自身发展的需求，日本模仿欧洲资本主义国家渐渐走上了富国强兵的路线，并且还准备殖民朝鲜半岛和中国大陆。并在20世纪30年代受军国主义影响，走上了殖民侵略的道路。发动了侵华战争和太平洋战争，侵略了菲律宾，缅甸等东南亚国家，还炸了美国的珍珠港，后来把老美惹恼了，在战争的后期，盟军反攻，在日本投放了两颗原子弹，并且空袭日本大多数的城市。日本投降，接受美国的军事管制和改造。六十年代，改造完成，日本慢慢独立，并且在七十年代，在经济上迅速崛起。然后八十年代遭遇危机，崛起速度减缓，但是慢慢成长为世界经济第二大国，也成为了政治大国。看日本的发展，我们就会在它身上看到一些我们国家的影子（经济和国民生活水平方面），我们正处在人家90年代的处境，但我国人口基数大，后续的发展应该也是慢慢从高速发展转到健康稳步发展，生活水平和环境将在未来10年有较大提高。但日本的政治，三天两头搞选举，换首相，换内阁，内阁执政最长的能够达到7年，最短的几个月就over了。而我们国家的往往一班领导人要干两届——10年，这十年相对稳定，政策能够得以推行，当然国家大也不由得随随便便经常搞选举。</p>
+<p>《一只特立独行的猪》，王小波的文字一如既往地幽默。聪明的男人常常讽刺，无论是自嘲还是这个社会上所有的不假思索的理所当然。嘿嘿，看这本书的时候我一时而癫狂发笑，时而沉静不语。当然书中的观点我未必都同意，况且啥事总好像扯到了文化大革命等。但是他教给我的是各种角度看问题，这样不仅全面而且也更加有趣了一点。王小波的三个假设： 人都是爱智慧的，人都是爱美的（或者叫好色），人都应该有趣。我觉得这三项，光听上去就已经能够打动我的心，让我举双手赞成。建议爱智慧的同学，都读读他的文字，里面有种熠熠生辉的光。</p>
+<p>《魔鬼搭讪学》，看看人家怎么做搭讪犯的，当然我也只是看看而已，并不打算满大街去练这个搭讪的技术。人与人相处当自然，该怎么样就怎么样，不必压抑，也不要太过刻意，这样才活得快活。有一阵我在怀疑，如果自己真这样去做了，是不是就是流氓啊。我想，也没有那么严重，王小波说过，食色性也，如果不解决，就会成为人性的阻碍。虽然不怎么懂，但是我想大概就是顺应自然，如果脑子要想这类事情，那就让它想一会，不要去压制这些个念头。我等宅男们爱情上的失败，其实是策略上的失败，并不是说不够好，而是关键的时候给搞砸了。以前我以为只要勤奋上进，气质优雅，喜欢的女生就能也喜欢你，可是这其中复杂得去了。我认为<a href="http://www.projectup.net/blog/index.php?option=com_content&amp;view=article&amp;id=7760:2012-01-06-04-43-29&amp;Itemid=24" target="_blank" rel="noopener">《为何会拿好人卡》</a>这一系列写得很好，真正写出了人文关怀，写出了水平。</p>
+<p>《DOOM启示录》，这个就不讲了，可以翻我的日志<a href="http://user.qzone.qq.com/1258288691/blog/1390480216" target="_blank" rel="noopener">《做自己的英雄》</a>。</p>
+<p>《释迦牟尼传》，算是浏览了一遍佛的故事吧，也懂了一些常用佛教术语，看《天龙八部》中就会有所印证。我家里的妈妈，算是有点迷信（信得入迷了，哈哈），想来农村出身的妇女多多少少都会，其实真正的佛教依然是爱智慧，没有一定的知识和佛性，还真理解不了佛的真谛，甚至那些四谛啊，佛经名字啊都不见得知道，却又怎么知道它的修行呢。只能是在佛的弟子的度化下，一心向善，并且得到部分的解脱。唉，可惜世人没有机缘去得到这些启示，就算是得到启示，便也一颗心如磐石般顽固不已。尤其是作为弱势群体的文盲而言，不得门而入，故而贪嗔痴却不自知，其实凡人身上皆有贪嗔痴，只不过有人更甚，并难以化解，纵使一些饱学之士，身居高位的人难免因此而堕落。而当今又鲜有和尚去弘扬佛法，都去搞旅游业去了。况且当代主流思想是社会主义，但是现在都不搞啥革命了，更加不会去了解什么资本论，这些关乎政治的思想便脱离了普通百姓，成为官员精英的特有物了。另我非佛门弟子，但爱智慧的心促使我去了解一些宗教相关的东西。 </p>
+<h2 id="高中同学聚会"><a href="#高中同学聚会" class="headerlink" title="高中同学聚会"></a>高中同学聚会</h2><p>雄中2007届高一一班聚会了一次，大家都有了一些变化，女生都有气质了变漂亮了，男生貌似没有很大的改变（外形上）。只不过有些同学已经很陌生了，可能几年不叫的名字也忘了。整个聚会，都没怎么说话，聊的最多的就是和谢文权（老piao）聊关于计算机和医学的职业内容，老piao的发型有个性，我喜欢。其实，这种聚会大抵没有什么好聊的，无非是追忆当年，和前后桌的同学调侃一下，然后问问专业，最近的动态，找到工作没有，然后交换一下电话或者加一下微信。也许过几年再聚就是你在哪工作，有对象没有啊，结婚没有，买房没有啊等话题。不过能够见见老同学，也是挺开心的，至少能够知道同学都怎么样了，好朋友能够见上一面聊聊（想到这里不禁可惜召鸡没来），总算见到了很久都见不到的郭巨炮，还是那个身形，拥抱一下，好熟悉。吃饭时坐旁边的李全依然是这么低调安静，黄老板说话还是他的风格。希望大家都能够成为梦想的样子，啥也不说了，上照片：</p>
+<p><img src="http://b137.photo.store.qq.com/psb?/8214c423-135f-45cc-8d6d-9231284b6681/UPlRDRN44Pskt1ujKy2w1LQ0RvtUoiXU1ck.VWz*UVU!/b/dOLLsVHgGQAA&amp;bo=xgOAAgAAAAABAGA!&amp;rf=photoDetail" alt="高中同学聚会"></p>
+<h2 id="技术上的习得"><a href="#技术上的习得" class="headerlink" title="技术上的习得"></a>技术上的习得</h2><p>放假前那种雄心壮志彻底没有了，什么新学nodeJS的目标统统抛到九霄云外去了，只是看了一半《the linux command line》,将命令行的那些工具学习了一遍。一想到今后要从事.net的工作，我的菊花都紧了，毕竟都习惯了一个平台，没了之前的顺手的工具，将会是多么地麻烦啊。</p>
+<h2 id="2014的计划"><a href="#2014的计划" class="headerlink" title="2014的计划"></a>2014的计划</h2><p>都说一年之计在于春，春天就是要订立一年的计划，然后勤奋地开始工作。明年的重中之重在于安定下来，完全适应工作的生活。</p>
+<p><img src="http://b138.photo.store.qq.com/psb?/V12qSyDE2PImx6/K8zrNTLk4o06yThiqCtOKCPdWrKb1r8XQAUfe2rPPoQ!/b/dO5jUFJUFAAA&amp;bo=sgOAAgAAAAADABY!&amp;rf=photoDetail" alt="2014年计划"></p>
+<hr>
+<p>end</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/01/25/linux下的幸福生活/" itemprop="url">
+                  linux下的幸福生活
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-01-25T17:59:14+08:00" content="2014-01-25">
+              2014-01-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2014/01/25/linux下的幸福生活/" class="leancloud_visitors" data-flag-title="linux下的幸福生活">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="linux下的幸福生活"><a href="#linux下的幸福生活" class="headerlink" title="linux下的幸福生活"></a>linux下的幸福生活</h1><p>by bibodeng 2014-01-25</p>
+<p>##程序员在意什么？</p>
+<p>linux，对于程序员来说，是一种生活方式。程序员最追求的是什么呢？我觉得有两点，一是速度，二是功能强大。这两个都是体验的重要组成，一个平台下的工具是否够速度，用起来爽，决定着我们的喜爱程度。毫无疑问linux是强大的平台，涌现着一大批的优秀软件。</p>
+<p>##我最喜欢的工具（们）</p>
+<p>命令行，作为一个程序员，在命令行中确实能够领略到速度带给我们的快感。我们甚至可以牺牲华丽的UI，而只是希望它更快点。在这点上，和“玩家”对待自己的跑车是一样的。而且*inux的设计原则是简单即是美，工具与工具之间的协作，令整个系统的功能变得强大。这还不算自己动手编程的部分呢，譬如linux它自带的那些工具，就已经让我惊叹了。绝对比一般的工具要强大，所给的信息要详尽，所给的操作选项又是这么的灵活。虽然有人觉得那个man（manual）手册太难读了，但是体会过了，我才发现这样的生活方式的确是高效的。即使我只有一个终端命令行，我也能干很多事情。这很大意义上像闭着眼睛去做这些事情一样，让你有种很酷的感觉。但是这样的快感是基于一定的熟练程度上的，没有适应的时候只会觉得别扭。所以说，这是一种生活方式，一种极客们专用的极简高效的生活方式（因为一般人不会这么去折腾）。</p>
+<p>linux下有些软件极大地便利了我们：</p>
+<ul>
+<li><p>guake 这款软件可以让你随时用F11调出命令行。真正的随叫随到，并且可以设置透明背景。实在是酷毙又实用。</p>
+</li>
+<li><p>cairo dock 非常强大的模拟苹果的工具条，看起来和苹果的一样，用起来非常的爽。也是随叫随到。</p>
+</li>
+<li><p>easystroke 自定义鼠标手势，瞬间就完成了程序的调出，命令的执行。但是它和我趋向键盘的方向相反，故而弃置不用。如果用按键来绑定程序，那才叫一个爽。</p>
+</li>
+<li><p>stardict 星际词霸，四川大学胡正写的软件，可以下载海量词典，然后可以屏幕取词，其命令行版本sdcv在命令行中快速查询词典。</p>
+</li>
+<li><p>task 强大的GTD工具，在命令行中就可以记录，并且具有强大的统计和导出功能。因为在linux下用wiz没有任务列表，而nitro这个任务列表软件即使很华丽漂亮，但是还是觉得不够爽。</p>
+</li>
+</ul>
+<p>还有很多其它工具，不能一一列举，感兴趣的可以参考俺之前写的<a href="">《程序员工具篇》</a>。</p>
+<p>##喜欢需要理由吗？</p>
+<p>为什么会喜欢命令行工具呢，因为它能够让我在一个流里面，这样工作起来非常地流畅。就像我们在黑板上写字，然后可以随意擦除，不需要我们的手去碰鼠标，也不需要我们的眼睛转来转去。这是真正在用脑子工作，就像在草稿纸上做运算一样，让手随心而动，手可以盲打，而鼠标你盲点给我看看。快捷键给我们带来的快感，是因为其速度上的优越性。但是其代价是学习成本高，需要理解而各种命令的功能和用法，需要勤学苦练。</p>
+<p>但是我觉得如果你真的是一个爱好计算机科学的人，那么至少要尝试一下命令行这个工具。如果你有一台mac，你可能会过着很幸福的生活，但是如果你有一台对linux支持良好的PC，例如thinkpad（最好是X或者T系列的），那么你照样也能体会到各种美妙的体验。</p>
+<hr>
+<p>end</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/01/25/task命令行GTD工具用户手册/" itemprop="url">
                   task命令行GTD工具用户手册
                 </a>
@@ -1064,761 +1798,11 @@ mix(ClassB, ClassA); // 将method1给混到ClassB中去
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/12/02/简析js设计模式接口基础/" itemprop="url">
-                  简析js设计模式接口基础
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-12-02T19:56:41+08:00" content="2013-12-02">
-              2013-12-02
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/12/02/简析js设计模式接口基础/" class="leancloud_visitors" data-flag-title="简析js设计模式接口基础">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="简析js设计模式接口基础"><a href="#简析js设计模式接口基础" class="headerlink" title="简析js设计模式接口基础"></a>简析js设计模式接口基础</h1><p>by bibodeng 2013-12-02</p>
-<p>想起要对js设计模式中一些基础的代码做一个简单分析，让自己印象更加深刻。例如接口，继承，闭包等等，方便以后要的时候直接拿来。</p>
-<h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>接口，学过Java的同学肯定知道，声明一个接口，里面有若干方法，而一个类负责实现（<code>implements</code>）它，语言本身的机制会强制该类必须实现接口中声明的所有方法，否则就会报错。实现接口的目的是为了提供一组通用的叫法，让不同的对象实现它。很常见的就是在组合模式中，父元素和子元素都实现了相同的接口，从而可以很直接地将请求从任意一层传递下去。总之，接口能够提供一个通用的方法库，也要保证各类都有实现所有方法。接口在js中的实现方法有三种： </p>
-<ul>
-<li>注释法 （就是用注释来说明）</li>
-<li>属性检查法</li>
-<li>duck type(会呱呱叫的都是鸭子)</li>
-</ul>
-<h2 id="属性检查法"><a href="#属性检查法" class="headerlink" title="属性检查法"></a>属性检查法</h2><p>注释法就不详细看了，因为它就是用注释声明一些接口，而不做任何检查，完全靠人工检查是否实现了相应的方法。而属性检查法，相对来讲严格一点，它将一组接口的名字都放入一个数组中。</p>
-<pre><code>// 这是后面组合模式表单的一个例子
-var ClassA = function(){
-    // 声称自己有一组接口
-    this.interfaces = [&apos;Composite&apos;, &apos;FormItem&apos;];
-}
-</code></pre><p>为了检查是否实现了相应的接口，就检查该类的实例是否具有某个接口，这个某个接口是作为字符串传入需要检查的接口名。</p>
-<pre><code>// 模仿implements
-function implements(obj){
-    // 对传入的参数（接口名进行检查）
-    for (var i=1; i &lt; arguments.length; i++)
-    {
-        var interfaceName = arguments[i];
-        var interfaceFound = false;
-        // 检查声称的接口 比对两个数组需要两个循环
-        for (var j=0; j&lt;obj.interfaces.length; j++){
-            if (obj.interfaces[j] == interfaceName){
-                interfaceFound = true;  // 接口j找到了
-                break;
-            }
-        }
-        // 只要有一个接口没有实现
-        if(!interfaceFound){
-            throw {
-                name: &apos;interface error&apos;,
-                msg: &apos;some interfaces not found in obj&apos;
-            }
-            return false;
-        }
-    }
-    return true;    // 全部通过检查
-}
-
-// 调用方法
-if (!implements(obj, &apos;Composite&apos;, &apos;FormItem&apos;)){
-    ...
-}
-</code></pre><p>这次只是把这些接口名都放到一个数组中，但是还是没有确保在<code>ClassA</code>中实现接口中的方法（还是以注释的方式说明）。在实践中看起来也没啥用处。我们需要的是真正能够检查对象的方法，我们瞬间想到了<code>for (var index in obj)</code> 对每个方法进行检查。而我们的接口，也应该放在一个像这样的对象中，它能够维护接口的名字和各种方法名。</p>
-<pre><code>{
-    interfaceName: &apos;Composite&apos;,
-    methods: [&apos;add&apos;, &apos;remove&apos;, &apos;getChild&apos;]
-}
-</code></pre><p>初步的思想是有了，但是实现要灵活，能够生成一个如上的对象。<code>duck typing</code>就是这样做的：</p>
-<h2 id="鸭式辨形"><a href="#鸭式辨形" class="headerlink" title="鸭式辨形"></a>鸭式辨形</h2><p>会呱呱叫的两只脚走路的会游泳的就是鸭子。我们生活中常常是一个经验主义者，通过这样的方法来判断事物。所有，理解起来也不是很难：</p>
-<pre><code>// 接口对象
-var Composite = new Interface(&apos;Composite&apos;, [&apos;add&apos;, &apos;remove&apos;, &apos;getChild&apos;]);
-
-// 要得到上面的对象，我们写一个构造函数专门用来新建接口对象
-function Interface(interfaceName, methods){
-    this.interfaceName = interfaceName;
-    this.methods = methods;
-    // new操作将返回this
-}
-
-// 如果要严密一点，就需要检查参数的个数和类型
-</code></pre><p>这次就不用注释了，而且代码很明了。声明了一个接口对象Composite,它的名字叫做<code>Composite</code>,具有<code>add</code>，<code>remove</code>，<code>getChild</code>三个方法。那么如何声明实现了该接口，并且用什么来确保对象实现了我们接口声明的方法呢？</p>
-<p>这次都不用声明实现了该接口，只要实现了相应的方法就是实现了该接口。所以不用显式地声明<code>implements</code>了什么。而是在某个方法之前用<code>ensureImplements</code>来检查。至于设计成<code>Interface</code>的内置方法，还是普通函数，都是可以的。</p>
-<pre><code>// obj, interf1, interf2
-Interface.ensureImplements = function(obj){
-    if (arguments.length &lt; 2){
-        throw new Error(&quot;arguments require for at least 2&quot;);
-    }
-
-    // 依次检查 这次的参数是interface实例，不再是字符串
-    // 而一个字符串数组也变成了真正的对象的属性
-    for (var i=1; i&lt;arguments.length; i++){
-        var interface = arguments[i];
-        // 严格的类型检查
-        if (interface.constructor !== Interface){
-            throw new Error(&quot;argument &quot; + i + &quot; is not the instance of Interface Class&quot;);
-        }
-
-        for (var j=0; j&lt;interface.methods.length; j++){
-            var method = interface.methods[j];
-            if (!obj[method] || typeof obj[method] !== &apos;function&apos;){
-                throw new Error(&quot;ensureImplements error: method&quot; + interface.methods[j] +
-                    &apos; in interface &apos;+ interface.interfaceName + &apos; was not found.&apos;);
-            }
-        }
-    }
-}
-
-// 调用示例
-function foo(formObj){
-    // 不满足条件回报错
-    Interface.ensureImplements(formObj, Composite, FormItem);
-
-    // 使用接口中的方法
-    formObj.remove();
-    ...
-}
-</code></pre><p>主要就是实现一个<code>Interface</code>类，供生成实例，也提供一个<code>ensureImplement</code>方法。只要引入了这个类，就可以使用new一个Interface，然后检查的方式严格要求类实现了接口中的方法。但是我总觉得少了一步，就是声明一下某个类实现了某个接口。当然也可以用数组将所实现的接口都存一个对应的应用，如<code>{&#39;Composite&#39;: Composite}</code>。但是这样看起来就不像是鸭式辨型了。</p>
-<hr>
-<p>end</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/11/29/【书】读《js设计模式》/" itemprop="url">
-                  【书】读《js设计模式》
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-11-29T11:17:51+08:00" content="2013-11-29">
-              2013-11-29
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/11/29/【书】读《js设计模式》/" class="leancloud_visitors" data-flag-title="【书】读《js设计模式》">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="读《js设计模式》"><a href="#读《js设计模式》" class="headerlink" title="读《js设计模式》"></a>读《js设计模式》</h1><p>by bibodeng 2013-11-29</p>
-<h2 id="迫切的需求"><a href="#迫切的需求" class="headerlink" title="迫切的需求"></a>迫切的需求</h2><p>接触前端大概一年了，由于许多深入的东西都不懂，所以做不出高级的东西。对于稍微复杂一点的需求，都觉得难以下手。于是意识到了要学学设计模式了，所以就翻开（准确来说是点开了）这本《javascript设计模式》。由于有了js的基础，在读了《js编程精粹》之后，对于这门语言有了喜爱和习惯，于是这本书读起来也没有太大压力。我在读的过程中，曾对照自己之前做过的一些页面功能，发现书中的模式很多是可以应用进去的，并且写出来的代码已经优雅很多，由于少了杂乱，故而维护和扩展就容易了，代码出错的几率降低很多。</p>
-<p>现在读完第一遍，我克服了自己敲代码欲望，或者说是因为懒惰而没有敲代码。过了一遍，对于设计模式总算能够几个了。装饰器，命令，组合，代理等等，像小学生一样能够掰着手指数出来了。</p>
-<h2 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h2><h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3><p>对于每一种模式，都有详细的例子帮助理解，首先各种模式的基础，首先是js的面向对象（基于对象）。声明一些单体或者是类，将数据和方法都封装起来，更进一步的，使用接口确保对象实现了某些方法。闭包的方法对对象的封装，真正做到了内外的隔离，普通的使用下划线命名方法来标示私用方法，但是闭包中只有返回的对象才能访问闭包里面的方法。这就像是一个孩子打娘胎里面出来，出来以后还能用娘胎里面的资源，有点不可思议，但这却是非常有用。闭包能做到这样是因为其上下文是词法上下文，对象方法将在其定义的地方运行。</p>
-<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><p>oop的三要素是 封装，继承，多态，封装起来的东西要能重用，就必须用到继承，而继承又有很多种，经典的是clone，另外一种是共用父对象，然后按需修改。clone需要消耗更多资源，而共用的话虽然消耗资源少容易引起冲突。</p>
-<h3 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h3><p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/2dce8da4d2a3c7480901c758f3c40c5a2013112902543112793.png" alt="js设计模式思维导图"></p>
-<p>有兴趣的话，点这里<a href="http://vdisk.weibo.com/s/cNgTU_6cNWzK" target="_blank" rel="noopener">下载</a>。</p>
-<h3 id="详细的导图"><a href="#详细的导图" class="headerlink" title="详细的导图"></a>详细的导图</h3><p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/cb5a6107522bf8d479788248cb01a0722013112902543526907.png" alt="js设计模式思维导图-大"></p>
-<p>有兴趣的话，点这里<a href="http://vdisk.weibo.com/s/cNgTU_6cNWzU" target="_blank" rel="noopener">下载</a>。</p>
-<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>后续将对一些具体的模式做笔记，通过使用代码的方式来巩固对于模式的认识。至少知道这些模式之后，对于一些功能的实现心里就有底了，这很大程度得益于本书的例子很丰富： 图书馆管理，rss阅读器，tips组件，表单组件，远程代理等等例子非常生动，严重建议搞web前端的同学读读这本经典。</p>
-<hr>
-<p>end</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/11/28/【书】人生是一场修行——读《少有人走的路》/" itemprop="url">
-                  【书】人生是一场修行——读《少有人走的路》
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-11-28T21:20:20+08:00" content="2013-11-28">
-              2013-11-28
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/11/28/【书】人生是一场修行——读《少有人走的路》/" class="leancloud_visitors" data-flag-title="【书】人生是一场修行——读《少有人走的路》">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="人生是一场修行——读《少有人走的路》"><a href="#人生是一场修行——读《少有人走的路》" class="headerlink" title="人生是一场修行——读《少有人走的路》"></a>人生是一场修行——读《少有人走的路》</h1><p>by bibodeng 2013-11-28</p>
-<h2 id="对自己负责"><a href="#对自己负责" class="headerlink" title="对自己负责"></a>对自己负责</h2><p>也许这种文字不太适合放到博客里面去，因为未必有人感兴趣。花几天看完了《少有人走的路》，也许该写写读后感，因为我对于书中的内容有共鸣。都说读书是从书中的世界里面发现自己，从这本书里面我看到了自己的影子。常人掌握控制意识的能力能够做出更加恰当的决策，而探索未知的潜意识更多是心理学家做的事情。</p>
-<p>人的意识有多个阶段：</p>
-<ul>
-<li>婴儿阶段： 自我意识很弱，潜意识和意识高度统一</li>
-<li>少年阶段： 意识形成阶段，具备一定自我意识，会遇到意识和潜意识不统一的情况，从而产生迷茫</li>
-<li>成年阶段： 具备成熟的意识</li>
-</ul>
-<p>而我们的提升，是要控制自己的意识，达到潜意识和意识的统一，从而活的更加快乐和幸福。要做到心智的成熟我们需要懂得自律：</p>
-<ul>
-<li>推迟满足感</li>
-<li>承担责任</li>
-<li>尊重事实</li>
-<li>保持平衡</li>
-</ul>
-<p>控制我们意识的主要目的就是保持和客观世界和内在潜意识的和谐一致。不得不承认心理的力量，有时强大到能够产生奇迹，这种力量来源于我们的爱和勇气。</p>
-<h2 id="人生是一场修行"><a href="#人生是一场修行" class="headerlink" title="人生是一场修行"></a>人生是一场修行</h2><p>人生挺辛苦的，这个是我长大之后体会到的。但是其实也不苦，只是稍微要付出点努力而已。派克认为人的原罪（罪过的根源）是<strong>懒惰</strong>。《追风筝的人》里阿米尔的爸爸说盗窃是一切罪过的根源，杀人是盗窃他人的生存权利。懒惰作为答案会更加深刻一点。大多数人的不幸，除了先天，多数是因为懒惰造成的。正是因为维护正义和促进自身的心智成熟需要付出艰苦卓绝的努力，所以大多数人都很懒。于我自己的影子当中，我也或多或少地察觉到那些贪嗔痴都是因为自己的不够理性，不够有智慧，从而陷入其中的痛苦中。中国的儒家，印度的佛教，欧洲的基督教，都是教导大家心智成熟的，塑造人心内的坚定信念，对世界施以仁爱，正义。当心境做到足够宽广，也就成了圣贤，菩萨。人生是一场修行，很辛苦，但是可以很精彩。</p>
-<p>如此说来，世上又有什么难事呢？只要你想，集中精力努力去做，又有什么事情是做不成的。人的聪明才智虽然有限，但是竭尽全力总不见得一无所获。</p>
-<h2 id="关于潜意识"><a href="#关于潜意识" class="headerlink" title="关于潜意识"></a>关于潜意识</h2><p>我很小的时候就仿佛体会到那种使命感，不清楚那是潜意识，还是因为阅读所引发出的我对事物和生活的热爱。《少有人走的路》中说潜意识是光明，是上帝的意识。而如果我们自己的意识有了错误，和潜意识不相互吻合，就会产生一些病态，让人痛苦。至于潜意识到底是不是上帝的意识，这很难说。也许大自然的意识是所有人所共享的，领悟它的大门随时为人们打开，里面有对事务的洞见和领悟。那些很成功的人，似乎都有一种使命感，他们或狂热地投入自己钟爱的事业，或在不断的困难中提升自己。不由得想起前段时间李开复采访库彻时说：“我相信有上帝，有神的意识”，而那些能够进入领悟大门的人，似乎都具有了与众不同的见识。其实每个人都有自己的意志，很多时候真的是看你愿意不愿意勇敢去担当这份使命而已，它可能是自己潜意识立下的使命。</p>
-<p>很重要的一种触碰到人类智慧的方法是——阅读先哲们留下的经典。听百家讲坛讲《易传》的时候有这种感觉，阅读卢梭的《忏悔录》的时候也有这种感觉（尽管里面什么大道理也没讲）。或许是人类本来就和自然连接在一起，并且潜意识很强大，知道更多我们平常没在意的事情。但是这种爱智慧的传承方法，确实令人对自然感到敬畏，也为先哲们写下的经典深深震撼。独立之人格和自由之思想，我想大概是从书籍里面开始的。一个人开窍，甚至可能因为一件小事或一段文字触动了他的神经，从此以后他便积极向上，走向心智成熟了。</p>
-<p>冥冥之中，人与宇宙是相通的。什么时候能够获得心智上的自由，那么便没有哀愁忧虑，取而代之的是悠长的幸福感，是爱。也许，这些东西很虚，但是这确实是某些人的实际感觉，只有勇于探索才能获得更多真知灼见。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/11/21/重写share2SNS/" itemprop="url">
-                  重写share2SNS
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-11-21T10:48:04+08:00" content="2013-11-21">
-              2013-11-21
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/11/21/重写share2SNS/" class="leancloud_visitors" data-flag-title="重写share2SNS">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="重写share2SNS"><a href="#重写share2SNS" class="headerlink" title="重写share2SNS"></a>重写share2SNS</h1><p>by bibodeng 2013-11-20</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前段时间，@myunlessor 兄跟我讨论的时候提到我之前用的那个分享到SNS网站的js写得并不够优雅，有许多冗余的地方。而我最近也在看javascript的设计模式，发现代理模式非常适合这种用来发送一组GET请求的情况，尤其是参数较少的时候。于是我就试着实现一个代理模式实现的版本。</p>
-<h2 id="代理模式版本"><a href="#代理模式版本" class="headerlink" title="代理模式版本"></a>代理模式版本</h2><p>代理，顾名思义就是起到一个控制作用，实现的是和本体一样的接口方法，只是在发送请求的时候，进行参数的检查，或者是动态生成本体对象，然后向服务器发送请求。@myunlesser 兄指点我用js模板方法，这个方法高明了很多，因为每个SNS平台的url参数很不一样，如果每次都要检测这么多参数，将会非常麻烦。然而它们只是名字不同而已，我们可以赋予相同的标签如<code>{title}</code>，这样可以起到一个转接的作用。故而可以使用模板的方法，将匹配到的参数填充到url中。只需要在传入参数时指定参数对，然后用<code>fetchData</code>方法组装起来。</p>
-<pre><code>var share2SNS = (function(){
-
-    // 所有url集中在一处，而且表示方法很自由
-    // 如sina的title是title+content 那么 使用${title} ${content}就能够将它们组合在一起，模板的威力可见一斑
-        var urls = {
-            sina: &quot;http://v.t.sina.com.cn/share/share.php?pic=${pics}&amp;title=${title} ${content}&amp;url=${url}&quot;,
-            douban: &quot;http://www.douban.com/recommend/?url=${url}&amp;title=${title}&quot;
-            // ...
-        };
-
-        function _openWindow(url, name, properties) {
-            properties = (properties || &quot;&quot;);
-            if (!window.open(url, name, properties)) {
-                window.self.location.href = url;
-            }
-            return false;
-        };
-
-        // build the url 
-        function _fetchData(platform, params){
-            // fetch and replace
-            var baseUrl = &apos;&apos;+urls[platform];
-            var exp = /\$\{([^\{\}]+)\}/g;  // 括号里面的是分组
-            var tmp = &apos;&apos;;
-            // 对url的参数进行填充
-            baseUrl = baseUrl.replace(exp, function(a, match){    
-                // a is the whole match: ${abc}, match is the group:abc
-                tmp = (params||{})[match]  || &apos;&apos;;    // get the proper params
-                return encodeURIComponent(tmp);    
-            });
-            return baseUrl;
-        }
-
-
-        // return proxy
-        return {
-            // public 
-            // params {title, content, url, pics} 唯一要知道的接口
-            shareTo : function (platform, params){
-                params[&apos;title&apos;] = params[&apos;title&apos;] || undefined, 
-                params[&apos;content&apos;] = params[&apos;content&apos;] || undefined,
-                params[&apos;url&apos;] = params[&apos;url&apos;] || undefined,
-                params[&apos;pics&apos;] = params[&apos;pics&apos;] || undefined;
-
-                var surl = _fetchData(platform, params);
-                // console.log(surl);
-                _openWindow(surl, platform);
-            }
-        };
-
-})();
-</code></pre><p>使用闭包的立即执行函数返回一个share2SNS的单体，外部只能通过shareTo方法调用：</p>
-<pre><code>share2SNS.shareTo(&apos;sina&apos;, {
-        title: &apos;IT小小鸟&apos;,
-        url: &apos;http://bibodeng.com&apos;,
-        content: &apos;我们的大学生活&apos;,
-        pics: &apos;http://bibodeng.com/bibodeng/IT_birds/img/daoluan.png&apos;
-});
-</code></pre><p>可以说比较核心的方法就是js模板，我曾经想过让用户传入特定的参数对，例如<code>{href:&#39;http://bibodeng.com&#39;， pic: &#39;daoluan.png&#39;}</code> 等名字不一的键值对，然后通过join操作用&amp;连起来，但是那样会增大接口使用者的负担，而且没有起到解耦的作用。</p>
-<p>一个程序员，要把复杂的事情变简单，这才是能力。又长又臭的代码，谁都可以写，但是优雅简洁的代码不是随便能写出来的。最近在学习《javascript设计模式》，里面的很多的东西都能够把事情变得简单，虽然一些模式本身就挺复杂的，但是掌握了其框架之后，写出来的代码明显优雅了很多。之前在实习的过程中碰到稍复杂的功能需求时感觉力不从心，很大程度就是不懂设计模式，看的过程种很多次都会发出这样的感慨，原来我不知不觉用过一些模式，而且有些模式用了之后整个app就简单了很多。继续攻书。</p>
-<p>by bibodeng 2013-11-21</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/11/12/【转】精力的培养/" itemprop="url">
-                  【转】精力的培养
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-11-12T11:22:37+08:00" content="2013-11-12">
-              2013-11-12
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/11/12/【转】精力的培养/" class="leancloud_visitors" data-flag-title="【转】精力的培养">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="精力的培养"><a href="#精力的培养" class="headerlink" title="精力的培养"></a>精力的培养</h2><p>人的精力是颇为有限的。付出的过程比获取要长很多。做任何有益于自己的，成长性的事情都需要付出精力，这也要求人们有节制的使用这一无形资本——我认为这些显而易见的道理，越早想明白越好。</p>
-<p>曾经有很长的一段时间我不明白为什么每当我参加一些人数众多，气氛热闹，互动频繁的活动时就会情绪低落，即使是参加大型同学聚会，面对大家欢快的讨论，我也多少有些拘谨。直到很久以后，我才明白这种性格特质叫：内向。而内向意味着个体在独处或面对有限的对象时精力充沛，而却对超出自我界限的对象则感到茫然无助，乃至疲惫不堪。</p>
-<p>从那以后，我开始细心观察我身体中流淌着的无形力量：精力。进而不断的总结出关于精力的种种理论，并运用在生活中。一个很重要的前提即是，人们需要迫切的了解到他们适合做什么，不适合做什么，做什么精力耗费的极快，做什么有助于恢复精力。一旦了解到了这一点并合理分配调控，生活中的一些问题就可以得到解决。</p>
-<p>有很多人喜欢抱怨“无聊”，我认为，“无聊”其实就是精力不济的一种标志。在这种状态下，你几乎不可能做任何“有意义”的事情——比如高效率的工作、学习。你只能做一些娱乐性较高看似放松的事情，比如吃零食，上网，看肥皂剧，玩游戏，等等。但在这一过程中，你内心的斗志实质上是被逐渐消磨的。随着时间逐渐拉长，你的精力愈发的懈怠，往往会坠入更深的无聊之中。</p>
-<p>当然，现在你已经知道了，下次当你在一个百无聊赖的周末醒来，你不应该再用这些事情来帮助自己“放松”，从而在无聊的恶性循环中打转。但要根本性的了解该怎么做，你需要从头开始。</p>
-<h3 id="适合做什么，不适合做什么"><a href="#适合做什么，不适合做什么" class="headerlink" title="适合做什么，不适合做什么"></a>适合做什么，不适合做什么</h3><p> 我有一个朋友，对她而言，阅读就是呼吸一般的存在，她在一切可能的时间都在看书（这个例子我已经举过好几次了，看过我别的文章的人都知道）。与此同时，与人闲聊、打发时间却是一件对她来说比较困难的事情。如果一段时间我和她的聊天都毫无主题，四处飞散，她就会不由自主的开始看书，上网，读文章……而且她也不太喜欢和人保持太过紧密的日常联系。很显然，对她而言，阅读是一件毫不费力的事情，甚至在每天长达数小时的专注阅读中，她的精力还在缓慢的增长。但与人日常交际上她就不是很热衷了，如果去到一个纯交际的场所，她还会觉得很烦躁。</p>
-<p> 强求本能中的自己进行改变是一件吃力不讨好的事情。比如你明明是一个内向的人，非要强求自己去当大众的开心果；明明你是一个耿直的人，非要强求自己去说言不由衷的话；明明你有一个不错的爱好，却因为听闻别的爱好更“好”而去盲从——这些事情会极大的耗费你的精力，使得你的每一天在应付这些事情时就已疲惫不堪，怎么可能还有空闲去做别的事呢？所以，认清自己、阅读自己是做好这一切的第一步。</p>
-<h3 id="训练自己的精力"><a href="#训练自己的精力" class="headerlink" title="训练自己的精力"></a>训练自己的精力</h3><p> 很显然，在那些让我们感到精力充沛和身心愉快的事情中，有一部分是颇为有建设性的，有些单纯只是为了娱乐。而在我们所能接受的范围以内，还存在着一些对自己颇为有益的事情。这个时候，需要的就是对自己的精力进行训练，以使得自己能在有意义的事情上保持更长的时间。</p>
-<p>比如，我可以坚持连续严肃阅读——这件颇为有意义的事情——一个小时，而当一个小时之后，我就需要休息一小会儿或看些轻松的东西。而在一天的时间里，我的阅读上限在三个小时左右，当一天我将这么长的时间全部投入到阅读中时，再看什么我都脑中一片混沌，理解和记忆能力大为下降。很显然，虽然阅读这件事并不会明显耗费我的精力，但精力值中的确只有不多的一部分可以用在阅读这件事上。怎么办呢？这个时候就需要训练，不必训练到那位书痴读书如呼吸饮水般的程度，但要将这一上限大大提高，高到自己预料之外的程度。</p>
-<p> 任何事情都需要训练，运动员要训练肌肉记忆，做学问的要训练神经突触，蓄养精力也是同样的道理。将做有意义的事情时的精力上限提高并不仅仅意味着下次再做这件事情的时候能坚持的时间更长，而是意味着即使你只做一定的时间，你的效率也会大为增强。那些书痴们的阅读效率和速度将远高于我们，这一结论是毫无疑问的。更为重要的是，随着精力的逐步增强，你在做一件事情时将会变得更为得心应手，并从中获取之前从未有过的愉悦感。（当你一次可以跑二十公里时，随意跑上个三公里只是在享受，而锻炼的效果却已经达到了）</p>
-<p>在逐步的训练中，做某件事的精力值逐步提高了，而因为其趣味性也不断增强，你做其他相较之“不重要”的事情的时间也就缩短了。你的生活将变得更有意义，更加充实，对自我的成长帮助也越大。可能会有人觉得这种认识和方法太过功利化，为什么我们的生活不能惬意一点呢？我认为，在这个竞争极其激烈，每个人的综合素质已经变得越来越重要的时代，对自我的提高已经成了每天的必修课，这使得我们有必要为之调整我们的状态，并付出努力。同时，既然在坚持一段时间之后那些更有意义的事情也能带给我们快乐，又何乐而不为呢？</p>
-<h3 id="分配你的精力"><a href="#分配你的精力" class="headerlink" title="分配你的精力"></a>分配你的精力</h3><p>人的精力终归是有限的，或者说，一天的时间终归是有限的，所以精力在不同的事情上必然要有所分配。于此同时，不管我们如何努力，生活中必然还是有一些事情让我们感到为难，违背了自己的本性，或者难以被训练，但却仍然需要做，还有一些事情我们明知道很损耗精力，但还是很愿意做。这时候分配就是一件重要的事情。</p>
-<p> 如果你一大早就抢着把乐意做的事情做完了，而把最难完成的事情留到最后，那每天回到家时，你必然感到很疲惫，很倦怠。加之很多人又次错误的方法“放松”自己，再延长上床的时间，周而复始，很多人的生活呈现的实际上是一个下滑的曲线。而不幸的是，大多数人进入的实际上就是这样一种状态。</p>
-<p>很显然，为了做那些我们需要耗费很大精力去完成的事情——比如工作——我们需要做充足的准备，留出足够的空档，并在其后对自己进行恢复。生活中总有很多事情让人感到崩溃，错误的策略将使这些事情演变为对自己的惩罚。</p>
-<p>对于那些我必须要做但又让我感到痛苦的事情，我在做之前首先要鼓足自己的勇气。我会写一篇日记或什么其他让自己感到满足的文字（比如这篇），做一种很有规律很遵从规则能让自己从重复性中获得满足的练习（比如摹字），或者完成一件让我高兴的事情（比如看一集纪录片）。（注意，你需要做的所有事情都要让自己集中，而不是涣散。所以做娱乐性较强的事情是不行的。）在这些事情做完之后，我就开始埋头完成自己之前的计划，在这其中穿插进行着一些不影响我做事的小动作，比如听音乐，或看一篇文章，等等。待我完成时，我会感到疲惫，于是我会进而做一些让自己轻松但又不会让自己懈怠的事情。事实上，这一切都是轻而易举的完成的，不是刻意完成的。当一个过程为自己所熟悉的时候，一切就变成自然而然的事情了。</p>
-<p> 再强调一遍，人与人之间是不同的。与其耗尽精力强迫自己，不如想点办法。有的人是工作狂，有的人——比如我——对工作往往燃不起热情。但工作是必须的，所以应对工作，我不断的寻找新的解决办法。直到我能够随时恢复自己的精力，或感觉工作不再是那么的痛苦。</p>
-<p> 在除了学习和工作以外的其他时间，分配同样重要。如果你决定每天晚上回家的时间是自己的充电时间——看书，看电影，写作——那你就不可以让自己回家的时候已经感到难受和疲惫。你可以将事情挪到其他时间去做，可以在下班后先做一些让自己兴奋的事情，可以通过训练让自己在某些事情上如鱼得水……不管怎样，你总要找到办法让自己每天的生活更加均衡，而不是完成中间的某一个部分之后就做不了别的事情了。</p>
-<h3 id="精力与体力的关系"><a href="#精力与体力的关系" class="headerlink" title="精力与体力的关系"></a>精力与体力的关系</h3><p> 我之所以将体力插进这里讲是因为体力是一个非常重要的存在，它可以说是精力存在的保证，乃至来源。一个病人——体力水平低于正常人的人——必然没有足够的精力来做任何事情。一个身体孱弱坐公交都会晕车的人，自然也没有足够的体力来保证自己发挥精力的作用。体力是一个人健康程度的象征，如果不够健康的话，自然会常受各种因素影响，没有办法把注意力集中到做有益的事情上去。当然，体力的重要性还不限于此。体力与精力是两种有弹性的魔力，如果能正确的运用这两者的力量，将会带来事半功倍的效果。</p>
-<p> 很久以前我听过一个故事，讲一个人每天上班前都会进行半个小时的有氧训练，之后就能精力充沛的工作一整天。当我刚听到这个故事的时候是无法相信的，如果那时我也在工作前有氧运动半小时，整天我都会昏昏欲睡。当然，这就是一个进入了良性循环的人和一个刚刚开始循环的人的差别。</p>
-<p>体力和精力都是一种可快速恢复的，弹性十足且通过训练可以显著提高的能量，尤其对于那些已经进行过训练的人而言。而当人因体育锻炼而精神焕发的时候，他的精力也随之反弹，而且这一过程经常性并不随着体力值的降低而呈正相关。你是不是有过这样一种体验：有时候你经过一天的奔波，体力运动，你反而感到精力旺盛，异常兴奋，甚至不能快速睡着。也许这种特例并不能说明体力值降低时人们的精力甚至能随之增长，但它也说明了运动的重要性。</p>
-<p>显而易见的是，如果你一整天甚至更长的时间都待在家里，那你恐怕根本没法保持精力旺盛。</p>
-<h3 id="保护精力不受损害"><a href="#保护精力不受损害" class="headerlink" title="保护精力不受损害"></a>保护精力不受损害</h3><p> 既然精力是如此重要并容易流失的一项无形资产，那么保护它则显而易见是一件重要的事情。现代社会节奏更快，强度更高，各种各样的事物和信息散落在各处，处处都在损害着精力。现在还没有太好的办法能归纳所有规避的方法，但我想以下的几点是显而易见的：</p>
-<pre><code>1. 避免关注于己无关 /没有意义的事情。
-</code></pre><p>有太多的人每天把注意力放在与自己完全无关的事情上，以此消磨自己的意志、精力和时间，原因只是因为他们很“无聊”。我不得不说这是一种恶劣的恶性循环。“无聊”是因为精力不济，而消磨时光的方式则带来自己更大层面上的损失：精力更加衰弱，精神懈怠，时间消耗。最后呢？他们真的能获得什么快乐吗？事实上是没有的。而且随着关注没有意义的新闻和事件带来的后续效应则经常性更加能伤害人。争论、怒气、不切实际的想法……除了这些以外，我很难看到这种关注带来的良性后果。如果有一部分人实在觉得每天关注些杂文段子能让自己感到娱乐，那如同我上文说到的那样，请注意良好的分配。</p>
-<pre><code>2. 避免情绪的波动。
-</code></pre><p>在我所知道的所有事情中，没有什么比强烈的情绪更能直接损耗一个人的精力。如果是强烈的快乐和兴奋还好，但如果是强烈的负面情绪，则会直接让一个人的精力陷入瘫痪。对于有些悲伤、痛苦和焦虑来说，避免是一件不可能的事情，但对于其他的部分，则考验着一个人的应对能力。有些类似的情绪还来源于自己，如果事实如此，那我们就需要好好考虑自己生活的策略了。</p>
-<pre><code>3. 保持生活的平衡。
-</code></pre><p>保持生活的平衡包括两部分，身体的平衡和心理的平衡。身体的平衡要求人们对自己的摄入、睡眠、运动保持掌控，对需要身体的任何情况应对自如。心理平衡则是同理，它是在“避免情绪波动”之上的一个范畴。这是一个很玄乎的状态，很难用文字表达出来。但当你处于这种状态时，则会时常感觉到平和、富足，而如果这种状态鲜有出现，则应该努力往这个方向靠拢。</p>
-<pre><code>4. 不要在精力充沛的时候做一些损害精力的事情。
-</code></pre><p>感到自己现在精力充沛，状态良好？这是一个好开头，但也可能仍然指向一个不佳的结尾。也许你没必要强迫自己非得立即做出什么了不起的事情来，但至少应该抓住这个好机会更进一步。记住，错误的放松方式是一种恶性循环，你会在不知不觉之中毁掉自己良好的状态和之前的努力。</p>
-<h3 id="获取精力"><a href="#获取精力" class="headerlink" title="获取精力"></a>获取精力</h3><p>获取精力其实是和保护精力不受损害对应的概念，但它更侧重于我们要去做什么，而不是不去做什么。我认为以下几点是通过实践表明非常有效且值得分享的：</p>
-<pre><code>1. 保持规律而充足的睡眠：
-</code></pre><p>保持规律而充足的睡眠是如此的重要，重要到那些即使在生活其他方面一团糟的人经过睡眠的修复，也能快速的恢复到一个不错的状态。我有一位友人每天晚上都比前一天睡的晚一点，直至早晨睡觉晚上起床，再到中午睡觉午夜起床，最后又在一段很短的时间里变成了晚上睡觉早上起床……我一直认为她的作息是根本无药可救的，这一糟糕透顶的生活方式也给她带来了很大的伤害。譬如她糟糕的健康状况，美丽的妆容下晦暗的皮肤，暴躁的情绪和无穷无尽的纠结。即使她每天保持正常的状态比普通人要少很多，但经过一个漫长而深度的睡眠，她还是能很快的恢复到正常的状态下，并在那种状态下做一些自己喜欢做的事情，由此充分可见睡眠的重要作用。你应该也有在痛苦的夜晚睡去，经过长时间睡眠之后感觉好多了的经历。所以，请保持足够的、规律的睡眠，并不要找任何理由。虽然总有特殊情况，但可以肯定的是，大多数人晚睡的原因都不是什么正经的事儿，尤其是长期作息不规律的往往更是如此。将注意力集中在没有必要的事情上让人疲惫，睡前刷新网页，玩手机更是会直接损害睡眠质量……何必呢？看看书，保持沉静，安稳睡去，你的七到八个小时睡眠时间绝对不会在白天辜负你。</p>
-<p>至于睡眠时间，最好的一种莫过于每天早晨在一个准确的时间起床，并长期坚持，方法在 <a href="http://www.douban.com/group/topic/10838192/" target="_blank" rel="noopener">这里</a></p>
-<pre><code>2. 培养正确的爱好：
-</code></pre><p>很遗憾，即使完全不想摆出一副“政治正确”的模样，但是事实就是如此：有些爱好就是比其他爱好要更好，比如阅读、观影、写作、摄影、画画，等等。这些爱好会让你感到开心，愉悦，幸福，满足，起到一些其他爱好无法满足的作用。人生出来的时候绝大多数都是大俗人，除了真正的天才，没有人天生就喜欢这些事情，很多是后天熏陶成的，甚至逼成的。当大众都知道这类爱好更好且更有意义的时候，我想需要的就是努力靠近，努力学习。有很多人在懈怠下来的时候第一想要去做的就是一种事实上没有多大真正趣味也不会带来多好结果的事情，与其做这些带来不那么好的结果，不如培养自己去喜爱更有价值的爱好。</p>
-<p> 当然，这个里面有一点是需要强调的，有些看起来并不怎么有意义的爱好会因人而异产生完全不同的效果。如果你做了而使自己获得了真正的放松——比如狂欢之后感到情绪被宣泄（换到我只会感觉到空虚）——那你当然可以那么做。这一点归根结底还是要弄清自己真正适合做的是什么。</p>
-<pre><code>3. 保持活动
-</code></pre><p>我已经在体力和精力这一节谈到了这一点，但我在这里要进一步的强调。也许你真的找到了一百条不去专门做锻炼的理由（像我一样），那至少保持运动，不要让自己待在同一个地方。我每天上下班时一共要在路上走一个小时，经常外出参加活动或自己跑去什么地方转转，如果正好穿着运动鞋，我偶尔也随便跑一跑。虽然和那些动辄万米的资深跑友无法相比，但我的确也因此获取了更多做事的精力。谨记：生命是一种流动中的形式，一个不动的人是很难有活力的。即使以坐着写作为生的作家，也普遍都有外出散步的习惯。呆在一间小屋子里人能产生什么精神呢？除了独自徒生闷气以外。</p>
-<p>曾经我也在我所描述的那种恶性循环中度过一天又一天，在各种毫无意义的事情上虚度光阴，浪费青春年华中的好时光而找找不到出路。直到我细心观察自己生活中的细节并从其中找出规律找出方法并在漫长的时间里坚持实践，才逐渐把握了生活的节奏。随着工作节奏的不断加快，各种新情况的出现，自我要求的迅速提高，我不断修正之前想法的错误，提出新理论以解决现实困难。正是在这种思索当中，思维得以飞越，理念得以宽广，意志得以坚恒。降低重心，集中意念，生活才可以简单而富足，无论你最终向往的是哪一层面的成功，这一领域的修行都能引你走到更远。</p>
-<p>要知道，我们所有人都会老去，而我们中的几乎所有人都会比自己想像之中更早的老去，而老去时最常见的语言莫过于“精力有限”，“心有余而力不足”。等到这一能量无可救药离我们远去的时候，我们应该有让自己骄傲的珍惜。到时候你才不会后悔的说，当我在还有机会发挥潜能的时候，却让财富从我的生命中偷偷流走。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1859,13 +1843,20 @@ function foo(formObj){
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">180</span>
+              <span class="site-state-item-count">185</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           
 
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
           
 
         </nav>
