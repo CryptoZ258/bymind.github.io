@@ -255,6 +255,189 @@
             
               
                 
+                <a class="post-title-link" href="/2013/10/27/初识NoSQL/" itemprop="url">
+                  初识NoSQL
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-10-27T17:35:23+08:00" content="2013-10-27">
+              2013-10-27
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/10/27/初识NoSQL/" class="leancloud_visitors" data-flag-title="初识NoSQL">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#初识NoSQL<br>by bibodeng 2013-10-27</p>
+<h2 id="Not-only-SQL"><a href="#Not-only-SQL" class="headerlink" title="Not only SQL"></a>Not only SQL</h2><p>之前就接触过NoSQL，但是从来没有再项目实践中使用过。故而，很有必要从入门之初就动手操练一下，就算不太熟练，也能知道其中精华一二。我告诫自己，要紧凑明确，对任何东西都有意识地围绕最核心的东西去发问，凡事问个为什么，不要浪费太多时间在不重要的踌躇中。我之前看过一点NoSQL，毕竟没有什么实战经验，所以忘得也快，现在复习一下。</p>
+<p>现代互联应用网对于数据库的要求：</p>
+<ol>
+<li>低延迟的读写速度：应用快速地反应能极大地提升用户的满意度; </li>
+<li>支撑海量的数据和流量：对于搜索这样大型应用而言，需要利用PB级别的数据和能应对百万级的流量; </li>
+<li>大规模集群的管理：系统管理员希望分布式应用能更简单的部署和管理; </li>
+<li>庞大运营成本的考量：IT经理们希望在硬件成本、软件成本和人力成本能够有大幅度地降低; </li>
+</ol>
+<p>关系型数据库的优势在于：</p>
+<ol>
+<li>事务支持 （如MySQL的 InnoDB引擎）</li>
+<li>进行复杂查询 （join，几个表联合起来查询）</li>
+<li>技术成熟 （oracle， MySQL， SQLServer）</li>
+</ol>
+<p>NoSQL是一种新型的数据库，和关系型数据库有所不同，在以下方面具有优势:</p>
+<ol>
+<li>适合分布式，简单的扩展：典型例子是Cassandra，由于其架构是类似于经典的P2P，所以能通过轻松地添加新的节点来扩展这个集群; </li>
+<li>快速的读写：主要例子有Redis，由于其逻辑简单，而且纯内存操作，使得其性能非常出色，单节点每秒可以处理超过10万次读写操作; </li>
+<li>低廉的成本：这是大多数分布式数据库共有的特点，因为主要都是开源软件，没有昂贵的License成本; </li>
+</ol>
+<p>以上几点来自互联网，到目前我还没有直观的感受。NoSQL有很多种类型，常见的有Memcached, Redis, MongoDB(和JS有很大渊源)等。</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/c7f3d4b3c551949a9f63c2dcc656294e2013102707103327065.png" alt="nosql类型"></p>
+<p>键值存储类型的NoSQL数据库，主要是在内存中记录一些经常使用的数据，例如数据库的主键，这就就能够快速存取，而在内存中虽然快，但是存取不够可靠，有可能会丢失，造成数据的不一致性。故而，有一种策略就是当键值修改频率大过某个值的时候，就将缓存的数据给写到磁盘中去。Memcached也可以同MySQL搭配使用（互补），PHP有提供其驱动及接口，我们熟悉的SAE就是采用主从数据库+Memcached的架构。</p>
+<p>面向文档的数据库，是将数据以文档的形式存储，其实是类似JSON的格式，也是键值对。</p>
+<h3 id="Memcached"><a href="#Memcached" class="headerlink" title="Memcached"></a>Memcached</h3><p>使用散列表的方式存储键值对，全部存储在内存中，故而相当高速，可以很好地改善延迟。</p>
+<p><strong>一致性散列技术</strong>：</p>
+<p>如果有多台服务器，原理上是使用总数据量除以服务器台数取余来决定散列到哪个服务器，但是当有服务器加入进来时，这个计算到的余数会发生变化。如mod 4 变成 mod5,会有相当数据要重新散列。</p>
+<p>而一致性散列将一个范围内的数据，散列到一个圆周上的各个服务器中。并且对于均衡负载，扩展集群，数据迁移等具有良好的支持。并且当有服务器发生故障时，影响的是一部分的数据，有服务器加入进来时，不会因为重新散列找不到数据了，而是只影响少量的数据（需从旧节点迁移到新节点），也即将原来范围内的一部分数据迁移就可以了。如下图所示：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201310/0053dd31c19d94a02d797b2f513fb733201310270816487506.png" alt="散列一致性"></p>
+<p>那么具体它是怎么计算，让部分服务器4的数据散列到服务器5呢？</p>
+<p>根据key算出hash值，选择第一个大于该hash值的虚节点server，系统维护了一个server list，每个server具有多个虚节点。也即它的数据不是由服务器数量决定放在哪里的，而是对一个更大的数进行散列，由服务器位置来决定的。</p>
+<p><strong>缺陷</strong>：</p>
+<p>一定要使用明确的查询条件，就像hash_table数据结构一样，所以不能像关系型一样用<code>LIKE</code>。</p>
+<p><strong>启动</strong>：</p>
+<pre><code>// 启动   后台运行  端口   用户名    链接数   内存限制
+memcached -d -p 12345 -u uname -c 1024 -m 512 
+</code></pre><p><strong>使用</strong>：</p>
+<pre><code>// 设置键值对 键， 是否压缩， 过期时间戳， 大小
+set &lt;key&gt; &lt;flag&gt; &lt;expires&gt; &lt;byte&gt;
+&lt;value&gt; // 存储的值
+
+// 获取值
+get &lt;key&gt; // 返回key对于的value
+
+// 清空
+flush_all 
+// flush后数据所占的内存并不会被释放，但会被标记为过期，是不能再被取得了
+</code></pre><p><strong>编程语言中的使用</strong>：</p>
+<p>请参考<a href="http://www.php.net/manual/zh/book.memcached.php" target="_blank" rel="noopener">PHP memcached手册</a></p>
+<pre><code>$options = array( 
+    &apos;servers&apos; =&gt; array(&apos;192.168.1.1:11211&apos;), //memcached 服务的地址、端口，可用多个数组元素表示多个 memcached 服务 
+    &apos;debug&apos; =&gt; true,                         //是否打开 debug 
+    &apos;compress_threshold&apos; =&gt; 10240,             //超过多少字节的数据时进行压缩 
+    &apos;persistant&apos; =&gt; false                     //是否使用持久连接 
+); 
+// 创建 memcached 对象实例 
+$mc = new memcached($options); 
+// 设置此脚本使用的唯一标识符 
+$key = &apos;mykey&apos;; 
+// 往 memcached 中写入对象 
+$mc-&gt;add($key, &apos;some random strings&apos;); 
+// 取出该值
+$val = $mc-&gt;get($key); 
+// 替换已写入的对象数据值 
+$mc-&gt;replace($key, array(&apos;some&apos;=&gt;&apos;haha&apos;, &apos;array&apos;=&gt;&apos;xxx&apos;)); 
+// 删除一个值
+$mc-&gt;delete($key); 
+</code></pre><p>可见，在编程语言中，这样使用memcache数据库已经非常方便了，直接对键值进行存取删除。所以我们就可以在程序中将一些常用的值缓存起来，例如一个获取最新微博的查询，那么我们可以缓存这些微博，当有人刷的时候，就从缓存返回，将大大提升访问速度。</p>
+<p>Redis和memcached有点类似，但是它可以进行永久性的键值存储，所以相对又更靠后一点。</p>
+<h3 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h3><p>MongoDB是无需定义表结构的一种文档型数据库，和关系型一定要确定表的结构，存储各个字段有很大不同。MongoDB是以BSON（binary JSON）的方式来存储数据的，也是以键值的方式对应起来。多个文档可以组成一个集合（对应表），多个集合构成了数据库。    </p>
+<p>但是MongoDB不支持JOIN查询以及事务处理。且不是实时写入磁盘，而是有一定的延时。</p>
+<p>其MongoDB shell是数据库的管理工具，其脚本语言和JS类似。一些常用的操作可以参考<a href="http://www.cnblogs.com/archie2010/archive/2012/10/07/2712937.html" target="_blank" rel="noopener">例子</a>。以前我一直在担心，这样的键值对存在文档里面，其存取速度会不会很慢呢？它是取得JSON，转化为内存中的对象进行操作的么？</p>
+<p>我看到了这样一段话：</p>
+<blockquote>
+<p>在使用场合下，千万级别的文档对象，近10G的数据，对有索引的ID的查询不会比mysql慢，而对非索引字段的查询，则是全面胜出。 mysql实际无法胜任大数据量下任意字段的查询，而mongodb的查询性能实在让我惊讶。写入性能同样很令人满意。</p>
+</blockquote>
+<p>具体的测试例子，已经有哥们用号称亿级数据进行了<a href="http://www.cnblogs.com/lovecindywang/archive/2011/03/02/1969324.html" target="_blank" rel="noopener">测试</a>。</p>
+<p>后续将会继续深入探索NoSQL数据库。</p>
+<hr>
+<p>end</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/10/25/梳理常见数据结构/" itemprop="url">
                   梳理常见数据结构
                 </a>
@@ -2344,199 +2527,6 @@ git push origin master
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/08/06/曾国藩传记笔记/" itemprop="url">
-                  曾国藩传记笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-08-06T00:23:55+08:00" content="2013-08-06">
-              2013-08-06
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/08/06/曾国藩传记笔记/" class="leancloud_visitors" data-flag-title="曾国藩传记笔记">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<title>曾国藩传记笔记</title> <meta content="text/html; charset=unicode" http-equiv="Content-Type"><!--defaultCSS--><meta name="GENERATOR" content="MSHTML 8.00.7601.17514"> <style id="wiz_custom_css" type="text/css">
-body
-{
-    font-family: "Microsoft YaHei UI","Microsoft YaHei",SimSun,"Segoe UI",Tahoma,Helvetica,Sans-Serif,"Microsoft YaHei", Georgia,Helvetica,Arial,sans-serif,宋体, PMingLiU,serif;
-    font-size: 10.5pt;
-    line-height: 1.5;
-}
-html, body
-{
-    
-    
-}
-h1 {
-    font-size:1.5em;
-    font-weight:bold;
-}
-h2 {
-    font-size:1.4em;
-    font-weight:bold;
-}
-h3 {
-    font-size:1.3em;
-    font-weight:bold;
-}
-h4 {
-    font-size:1.2em;
-    font-weight:bold;
-}
-h5 {
-    font-size:1.1em;
-    font-weight:bold;
-}
-h6 {
-    font-size:1.0em;
-    font-weight:bold;
-}
-img {
-    border:0;
-    max-width: 100%;
-}
-blockquote {
-    margin-top:0px;
-    margin-bottom:0px;
-}
-
-
-</style>
-<link rel="stylesheet" type="text/css" href="/content/plugins/bibo_mark/article_bibo.css"> <div class="art_content"><div style="text-align:center;"><a target="_blank" href="/content/plugins/kl_album/upload/201308/8446e72c0c56714095f12fcd49567e232013080516184316883.jpg" style="line-height:1.3em;"><img src="/content/plugins/kl_album/upload/201308/8446e72c0c56714095f12fcd49567e232013080516184316883.jpg" width="257" height="360" alt="点击查看原图" border="0"></a></div>
-<div class="art_content">唐浩明之《曾国藩》共分上中下三部，一为血祭，二为野焚，三为黑雨。通览曾国藩之一身，青年得志，官场平步青云，中年指挥万千兵马，老年倡导洋务，功成身退。历史上许多人物对曾国藩的评价甚高，例如他的同僚左宗棠，虽一生与之互相争高下，然而却是互相敬重。也包括毛泽东，蒋介石，梁启超等都对曾国藩予以过高度评价。我读他的文章，传记，觉得传统儒家士大夫思想在其身上体现淋漓尽致，他的思想中具有中华民族文化的精髓。如立身求学之道，文章治国之道，自强御侮之道，是我们中华民族后人应当熟悉而体悟的。五千年的文化，我们要懂得继承，同时学习外来的先进技术和文化，方能发扬光大，自强不息。</div>
-<div class="art_content">&nbsp;</div>
-<div class="art_content">其让我钦佩的一点是，一生所学儒家仁忍，道教自然谦退，文章武功，都能够学而致用，并且能够以坚毅之志行之，而得盖世勋名。其学术为人方面的理论有很多，流传久远的就有《冰鉴》、《挺经》、《家书》等，皆是实用之见，而且其一生行事，谨慎，自节，足以让东敬畏。单就一生保持节俭习惯，睡简陋床，用简易竹箱，已经令人肃然起敬。晚清吏治腐败，而曾能得盖世名勋，建十万湘军，必有其过人之处。</div>
-<div class="art_content">&nbsp;</div>
-<div class="art_content">成大事者，以识为主，以才为辅。曾所处的时代，正是道光，同治朝，古老的中国繁华正在褪去，而又渐渐受洋人侵辱。可以说是历史上从未有过之局势。国内农民起义蜂起，又有国外患者，清政府受着极大的挑战。曾国藩于内于外都很注重了解内外的情形，然后从古代先贤或者外界来获得见识，然后极力推动改变，以维持中国的统治。同治时期，就已经是女主临朝，西太后权谋手段倒是很狠辣，杀肃顺，罢恭王，但是于国于民全然无益，无强策以御敌，无建树以兴政。若非君子明哲保身，必死于其手。素称国人诛同类不眨眼，而对外国人唯唯诺诺，其适于圣人意反也，于内则宜播乎仁，于外宜强也，一家之内尚且如此，若有父母于子女慈爱，于外有好强血性，则家兴焉，而国欲强于外，内须兴，内兴须有人和。当内乱外患之时，虽伟人可堪一世之功，终不免大厦将倾，王朝灰飞烟灭。人的眼光，很容易就局限自己所看到的，听到的，想到的。然殊不知，世界之大，需要博览群书，行万里路。宇宙之无穷，岂不移寸步开视野而可究者。当曾之时代，既需要儒家理学的修身之法，又需要存活打仗的经济手段，还要有长远见识。上仰权柄之鼻息，下察四野之民风，内观局势之变化，外防列强之觊觎。曾的智慧，需要深读方能领悟并运用，吾辈当此盛世，不用读四书五经，不用冲锋陷阵，但是生活其中，运用自如的道理是共通的。</div>
-<div class="art_content">&nbsp;</div>
-<div class="art_content">识人之术，《冰鉴》提出从人的外貌，行止，言语，气概来辨识一个人，这才是以貌取人。口诀：</div>
-<blockquote class="art_content">
-  <div>邪正看眼鼻，真假看嘴唇；功名看气概，富贵看精神；</div>
-  <div>主意看指爪，风波看脚筋；若要看条理，全在言语中。</div>
-</blockquote>
-<div class="art_content">我等“外貌协会”的人，也会有从外貌言行去判别一个人的品格和为人。假若为人有正气，则其貌必然或雄健，或俊秀，或天真。俗语说“貌由心生”，其内心如果阳光正义，则其外貌必然不至于鄙陋（当人相貌也很多先天成分，很多长得好的说不定很丑恶）。观察一个人的外貌谈吐，大致就知道其为人怎样了。先不说《冰鉴》之中，是否有封建迷信，但我们仍旧是对那种相貌猥琐，行为浮动的人抱以鄙夷心态。我们人有好的秉性，如刚强，温柔，文雅，也有妖媚，奸诈，飘忽等不吉之态。总之就是各种情态，而态由心生，久而久之也就会影响容貌。一人心中坦荡无忧，必然睡眠好，心情好，自然气色好，外貌也就显得明朗，而其生活工作也必然顺遂。假如为人奸诈，飘忽，则好的秉性不容易驻足，会渐渐变得丑恶。吾所交之友，皆心地纯正，如思愿者相貌堂堂，身材健硕，桌升外貌佳，但言语较为木讷，然实为诚实稳重之人，广欣外貌刚毅，故言语刚直，易与人争执，然其为正义而争，大明肥胖，然而慈眉善目，为有福之人，国东文弱，然不至于。要是看女生，要眼睛明亮，此为聪明，要手脚匀称，此为灵巧，爱笑，则乐观豁达，最重要的不要傲娇。要是眼睛无神，见识浅薄，贪恋享受，即使再妩媚也会沦为风尘。总之一眼看上去，也大抵能猜个七八分。不过殷素素曾经说过，有一种漂亮女人是很有心计的，此种人一般魄力不凡，但是却眼神过于犀利，从眼睛的小动作能观察出来。然而人心难测，到底一个人怎样，要需要长期的观察和接触。但是一般与人为善者上，无害者中，冷漠无知者下，矫揉造作者下。</div>
-<blockquote class="art_content">
-  <div>&nbsp;</div>
-  <div>读书以训诂为本，作诗文以声调为本，</div>
-  <div>居家以不晏起为本，事亲以得欢心为本，</div>
-  <div>养生以戒恼怒为本，立身以不妄语为本，</div>
-  <div>作官以不要钱为本，行军以不扰民为本。</div>
-  <div>&nbsp;</div>
-</blockquote>
-<div class="art_content">这些格言中，读书古时候大概如此，然而现代纷繁学问，训诂未必管用了，第二点赞同，第三点完全赞同，一个家庭，看它勤奋不勤奋，就看它的成员是否早起，早起的男人有责任感，女人能操持家务，当然现代中可能不太注重这点了，但是勤勉和谐总是一个家庭兴旺的本质。其他还有待从今后的体验中去验证。前人总结的每一句话，都是有一定意义的，因为这代表了他们的经验。而我们应该学会继承，带有批判地拿来，然后为我所用。读书于一个人的品性，大有用处，陶冶其情操，坚定其意志，开拓其视野，启发其智慧，勉励其上进，精进其技艺。书籍，往往是前人积累的财富，谁读了，领会了，谁就继承了这笔财富。精神世界富有了，我们又怎会担心物质之贫穷呢。</div>
-<div class="art_content">&nbsp;</div>
-<div class="art_content">山不能为大匠别生奇木，天亦不能为贤主更生异人。关键看如何培养，如何用人。才堪用者，以其器量大也，器不大则有才华，仍不能成伟大之人物。器量所在，胸襟也。故而有人说：有德有才，破格录用，有德无才，培养使用，有才无德，谨慎使用，无德无才，永不叙用。可见一个人的胸襟道德是最重要的。有些人有才能，但是心胸不够开阔，怨恨别人，斤斤计较，这样即使有才能，但是会让人觉得不安全，这样的同学必须要精进自己的德行，从而能够提升为有才有德的人。将对于下属，要识其才，任其能。有其能者当其位，才能令人信服，《将才》里说，如果没有足够的德才而占据这个位置的话，也不能服众，不能获得人的尊重。生活，工作中我们有可能会遇到这样的情况，以亲疏来定职位高低，这就是领导的失察，偏颇，将产生不良的后果，领导本身也会引起怨气，威望就下降。对于部下，要知道其长短，从而布置不同的工作，而工作好坏的赏罚，也要明确，这样才能做到公平。我认为，夫大材者，非一日成之，乃切磋琢磨而得。可造之才，能够顺应要求，做出改变，而不可造之才，愚钝迂腐，造的过程就是启发他，锻炼他。我是一个小小的职员，说这样的大话难免让人家笑话，不过也是，二十岁的小伙子是没有资格说这样的话，但是前人总结出来的经验，我们不得不深思。</div>
-<div class="art_content">&nbsp;</div>
-<div class="art_content">还有其中一个刘铭传的故事，令我印象深刻，刘铭传，霸气侧漏之人。遇到一伙强盗抢劫他家，父亲等人都吓呆了，刘铭传回来后，大怒，誓死要报此仇，并骂兄弟如此无能。于是去找那伙强盗指着痛骂，强盗人多，欺负他只不过是一个未成年的大孩子，从腰间抽出一把刀对他说：“你也不要骂了，你用这把刀杀了我，就算有种”，刘铭传二话不说，拍马向前，夺走那把刀，将那个强盗砍下马来，然后从从容容地下马割下那人首级。为人当如此，有如此胆识。</div>
-<div class="art_content">&nbsp;</div>
-<blockquote class="art_content">
-  <div>
-  <div>中华民族有一种骨气叫做倔强。</div>
-  <div>&nbsp;</div>
-</div>
-  <div>家勤则兴，人勤则健。既勤且健，永不贫贱。</div>
-  <div>&nbsp;</div>
-  <div>恩莫过于仁，威莫过于礼。</div>
-  <div>&nbsp;</div>
-</blockquote>
-<div class="art_content">细细思考每一句话，都能够震撼人心。如今摘录这几句我看到的认为很有用的话，用于铭记。中国近代令我佩服的有很多，曾文正算一个。用我现代的话说就是，我觉得他的语录里充满着“正能量”。当他晚年的时候，想功成身退，隐居著述，专心名山事业。哪个人不想安居乐业，万事无忧，读读书，旅旅游。然而有更大的责任要求有人要站出来承当，试问世间散乱，又怎能苟且偷安，用太平天国的忠王的话来说“欲凭赤手拯元元”，只要他敢担当，有才能，必然会被时代推到顶端，成为中华民族的脊梁。</div>
-<div class="art_content">&nbsp;</div>
-<div class="art_content">by bibodeng&nbsp;&nbsp;2013-8-5 23:59:03</div>
-<div class="art_content">&nbsp;</div>
-<div class="art_content">&nbsp;</div>
-</div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2582,7 +2572,7 @@ blockquote {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">185</span>
+              <span class="site-state-item-count">186</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -2592,7 +2582,7 @@ blockquote {
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

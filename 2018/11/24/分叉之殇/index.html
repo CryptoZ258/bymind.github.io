@@ -1,0 +1,754 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="BCH,区块链,分叉," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近的BCH分叉，可谓是让加密数字货币用户受尽了伤害，不仅手里的币因为分叉而大跌，而且整个分叉期间，由于重放问题没有彻底解决，所以大部分用户还不能使用BCH。随着这一次的分裂，人们重新审视区块链，加密数字货币的方向在哪里？区块链的价值到底在哪里？ 区块链的治理模式首先，区块链的世界里，分叉是必然会发送的，而且将来也一直在发生。 区块链里凝聚了大家的共识，所谓共识，就是人们共同的约定，来源于人们的想">
+<meta name="keywords" content="BCH,区块链,分叉">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分叉之殇">
+<meta property="og:url" content="https://bibodeng.github.io/2018/11/24/分叉之殇/index.html">
+<meta property="og:site_name" content="bibodeng">
+<meta property="og:description" content="最近的BCH分叉，可谓是让加密数字货币用户受尽了伤害，不仅手里的币因为分叉而大跌，而且整个分叉期间，由于重放问题没有彻底解决，所以大部分用户还不能使用BCH。随着这一次的分裂，人们重新审视区块链，加密数字货币的方向在哪里？区块链的价值到底在哪里？ 区块链的治理模式首先，区块链的世界里，分叉是必然会发送的，而且将来也一直在发生。 区块链里凝聚了大家的共识，所谓共识，就是人们共同的约定，来源于人们的想">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-24T03:42:06.258Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分叉之殇">
+<meta name="twitter:description" content="最近的BCH分叉，可谓是让加密数字货币用户受尽了伤害，不仅手里的币因为分叉而大跌，而且整个分叉期间，由于重放问题没有彻底解决，所以大部分用户还不能使用BCH。随着这一次的分裂，人们重新审视区块链，加密数字货币的方向在哪里？区块链的价值到底在哪里？ 区块链的治理模式首先，区块链的世界里，分叉是必然会发送的，而且将来也一直在发生。 区块链里凝聚了大家的共识，所谓共识，就是人们共同的约定，来源于人们的想">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 分叉之殇 | bibodeng </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">bibodeng</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Think By My Mind</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                分叉之殇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-11-24T11:40:16+08:00" content="2018-11-24">
+              2018-11-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2018/11/24/分叉之殇/" class="leancloud_visitors" data-flag-title="分叉之殇">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近的BCH分叉，可谓是让加密数字货币用户受尽了伤害，不仅手里的币因为分叉而大跌，而且整个分叉期间，由于重放问题没有彻底解决，所以大部分用户还不能使用BCH。随着这一次的分裂，人们重新审视区块链，加密数字货币的方向在哪里？区块链的价值到底在哪里？</p>
+<h2 id="区块链的治理模式"><a href="#区块链的治理模式" class="headerlink" title="区块链的治理模式"></a>区块链的治理模式</h2><p>首先，区块链的世界里，分叉是必然会发送的，而且将来也一直在发生。</p>
+<p>区块链里凝聚了大家的共识，所谓共识，就是人们共同的约定，来源于人们的想法，而想法这个东西，必然会存在着分歧，毕竟谁也抑制不了别人心中的想法。区块链里也一样，这一套共识，如果不认同，那么就分叉，也只能分叉。今天，社区可能仍然非常团结，但将来的某一天，假如社区里面产生了不同的声音，而且越吵越烈，最终酿成不可避免的对峙，你将会选择你最认同的那个方向，这将造成分裂。</p>
+<p>BCH当时从BTC里面分裂出来，就是因为扩容之争，多年的扩容声音没有得到Core开发组的认同，并且提出了一个走Segwit的路线，双方谈崩，从而导致分裂。2017年8月1日，BCH主动放弃了BTC的名称，引入了FORKID来做重放保护，从而新建立起了一个BCH社区。这个社区里面有着最热衷的数字货币和区块链的粉丝，可谓是真正的“区块链的火种”，一切仿佛回到比特币诞生之后不久的样子。</p>
+<p>区块链通过阶段性地硬分叉来进行升级，通过分裂的区块链竞争来解决分歧，其实从根本上来讲，区块链自己解决不了这个分歧。故而区块链的治理，只能通过多方博弈，达成一致，要么就是用真金白银，教对方做人。我们一直都期待着，区块链自己能够解决这些根本分歧，一个方案是，将协议固话，不改了，那么就不会有分裂；另外一种方案是，允许改，但是要加快节奏，这样得到支持多的活下来，循环往复，协议会往最合适的方向进化。</p>
+<h2 id="两种不同的信念"><a href="#两种不同的信念" class="headerlink" title="两种不同的信念"></a>两种不同的信念</h2><p>然而，即使看起来团结一致的社区，也不是铁板一块，其中一部分人有着执着的白皮书理念，他们坚信BCH就是要做一个P2P的Cash，这也是比特币现金的使命所在，当时的分裂就是因为BTC引入Segwit，想通过闪电网络去走现金这条路，结果又不符合P2P这一属性，从而背离了这一理念。</p>
+<p>比特币的发展过程中，一直都有两种思想，一种思想是人们从中看到了它作为全球数字货币的威力，将给人们带来金钱上的自由，不再承受大国干预、政治黑幕等带来的经济后果，人们使用的是纯粹的货币，现代社会的电子黄金。这是对比特币的经典看法，人们需要这样一个纯粹的货币。</p>
+<p>而另外一帮人，他们发现比特币里还蕴含着更广阔的应用，那就是作为价值流通的网络基础。它能够引入更多的参与方，让金钱可以编程，让有用的信息和价值得以流通。可以接入物联网设备，可以作为一个消息队列，向全球的人们广播他们的可信事件。这是互联网之后的一大革命，将有可能连同人工智能、物联网极大改变人类生活，光是想想也的确挺让人激动的。</p>
+<p>我相信绝大多BCH社区的人，都会同时有这两种信念，既希望比特币成为世界人民的Money，也希望在其上建立强大的网络和应用。它们不是矛盾的，这两种思想都源于比特币本身，比特币它有货币的性质，同时它内部使用的锁定脚本、解锁脚本，其实就是一段程序，是初始版本的智能合约。ETH的诞生，就是Vitalik想要在区块链上做更多事情，比如执行一段更强大的程序。然而BTC上，不能这么做，或者这么做非常费劲，还得不到Core的支持，所以Vitalik就带领着和他有同样理想的人去新开辟了一个领地，创造了一个图灵完备的智能合约体系，虽然还只能做一些游戏，没有什么很大的实际应用，但是它的诞生也引爆了一些新东西，比如ICO、加密猫等，带来了许多的用户。</p>
+<p>事实上，本次分叉，其实没有什么理念上的分歧，吴忌寒是这么想的，想要让世界更多人使用它，就得在上面搭建更多应用。CSW也是同时具有这两种思想，因为我们看到他试图论证比特币的图灵完备，并申请了很多专利，想要在比特币的网络上搭建智能合约系统。这两种信念，将伴随着区块链和区块链从业者，一直走下去，直到系统自己知道如何解决分歧。</p>
+<h2 id="此次的分歧"><a href="#此次的分歧" class="headerlink" title="此次的分歧"></a>此次的分歧</h2><p>我作为一个持币人，以及这个生态内的开发者，你要我选，其实我心里也是迷茫的。到底应该信谁呢？一边是意志坚定，理念纯粹的Cash派，一边是努力推进BCH迭代进程的演进派，很难选。</p>
+<p>Cash派认为 BCH的基础框架已经搭好了，后来的人不要随意地加些乱七八糟的东西进来，自以为比中本聪还聪明。事实上，比特币发展的早期，中本聪的确说过从0.1版本起，比特币的框架已经定了，需要将它set in stone，剩下的就是在上面实现各种交易类型，逐步提升处理能力，大家可以自行去探索那些潜在应用了。</p>
+<p>然而演进派，也有非常可靠的论据，比特币发展了十年之久，除了在Cash上，没有别的很大进展，还只能支持少数几种标准交易，早先人们在OP_RETURN上嵌入数据，尝试着给币染色等等，最终都不了了之，因为做起来太麻烦了，而ETH只需要几行代码。如果说，比特币要证明自己具备这样的能力，那十年的时间都过去了，为什么还没这样的一个东西出来呢？既然你是中本聪，这十年里干嘛去了？（中本聪的确许多年没露面了，最后一次露面说的还是自己在搞别的事情）</p>
+<p>分歧到达一个不能调和的阶段，就势必会分裂。于是双方以区块大小为导火索，展开了一轮又一轮的辩论。理念派认为，应当扩容到128MB才能有真正的商业应用，而演进派相对保守，认为目前区块交易就那么点，还有别的事情比区块扩容紧急，好嘛！依我来看，区块大小，大家的长远计划，都是要扩容，扩大到多少为止呢？和现在的32MB相比，扩大到128MB，没有什么实际意义，而且这才扩不久，我们的终极目标都是扩大到没有限制，你有多大本事，就打多大的区块，这也符合中本聪当初的设计。</p>
+<p>比特币作为一个基础协议，应该尽可能简洁，并且要灵活，应当去除各种各样的限制，比如区块大小限制、OP_Code限制，这样才能满足未来潜在的需求，比如在上面承载智能合约，在上面运行着大量跟钱相关的程序。</p>
+<p>平心而论，双方都有一定的道理，两个方向都保持有一条链在探索，也是很好的，左手Cash，右手应用。然而，双方都没有妥协，因为继承BCH的用户和社区，是最好的结果，如果要另起炉灶，那规模就太小了。事实上，对的方案应当是，应用带来了更多用户，而更多用户，使得BCH成为了Cash。</p>
+<h2 id="对人的揣测"><a href="#对人的揣测" class="headerlink" title="对人的揣测"></a>对人的揣测</h2><p>我们都知道，为首的两方，一方是nchain为代表的Cash派，代表人物是CSW，另外一方是比特大陆为代表的演进派，代表人物是Jihan。首先两个都是公司，两个人又都是商人。既然是公司和商人，那么除了有对BCH的信仰，必定有一定的野心，想要从BCH的发展中获利。而且人本身就非常复杂，说的和做的，有可能是不统一的。</p>
+<p>进入分叉后，双方就在社交网络上互相攻击，也有人YY了很多的阴谋论，不过大多都只能呵呵一乐。</p>
+<p>Jihan是比特大陆的CEO，据说公司和个人都持有很多的BCH，至于为什么要屯BCH，那应该是看好BCH未来能够增值，能够获得收益，这点上BCH用户和BCH生态建设者们都是一样的。至于人们揣测的，比特大陆想要掌控BCH，现在持有大量的币和算力，他们最担心的应该是过于中心化，导致手里的币不值钱，之前忌寒还表示过要从社区里退休。</p>
+<p>通过BCH最好的获益方式，就是建设整个生态，一起将蛋糕做大，从中获益，掌控它，只会让它变得不值钱，因为当人们看到它只由少数人说了算的时候，大部分人的自由就没有办法保证了。BCH只是比特大陆生意的一个，也是最看好的一个，比特大陆没有动机去摧毁它，只是想从中赚到钱。如果说想通过一些PoS、收矿工税、把BCH变成ETH等方案，来进一步掌握BCH，这样将会激起非常多人的反对，不过这些提案最终也都被否决了。如此看来，比特大陆整体还是尊重社区意愿的。</p>
+<p>而对于CSW，他自己也跳出来说自己是中本聪，之前挺多人都认为他是中本聪，包括许多大佬。因为据说他对于比特币的理解是最深刻的，并且他为人非常狂放，怼了无数的人，看起来是天才的作风。然而也有非常多人质疑他是中本聪，其中包括Vitalik，他不认为CSW是中本聪，如果是这样的话，他将改变对中本聪的看法。</p>
+<p>中本聪是什么样的一个人，我们无从知道，不过我们“观其文，想见其人”，每个人都可以从他的一些言行中推测出不同的为人。目前比较可信的一个观点是，CSW是中本聪团队里的一员，至少是早期见证者，发现了比特币的巨大威力，想要凭借比特币获得商业上的成功，因而对比特币了解比较深。他发表的言论，也一直在强调BCH要做money，他要的就是money，如果别人不答应，他宁愿互相伤害。</p>
+<p>这里我们做一个思想实验，假设真正的中本聪，他会怎么做？他会不会突然跳出来，胁迫所有人，必须要按他的方案来走？我想，真正的中本聪先生，他早年就放弃掌控社区，推位让“国”，并且销声匿迹，不愿露面，极小可能会这么做。我相信CSW是看到了无限可能，包括全球的money，还有广阔的应用场景（比如票据Tokenized），才会为之执着。但是如果说想坚持，谈不拢分叉出来，不互相攻击也是可以的，毕竟，区块链里就是要容忍不同意见，凝聚共识。</p>
+<p>现在的局面，BCH已然分裂成为了BCHABC和BCHSV两条链，两条链之间没有做防重放，互相之间还进行过算力战，使得用户发送交易非常不便，除非钱包做了防重放，稍微会好一些（我们IFWallet就做了）。但是，只有最终区块链主动做了升级，才会将这朵笼罩的乌云驱散。</p>
+<h2 id="用户的利益"><a href="#用户的利益" class="headerlink" title="用户的利益"></a>用户的利益</h2><p>现在的局面，BCH分裂已成定局，谁能继承BCH的名字，谁主动出防重放措施，都是争议的焦点。目前继承BCH各项遗产的，比较大的概率是BCHABC，因为大家厌倦了分裂，厌倦了争吵，想要继续BCH的发展。BCH在分裂之前形势向好，许多Token方案出台，许多浏览器、钱包、矿池等基础设施纷纷出现，然而分叉一来，统统都得停下来。</p>
+<p>用户也是希望这样的战争尽快结束，否则的话，双方互相砸盘，将手里的币砸到一钱不值，忍受这种巨额的亏损，谁也不能保证自己信仰到底有多坚定。一根阳线，改变信仰，一根阴线，也能改变信仰。所以这场分裂，其实是不符合用户利益的。很不幸，这场分裂没能避免，那么就应当今早结束，恢复用户的使用。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>分裂既然已成现实，那么我们就接受这个现实，两边社区都要各自好好发展，产生更多应用，获得更多用户。我们作为区块链从业者，也希望能够尽量少打这种两败俱伤的战争，应该说是多败俱伤的战争，应该集中有限的精力，去探讨和实现更多的可能，让BCH真正成为很多用户使用的Cash，成为未来的价值互联网基础协议。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/BCH/" rel="tag">#BCH</a>
+          
+            <a href="/tags/区块链/" rel="tag">#区块链</a>
+          
+            <a href="/tags/分叉/" rel="tag">#分叉</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/29/粉尘交易的定义与处理/" rel="next" title="粉尘交易的定义与处理">
+                <i class="fa fa-chevron-left"></i> 粉尘交易的定义与处理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/bitcoin-cash-logo.svg"
+               alt="bibodeng" />
+          <p class="site-author-name" itemprop="name">bibodeng</p>
+          <p class="site-description motion-element" itemprop="description">区块链爱好者，互联网从业者</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">186</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/bibodeng" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/bibodeng" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/bibodeng" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifwallet.com" title="IFWallet" target="_blank">IFWallet</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://ifpass.cash" title="IFPassword" target="_blank">IFPassword</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#区块链的治理模式"><span class="nav-number">1.</span> <span class="nav-text">区块链的治理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两种不同的信念"><span class="nav-number">2.</span> <span class="nav-text">两种不同的信念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#此次的分歧"><span class="nav-number">3.</span> <span class="nav-text">此次的分歧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对人的揣测"><span class="nav-number">4.</span> <span class="nav-text">对人的揣测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户的利益"><span class="nav-number">5.</span> <span class="nav-text">用户的利益</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">6.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bibodeng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("RrMSWOa8nuCnCCWn8TyPa7Od-gzGzoHsz", "8xnzit83sqv6vUEuXlsEWe0s");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
