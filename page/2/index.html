@@ -255,6 +255,132 @@
             
               
                 
+                <a class="post-title-link" href="/2017/03/15/简易的会话管理工具tmux教程/" itemprop="url">
+                  简易的会话管理工具tmux教程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-03-15T09:29:04+08:00" content="2017-03-15">
+              2017-03-15
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2017/03/15/简易的会话管理工具tmux教程/" class="leancloud_visitors" data-flag-title="简易的会话管理工具tmux教程">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##为啥要用tmux<br>在我们远程连接服务器的时候，往往终端连接的ssh因为网络问题非常容易中断，所以聪明的工程师发明了一个即使连接中断了，但是这个会话并没有结束，你重新连上去，依然还是上次你断开连接时候的样子，你可以继续做的你的编辑或者其它工作，它依然在等着你，听着是不是很酷？</p>
+<h2 id="tmux命令"><a href="#tmux命令" class="headerlink" title="tmux命令"></a>tmux命令</h2><p>要使用tmux，首先你需要在远程服务器中安装一个tmux:</p>
+<pre><code>apt-get install tmux
+</code></pre><p>tmux有一组子命令，用来管理会话，从新建一个会话，到重命名会话，到结束一个会话，都有对应的命令可用。在连上远程服务器后，用如下命令创建一个会话：</p>
+<pre><code>tmux new -s vim // 创建了一个叫做 vim 的会话
+tmux // 创建一个系统自动编号的会话
+</code></pre><p>会话新建后会进入自己专有的命令行交互。如果你做了很多别的，改变了这个session的用途，比如之前进行vim编辑的session，被你用来运行<code>python manage.py runserver</code>了,那么你可以重命名它：</p>
+<pre><code>tmux rename-session -t vim runserver
+</code></pre><p>这样vim就变成runserver了，你可以通过下面的命令查看所有的会话：</p>
+<pre><code>tmux ls
+</code></pre><p>你将看到一个列表，展示了所有会话的名字和占用状态，如果是attach，那么说明已经被连接。<br>假如我们想要退出一个会话，直接关闭ssh窗口即可，那么下次回来你通过attach来重回会话：</p>
+<pre><code>tmux attach -t vim
+// 或 tmux a -t vim
+// 或 tmux at -t vim
+</code></pre><p>如果这个session已经不再使用了，可以用如下命令退出当前session：</p>
+<pre><code>exit
+</code></pre><p>这样你通过<code>tmux ls</code>就看不到这个会话了，它被删除了。</p>
+<p>另外，想要查看当前的会话名称，可以运行下面的命令：</p>
+<pre><code>tmux display-message -p &apos;#S&apos;
+</code></pre><p>也可以使用alias来减少输入的字符，比如只用tmux_curr即可代表上述命令:</p>
+<pre><code>alias tmux_curr=&apos;tmux display-message -p &quot;#S&quot;
+</code></pre><p>也可以vim .bashrc 编辑bash配置，这样每次登录时会自动配置alais，在.bashrc中上面一行。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>程序员应该通过一些工具提升自己的工作效率，减少一些不必要的麻烦，tmux就是这样的一种工具，可以存储和恢复会话。有兴趣的同学可以研究一下tmux的更多命令和原理，它实际上是模拟了一个登录会话，并且常驻在服务器中，当attach的时候，相当于是通过tmux代理来连接真正的会话。</p>
+<p>by bibodeng 2017-03-15</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/03/14/《为什么要写作》练习题/" itemprop="url">
                   《为什么要写作》练习题
                 </a>
@@ -1347,156 +1473,6 @@ chown mysql:mysql /mnt/mysql
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/01/ubuntu环境下安装比特币软件/" itemprop="url">
-                  ubuntu环境下安装比特币软件
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-01T13:26:53+08:00" content="2016-12-01">
-              2016-12-01
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2016/12/01/ubuntu环境下安装比特币软件/" class="leancloud_visitors" data-flag-title="ubuntu环境下安装比特币软件">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>windows及mac等环境安装比特币软件方法不在本篇阐述，本篇介绍如何在ubuntu 14.04环境下搭建比特币的核心程序。</p>
-<p>##准备<br>首先，添加比特币的程序PPA源</p>
-<pre><code>add-apt-repository ppa:bitcoin/bitcoin
-apt-get update
-</code></pre><p>如果你支持bitcoin unlimited，支持更大的区块，想安装比特币的unlimited版本，则将以上语句换成：</p>
-<pre><code>sudo add-apt-repository ppa:bitcoin-unlimited/bu-ppa
-apt-get update
-</code></pre><p>还需要安装一些依赖：</p>
-<pre><code>apt-get install libboost-all-dev libdb4.8-dev libdb4.8++-dev
-</code></pre><p>##安装<br>安装很简单，只需要执行下面命令：</p>
-<pre><code>apt-get install bitcoind bitcoin-qt 
-</code></pre><p>##运行<br>将二进制程序纳入到path所涵盖的目录中，这样无需输入完整路径就能够运行程序了。</p>
-<pre><code>ln -s /usr/bin/bitcoind /usr/local/bin/bitcoind
-</code></pre><p>我的系统将bitcoind安装到了/usr/bin/bitcoind了，以上是将/usr/bin/bitcoind 软链接到 /usr/local/bin目录中，也可以不链接。<br>运行之前，先创建一bitcoin目录，添加一个配置文件bitcoin.conf，bitcoind运行时自动会读取配置文件。</p>
-<pre><code>cd ~/
-mkdir .bitcoin
-cd .bitcoin
-vim bitcoin.conf
-</code></pre><p>编辑配置文件的内容：</p>
-<pre><code>server=1
-daemon=1
-testnet=1
-rpcuser=UNIQUE_RPC_USERNAME
-rpcpassword=UNIQUE_RPC_PASSWORD
-</code></pre><p>rpcuser和rpcpassword可以任意填写，但是二者不能相同，testnet表示同步的将是testnet的数据，去除该配置，则从正式环境比特币区块链中同步数据，具体的配置文件模板可以参考<a href="http://we.lovebitco.in/bitcoin-qt/configuration-file/" target="_blank" rel="noopener">bitcoin.conf模板</a><br>配置文件写好后，则可以直接运行比特币的服务程序了。</p>
-<pre><code>bitcoind
-</code></pre><p>##测试<br>比特币核心节点运行起来后，我们可以使用bitcoin-cli来跟bitcoind通信，获取其中同步的数据，运行下面命令，可以测试比特币核心是否运行起来了。</p>
-<pre><code>bitcoin-cli getinfo 
-</code></pre><p>getinfo可以看到类似如下信息，表明了比特币核心的运行情况：</p>
-<pre><code>    {
-  &quot;version&quot;: 130100,
-  &quot;protocolversion&quot;: 70014,
-  &quot;walletversion&quot;: 130000,
-  &quot;balance&quot;: 0.00000000,
-  &quot;blocks&quot;: 151998,
-  &quot;timeoffset&quot;: 0,
-  &quot;connections&quot;: 8,
-  &quot;proxy&quot;: &quot;&quot;,
-  &quot;difficulty&quot;: 1203461.926379965,
-  &quot;testnet&quot;: false,
-  &quot;keypoololdest&quot;: 1480560958,
-  &quot;keypoolsize&quot;: 100,
-  &quot;paytxfee&quot;: 0.00000000,
-  &quot;relayfee&quot;: 0.00001000,
-  &quot;errors&quot;: &quot;&quot;
-}
-</code></pre><p>通过尝试，你可以使用更多命令，如getblockhash, getblock, getrawtransaction 等，具体的命令列表参考 <a href="https://bitcoin.org/en/developer-reference#bitcoin-core-apis" target="_blank" rel="noopener">bitcoin rpc命令</a></p>
-<p>祝玩比特币愉快~</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1542,7 +1518,7 @@ rpcpassword=UNIQUE_RPC_PASSWORD
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">186</span>
+              <span class="site-state-item-count">187</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1552,7 +1528,7 @@ rpcpassword=UNIQUE_RPC_PASSWORD
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
