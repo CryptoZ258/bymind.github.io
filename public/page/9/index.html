@@ -255,6 +255,146 @@
             
               
                 
+                <a class="post-title-link" href="/2013/08/22/实现网站SNS分享/" itemprop="url">
+                  实现网站SNS分享
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-08-22T09:19:45+08:00" content="2013-08-22">
+              2013-08-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/08/22/实现网站SNS分享/" class="leancloud_visitors" data-flag-title="实现网站SNS分享">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<div>网页开发中，经常要实现将内容分享到sns网站，以获得更多的关注。在前段时间做活动页的过程中，多次用到了引入微博分享功能，要将一个分享写得优雅，正确，还真的需要一定的经验。平常的网页中，都有一些分享的js插件，只需要在页面中嵌入第三方的js代码就ok了。本文将讲讲怎样实现一个社交分享功能。</div>
+<div>&nbsp;</div>
+<div>方法一： 使用微博提供的接口，直接部署分享组件。</div>
+<div>&nbsp;</div>
+<div>在 <a href="http://open.weibo.com/widgets" target="_blank" rel="noopener">http://open.weibo.com/widgets</a> 
+这个页面中，有介绍各种常用的微博组件。按照文档，直接在该页面定制组件，生成代码，贴到我们的网页中去就可以了。</div>
+<div>&nbsp;</div>
+<div>方法二： 使用第三方的组件</div>
+<div>&nbsp;</div>
+<div>不直接在开放平台引入接口，而是用第三方的集成了多种社交网络的功能组件。例如 <a href="http://www.jiathis.com/" target="_blank" rel="noopener">http://www.jiathis.com/</a>&nbsp;这里，也可以定制你常用的分享组件，和方法一差不多，都是嵌入一段代码。</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>方法三 ： 自己动手写js代码</div>
+<div>&nbsp;</div>
+<div>有时候网站设计上要求各种元素要丰富有个性，往往组件什么的就太简陋了，不太适用。那么就需要自己动手写一个分享功能。比如，在某些时候，我们的网页设计师给程序猿设计好了一个漂亮的分享按钮，但是是图片，那么这时候嵌入组件显然不太合适，那么就写一段代码，通过各种SNS网站的接口发布出去。我们发现，其实微博分享，也不过是构造一个url带有各种参数，传递到该页，然后打开一个新窗口，供用户发布就ok了。</div>
+<div>&nbsp;<p><span style="line-height:1.5;">以新浪微博为例：</span></p>
+</div>
+<pre class="brush:js; toolbar: true; auto-links: true;">var Share = {
+    openWindow: function(url, name, properties) {
+        properties = (properties || "");
+        if (!window.open(url, name, properties)) {
+            window.self.location.href = url;
+        }
+        return false;
+    },
+    tsina:  function (title, href, content) {
+        title = (title || "" );
+        href = (href || window.self.location.href);
+        content = (content || "" );
+         var url = "http://v.t.sina.com.cn/share/share.php?c=spr_web_bd_tudou_weibo&amp;title=" + encodeURIComponent(title + "\n" + content) + "&amp;url=" + encodeURIComponent(href);
+         return Share.openWindow(url, "Sina" );
+    }
+};</pre> <div>写一个函数，只要传入title，url，还有要分享的content，那么就可以构造一个分享的链接了。分享的链接格式，所带参数名称都要参考对应的开放平台的文档。依次类推，就可以写出一个自己的Share库了，这样就可以调用Share.tsina()这样进行分享了，极大地方便了js编写分享功能。对于url进行了encodeURIComponent()处理，将一些在url中的控制字符转换成为安全的编码格式。你将会看到编码成这样的奇怪的url：<a href="http://share.sina.com/index.php?title=%E9%87%91%E7%AB%8B%E5%AE%98%E7%BD%91" target="_blank" rel="noopener">http://share.sina.com/index.php?title=%E9%87%91%E7%AB%8B%E5%AE%98%E7%BD%91</a></div>
+<div>&nbsp;</div>
+<div>有了这个基础，就可以做选择某部分文本进行分享，点击某按钮进行分享了。更多微博控件，可以参考<a href="http://open.weibo.com/widgets" style="line-height:1.5;font-family:'sans serif', tahoma, verdana, helvetica;" target="_blank" rel="noopener">http://open.weibo.com/widgets</a></div>
+<div>&nbsp;</div>
+<div>by bibodeng</div>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/08/06/曾国藩传记笔记/" itemprop="url">
                   曾国藩传记笔记
                 </a>
@@ -2038,441 +2178,6 @@ blockquote {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/05/08/微信公众开发——实现功能/" itemprop="url">
-                  微信公众开发——实现功能
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-05-08T17:08:04+08:00" content="2013-05-08">
-              2013-05-08
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/05/08/微信公众开发——实现功能/" class="leancloud_visitors" data-flag-title="微信公众开发——实现功能">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<div class="art_content" style="font-size:15px;letter-spacing:1px;line-height:1.3em;"><h3 style="background-color:#222222;color:#ffffff;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">承启</h3>
-<p style="font-family:'Times New Roman';">&nbsp;因为之前设计了要实现一个微信机器人，以向用户响应响应的文章，这个app十分地简单，并不需要特别深入的设计，而且我的想法是：拿来主义， 反正github上面那么多的用python写的博客系统，我只需要实现微信响应的部分，也就是从数据库中获取文章的数据，然后将文章的标题，url，图片等信息打包成xml格式返回给微信服务器，服务器再返回给用户。而且我发现，有菜单的会好很多，就像一个完整的app，可以直接点击察看某篇文章，而不是硬邦邦的回复。我是用别人写的一个博客系统进行改造——<a href="https://github.com/ego008/saepy-log" target="_blank">saepy-log</a>.而这个博客系统又是基于tornado框架的，本来不打算染指tornado的，但是不得不硬着头皮钻研。其中遇到了很多困难，在sql语句的like写法，察看文档方面有了比较大的收获。</p>
-<p style="font-family:'Times New Roman';"></p>
-<h3 style="background-color:#222222;color:#ffffff;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">部署与开发</h3>
-<p style="font-family:'Times New Roman';">&nbsp;事先说明，由于我是各种折腾，所以可能照本篇文章做是做不成的。下载了saepy-log的源码后，按照<a href="http://saepy.sinaapp.com/topic/50/SAEpy-logv0.0.2%E4%BD%BF%E7%94%A8%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" target="_blank">这里</a>的操作进行上传后，就可以将博客系统安装在sae平台上了，然后用svn把代码同步下来到本地工作目录，一切准备就绪。我们会看到我们的博客已经可以访问了，而且我们本地还有博客的所有代码：</p>
-<p style="font-family:'Times New Roman';"><img src="http://note.wiz.cn/unzip/3eb90c0e-f584-11e0-a072-00237def97cc/48a8ea30-42f1-29f2-8699-0c8602a3df0a.7064/index_files/5563e0e188ffbfb82f3ae90d59cb5a14.png"></p>
-<p style="font-family:'Times New Roman';"></p>
-<p style="font-family:'Times New Roman';">我们要修改的是blog.py是博客的核心功能所在，还有modle.py是数据模型的关键所在，我们将要扩展数据模型功能，使之完成我们的微信功能。</p>
-<p style="font-family:'Times New Roman';"></p>
-<p style="font-family:'Times New Roman';">在blog.py里面添加我们的微信功能类 weixin.py(由于是用tornado框架，所以方法与在django里面略有不同):</p>
-<p style="font-family:'Times New Roman';">导入需要用到的包</p>
-<pre class="brush:python;toolbar:false;"># weixin used package
-import xml.etree.ElementTree as ET  
-import urllib,urllib2,time,hashlib
-                                       
-import tornado.wsgi
-import tornado.escape</pre><p style="font-family:'Times New Roman';">主要是xml的解析和一些处理字符串的包，接下来我们定义weixin类的主体：</p>
-<pre class="brush:python;toolbar:false;"># 添加微信推送帐号
-class WeiXinPoster(BaseHandler):
-    #-----------------------------------------------------------------------
-    # 处理get方法 对应check_signature
-    def get(self):
-        global TOKEN  
-        signature = self.get_argument("signature")
-        timestamp = self.get_argument("timestamp")
-        nonce = self.get_argument("nonce")
-        echoStr = self.get_argument("echostr")
-        token = TOKEN  
-        tmpList = [token,timestamp,nonce]  
-        tmpList.sort()  
-        tmpstr = "%s%s%s" % tuple(tmpList)  
-        tmpstr = hashlib.sha1(tmpstr).hexdigest()
-                                      
-        if tmpstr == signature: 
-            self.write(echoStr) 
-            #return echoStr
-        else:  
-            self.write(None);
-            #return None
-                                                  
-    # 处理post方法,对应response_msg
-    def post(self):
-        global SORRY
-        # 从request中获取请求文本
-        rawStr = self.request.body
-        # 将文本进行解析,得到请求的数据
-        msg = self.parse_request_xml(ET.fromstring(rawStr))
-        # 根据请求消息来处理内容返回
-        query_str = msg.get("Content")
-        query_str = tornado.escape.utf8(query_str)
-        # TODO 用户发来的数据类型可能多样，所以需要判别
-        response_msg = ""
-        return_data = ""
-        # 使用简单的处理逻辑，有待扩展
-        if query_str[0] == "h":     # send help menu to user
-            response_msg = self.get_help_menu()     # 返回消息
-            # 包括post_msg，和对应的 response_msg
-            if response_msg:
-                return_data = self.pack_text_xml(msg, response_msg)
-            else:
-                response_msg = SORRY
-                return_data = self.pack_text_xml(msg, response_msg)
-            self.write(return_data)
-        # 分类
-        elif query_str[0] =="c":
-            category = query_str[1:]
-            response_msg = self.get_category_articles(category)
-            if response_msg:
-                return_data = self.pack_news_xml(msg, response_msg)
-            else:
-                response_msg = SORRY
-                return_data = self.pack_text_xml(msg, response_msg)
-            self.write(return_data)
-        # 列出文章列表    
-        elif query_str[0] =="l":
-            response_msg = self.get_article_list()
-            if response_msg:
-                return_data = self.pack_text_xml(msg, response_msg)
-            else:
-                response_msg = SORRY
-                return_data = self.pack_text_xml(msg, response_msg)
-            self.write(return_data)
-        # 直接获取某篇文章  
-        elif query_str[0] == "a":
-            # 直接获取文章的id，然后在数据库中查询
-            article_id = int(query_str[1:])
-            # 进行操作
-            response_msg = self.get_response_article_by_id(article_id)
-            if response_msg:
-                return_data = self.pack_news_xml(msg, response_msg)
-            else:
-                response_msg = SORRY
-                return_data = self.pack_text_xml(msg, response_msg)
-            self.write(return_data)
-                                                  
-        # 还要考虑其他
-        elif query_str[0] == "s":
-            keyword = str(query_str[1:])
-            # 搜索关键词，返回相关文章
-            response_msg = self.get_response_article(keyword)
-            # 返回图文信息
-            if response_msg:
-                return_data = self.pack_news_xml(msg, response_msg)
-            else:
-                response_msg = SORRY
-                return_data = self.pack_text_xml(msg, response_msg)
-            self.write(return_data)
-                                                  
-        elif query_str[0] == "n":
-            response_msg = self.get_latest_articles()
-            # 返回图文信息
-            if response_msg:
-                return_data = self.pack_news_xml(msg, response_msg)
-            else:
-                response_msg = SORRY
-                return_data = self.pack_text_xml(msg, response_msg)
-            self.write(return_data)
-        # 如果找不到，返回帮助信息
-        else:
-            response_msg = get_help_menu()
-            if response_msg:
-                return_data = response_msg
-            else:
-                return_data = SORRY
-            self.write(return_data)
-    # n for 获取最新的文章
-    def get_latest_articles(self):
-        global MAX_ARTICLE
-        global PIC_URL
-        article_list = Article.get_articles_by_latest()
-        article_list_length = len(article_list)
-        count = (article_list_length &lt; MAX_ARTICLE) and article_list_length or MAX_ARTICLE
-        if article_list:
-            # 构造图文消息
-            articles_msg = {'articles':[]}
-            for i in range(0,count):
-                article = {
-                        'title': article_list[i].slug,
-                        'description':article_list[i].description,
-                        'picUrl':PIC_URL,
-                        'url':article_list[i].absolute_url
-                    }
-                # 插入文章
-                articles_msg['articles'].append(article)
-                article = {}
-            # 返回文章
-            return articles_msg
-                                          
-    #-----------------------------------------------------------------------
-    # 解析请求,拆解到一个字典里        
-    def parse_request_xml(self,root_elem):
-        msg = {}
-        if root_elem.tag == 'xml':
-            for child in root_elem:
-                msg[child.tag] = child.text  # 获得内容  
-            return msg
-                                      
-    #-----------------------------------------------------------------------
-    def get_help_menu(self):
-        menu_msg = '''欢迎关注南苑随笔，在这里你能获得关于校园的资讯和故事。回复如下按键则可以完成得到相应的回应
-        h ：帮助(help)
-        l ：文章列表(article list)
-        f : 获得分类列表
-        n : 获取最新文章
-        a + 数字 ：察看某篇文章 a2 察看第2篇文章
-        s + 关键字 : 搜索相关文章 s科研 察看科研相关
-        c + 分类名 ： 获取分类文章 c校园生活 察看校园生活分类
-        其他 ： 功能有待丰富'''
-        return menu_msg
-    #-----------------------------------------------------------------------
-    # 获取文章列表
-    def get_article_list(self):
-        # 查询数据库获取文章列表 
-        article_list = Article.get_all_article_list()
-        article_list_str = "最新文章列表供您点阅，回复a+数字即可阅读: \n"
-        for i in range(len(article_list)):
-            art_id = str(article_list[i].id)
-            art_id = tornado.escape.native_str(art_id)
-                                                  
-            art_title = article_list[i].title
-            art_title = tornado.escape.native_str(art_title)
-                                                  
-            art_category = article_list[i].category
-            art_category = tornado.escape.native_str(art_category)
-                                                  
-                                                  
-            article_list_str +=  art_id + ' ' + art_title + ' ' + art_category + '\n'
-        return article_list_str
-                                              
-    # 按照分类查找
-    def get_category_articles(self, category):
-        global MAX_ARTICLE
-        global PIC_URL
-        article_list = Article.get_articles_by_category(category)
-        article_list_length = len(article_list)
-        count = (article_list_length &lt; MAX_ARTICLE) and article_list_length or MAX_ARTICLE
-        if article_list:
-            # 构造图文消息
-            articles_msg = {'articles':[]}
-            for i in range(0,count):
-                article = {
-                        'title': article_list[i].slug,
-                        'description':article_list[i].description,
-                        'picUrl':PIC_URL,
-                        'url':article_list[i].absolute_url
-                    }
-                # 插入文章
-                articles_msg['articles'].append(article)
-                article = {}
-            # 返回文章
-            return articles_msg
-    #-----------------------------------------------------------------------
-    # 获取用于返回的msg
-    def get_response_article(self, keyword):
-        global PIC_URL
-        keyword = str(keyword)
-        # 从数据库查询得到若干文章
-        article = Article.get_article_by_keyword(keyword)
-        # 这里先用测试数据
-        if article:
-            title = article.slug
-            description = article.description
-            picUrl = PIC_URL
-            url = article.absolute_url
-            count = 1
-            # 也有可能是若干篇
-            # 这里实现相关逻辑，从数据库中获取内容
-                                                  
-            # 构造图文消息
-            articles_msg = {'articles':[]}
-            for i in range(0,count):
-                article = {
-                        'title':title,
-                        'description':description,
-                        'picUrl':picUrl,
-                        'url':url
-                    }
-                # 插入文章
-                articles_msg['articles'].append(article)
-                article = {}
-            # 返回文章
-            return articles_msg
-        else:
-            return
-                                          
-    def get_response_article_by_id(self, post_id):
-        global PIC_URL
-        # 从数据库查询得到若干文章
-        article = Article.get_article_by_id_detail(post_id)
-        # postId为文章id
-        if article:
-            title = article.slug
-            description = article.description
-            picUrl = PIC_URL
-            url = article.absolute_url
-            count = 1
-            # 这里实现相关逻辑，从数据库中获取内容
-                                                  
-            # 构造图文消息
-            articles_msg = {'articles':[]}
-            for i in range(0,count):
-                article = {
-                        'title':title,
-                        'description':description,
-                        'picUrl':picUrl,
-                        'url':url
-                    }
-                # 插入文章
-                articles_msg['articles'].append(article)
-                article = {}
-            # 返回文章
-            return articles_msg
-        else:
-            return</pre><p style="font-family:'Times New Roman';"></p>
-<p style="font-family:'Times New Roman';">&nbsp;可见app的难度并不大，还是和上次<a href="/?post=109" target="_blank">使用微信API</a>里面的和接近，需要用到的几个全局变量，需要自己定义，如token，如PIC_URL等。程序原理其实就是解析用户请求，h开头，则提供帮助菜单，a开头加数字的，就提供某篇文章，等等，然后提供相应的函数进行处理，这里面说明起来比较复杂，就以获取分类文章来讲吧：</p>
-<p style="font-family:'Times New Roman';">需要用到分析用户请求字符串：</p>
-<pre class="brush:python;toolbar:false;"># 分类
-        elif query_str[0] =="c":
-            category = query_str[1:]
-            response_msg = self.get_category_articles(category)
-            if response_msg:
-                return_data = self.pack_news_xml(msg, response_msg)
-            else:
-                response_msg = SORRY
-                return_data = self.pack_text_xml(msg, response_msg)
-            self.write(return_data)</pre><p style="font-family:'Times New Roman';">这里要提供get_category_articles(category)的功能，所以需要在weixin类里面实现一个这样的函数：</p>
-<pre class="brush:python;toolbar:false;"># 按照分类查找
-    def get_category_articles(self, category):
-        global MAX_ARTICLE
-        global PIC_URL
-        article_list = Article.get_articles_by_category(category)
-        article_list_length = len(article_list)
-        count = (article_list_length &lt; MAX_ARTICLE) and article_list_length or MAX_ARTICLE
-        if article_list:
-            # 构造图文消息
-            articles_msg = {'articles':[]}
-            for i in range(0,count):
-                article = {
-                        'title': article_list[i].slug,
-                        'description':article_list[i].description,
-                        'picUrl':PIC_URL,
-                        'url':article_list[i].absolute_url
-                    }
-                # 插入文章
-                articles_msg['articles'].append(article)
-                article = {}
-            # 返回文章
-            return articles_msg</pre><p style="font-family:'Times New Roman';">很显然，这里需要和数据库模型Article打交道，看看Article是否实现了该功能，很遗憾没有，那么我们只好卷起袖子自己干——扩展Article,所以我们转战到modle.py文件里面了，写下了如下的代码：</p>
-<pre class="brush:python;toolbar:false;"># 返回一个包含若干篇文章的数组 limit 5
-    def get_articles_by_category(self, category):
-        sdb._ensure_connected()
-        article_list = sdb.query('SELECT * FROM `sp_posts` WHERE `category` = %s LIMIT 5', str(category))
-        for i in range(len(article_list)):
-            article_list[i] = post_detail_formate(article_list[i])
-        return article_list</pre><p style="font-family:'Times New Roman';">这里进行了数据库查询，将category参数传递进去，选择category为参数的5篇文章，打包返回。post_detail_formate是博客系统已经写好的，我们只要拿来用就行了。在python里面，写sql语句要很小心，遇到要传入参数的，最好是用逗号分割开，而不是使用%来填充参数。特别是使用like的时候，我们往往需要写这样的sql语句：</p>
-<blockquote style="background-color:#ccff99;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';"><p>SELECT * FROM `sp_posts` WHERE `category` LIKE '%study%'</p>
-</blockquote>
-<p style="font-family:'Times New Roman';">&nbsp;但是python里面又是用%s做参数占位符的，故而会引起很多不必要的错误，比如<a href="http://stackoverflow.com/questions/2097475/how-to-safely-generate-a-sql-like-statement-using-python-db-api" target="_blank">这里</a>。总之要安全使用，最好是作为参数传递，python会为他们与原字符串里的%等分开。</p>
-<p style="font-family:'Times New Roman';"></p>
-<h3 style="background-color:#222222;color:#ffffff;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">上传发布</h3>
-<p style="font-family:'Times New Roman';">完成功能后就可以发布了，虽然还有很多不足的地方，但是测试发现，还是可以使用的。本项目将开源到github中，欢迎使用（需要修改部分的参数，例如博客名称等），或者交流研究源代码。实现后的功能是这样字的：</p>
-<p style="font-family:'Times New Roman';"><img src="http://note.wiz.cn/unzip/3eb90c0e-f584-11e0-a072-00237def97cc/48a8ea30-42f1-29f2-8699-0c8602a3df0a.7064/index_files/42292137d77242164a4707ba50cf9410.jpg"><img src="http://note.wiz.cn/unzip/3eb90c0e-f584-11e0-a072-00237def97cc/48a8ea30-42f1-29f2-8699-0c8602a3df0a.7064/index_files/1dc8e6defb343317df105528dd724f2e.jpg"></p>
-<p style="font-family:'Times New Roman';">比如回复一个a9,将返回第9篇文章；回复l,列出所有文章。吐槽一下我们宿舍的网络，差到离谱，我是获取信息之后才截屏的。</p>
-<p style="font-family:'Times New Roman';"></p>
-<p style="font-family:'Times New Roman';">该篇并不是要将实现的所有细节披露出来，披露细节最好的方法就是公开源代码，接下来会发布到github上面去，只需稍微配置，你就可以拥有一个可以推送到微信的博客了（我不会告诉你wordpress早就出微信插件了）。经过这一番折腾，可以得出一个微信第三方开发的经验，那就是初步制定好自己的app需要提供什么功能，然后接着设计一个类，处理各种的请求，将各种处理部分封装起来，例如按照分类获取文章，或者获取文章列表等，然后在这里面调用数据库模型里面的功能来实现。这是MVC的一种便利之处。此外，还要勇于阅读源代码和英文文档，我之前google了很多字符串转换编码的方法，没有成功，但是阅读了tornado的文档之后，我恍然大悟。例如之前在django里面写这个应用的时候，我们获取的还是request.raw_post_data,现在改成了self.request.body，不看文档，想破头也想不出来。功能实现虽然告一段落，但是这个项目还有很多需要重写一次，使得它的表现更好，安全性更高。这里不得不提一下，服务器中采用tornado真的不是一般快~</p>
-<p style="font-family:'Times New Roman';"></p>
-<h3 style="background-color:#222222;color:#ffffff;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">END</h3>
-<p style="font-family:'Times New Roman';">by bibodeng 2013-05-08</p>
-<p style="font-family:'Times New Roman';"></p>
-<p style="font-family:'Times New Roman';"></p>
-<p style="font-family:'Times New Roman';"></p>
-</div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2518,7 +2223,7 @@ class WeiXinPoster(BaseHandler):
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">186</span>
+              <span class="site-state-item-count">187</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -2528,7 +2233,7 @@ class WeiXinPoster(BaseHandler):
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

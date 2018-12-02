@@ -255,6 +255,116 @@
             
               
                 
+                <a class="post-title-link" href="/2018/12/02/产品设计从复杂到简单/" itemprop="url">
+                  产品设计从复杂到简单
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-12-02T08:31:00+08:00" content="2018-12-02">
+              2018-12-02
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2018/12/02/产品设计从复杂到简单/" class="leancloud_visitors" data-flag-title="产品设计从复杂到简单">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>产品的简单与复杂</p>
+<p>前几天，我们一个用户反馈，有个展示BCH收款地址的页面非常复杂，根本很难搞懂应该怎么用。这个页面含有了3个功能:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 呈现可以设置金额的BIP21二维码</span><br><span class="line">2. BCH地址的新老格式切换</span><br><span class="line">3. BIP21协议格式和纯地址的切换。</span><br></pre></td></tr></table></figure>
+<p>在设计之初，我们的本意是用户可以使用高级功能，如果不想使用默认不变就可以了。然而在实现的过程中，虽然我的思路很清晰，但是工程师也一直搞混，解释了很多遍。从这里，其实就可以看到这个功能偏复杂了。实际上，用户根本不会用BIP21来收款，而且很多钱包并不支持，故而用的最多的都是纯地址格式，而且是老的纯地址格式，他们更加不会知道BIP21是什么，也不想知道。</p>
+<p>这也给了我一个小警示，在设计一个功能之初，千万不能想当然，应该通过多试验、多调查，设计出一个最能解决用户痛点的简单方案。这里有两个着重点，一是要解决用户的痛点，例如设置金额就不是什么痛点，因为可有可无，而扫不出正确的地址，这是痛点，而且可能会影响使用，故而这个的重要性要摆在设置金额前面；二是这个方案要足够的简单，以为如果不简单，用户不知道如何使用，开发起来也费劲，最终得到的效果还不好。如果有什么方法，使用后，能够使得很多问题变得不存在，那么这个方法就是：砍掉不必要的功能。</p>
+<p>以前对这点体验不是那么深刻，故而没有留意更多。这样的产品故事里，遥控器那个故事应该是最耳熟能详的。以前的遥控器，非常复杂，几十个按键，每个按键还不好按，但是到了智能电视时代的遥控器，都仅有几个按钮，而且还十分方便。这样的产品体验升级虽然有一部分是技术进步的原因，但是主要还是因为这种”简单即美”的设计理念。当时设计苹果鼠标的时候，乔布斯坚持它只有一个按键，设计iPhone的时候，坚持它只有一个home键，就像爱因斯坦所说的那样，足够简单，但不过分简单。现在的苹果产品，有点过于为了简单而简单，实际上搞得更复杂，这是题外话了。</p>
+<p>另外一个我印象深刻的例子，就是电动牙刷。前段时间我给自己买了一个小米的素士牙刷，先不谈刷牙功效如何，它竟然有四个档位，要停下来有两种方式：一种是长按，另外一种是短按逐次变档，直至停止。有时候觉得这种交互非常讨厌，产品设计师肯定没怎么用过自己设计的牙刷。因为人把电动的东西塞嘴里，本来就有一种恐惧，停止操作要越快越好，而这种逐次换档和长按短按的体验，并不好，因为这会让用户思考。而我之前用的一款Oral-B的电动牙刷，只有一个按键，那就是开关，根本不用去想，用着也舒服。</p>
+<p>从这些失误上，我体会到一个产品设计的要旨，那就是：don’t make me think。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2018/11/24/分叉之殇/" itemprop="url">
                   分叉之殇
                 </a>
@@ -1403,132 +1513,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/15/简易的会话管理工具tmux教程/" itemprop="url">
-                  简易的会话管理工具tmux教程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-15T09:29:04+08:00" content="2017-03-15">
-              2017-03-15
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2017/03/15/简易的会话管理工具tmux教程/" class="leancloud_visitors" data-flag-title="简易的会话管理工具tmux教程">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>##为啥要用tmux<br>在我们远程连接服务器的时候，往往终端连接的ssh因为网络问题非常容易中断，所以聪明的工程师发明了一个即使连接中断了，但是这个会话并没有结束，你重新连上去，依然还是上次你断开连接时候的样子，你可以继续做的你的编辑或者其它工作，它依然在等着你，听着是不是很酷？</p>
-<h2 id="tmux命令"><a href="#tmux命令" class="headerlink" title="tmux命令"></a>tmux命令</h2><p>要使用tmux，首先你需要在远程服务器中安装一个tmux:</p>
-<pre><code>apt-get install tmux
-</code></pre><p>tmux有一组子命令，用来管理会话，从新建一个会话，到重命名会话，到结束一个会话，都有对应的命令可用。在连上远程服务器后，用如下命令创建一个会话：</p>
-<pre><code>tmux new -s vim // 创建了一个叫做 vim 的会话
-tmux // 创建一个系统自动编号的会话
-</code></pre><p>会话新建后会进入自己专有的命令行交互。如果你做了很多别的，改变了这个session的用途，比如之前进行vim编辑的session，被你用来运行<code>python manage.py runserver</code>了,那么你可以重命名它：</p>
-<pre><code>tmux rename-session -t vim runserver
-</code></pre><p>这样vim就变成runserver了，你可以通过下面的命令查看所有的会话：</p>
-<pre><code>tmux ls
-</code></pre><p>你将看到一个列表，展示了所有会话的名字和占用状态，如果是attach，那么说明已经被连接。<br>假如我们想要退出一个会话，直接关闭ssh窗口即可，那么下次回来你通过attach来重回会话：</p>
-<pre><code>tmux attach -t vim
-// 或 tmux a -t vim
-// 或 tmux at -t vim
-</code></pre><p>如果这个session已经不再使用了，可以用如下命令退出当前session：</p>
-<pre><code>exit
-</code></pre><p>这样你通过<code>tmux ls</code>就看不到这个会话了，它被删除了。</p>
-<p>另外，想要查看当前的会话名称，可以运行下面的命令：</p>
-<pre><code>tmux display-message -p &apos;#S&apos;
-</code></pre><p>也可以使用alias来减少输入的字符，比如只用tmux_curr即可代表上述命令:</p>
-<pre><code>alias tmux_curr=&apos;tmux display-message -p &quot;#S&quot;
-</code></pre><p>也可以vim .bashrc 编辑bash配置，这样每次登录时会自动配置alais，在.bashrc中上面一行。</p>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>程序员应该通过一些工具提升自己的工作效率，减少一些不必要的麻烦，tmux就是这样的一种工具，可以存储和恢复会话。有兴趣的同学可以研究一下tmux的更多命令和原理，它实际上是模拟了一个登录会话，并且常驻在服务器中，当attach的时候，相当于是通过tmux代理来连接真正的会话。</p>
-<p>by bibodeng 2017-03-15</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1574,7 +1558,7 @@ tmux // 创建一个系统自动编号的会话
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">186</span>
+              <span class="site-state-item-count">187</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1584,7 +1568,7 @@ tmux // 创建一个系统自动编号的会话
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
