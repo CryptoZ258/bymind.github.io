@@ -255,6 +255,247 @@
             
               
                 
+                <a class="post-title-link" href="/2013/04/16/C C++复仇记(上)/" itemprop="url">
+                  C C++复仇记(上)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-04-16T21:46:27+08:00" content="2013-04-16">
+              2013-04-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/04/16/C C++复仇记(上)/" class="leancloud_visitors" data-flag-title="C C++复仇记(上)">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<div class="art_content" style="font-size:15px;letter-spacing:1px;line-height:1.3em;"><p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">由于前几天的笔试很大程度上刺激了我，让我越发感觉到自己的C/C++基础十分地薄弱，故而想要找几本经典的C/C++书本来深入了解一下C/C++语言特性，以及其中需要注意的问题。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">google了一下C语言经典著作，得到了我想要的结果：</p>
+<blockquote style="background-color:#ccff99;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';"><p style="margin-top:0px;margin-bottom:0px;">《C专家编程》</p>
+<p style="margin-top:0px;margin-bottom:0px;">《C语言详解》</p>
+<p style="margin-top:0px;margin-bottom:0px;">《C语言核心技术》</p>
+<p style="margin-top:0px;margin-bottom:0px;">《C陷阱与缺陷》</p>
+<p style="margin-top:0px;margin-bottom:0px;">《C和指针》</p>
+</blockquote>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">&nbsp;&nbsp;详细请到<a href="http://www.360doc.com/content/12/0331/06/9452699_199493153.shtml" target="_blank" data_ue_src="http://www.360doc.com/content/12/0331/06/9452699_199493153.shtml">C经典著作</a>书单察看介绍。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">正是我想要补的，之前学习C语言，只是泛泛地学习了一些语言特性，然后编写了若干行的代码,知道了怎么使用指针，数组，结构体，以及用它编写二叉树，线性表等数据结构，还有实现了一遍大部分排序算法。</p>
+<h3 style="background-color:#000000;color:#ffffff;padding:10px;font-family:'Times New Roman';">语言细节&nbsp;AND&nbsp;正确的程序</h3>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">常常遇到这样的情况，程序写到一半，忘了这个代码的语言细节是什么的，例如++自增的使用，而这往往涉及到程序的正确性。有经验的程序员往往会发现i++和++i在很多情况下有很大不同，一时的麻痹或者粗心，都有可能造成重大的错误。记得之前有一个这样的故事：</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">美国宇航局发射航天飞机，但是因为一个程序员将“；”写成了“，”&nbsp;，最后造成了飞机失事。据说这是最昂贵的错误。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">代码是人编写的，难免会有错误，但是很多错误都是我们不清楚语言细节，或者某个语言的陷阱，从而失足跌倒。现实生活中很多代码都有错误，而黑客总是能够利用各种程序中的缺陷和漏洞，攻破我们的系统，拿走我们的数据和金钱。（我想起了《鹿鼎记》里面的，我们的财宝和女人，哈哈）。所以要写可靠的代码，必须要懂得一些常用的语言细节和规避陷阱的方法。</p>
+<h3 style="background-color:#000000;color:#ffffff;padding:10px;font-family:'Times New Roman';">具体的问题</h3>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">我们编程的时候往往运行出结果就ok了，抛下程序去玩了。这是很不正确的学习方法，正确的学习方法应该深入理解程序在计算机程序在编译和运行时做了什么，故而多跟踪调试程序是有好处的。看看每一步都发生了什么，察看内存中的数据起了什么变化。</p>
+<h4 style="font-family:'Times New Roman';">关于高级语言的内存管理</h4>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';"><a href="http://www.cnblogs.com/chenleiustc/archive/2011/04/08/2009994.html" target="_blank" data_ue_src="http://www.cnblogs.com/chenleiustc/archive/2011/04/08/2009994.html">这里</a>有一篇关于内存管理的很好的说明了哪些数据是存储在什么区的。学习过汇编语言的我们，很容易就想起来我们的程序包括一些段：数据段，代码段，堆栈段。那么在高级语言中，这些数据又是怎样存储的呢？如下：</p>
+<blockquote style="background-color:#ccff99;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';"><p style="margin-top:0px;margin-bottom:0px;">栈stack：&nbsp;存放局部变量，栈表示的是一种后进先出，表达了我程序调用的顺序，故而栈里面存放的是我们的函数中的局部变量，包括变量，指针，参数等等。栈内数据是共享的，回收工作是由内存管理来做的。</p>
+<p style="margin-top:0px;margin-bottom:0px;"></p>
+<p style="margin-top:0px;margin-bottom:0px;">堆heap：&nbsp;说白了就是程序申请的内存区，这里一块，那里一块，堆是受到保护的，不能互相访问。而回收的时候，我们要收回指向他们的指针，然后GC（gabage&nbsp;collection）来处理。一般malloc，或者是new的对象都是存储在堆里面的。</p>
+<p style="margin-top:0px;margin-bottom:0px;"></p>
+<p style="margin-top:0px;margin-bottom:0px;">（全局）静态区：&nbsp;全局区和静态区是是在一起的。包括全局变量global修饰的变量，static修饰的变量。有的时候，尽管没有static修饰，也算是静态区的。例如&nbsp;char&nbsp;*p&nbsp;=&nbsp;"hello";&nbsp;&nbsp;字符串"hello"就属于静态区的，因为没有专门为它分配空间，若是char&nbsp;c_arr[]&nbsp;=&nbsp;"hello";&nbsp;则有为字符串分配内存，故而是在栈区。</p>
+<p style="margin-top:0px;margin-bottom:0px;"></p>
+<p style="margin-top:0px;margin-bottom:0px;">文字常量区：常量字符串就是放在这里的。例如cout&lt;&lt;&nbsp;"hello&nbsp;world"&lt;&lt;endl;&nbsp;那么字符串hello&nbsp;world就存放在常量区。</p>
+<p style="margin-top:0px;margin-bottom:0px;"></p>
+<p style="margin-top:0px;margin-bottom:0px;">程序代码区：存放程序的二进制代码。</p>
+</blockquote>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">深刻理解程序和数据的存储，会更加明白如何编写节省资源和高效的程序，特别是分析由于存储问题带来的性能瓶颈问题，这在web和服务器编程上都很重要。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';"></p>
+<h4 style="font-family:'Times New Roman';">关于C语言的sizeof</h4>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">我做了以下实验，对指针进行了sizeof关键字操作，以及指针的加法操作。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';"></p>
+<table border="0" cellpadding="0" cellspacing="0" class=" noBorderTable ke-zeroborder" style="clear:both;margin-bottom:10px;word-break:break-all;color:#000000;font-family:'Times New Roman';font-size:15px;line-height:19.5px;"><tbody><tr><td class="gutter" style="border:1px dashed #dddddd !important;"><div class="line number1 index0 alt2">1</div>
+<div class="line number2 index1 alt1">2</div>
+<div class="line number3 index2 alt2">3</div>
+<div class="line number4 index3 alt1">4</div>
+<div class="line number5 index4 alt2">5</div>
+<div class="line number6 index5 alt1">6</div>
+<div class="line number7 index6 alt2">7</div>
+</td>
+<td class="code" style="border:1px dashed #dddddd !important;"><div class="container"><div class="line number1 index0 alt2"><code class="cpp comments">//&nbsp;关于数组的sizeof运算</code></div>
+<div class="line number2 index1 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp color1 bold">int</code>&nbsp;<code class="cpp plain">a[100]={0,1};</code></div>
+<div class="line number3 index2 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">printf</code><code class="cpp plain">(</code><code class="cpp string">"%d\n"</code><code class="cpp plain">,</code><code class="cpp keyword bold">sizeof</code><code class="cpp plain">(a));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;打印的是数组的很多信息，</code></div>
+<div class="line number4 index3 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">printf</code><code class="cpp plain">(</code><code class="cpp string">"%d\n"</code><code class="cpp plain">,</code><code class="cpp keyword bold">sizeof</code><code class="cpp plain">(a[100]));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//</code></div>
+<div class="line number5 index4 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">printf</code><code class="cpp plain">(</code><code class="cpp string">"%d\n"</code><code class="cpp plain">,</code><code class="cpp keyword bold">sizeof</code><code class="cpp plain">(&amp;a));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;是a的地址</code></div>
+<div class="line number6 index5 alt1"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">printf</code><code class="cpp plain">(</code><code class="cpp string">"%d\n"</code><code class="cpp plain">,</code><code class="cpp keyword bold">sizeof</code><code class="cpp plain">(&amp;a[0]));&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;</code></div>
+<div class="line number7 index6 alt2"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp plain">fun(a);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp comments">//&nbsp;作为参数传递的数组，其实是个指针</code></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<span style="font-family:'Times New Roman';">fun的定义如下：</span><p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';"></p>
+<div id="highlighter_826335" class="syntaxhighlighter cpp" highlighter="brush:cpp;toolbar:false;" style="font-family:'Times New Roman';"><table border="0" cellpadding="0" cellspacing="0" class=" noBorderTable ke-zeroborder" style="clear:both;margin-bottom:10px;word-break:break-all;"><tbody><tr><td class="gutter" style="border:1px dashed #dddddd !important;"><div class="line number1 index0 alt2" style="height:20px;">1</div>
+<div class="line number2 index1 alt1" style="height:20px;">2</div>
+<div class="line number3 index2 alt2" style="height:20px;">3</div>
+<div class="line number4 index3 alt1" style="height:20px;">4</div>
+</td>
+<td class="code" style="border:1px dashed #dddddd !important;"><div class="container"><div class="line number1 index0 alt2" style="height:20px;"><code class="cpp keyword bold">void</code>&nbsp;<code class="cpp plain">fun(</code><code class="cpp color1 bold">int</code>&nbsp;<code class="cpp plain">b[100])</code></div>
+<div class="line number2 index1 alt1" style="height:20px;"><code class="cpp plain">{</code></div>
+<div class="line number3 index2 alt2" style="height:20px;"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">printf</code><code class="cpp plain">(</code><code class="cpp string">"%d\n"</code><code class="cpp plain">,</code><code class="cpp keyword bold">sizeof</code><code class="cpp plain">(b));</code></div>
+<div class="line number4 index3 alt1" style="height:20px;"><code class="cpp plain">}</code></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">我得到的结果是：</p>
+<div id="highlighter_228111" class="syntaxhighlighter cpp" highlighter="brush:cpp;toolbar:false;" style="font-family:'Times New Roman';"><table border="0" cellpadding="0" cellspacing="0" class=" noBorderTable ke-zeroborder" style="clear:both;margin-bottom:10px;word-break:break-all;"><tbody><tr><td class="gutter" style="border:1px dashed #dddddd !important;"><div class="line number1 index0 alt2" style="height:20px;">1</div>
+<div class="line number2 index1 alt1" style="height:20px;">2</div>
+<div class="line number3 index2 alt2" style="height:20px;">3</div>
+<div class="line number4 index3 alt1" style="height:20px;">4</div>
+<div class="line number5 index4 alt2" style="height:20px;">5</div>
+<div class="line number6 index5 alt1" style="height:20px;">6</div>
+</td>
+<td class="code" style="border:1px dashed #dddddd !important;"><div class="container"><div class="line number1 index0 alt2" style="height:20px;"><code class="cpp comments">//&nbsp;得到的结果是</code></div>
+<div class="line number2 index1 alt1" style="height:20px;"><code class="cpp comments">//&nbsp;400 &nbsp;</code></div>
+<div class="line number3 index2 alt2" style="height:20px;"><code class="cpp comments">//&nbsp;4</code></div>
+<div class="line number4 index3 alt1" style="height:20px;"><code class="cpp comments">//&nbsp;4</code></div>
+<div class="line number5 index4 alt2" style="height:20px;"><code class="cpp comments">//&nbsp;4</code></div>
+<div class="line number6 index5 alt1" style="height:20px;"><code class="cpp comments">//&nbsp;4</code></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">要是想在子函数中得到数组的大小，那么使用下面的fun:</p>
+<div id="highlighter_670844" class="syntaxhighlighter cpp" highlighter="brush:cpp;toolbar:false;" style="font-family:'Times New Roman';"><table border="0" cellpadding="0" cellspacing="0" class=" noBorderTable ke-zeroborder" style="clear:both;margin-bottom:10px;word-break:break-all;"><tbody><tr><td class="gutter" style="border:1px dashed #dddddd !important;"><div class="line number1 index0 alt2" style="height:20px;">1</div>
+<div class="line number2 index1 alt1" style="height:20px;">2</div>
+<div class="line number3 index2 alt2" style="height:20px;">3</div>
+<div class="line number4 index3 alt1" style="height:20px;">4</div>
+</td>
+<td class="code" style="border:1px dashed #dddddd !important;"><div class="container"><div class="line number1 index0 alt2" style="height:20px;"><code class="cpp keyword bold">void</code>&nbsp;<code class="cpp plain">fun(</code><code class="cpp color1 bold">int</code>&nbsp;<code class="cpp plain">(*a)[100])</code></div>
+<div class="line number2 index1 alt1" style="height:20px;"><code class="cpp plain">{</code></div>
+<div class="line number3 index2 alt2" style="height:20px;"><code class="cpp spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="cpp functions bold">printf</code><code class="cpp plain">(</code><code class="cpp string">"%d\n"</code><code class="cpp plain">,</code><code class="cpp keyword bold">sizeof</code><code class="cpp plain">(*a));</code></div>
+<div class="line number4 index3 alt1" style="height:20px;"><code class="cpp plain">}</code></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">调用的时候是</p>
+<div id="highlighter_36073" class="syntaxhighlighter cpp" highlighter="brush:cpp;toolbar:false;" style="font-family:'Times New Roman';"><table border="0" cellpadding="0" cellspacing="0" class=" noBorderTable ke-zeroborder" style="clear:both;margin-bottom:10px;word-break:break-all;"><tbody><tr><td class="gutter" style="border:1px dashed #dddddd !important;"><div class="line number1 index0 alt2" style="height:20px;">1</div>
+</td>
+<td class="code" style="border:1px dashed #dddddd !important;"><div class="container"><p style="margin-top:0px;margin-bottom:0px;"><code class="cpp plain">fun(&amp;a);</code></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">故而能够得到预期的400。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';"></p>
+<h4 style="font-family:'Times New Roman';">关于数据类型的溢出和转换</h4>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">各种数据类型的转换，某些情况下系统是能够自动类型转换的，如赋值，表达式，循环条件判断中。遵循的是从低精度变到高精度的原则。而从高精度强制转换到低精度，则需要损失一部分的数据，所以应该斟酌为之，特别是不确定转换结果的情况下。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';"></p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">只要弄明白了数据类型在计算机里面怎么存储，就能够明白什么样的转换是行的，什么样的转换是不行的。整形数据在内存中，存储的都是补码。对于负数，补码是反码+1，而对正数补码就是本身的码。例如char类型的（默认是unsigned）可以表示[0,255]&nbsp;,如果是signed，那么就可以表示[-128,127],也就是说分了一半去表示负数。int同理，一般的程序中，不会有太多的类型转换，因为这潜在着不安全因素，例如if里面的表达式就是一个很好的例子。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">对于bool型的，假如有个checked表示某个步骤是否通过检查，&nbsp;用if(checked)。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">对于int型，直接if(&nbsp;0&nbsp;==&nbsp;num)&nbsp;比较</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">对于浮点型，用&nbsp;if&nbsp;(&nbsp;0-EP&lt;num&nbsp;&amp;&amp;&nbsp;num&nbsp;&gt;&nbsp;0+EP)&nbsp;来确定是否和0相等</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">所以，我们要用同样类型的去比较，C中可以while(a),&nbsp;a是一个int型，Java就比较严格，不允许将int转换为bool类型做判断。</p>
+<h4 style="font-family:'Times New Roman';">关于运算符的优先级<br>
+</h4>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">这个就要参考程序语言的手册了，我们自己写程序的时候，最保险的就是给各种表达式都加上括号，以避免意外的求值出现。同级的按结合顺序来判断。例如+，-，*，/&nbsp;,&nbsp;%是左结合；而对于！，=这样的，就属于右结合。有什么规律可循呢？所有的优先级中，只有三个优先级是从右至左结合的，它们是单目运算符、条件运算符、赋值运算符。其它的都是从左至右结合。当然，运算符是有级别的，级别高的先执行。具体请参考<a href="http://baike.baidu.com/view/1516130.htm" target="_blank" data_ue_src="http://baike.baidu.com/view/1516130.htm">百度百科C运算符</a>。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';"></p>
+<h4 style="font-family:'Times New Roman';">关于C语言的特别运算符号</h4>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">自增++等，++的位置很重要，i++,表示用完i再自增1；而++i表示先做自增，然后再使用新的i值。</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">自减--，同理。这两个很有技巧的运算符使用时要特别小心。有时候让i用完，自增1很有用，例如最寻常的for循环，以及排序里面，上次做一道题目，是插入排序，其中我就搞岔了++i和i++。看来还需要好好修炼哪~</p>
+<h3 style="background-color:#000000;color:#ffffff;padding:10px;font-family:'Times New Roman';">END</h3>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';">by&nbsp;bibodeng&nbsp;2013-04-16&nbsp;21:45:44&nbsp;​</p>
+<p style="margin-top:0px;margin-bottom:0px;font-family:'Times New Roman';"></p>
+</div>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/04/15/知交/" itemprop="url">
                   知交
                 </a>
@@ -1727,138 +1968,6 @@ print count</pre></p>
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/03/21/大三下——稳步成长/" itemprop="url">
-                  大三下——稳步成长
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-03-21T07:54:02+08:00" content="2013-03-21">
-              2013-03-21
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/03/21/大三下——稳步成长/" class="leancloud_visitors" data-flag-title="大三下——稳步成长">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<span class="Apple-style-span" style="border-collapse:separate;font-family:'MS Shell Dlg', 'Microsoft YaHei', Georgia, Helvetica, Arial, sans-serif, 宋体, PMingLiU, serif;font-size:14px;line-height:21px;border-spacing:0px;"><p><span style="font-size:16px;">[开头]</span></p>
-<p><span style="font-size:16px;">这个学期有了一个好的开头，养成了良好的生活习惯和学习态度。所以花在编程和看书的时间比较多，越发感觉到时间不够用，要学的还有很多。在进行GTD的编程过程中，结合《代码大全》，发现有了一些编程的心得体会。书中真的很多先辈的金玉之言，是我们需要反复实践才能体悟到的，当然纸上得来终觉浅，绝知此事要躬行，知行合一，也就最能进步。这一两个月间，慢慢地就积累了更多的PHP，python知识，同时也在看关于网络编程的一些例子。对于一些技术上的功能，也有了信心，只要肯动手去做，就一定能够实现。</span></p>
-<p>&nbsp;</p>
-<p><span style="font-size:16px;">推荐几本书：</span></p>
-<p><span style="font-size:16px;">《拖延心理学》</span></p>
-<p><span style="font-size:16px;">挖掘拖延的根源，同时也运用一些办法来避免自己的拖延。看完了这本书后，会很容易发觉自己对于一些事情的拖延，不情愿，或者恐惧。但是当我们动手的时候，一切都是纸老虎。</span></p>
-<p>&nbsp;</p>
-<p><span style="font-size:16px;">《18分钟微时间管理》</span></p>
-<p><span style="font-size:16px;">早上5分钟计划一天目标，工作每小时暂停一分钟思考自己正在做什么，是否是应该做的事情，晚上5分钟回想总结一天都学了什么。这真的挺有帮助，有目标地生活着感觉很好。既舒服，又可以自己创造一些挑战来刺激自己的战斗力。这本书很小，但是很有启发性。我看完这本书后，连日志的字数都增加了，这正是因为有事可记。同时也有问题可想，故而每天都很充实。</span></p>
-<p>&nbsp;</p>
-<p><span style="font-size:16px;">《思考，快与慢》</span></p>
-<p><span style="font-size:16px;">这本书，目前还没有看完，但是这是一本很经典的关于人的情绪大脑和理性大脑的佳作。可以让我们认清楚自己的一些冲动行为的原因，以及我们思考问题的方式。有时候直觉未必正确，需要冷静下来慢慢分析思考。而我们做训练，其实是将自己的技能内化到自己的系统1里面去，形成我们独特的反应。</span></p>
-<p>&nbsp;</p>
-<p><span style="font-size:16px;">《戊戌政变记》</span></p>
-<p><span style="font-size:16px;">记录了戊戌变法的一些概要，同时记载了相当多的史料——大臣的折子和光绪的诏令。当然梁启超的点评十分有力，但是于他们保皇派必定有所偏袒，对于皇帝多有溢美之辞。然而我十分佩服康梁等人，明知不可为而为之。然而终究归于失败，但也不失为开中国先锋。后有戊戌六君子康广仁，林锐，谭嗣同等人的传记，读之则中有正气。</span></p>
-<p>&nbsp;</p>
-<p><span style="font-size:16px;">密码学的实验体悟</span></p>
-<p><span style="font-size:16px;">用了一晚上的时间，照着书本和pyDES将DES（标准加密算法）算法给实现了，能够输出课本上的例子。这里还是要赞一下python，用python可以很轻松地将各种算法实现出来，而且运行速度很快，可谓是在开发速度和</span><span style="font-size:16px;">运行速度上完美平衡。</span><span style="font-size:16px;">做DES算法的时候，要认识到那些表格才是核心，是它们进行数据的置换和转换，DES是高度硬件优化的算法，用电路互联就可以让表格中的置换一步完成。而在python中使用list，则浪费了太多的空间。但是软件模拟硬件，是需要做出一些牺牲的。记得以前刘刚博士赞师兄用纯硬件实现了一个弹球游戏，感觉很牛逼。我们搞软件的，确实没有搞硬件的看起来那么牛逼，因为他们做出来的是一个与现实接口的系统，有实体在那，而我们只不过在计算机屏幕上模拟这些。但是我们学计算机的，做的很多工作都是相当有 意义的，有时候换一个角度，在别人的基础上来做开发，往往更容易接近做成，而如果要重复发明轮子，实在是没有什么必要，除非你发明的轮子比原来的好。现在互联网上有众多的开源项目，如今天早上用到的mentohust这样的软件，都是开源的，需要我们在这基础上开发更加好用的软件。但是我们的人都跑去重复发明轮子去了，并不是说学习造轮子的技术不重要，而是我们应该学习用以前学到的东西来创造新的东西或者改善旧的东西。</span></p>
-<p><span style="font-size:16px;">另外我从中体会到的密码学的趣味和科学所在。之前有读一部电子书《思考的乐趣》是顾城写的，里面都是一些很有趣的数学问题。作为思维的体操，数学永远是人们思考的乐趣和创新的高级工具。计算机的同学，要是把算法给搞牛逼了，那就真的很牛逼，因为真的深奥的算法就像数学一样，没有多少个人愿意克服惰性去深入学。（数学太难了）</span></p>
-<p>&nbsp;</p>
-<p><span style="font-size:16px;">GTD邮箱验证实现</span></p>
-<p><span style="font-size:16px;">该总结出专门的一篇来介绍PHP实现邮箱认证，其基本原理是：</span></p>
-<p><span style="font-size:16px;">1 生成一个key，可以是随机数，通过md5处理得到，放在数据库中，待到验证的时候，与用户拿到的核对一下就行了。</span></p>
-<p><span style="font-size:16px;">2 构造一个url，包含有key，可以唯一确定一个用户</span></p>
-<p><span style="font-size:16px;">3 发送url作为邮件内容到用户的邮箱，用户点击则转到验证邮箱的函数中去。这里涉及控制器的问题，一般php程序都基于某框架来开发，里面的类的处理函数就是控制器。</span></p>
-<p><span style="font-size:16px;">开发过程中，我的一点体会也更加契合代码大全里面的一些例子。之前花了大力气来重构我的程序，使他们成为结构整洁，抽象合理的程序。这样于我后来的编写和扩展有很大的帮助。如果说编程的各种花样手段都是外功，那么编程设计的思想才是内功。严重推荐《code complete》，里面的语言挺幽默，绝对让你对于软件开发产生一种爱的情绪。而且书本从设计开始讲，到类到子程序到变量到语句。真可谓是面面俱到，看了不放。</span></p>
-<p>&nbsp;</p>
-<p><span style="font-size:16px;">by bibodeng 2013-03-21</span></p>
-</span>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1904,7 +2013,7 @@ print count</pre></p>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">188</span>
+              <span class="site-state-item-count">189</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

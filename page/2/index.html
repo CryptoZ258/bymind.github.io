@@ -255,6 +255,152 @@
             
               
                 
+                <a class="post-title-link" href="/2018/05/12/浅谈区块链应用DApp/" itemprop="url">
+                  浅谈区块链应用DApp
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-05-12T08:59:03+08:00" content="2018-05-12">
+              2018-05-12
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2018/05/12/浅谈区块链应用DApp/" class="leancloud_visitors" data-flag-title="浅谈区块链应用DApp">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="区块链应用"><a href="#区块链应用" class="headerlink" title="区块链应用"></a>区块链应用</h2><p>上一篇《数字货币盈利模式》里面提到，DApp是未来数字货币领域的一个比较强大的盈利模式。区块链，作为一个基础设施，提供了分布式的去中心化可信数据库，人们可以基于此，可以开发各种应用，适用于不同的场景。然而，由于区块链的独特特性，适用于比特币的，并不适用于其它应用，在开发应用之前，首先要问自己几个问题：</p>
+<h3 id="应用涉及不信任的双方或多方吗？"><a href="#应用涉及不信任的双方或多方吗？" class="headerlink" title="应用涉及不信任的双方或多方吗？"></a>应用涉及不信任的双方或多方吗？</h3><p>是，可以用区块链技术，不是，不要用区块链技术。</p>
+<p>需要涉及不信任的多方，要通过上链的方式，对方可以只验证链上的数据而不验证对方身份，从而简化这个验证过程。假如链上数据可能涉及很多人，这个涉及的人员或角色越多越好，解决100万人的信任比起仅仅解决两个的信任要好。比特币就是既能解决两个人的信任（比如一次交易），重复该模式（不断累积的交易），也能解决n个人的信任。</p>
+<h3 id="应用对性能要求高吗？"><a href="#应用对性能要求高吗？" class="headerlink" title="应用对性能要求高吗？"></a>应用对性能要求高吗？</h3><p>是，不要用区块链技术，不是，可以用区块链技术。</p>
+<p>区块链是典型的去中心化的一个共识系统，比特币平均十分钟才能出一个块，ETH平均十几秒一个块，这得要多有耐心才能忍受这样使用应用啊。一些对体验要求高的游戏、即时通讯等并不适合区块链，除非特别重视信任。</p>
+<h3 id="应用需要大量存储吗？"><a href="#应用需要大量存储吗？" class="headerlink" title="应用需要大量存储吗？"></a>应用需要大量存储吗？</h3><p>是，不要用区块链技术，不是，可以用区块链技术。</p>
+<p>区块链冗余了很多很多份数据存储在分布式的网络中，链上存储的数据是非常昂贵的，区块大小有限，大量的数据根本没法在区块链上进行存储。如果要存，倒是可以使用IPFS等第三方的方式存储，链上只放一个链接即可。</p>
+<h3 id="应用数据要公开透明吗？"><a href="#应用数据要公开透明吗？" class="headerlink" title="应用数据要公开透明吗？"></a>应用数据要公开透明吗？</h3><p>是，可以用区块链技术，不是，不用区块链技术。</p>
+<p>区块链为的就是公开透明，如果都是一些私密数据，仅本人看的，那还是不要上传到链上了。</p>
+<h3 id="应用数据是否要频繁修改？"><a href="#应用数据是否要频繁修改？" class="headerlink" title="应用数据是否要频繁修改？"></a>应用数据是否要频繁修改？</h3><p>要，不要用区块链技术，不要，可以用区块链技术。</p>
+<p>就目前来说，对于区块链的特性，以上问题是判断要不要做一个区块链应用的回答。</p>
+<hr>
+<h2 id="从技术角度看区块链"><a href="#从技术角度看区块链" class="headerlink" title="从技术角度看区块链"></a>从技术角度看区块链</h2><p>我们原有的计算机技术或者互联网里面，已经有相当多的技术模型，而区块链可以类比成以下的模型：</p>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p>可以将区块链看成是一个需要付费的公共数据库，要写数据，得付出矿工费。写在上面的数据，你可以加密，也可以不加密。</p>
+<h3 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h3><p>可以将区块链看成是一个世界各地消息流淌的一个消息队列，你可以取阅任何上面公开的信息，并且用逻辑控制数据的流淌和处理。</p>
+<h3 id="网页"><a href="#网页" class="headerlink" title="网页"></a>网页</h3><p>区块链就像一个网页一样，上面可以有各种各样的链接，链到互联网世界的其它地方。</p>
+<h3 id="云计算"><a href="#云计算" class="headerlink" title="云计算"></a>云计算</h3><p>区块链中还可以存储智能合约（一段程序），你在上面写好代码，可以让矿工来帮你运行，计算得到结果。</p>
+<p>区块链是一个综合的技术，其实也说明区块链是可以分层的，由上至下大致可以分为：</p>
+<ul>
+<li>应用层（外部应用）</li>
+<li>业务层（链上协议）</li>
+<li>共识层（共识机制）</li>
+<li>存储层+网络层</li>
+</ul>
+<p>还可以修改其组成来达到优化的目的：</p>
+<ul>
+<li>修改共识机制，在完全去中心化和中心化之间平衡（PoW/PoS/DPoS/DAG/超级节点等）</li>
+<li>为扩大存储，采用更灵活的外部存储（IPFS、SC等）</li>
+<li>强化智能合约，提供更强大的应用运行环境（EOS、星云链、小蚁股等）</li>
+</ul>
+<hr>
+<h2 id="已有的DApp"><a href="#已有的DApp" class="headerlink" title="已有的DApp"></a>已有的DApp</h2><p>现在在各种各样的公链上，已经涌现了许多的应用，我们分别来认识几个典型的应用。这里有一个搜罗了DApp的<a href="https://dapp.review/" target="_blank" rel="noopener">网站</a>。</p>
+<h3 id="发币——ETH的ERC20协议"><a href="#发币——ETH的ERC20协议" class="headerlink" title="发币——ETH的ERC20协议"></a>发币——ETH的ERC20协议</h3><p>遵守ERC20协议，可以在ETH上发行自己的代币（子货币），它更加轻量和灵活，无需自行开发公链即可发行数字资产。ERC20这个协议定义了合约暴露的一些接口，符合这些功能和接口定义的，即符合ERC20协议。ICO发起者们部署一套智能合约，将Token分发给用户，人们像维护传统数字货币一样维护这些代币，可以查询余额、转账（充值、提现）。</p>
+<p>ERC20协议衍生出来一个新的领域——ICO，因为人人都可以发行数字资产，所以很多个人或者项目纷纷通过发行数字资产的方式来筹集资金，用Token来换取用户的真金白银。这是一个很好的融资工具，连美剧《硅谷》里面的<a href="http://www.piedpiper.com/" target="_blank" rel="noopener">piedpiper</a>都用它来发行了一个币以取代3000万美金的B轮融资，然而现实社会里却有许多人滥用它来割韭菜，只能说韭菜们别哭。</p>
+<h3 id="迷恋猫-Crypto-Kitties"><a href="#迷恋猫-Crypto-Kitties" class="headerlink" title="迷恋猫 Crypto Kitties"></a>迷恋猫 <a href="https://www.cryptokitties.co/" target="_blank" rel="noopener">Crypto Kitties</a></h3><p>ETH上很火的一个游戏，开发者将猫的基因信息存储在ETH的区块链中，初代猫生成后，可以交配，买卖。众多用户充值进来买猫，导致这个应用一度将ETH的区块给搞堵了，由于ETH没有做应用隔离，所以一堵全堵，ETH上的其它应用也全都受到影响，这点被人们所诟病，而区块链的性能问题也暴露无遗。</p>
+<p>我运行过ETH的节点，对机器的配置要求非常高，既需要大量CPU计算，也需要大量内存，还需要大量硬盘空间。网络稍微堵一点，整个节点就会变得不稳定，RPC容易失败。</p>
+<p>事实上，大部分的DApp其实是游戏，这里也说明游戏+区块链也有它独特的应用场景。</p>
+<h3 id="去中心化微博-Memo-BlockPress"><a href="#去中心化微博-Memo-BlockPress" class="headerlink" title="去中心化微博 Memo/BlockPress"></a>去中心化微博 <a href="https://memo.cash/" target="_blank" rel="noopener">Memo</a>/<a href="https://www.blockpress.com/" target="_blank" rel="noopener">BlockPress</a></h3><p>基于BCH的去中心化微博，通过定义一些协议，将用户的发推、点赞、评论、关注、取消关注等操作，都写到区块链上，这样就形成了一个简易的微博系统。技术上，使用OP_RETURN操作码后面的数据字段来存储操作及应用数据，去中心化的Youtube很快就会出现，至少一些雏形(如<a href="https://jukebox.cash/" target="_blank" rel="noopener">Jukebox.cash</a>)已经出现了。</p>
+<p>其实比特币出现之后的早期，就有人通过在区块缝隙里面塞些额外的数据来做一些应用，最简单的就是区块链刻字了，将一些有纪念意义的话刻在区块链上，它会与区块链同在，变得不可磨灭、不可撤销。ETH上，还有人将色情图片放到区块链上去，以此来告诫人们，区块链的两面性，它既能永久保存美好的东西，也能让不好的东西不可磨灭，你拿它没半点办法。</p>
+<p>更多DApp的例子，也可以看看这篇<a href="https://zhuanlan.zhihu.com/p/36741873" target="_blank" rel="noopener">浅谈你们根本不懂的区块链游戏</a>。</p>
+<hr>
+<h2 id="DApp的方向"><a href="#DApp的方向" class="headerlink" title="DApp的方向"></a>DApp的方向</h2><p>未来的DApp发展有两个比较明确的方向，一方面，区块链的基础设施不断升级完善，处理能力和存储数据容量逐渐增长，DApp运行所需的“水”和“电”基础设施逐渐齐备；另外一方面，DApp的应用开发蓬勃发展，越来越多开发人员参与到DApp的开发中来，将区块链与游戏等传统应用结合起来。</p>
+<p>BCH、EOS、NAS等各个公链也在逐步升级完善，比如BCH通过扩容，使得每一个交易的花费只需几分钱，成本极低，在5月15号还将区块大小扩展至32MB，增加计算相关操作码，并且拓展OP_RETRUN至220个字节，可以存储更多的数据，这些都为其上生长应用非常有帮助。</p>
+<p>旧的互联网已经让人觉得厌倦了，人们渴望新的东西！币圈一直都在等着区块链技术的应用落地，而一个爆款应用的产生，将会带来巨大的颠覆，它值得期待。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/12/03/一次把事情做好/" itemprop="url">
                   一次把事情做好
                 </a>
@@ -1347,123 +1493,6 @@ HTTP的请求有许多种，而无外乎都是 增、删、改、查，和数据
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/09/持续学习的必要性/" itemprop="url">
-                  持续学习的必要性
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-03-09T08:52:00+08:00" content="2017-03-09">
-              2017-03-09
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2017/03/09/持续学习的必要性/" class="leancloud_visitors" data-flag-title="持续学习的必要性">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<div id="magicdomid793" data-author-name="goodong" class="ace-line gutter-author-2226590 locate lineguid-wIJwG564voXuXEnz" style="margin:0px;padding:0px 100px;border-left:3px solid transparent;word-wrap:break-word;outline:none;color:#333333;font-family:-apple-system, system-ui, &quot;PingFang SC&quot;, Helvetica, Tahoma, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;\\5FAE软雅黑&quot;, SimSun, &quot;\\5B8B体&quot;, Heiti, &quot;\\9ED1体&quot;, sans-serif;font-size:14.6667px;"><span class="author-2226590">经过李笑来的点拨，我们越来越多人是以是否能给自己带来成长来考虑问题了，比如说换工作，或者是做一个重大决策。将成长的必要性提高了，你会以它为价值观问自己一个问题，这件事能否带给你成长？如果一件事情的答案是能，那么就大胆去做吧。都说，投资自己是最好的投资，持续的学习、进步给人带来的变化是巨大的。</span></div>
-<div id="magicdomid166" class="ace-line" style="margin:0px;padding:0px 100px;border-left:3px solid transparent;word-wrap:break-word;outline:none;color:#333333;font-family:-apple-system, system-ui, &quot;PingFang SC&quot;, Helvetica, Tahoma, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;\\5FAE软雅黑&quot;, SimSun, &quot;\\5B8B体&quot;, Heiti, &quot;\\9ED1体&quot;, sans-serif;font-size:14.6667px;"><br style="margin-top:0px;">
-</div>
-<div id="magicdomid1009" data-author-name="goodong" class="ace-line gutter-author-2226590 locate lineguid-K2ZPIXfm7AsAlKLh lineguid-yNZkzuJmdfbd9kzj" style="margin:0px;padding:0px 100px;border-left:3px solid transparent;word-wrap:break-word;outline:none;color:#333333;font-family:-apple-system, system-ui, &quot;PingFang SC&quot;, Helvetica, Tahoma, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;\\5FAE软雅黑&quot;, SimSun, &quot;\\5B8B体&quot;, Heiti, &quot;\\9ED1体&quot;, sans-serif;font-size:14.6667px;"><span class="author-2226590">知乎上有个问题“</span><span class="author-2226590 link-block url-4gtOGR8RdGgbnPib url"><a href="https://www.zhihu.com/question/55049980/answer/147286483" muse_scanned="true" style="background:transparent;outline:none;text-decoration:none;color:#70b1e7;cursor:pointer !important;" target="_blank" rel="noopener">你最牛逼的自学经历是什么？</a></span><span class="author-2226590">”，其中有一个答案就是讲述自己对于计算机什么都不懂，到精通前后端，薪资涨了几倍的故事，而这一切只用了两年多。从一开始asp是啥都不知道，再慢慢了解HTML，CSS，JS，然后深入学习了JavaScript，看了一些经典的书，软件实战的多了，想写出更加优雅的代码，于是学习了设计模式，深入了解了数据库技术，这些都是到了一定阶段自然而然的变化，因为了解的更深，做得更好，必然要了解下一个阶段要了解的东西，他的这两年可以说是超过了许多平庸程序员的十年，可见成长的力量有多么巨大。</span></div>
-<div id="magicdomid416" class="ace-line" style="margin:0px;padding:0px 100px;border-left:3px solid transparent;word-wrap:break-word;outline:none;color:#333333;font-family:-apple-system, system-ui, &quot;PingFang SC&quot;, Helvetica, Tahoma, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;\\5FAE软雅黑&quot;, SimSun, &quot;\\5B8B体&quot;, Heiti, &quot;\\9ED1体&quot;, sans-serif;font-size:14.6667px;"><br style="margin-top:0px;">
-</div>
-<div id="magicdomid1014" data-author-name="goodong" class="ace-line gutter-author-2226590 locate lineguid-6BR5EoE5LhRX8YC7" style="margin:0px;padding:0px 100px;border-left:3px solid transparent;word-wrap:break-word;outline:none;color:#333333;font-family:-apple-system, system-ui, &quot;PingFang SC&quot;, Helvetica, Tahoma, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;\\5FAE软雅黑&quot;, SimSun, &quot;\\5B8B体&quot;, Heiti, &quot;\\9ED1体&quot;, sans-serif;font-size:14.6667px;"><span class="author-2226590">假如说，成长是你的一笔投资，你用时间和精力来换取你在技术上的造诣，那么持续地在成长上投入时间和精力，你的”资本“会变得越来越雄厚，就像你投资一个增长很快的股票（技术或造诣），而且不断有额外的资金（自学）投入，那么你的成长将是飞速的，能够大大缩短你达到预期水平的时间。另一方面，成长是一种正反馈，强者愈强，你学到了一个东西，它能够为你创造更多的收入，同时还会提高你的效率，那么你又拥有了更多资金投入到下一波成长中，相当于达到更高水平，只要更少时间，这样久而久之，你的水平会加速提高。</span></div>
-<div id="magicdomid1018" data-author-name="goodong" class="ace-line gutter-author-2226590" style="margin:0px;padding:0px 100px;border-left:3px solid transparent;word-wrap:break-word;outline:none;color:#333333;font-family:-apple-system, system-ui, &quot;PingFang SC&quot;, Helvetica, Tahoma, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;\\5FAE软雅黑&quot;, SimSun, &quot;\\5B8B体&quot;, Heiti, &quot;\\9ED1体&quot;, sans-serif;font-size:14.6667px;"><inherit style="display:block;"><br style="margin-top:0px;">
-</inherit></div>
-<div id="magicdomid1192" data-author-name="goodong" class="ace-line gutter-author-2226590 locate lineguid-IyjoEfaZF5V6gpYo" style="margin:0px;padding:0px 100px;border-left:3px solid transparent;word-wrap:break-word;outline:none;color:#333333;font-family:-apple-system, system-ui, &quot;PingFang SC&quot;, Helvetica, Tahoma, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;\\5FAE软雅黑&quot;, SimSun, &quot;\\5B8B体&quot;, Heiti, &quot;\\9ED1体&quot;, sans-serif;font-size:14.6667px;"><span class="author-2226590">另外，比起10年的平庸，不如2年的密集的成长，质量比起时间长度，会更加重要，一个年化5%的股票，比起一个年化30%的股票，差的不知道哪里去了。所以我们应当注重自己时间的质量，和投资策略，那就是</span><span class="author-2226590 b"><span style="font-weight:700;">持续</span></span><span class="author-2226590">投资自己的成长，注意是持续，不是一天两天，也不是一个月两个月，而是一直这么下去，除此之外，在学习和做事的过程中，认真起来，认真得久了，</span><span class="author-2226590 font-size-3" style="font-size:11pt;">你就赢了。遇事</span><span class="author-2226590">多想一个”然后呢？“，通过这样提高思考的质量，慢慢地你时间的质量就会提高，同一段时间内，你能做的事情更多了，进入一个良性循环。</span></div>
-<div id="magicdomid791" class="ace-line" style="margin:0px;padding:0px 100px;border-left:3px solid transparent;word-wrap:break-word;outline:none;color:#333333;font-family:-apple-system, system-ui, &quot;PingFang SC&quot;, Helvetica, Tahoma, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;\\5FAE软雅黑&quot;, SimSun, &quot;\\5B8B体&quot;, Heiti, &quot;\\9ED1体&quot;, sans-serif;font-size:14.6667px;"><br style="margin-top:0px;">
-</div>
-<div id="magicdomid790" class="ace-line" style="margin:0px;padding:0px 100px;border-left:3px solid transparent;word-wrap:break-word;outline:none;color:#333333;font-family:-apple-system, system-ui, &quot;PingFang SC&quot;, Helvetica, Tahoma, Arial, &quot;Hiragino Sans GB&quot;, &quot;Microsoft YaHei&quot;, &quot;\\5FAE软雅黑&quot;, SimSun, &quot;\\5B8B体&quot;, Heiti, &quot;\\9ED1体&quot;, sans-serif;font-size:14.6667px;"><br style="margin-top:0px;">
-</div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1509,7 +1538,7 @@ HTTP的请求有许多种，而无外乎都是 增、删、改、查，和数据
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">188</span>
+              <span class="site-state-item-count">189</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

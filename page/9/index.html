@@ -255,6 +255,401 @@
             
               
                 
+                <a class="post-title-link" href="/2013/09/16/【读书】 javascript  the good part 读书笔记/" itemprop="url">
+                  【读书】 javascript  the good part 读书笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-09-16T22:49:18+08:00" content="2013-09-16">
+              2013-09-16
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/09/16/【读书】 javascript  the good part 读书笔记/" class="leancloud_visitors" data-flag-title="【读书】 javascript  the good part 读书笔记">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="javascript-the-good-part-读书笔记"><a href="#javascript-the-good-part-读书笔记" class="headerlink" title="javascript: the good part 读书笔记"></a>javascript: the good part 读书笔记</h1><p>###对象的声明方式<br>var obj = {<br>    firstname : ‘bibo’,<br>    lastname: ‘deng’<br>}</p>
+<p>var obj = {<br>    “firstname”: ‘bibo’,<br>    “lastname”: ‘deng’<br>}</p>
+<p>访问的方式也有对应的两种，obj[‘firstname’], obj.firstname, 这其中涉及到关键字的问题，因为关键字是不能赤裸裸地作为变量或者对象的属性使用，好歹给个包装吧（“”）。且对象都是以引用的方式存在于程序中，也就是内存中只保留一份该对象。</p>
+<p>###自省<br>hasOwnProperty() 判断是否有某个属性，与prototype链无关</p>
+<p>typeof 关键字能够得到对象的类型名称字符串</p>
+<p>###原型链</p>
+<p>对于所有的继承者，都是可见的，这种灵活性，是那些extends所不具有的</p>
+<p>###避免全局<br>封装起来，自成一体。这个可以在接下来的项目中使用。</p>
+<p>###删除的穿透性<br>删除了对象当前的某属性，它会自动取其prototype的该属性的值作为新值？ write an example ,and ask for my teacher.</p>
+<p>###函数<br>函数，由其上下文和代码决定。<br>四种调用方式：</p>
+<ul>
+<li>方法式</li>
+<li>函数式   new , 返回了函数这个object，也就是this</li>
+<li>构造函数式</li>
+<li>func.apply(obj,array) / func.call(obj,args) 式（移花接木）</li>
+</ul>
+<p>函数在内部获取参数：</p>
+<p>arguments[i] 获得第i个参数，甚至不需要声明需要多少个参数，但是它不是一个数组</p>
+<p>js对于参数是相当宽松的，多了不抱怨，少了也不嫌</p>
+<p>给函数添加属性：</p>
+<pre><code>Function.prototype.method = function (name, func) { 
+    this.prototype[name] = func; 
+    return this; 
+};
+
+Number.method(&apos;integer&apos;, function (  ) { 
+    return Math[this &lt; 0 ? &apos;ceiling&apos; : &apos;floor&apos;](this); 
+    // 又见到了这个表达 floor(-2.3)是等于-3的
+}); 
+</code></pre><p>必须使用prototype来进行扩展。</p>
+<p>###作用域<br>C语言类似的可以保持block范围作用域，用花括号括起来的部分，除了这个范围，就不能使用了。javascript却不支持块作用域，却会覆盖外层作用域的声明，但是它支持函数作用域，也就是离开了当前函数，外面就不能访问函数内部定义的数据了。所以javascript中的应用，一般是要用到就先在最前面声明好。</p>
+<p>###闭包</p>
+<blockquote>
+<p>A function literal can appear anywhere that an expression can appear. Functions can be defined inside of other functions. An inner function of course has access to its parameters and variables. An inner function also enjoys access to the parameters and variables of the functions it is nested within. <em>The function object created by a function literal contains a link to that outer context. This is called closure.</em>This is the source of enormous expressive power.</p>
+</blockquote>
+<p>在其他一些语言，如C/C++中，函数里面不能再定义函数了，当然也没有很明显的函数式编程思想。有一次我用在我看来不可思议的方式来写一个setInterval：</p>
+<pre><code>$(document).ready(function(){
+    var t = setInterval( function(){
+        // some other code here
+        var i = 0;
+        i ++;
+        console.log(i);
+        if (true)
+        {
+            clearInterval(t);
+        }
+    }, 100);
+});
+</code></pre><p>审慎地判断一下，这属于闭包吗？ 里面用到的t的确是在上一层空间定义的,的确只运行了一次console.log()就停止了，去掉clearInterval之后，可以运行多次，但是i一直是1，那是因为每进入一次都是不同的环境了,这可能不是一个很好的例子。我问了一下我的导师，他说闭包是可运行的代码和其运行环境共同组成的，常见的表现形式就是函数包函数。我继续问，那么这个闭包内的生存期有多长，他回答应该是随着外部变量的消亡而灭亡。因为它带有对改上下文的引用，这样确保了函数作用域和信息的隐藏。</p>
+<p>闭包的例子：</p>
+<pre><code>var myObject = function (  ) { 
+    var value = 0; 
+
+    return { 
+        increment: function (inc) { 
+            value += typeof inc === &apos;number&apos; ? inc : 1; 
+        }, 
+        getValue: function (  ) { 
+            return value; 
+        } 
+    } 
+}(  );
+</code></pre><p>能够起到隐藏的功能。定义的value,当myObject构造好了之后，依然可以通过myObject.getValue（）的方式来使用value。这令我感到很神奇。返回后的对象还能够使用原来函数的东西，好像嫁出去的女儿，可以回娘家一样（可以使用的东西有 参数，内部变量）。我实验了一下，去掉函数的立即执行，新建两个对象来进行比对，然后发现每一个新生成的obj对象，都具有不同的运行环境，也具有独立的value,这相当于是面向对象的一个替代封装，但是具有其本身的灵活性，并且可以将来可以使用prototype来进行扩展:</p>
+<pre><code>$(document).ready(function(){
+    var myObject = function (  ) { 
+                var value = 0; 
+
+            return { 
+                increment: function (inc) { 
+                    value += typeof inc === &apos;number&apos; ? inc : 1; 
+                }, 
+                getValue: function (  ) { 
+                    return value; 
+                } 
+            } 
+        };
+
+        var obj1 = myObject();
+        obj1.increment(1);
+        obj1.increment(1);
+        console.log(obj1.getValue()); // 2
+        var obj2 = myObject();
+        obj2.increment(1);
+        obj2.increment(1);
+        obj2.increment(1);
+        console.log(obj2.getValue()); // 3
+});
+</code></pre><p>接下来我将读一点《jQuery源码剖析》来深入理解javascript的这种机制。</p>
+<p>###异常<br>异常的检测及throw:</p>
+<pre><code>var add = function (a, b) { 
+    if (typeof a !== &apos;number&apos; || typeof b !== &apos;number&apos;) { 
+        throw {     // throw a exception object
+            name: &apos;TypeError&apos;, 
+            message: &apos;add needs numbers&apos; 
+        } 
+    } 
+    return a + b; 
+}
+</code></pre><p>###数组<br>数组与对象不同，它无需字典那样定义索引，而是以自然数为索引，并且有length这个属性，以及其他有用的操作。它不会超界，而是会自动扩展到足够大以容纳最大界限。</p>
+<p>typeof arr 得到的是“object“，故而需要进一步检查constructor === Array 才能判断arr确实是一个数组。数组人仍然是object。</p>
+<p>###正则表达式<br>常见方法：</p>
+<blockquote>
+<ul>
+<li>regexp.test(str)<ul>
+<li>regexp.exec(str)        // 匹配结果从1开始</li>
+<li>string.match(regexp)</li>
+<li>string.replace(regexp)</li>
+<li>string.search(regexp)</li>
+<li>string.split(regexp)</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>这个是书上的例子：</p>
+<pre><code>var parse_url = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/; 
+</code></pre><p>实在是有点长，之前有点regexp基础，所以能够看懂一些，但是对于表达式中的<code>?:</code>需要解释一下，它是non-capture-group标志，也就是这个括号看起来像个分组，但是在exec匹配的结果中不要显示它，例如匹配协议名的<code>(?:([A-Za-z]+):)</code> 虽然匹配了后面的冒号，但是结果中并不包含，如果是http:匹配了只得到http，这样就避免了得到不想要的分组。</p>
+<p>控制字符：</p>
+<blockquote>
+<p>\ / [ ] ( ) { } ? + * | . ^ $</p>
+</blockquote>
+<p>尾部标识：</p>
+<blockquote>
+<ul>
+<li>g       —— 全局匹配<ul>
+<li>i       —— 大小写通吃</li>
+<li>m       —— 多行 $可匹配行尾</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>转义：</p>
+<blockquote>
+<ul>
+<li>\d \b \s \w 匹配相应文法 数字 单字 空白字符 字符0-9a-zA-Z<ul>
+<li>\D \B \S \W 上面对应集合的非\D = [^\d] </li>
+<li>\u00FF 双字节字符</li>
+<li>\1 表示前面匹配到的第一分组<code>（）</code>只对capturing-group生效</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>[]定义的字符类内的转义与上面的有点不一样，<code>\b</code>变成了退格符号，就不能在用来表示字了，相应的<code>\B</code>就没有了。</p>
+<p>计数:</p>
+<blockquote>
+<ul>
+<li>{m,n} 匹配m到n次<ul>
+<li>{m} 相当于{m,m}</li>
+<li>* 匹配任意次</li>
+<li>+ 匹配至少一次</li>
+<li>？ 匹配或者不匹配，它就在那里</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>###内置方法</p>
+<ul>
+<li><p>array</p>
+<ul>
+<li>array.concat（elem1, elem2, …） 追加 数组追加数组，会合并，而不是直接加入数组 </li>
+<li>array.join(separator) 用数组元素组成一个用separator分隔开的字符串 [‘I’, ‘am’, ‘bibo’] =&gt; “I am bibo”</li>
+<li>array.push(elem) 这才是真正的追加，单个被加入，数组也被视为单个对象</li>
+<li>array.pop() 获取最后一个元素</li>
+<li>array.reverse() 翻转元素顺序</li>
+<li>array.shift() 返回并删除第一个元素</li>
+<li>array.slice(start, end) 截取数组片段</li>
+<li><p>array.sort(compareFunc) 排序,传入一个比较函数，默认按字符序</p>
+<blockquote>
+<p>compareFunc 讲得很清楚，传入两个参数，相等返回0, 第一个参数在前，返回负数，第二个参数在前，返回一个正数，例如最经典的是比较整数return a-b 从小到大排列</p>
+</blockquote>
+</li>
+<li><p>array.splice(start, deleteCount, item…) 删除若干，并从删除位置添加</p>
+</li>
+<li>array.unshift(item,…) 从前面加</li>
+</ul>
+</li>
+<li><p>string</p>
+<ul>
+<li>str.entityify 特殊字符html编码化 ‘&amp;’ =&gt; ‘&amp;amp’;</li>
+<li>str.charAt(pos) 返回pos位置上的字符</li>
+<li>str.charCodeAt(pos) 返回字符ASCII码</li>
+<li>str.concat(str1, str2…) 链接字符串</li>
+<li>str.indexOf(str1, pos) 查找某个字符串，pos起始位置可选，-1没找到，这个函数很常见 </li>
+<li>str.lastIndexOf(str1, pos) 从后开始查找</li>
+<li>str.localeCompare(str1) 比较字符，str &lt; str1 则返回负数，比较规则字母序</li>
+<li>str.match(regexp) 做匹配，结果与regexp.exec(str)一样,如果有g则返回一组匹配值，但是不会返回分组</li>
+<li><p>str.replace(val-old, val-new) 替换字符内的字符，就像编辑器的替换一样，可以使用全局的regexp,这样可以替换所有匹配的值， val-new中$有特殊含义</p>
+<blockquote>
+<ul>
+<li>$$         :  $</li>
+</ul>
+</blockquote>
+</li>
+<li>$&amp;      :   The matched text</li>
+<li>$number:    Capture group text</li>
+<li>$`         :  The text preceding the match</li>
+<li><p>$’         : The text following the match</p>
+</li>
+<li><p>str.search(regexp) 查找第一个匹配位置</p>
+</li>
+<li>str.slice(pos1, pos2) 截取字符串,第一个参数为负，会自动加一次str.length,超过str.length则会当作0看待</li>
+<li>str.split(separator, limit) 分片字符串，limit为分片数限制</li>
+<li>str.substring(begin, end) 求子串,没有slice那么强大</li>
+<li>str.toLocaleLowerCase()   带本地化的字母小写化</li>
+<li>str.toLocaleUpperCase()</li>
+<li>str.toLowerCase()         字母小写化</li>
+<li>str.toUpperCase()</li>
+<li>String.fromCharCode(code1,…) 从数码转成字符串</li>
+</ul>
+</li>
+<li><p>number</p>
+<ul>
+<li>number.toExponential(小数位数)  返回一个科学计数的字符串</li>
+<li>number.toFixed(小数位数) 返回一个定点表示的实数字符串</li>
+<li>number.toPrecision(实数长度) 返回一个实数字符串</li>
+<li>number.toString(进制)</li>
+</ul>
+</li>
+<li><p>object</p>
+<ul>
+<li>hasOwnProperty(pname) 是否具有某属性，不追溯到prototype</li>
+</ul>
+</li>
+<li><p>regExp</p>
+<ul>
+<li>exp.exec(string) 对字符进行匹配，返回数组，0是整个匹配值，后面的按分组返回结果<blockquote>
+<p>如果exp带有g标志，也就是全局标志，则是从exp.lastIndex开始匹配的,匹配成功则                lastIndex为匹配段后的第一个字符位置，也就是说有一个记录功能，可以接着从这个位置匹配，这就可以在一个exp上循环地开始匹配了。如果匹配不成功则lastIndex为0。</p>
+</blockquote>
+</li>
+<li>exp.test(string) 匹配返回true,否则返回false</li>
+</ul>
+</li>
+</ul>
+<p>###style</p>
+<p>命名，表达式，块，都有一些规则可以使得更加优雅并且能避免错误。尽量做到逻辑明晰，自我阐述。</p>
+<p>Sometimes I think about comments as a time machine that I use to send important messages to future me. 这句话讲得好贴切啊。</p>
+<p>javascript 没有块作用域，也就是说块内的东西不算是块私有的，而C块内声明的变量只能在块内使用，这样尽量延后声明时间可以具有更合适的作用域，但是javascript不是这样，故而经常可以看到一些高手是在函数开头就把所有变量声明好。</p>
+<pre><code>if (true)
+{
+        var sum = 0;
+        for (var i=0; i&lt;10; i++)
+        {
+            var name = &apos;aa&apos;;
+            sum += i;
+        }
+        console.log(sum, name);
+        //输出 45 &quot;aa&quot;
+}
+
+
+if (my_value &amp;&amp; typeof my_value === &apos;object&apos;) { 
+    // my_value is an object or an array! 
+}
+因为typeof null是 object, 但是可以用 my_value是否为假来加以判断
+
+不要依赖js自动帮你加分号
+
+减少全局变量的使用，它会搞乱变量的关系，我自己在开发中也遇到这样的问题
+
+parseInt(&quot;08&quot;, 10) 应该提供第二个参数指定进制  
+
+NaN 是一个number,不等于任何数，包括它自身的number，这是有多纠结呢，用isNaN（NaN）来判断  
+
+isFinite() 接受所有不是NaN, Infinity的数字
+
+if (my_value &amp;&amp; typeof my_value === &apos;object&apos; &amp;&amp; 
+    my_value.constructor === Array) { 
+    // 判断是否是数组
+}
+</code></pre><p>蛋疼的类型判断(typeof)：</p>
+<pre><code>Value      |    Type
+--------------------
+0          |    Number
+NaN          |   (not a number)    Number
+&apos;&apos;          |   (empty string)    String
+false      |    Boolean
+null      |    Object
+undefined |       Undefined
+</code></pre><p>使用=== 和 ！== 类型要相同才能比较</p>
+<blockquote>
+<p>The worst features of a language aren’t the features that are obviously dangerous or useless. Those are easily avoided. The worst features are the attractive nuisances, the features that are both useful and dangerous.</p>
+</blockquote>
+<pre><code>(function (  ) { 
+    var hidden_variable; 
+
+    // This function can have some impact on 
+    // the environment, but introduces no new 
+    // global variables. 
+})(  );
+// 这样写可以避免新建一个function全局对象
+</code></pre><p>使用<a href="http://www.JSLint.com/." target="_blank" rel="noopener">JSLint</a>来提高代码质量,使自己变成一个更好的程序员。</p>
+<p>eval is evil ,当然我们有时候会发现在服务器返回的是字符串格式的JSON的时候，eval(json)将会非常有用。但是书中说这涉及安全问题，应该对JSON进行parse,也就是写一个解析器解析一遍。代码有点复杂，下次单独分离出来进行分析。</p>
+<p>读完这本书，我才对javascript有更清晰的认识，一开始接触js的时候，觉得它很奇怪，虽然语法和C很相似，但是其用法，尤其是函数式编程，还有prototype,闭包很难理解。现在终于有种拨开迷雾见天日的感觉。本书还教导我们怎样避免一些容易犯错的地方，来使自己成为一个更好的js程序员。</p>
+<p>by bibodeng 2013-09-16</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/09/14/jekyll 上搭建github.page式博客/" itemprop="url">
                   jekyll 上搭建github.page式博客
                 </a>
@@ -2066,138 +2461,6 @@ blockquote {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/05/11/笑谈价值观/" itemprop="url">
-                  笑谈价值观
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-05-11T20:07:00+08:00" content="2013-05-11">
-              2013-05-11
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/05/11/笑谈价值观/" class="leancloud_visitors" data-flag-title="笑谈价值观">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<br>
-<div class="art_content" style="font-size:15px;letter-spacing:1px;line-height:1.3em;"><h3 style="background-color:#222222;color:#ffffff;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">读书</h3>
-<p style="font-family:'Times New Roman';">&nbsp; &nbsp;因为决定了要往前端方向深入发展，所以最近有意识地多阅读《javascript高级程序设计》，翻阅了一遍，初步理解了js的相关基础，例如ECMAScript语法基础，DOM操作，事件，以及现在very popular的Ajax。这本书很基础，对于小白还是挺有用的，里面代码很多，前端知识就是有很多细节需要考虑，当然大部分都是为跨浏览器而操心。把各个知识点绘制成了一张思维导图（见文后链接），我想到我毕业，这个图将会非常庞大，看着它来回忆知识，简直是一种享受。</p>
-<h3 style="background-color:#222222;color:#ffffff;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">其他思考</h3>
-<p style="font-family:'Times New Roman';">&nbsp; &nbsp;今天从图书馆走回宿舍的时候，在想，我为什么会那么看重面试官的话呢，也许是因为我认为这很重要。自己要找一个好工作，让自己将来衣食无忧，有一个好的前途，能承担家庭的责任。突然意识到，这就是价值观啊，你认为很重要的东西，就是在苦苦追寻的，引导着我们前行的因素。人生第一次思考什么是自己的价值观，我之前被人说过与之价值观不同，当时我还不太清楚什么是价值观。既然有价值的就是重要的，于是我试着去问同学，你认为重要的东西是什么？我得到一个回答： 健康快乐咯。很像那句经典台词：</p>
-<blockquote style="background-color:#ccff99;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">
-<p>&nbsp;做人嘛，最重要的就是开心咯(用粤语会更有感觉)</p>
-<p>&nbsp; It's important for me, so it is valuable.有没有道理呢？</p>
-</blockquote>
-<p style="font-family:'Times New Roman';">&nbsp; &nbsp;的确，做人，最重要的是开心。做让自己觉得开心的事，例如努力实现自己的梦想，追求自己想要的生活，和喜欢的人们在一起。这很多时候都是需要follow heart。当你认为一个东西重要的时候，这个就成了价值重要的，这个观念就会影响我们的行为。</p>
-<p style="font-family:'Times New Roman';"></p>
-<p style="font-family:'Times New Roman';">&nbsp; &nbsp;人一生都在追求着这么几件事：健康，富有，有用，being good，自由，亲情，爱情 等。这些东西能够让人们感到幸福，既然这样，那就不奇怪现在更富足的人们并不一定有更强的幸福感，因为物质丰富了，却失去了很多其他重要的东西例如健康。人被感动，是因为共鸣，因为你看到别人的身体或者你的思想（被自己感动）里有你的影子，有你觉得重要的东西，勇敢追求喜欢的人时会有，历尽艰辛后流下欢欣的泪水是会有，丧失至爱的亲友或宠物时会有，听到那动人旋律音乐时会有。。。</p>
-<p style="font-family:'Times New Roman';"></p>
-<p style="font-family:'Times New Roman';">&nbsp; &nbsp;想清楚这些就好办了，你对你觉得重要的东西都会动情。所以人的 喜，怒，哀，乐 都说明那东西是你看重的。前几天看过《致我们终将逝去的青春》里面，郑薇一开始对陈孝正大光其火，却渐渐喜欢上人家了，怒也是会转移的，从那件让人觉得愤怒的事情，慢慢演变成这个人对我很重要，是很微妙的。看到一个人/物很高兴，而快乐对你也是重要的，那么这个人/物就变重要了。又比如，一个程序员编程，解决了一个难题，倍有成就感，然后就会变得更喜欢编程。其实人的一生，又何尝不是为了这个问题在奔忙思索——什么是重要的，我怎样得到对我重要的人/物。</p>
-<p style="font-family:'Times New Roman';"></p>
-<h3 style="background-color:#222222;color:#ffffff;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">决定你的选择</h3>
-<p style="font-family:'Times New Roman';">&nbsp; &nbsp;既然，明确了自己的价值观，那么遇到自己高兴/愤怒/哀伤/快乐的时候，你就知道什么对你是重要的了，当然很多时候让你有这些情绪的东西不一定是你想要继续追求的，但是一旦确定了自己的价值观，那么就大胆地去追寻吧。最近我还有一个小小的感慨：</p>
-<blockquote style="background-color:#ccff99;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">
-<p>&nbsp;&nbsp;&nbsp;&nbsp;选择和努力一样重要</p>
-</blockquote>
-<p style="font-family:'Times New Roman';">&nbsp; &nbsp;在没有确定什么是重要的，符合自己价值观的时候，不要轻易做决定，但是也不能逃避做决定（人的大脑很不擅长做决策）。错误的决定，往往决定接下来你是不是要花更多的力气弯路回到大路上来，也决定你路上遇到的人，所以做决定要慎之又慎。除了情绪上的直觉外，也要对事情做理性的思考(例如遇到骗子送上门的“好事”)，对于不太可能的，对长远追求不利的选择，要学会放弃，不要过于我执。</p>
-<h3 style="background-color:#222222;color:#ffffff;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">END</h3>
-<p style="font-family:'Times New Roman';">&nbsp; &nbsp;保持身心的健康快乐是非常重要的事情！做一个有用的人也是非常重要的！前者是对自己负责，后者是对社会负责。</p>
-<p style="font-family:'Times New Roman';"></p>
-<p style="font-family:'Times New Roman';">&nbsp; &nbsp;by bibodeng &nbsp;2013-05-11</p>
-<p style="font-family:'Times New Roman';"></p>
-<p style="font-family:'Times New Roman';">&nbsp;我的思维导图：&nbsp;<a href="http://vdisk.weibo.com/s/B339N" target="_blank">下载</a></p>
-<p style="font-family:'Times New Roman';"></p>
-</div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2243,7 +2506,7 @@ blockquote {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">188</span>
+              <span class="site-state-item-count">189</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
