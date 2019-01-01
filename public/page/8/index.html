@@ -255,6 +255,161 @@
             
               
                 
+                <a class="post-title-link" href="/2013/11/03/常用latex代码块/" itemprop="url">
+                  常用latex代码块
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-11-03T16:27:17+08:00" content="2013-11-03">
+              2013-11-03
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/11/03/常用latex代码块/" class="leancloud_visitors" data-flag-title="常用latex代码块">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#常用latex代码块</p>
+<p>by bibodeng 2013-11-3</p>
+<h2 id="为啥搞latex"><a href="#为啥搞latex" class="headerlink" title="为啥搞latex"></a>为啥搞latex</h2><p>其实接触<code>latex</code>也有些日子了，本来是一直打算用它来排版我们自己的简历，论文，还有我们业余写的电子书。最近和思愿在折腾这个东西，故而觉得有必要整理出一篇常用的latex代码块出来，然后结合我们的需要发挥。</p>
+<p>宿舍一个哥们总是说我折腾，linux，latex，Qt，折腾的东西真的不少。我自己也问我自己是不是浪费了太多时间在这些不必要的折腾上，后来意识到任何东西都有好处也有不好，就看我们用的人的心态，用的方式了。latex如果用得好，将来写毕业论文的时候必定是让老师眼前一亮，不排除这有点装逼嫌疑，但是我是喜欢酷的，喜欢与众不同。即使是排版，我也觉得用代码什么排出来的会非常漂亮。</p>
+<h2 id="常用代码"><a href="#常用代码" class="headerlink" title="常用代码"></a>常用代码</h2><p>有了下面的一些常用代码，我们很容易就解决排版中的一些基本问题，除此之外，建议阅读《一份不太简短的latex说明》。<a href="http://wenku.baidu.com/view/754ab741a8956bec0975e3b2.html" target="_blank" rel="noopener">百度</a>和<a href="http://ishare.iask.sina.com.cn/download/explain.php?fileid=18921996" target="_blank" rel="noopener">新浪</a>提供下载。</p>
+<h3 id="嵌入代码块"><a href="#嵌入代码块" class="headerlink" title="嵌入代码块"></a>嵌入代码块</h3><p>如果文档或书籍中带有代码，那么我们常常要使得代码缩进，并且着色。</p>
+<pre><code>%　先在文档声明区加入必需的包
+\documentclass[11pt,oneside]{book}
+\usepackage{CJKutf8}
+\usepackage[utf8]{inputenc}
+... % 下面这些是重点
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+</code></pre><p>然后我们就可以直接在一个章节里面插入代码了，以C++为例，也可以使用Java等其它语言：</p>
+<pre><code>\begin{lstlisting}[language=C++,caption={C++ version}]
+void main()
+{
+    printf(&quot;hello world&quot;);
+}
+\end{lstlisting}
+</code></pre><p>上面这段代码向文中嵌入代码。可以看到关键字被染色了，如果有注释的话，还会被染成红色。</p>
+<p><img src="http://bibodeng.com/content/plugins/kl_album/upload/201311/96a79f2b7967bfd2a1b6e7766520f9972013110307335829475.png" alt="代码示例"></p>
+<h3 id="嵌入图片"><a href="#嵌入图片" class="headerlink" title="嵌入图片"></a>嵌入图片</h3><p>我们的文档常常有一些图片要嵌入，以达到图文并茂的效果。特别是在一些论文中，以图形作为说明。latex具有强大的图形绘制能力，但是我们这里只介绍如何嵌入外来图片。</p>
+<pre><code>% 同样是先包含包
+\usepackage{subfig}
+\usepackage{wrapfig}    % 图文包围的时候用到
+\usepackage{graphicx}
+</code></pre><p>下面在上下文中嵌入一张图片：</p>
+<pre><code>% 省略上文（此为注释）
+\begin{figure}[!htp]
+\centering
+\includegraphics[angle=10,
+width=0.7\textwidth]{pic/junxun.jpg}
+\caption{三连南僧激动地和对面二连拉歌}
+\end{figure}
+% 省略下文
+</code></pre><p>效果如下：</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/f3333114456e25b0240818f67c08f3ce2013110307432017124.png" alt="插入图片"></p>
+<p><code>htp</code>是为了让图片不要落在边界，顶部等特殊地方，而是在正文中。<code>centering</code>死让图片居中，然后是最核心的<code>includegraphics</code>将图片包含进来，并且制定角度为10°，宽度为页面总宽度的70%，<code>caption</code>即为标题。然后注意要闭合嵌入的<code>figure</code>元素。</p>
+<h3 id="嵌入文字包围的图片"><a href="#嵌入文字包围的图片" class="headerlink" title="嵌入文字包围的图片"></a>嵌入文字包围的图片</h3><p>那如果要嵌入文字包围的图片，该怎么弄呢？我们要的效果是只在图片存在的地方，文字绕道，但是过了这个位置，则包围了文字。先看别人的<a href="http://www.ctex.org/documents/latex/graphics/node115.html" target="_blank" rel="noopener">经典效果</a>：</p>
+<pre><code>\begin{wrapfigure}{r}{4.5cm}
+\includegraphics[width=4cm, clip]{pic/face.jpg}
+\end{wrapfigure} 
+\mbox{}我们的爱情，就像春天盛开的鲜花，无比热情。每当我见到你，就沉醉于其中，快乐无比。我就像那在浅浅柔波中的水草，享受着康桥的水的轻抚。
+</code></pre><p>效果如下：<br><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/e46b2f87875b8674726d66673259641d2013110308225412500.png" alt="图文混排"><br>如果没有<code>\mbox{}</code>那么就会出现文字出现在图片上的效果。<code>wrapfigure</code>的效果就像是二者可以叠加，也可以互相排斥开来。</p>
+<p>更多的latex代码块，还是看教程比较靠谱吧（比如那看起来很高级的数学公式）。</p>
+<hr>
+<p>end</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/11/03/事件代理实现/" itemprop="url">
                   事件代理实现
                 </a>
@@ -2480,163 +2635,6 @@ undefined |       Undefined
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/09/14/jekyll 上搭建github.page式博客/" itemprop="url">
-                  jekyll 上搭建github.page式博客
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-09-14T12:12:59+08:00" content="2013-09-14">
-              2013-09-14
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/09/14/jekyll 上搭建github.page式博客/" class="leancloud_visitors" data-flag-title="jekyll 上搭建github.page式博客">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="jekyll-上搭建github-page式博客"><a href="#jekyll-上搭建github-page式博客" class="headerlink" title="jekyll 上搭建github.page式博客"></a>jekyll 上搭建github.page式博客</h1><p>之前独立博客上的各种各样的问题，例如垃圾评论，模板不支持代码高亮， 彻底惹恼了我，所以准备投奔jekyll的怀抱，直接到github page上写博客。折腾了一天，总算弄得差不多了。</p>
-<p>###第一步 建立自己的项目<br>首先，要有github账号，新建一个github的项目，叫做 username.github.com, 现在github为了不让github page 影响性能，专门用 github.io域名提供page服务。在自己的github主页上新建一个repo，然后就可以了。</p>
-<p>###第二步 clone别人的项目<br>我是直接把别人已经搭建好的jekyll项目，包括模板主题和建好的目录等。在终端运行下面命令：</p>
-<pre><code>$ git clone https://github.com/plusjade/jekyll-bootstrap.git USERNAME.github.com 
-$ cd USERNAME.github.com 
-$ git remote set-url origin git@github.com:USERNAME/USERNAME.github.com.git 
-$ git push origin master
-</code></pre><p> 这样就可以就算部署成功了。过几分钟后，访问 <a href="http://USERNAME.github.io" target="_blank" rel="noopener"><code>http://USERNAME.github.io</code></a> 你就能看到生成的页面了，如果不能生成，可能是你的index.yml文件出错了，github会发邮件给你。</p>
-<p>###第三步 搭建jekyll本地环境<br>jekyll是基于ruby的，所以你要先安装ruby，我的机器是ubuntu13.04， 已经预装了ruby1.9.1</p>
-<pre><code>sudo apt-get install rubygems
-sudo gems install jekyll
-</code></pre><p>但是我发现会碰到这样的问题：</p>
-<pre><code>Unable to install gem - Failed to build gem native extension - cannot load such file— mkmf (LoadError)
-</code></pre><p>报告说某个包找不到了，可能是我们的版本不够高，stack overflow 上有类似的<a href="http://stackoverflow.com/questions/13767725/unable-to-install-gem-failed-to-build-gem-native-extension-cannot-load-such" target="_blank" rel="noopener">问题</a></p>
-<p>解决办法是安装 ruby1.9.1-dev:</p>
-<pre><code>sudo apt-get install ruby1.9.1-dev
-</code></pre><p>可能之后还要解决一些问题，例如配置博客config.yml:</p>
-<pre><code>author:
-    name: USERNAME
-    email: USERNAME@gmail.com
-    github: USERNAME
-    ...
-</code></pre><p>更加详细的配置参考<a href="http://jekyllbootstrap.com/usage/blog-configuration.html" target="_blank" rel="noopener">jekyll的评论，google统计</a></p>
-<p>###第四步 开始在本地写博文<br>现在可以开始在本地写博文了，使用如下命令：</p>
-<pre><code>rake post title = &quot;hello world&quot;
-</code></pre><p>你将看到_post下面为你自动生成了一个.md后缀文件，编辑它就是写文章了。你会发现生成的文件都是这样的开头：</p>
-<pre><code>---
-layout: post
-title: &quot;hello world&quot;
-description: &quot;&quot;
-category: 这里填分类（需要是post下的一个文件夹）
-tags: [标签1, 标签2]
----
-{% include JB/setup %}
-这里开始是正文
-</code></pre><p>也可以新建页面：</p>
-<pre><code>rake page name = &quot;about.md&quot;
-</code></pre><p>写完了，可以在本地测试：</p>
-<pre><code>cd USERNAME.github.com
-jekyll serve
-</code></pre><p>访问<code>http://localhost:4000</code> 就可以访问你的博文了。</p>
-<p>###第五步 用git上传博文<br>我们就三板斧就够了：</p>
-<pre><code>git add .     // 添加当前目录所有内容
-git commit -m &quot;add passage x&quot;
-git push origin master
-</code></pre><p>这样就成功提交了自己的文章，在github项目中可以看到自己上传的文件，而在你的博客  <code>http://USERNAME.github.io</code>  中也生成成功了。<br>enjoy yourself。</p>
-<p>###进阶 写作<br>使用markdown教程</p>
-<p>一开始会很折腾，但是熟练了之后，的确可以专注于写作。</p>
-<p>参考链接：</p>
-<p><a href="http://www.mceiba.com/develop/jekyll-introduction.html" target="_blank" rel="noopener">利用jekyll搭建个人博客</a></p>
-<p><a href="http://wowubuntu.com/markdown/#link" target="_blank" rel="noopener">markdown 手册</a></p>
-<p><a href="http://yanping.me/cn/blog/2012/03/18/github-pages-step-by-step/" target="_blank" rel="noopener">github page 极简教程</a></p>
-<p><a href="http://jekyllbootstrap.com/" target="_blank" rel="noopener">jekyllboostrap 项目</a></p>
-<p><a href="http://bibodeng.github.io">我的github博客</a></p>
-<p>by bibodeng 2013-9-6</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2682,7 +2680,7 @@ git push origin master
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">187</span>
+              <span class="site-state-item-count">188</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -2692,7 +2690,7 @@ git push origin master
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -2776,7 +2774,7 @@ git push origin master
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

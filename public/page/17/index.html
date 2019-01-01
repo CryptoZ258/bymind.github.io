@@ -255,6 +255,283 @@
             
               
                 
+                <a class="post-title-link" href="/2012/04/24/编程的最低境界——徒手写排序/" itemprop="url">
+                  编程的最低境界——徒手写排序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-04-24T08:13:51+08:00" content="2012-04-24">
+              2012-04-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/04/24/编程的最低境界——徒手写排序/" class="leancloud_visitors" data-flag-title="编程的最低境界——徒手写排序">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<p><strong><span style="font-family:&#39;comic sans ms&#39;;">【编程的最低境界】</span></strong><br></p><div><span style="font-family:&#39;comic sans ms&#39;;">自从学习了高级语言C/C++之后，接着就学习了一些简单的算法。最近看《算法导论》，又重新学习了一下之前的最最基础的算法——“排序”。排序虽然基础，能根据各种排序方法的思想徒手写出排序算法来，是编程的最低阶段，排序都写不好，就别谈开发好的软件了。虽然其他博客上到处都是排序的文章和代码，但是我觉得还是要写一写，记录下思考的过程，同时给自己动手的机会。有兴趣的同学可以翻翻《算法导论》17页的归并排序以及第二部分的第六章堆排序和第七章快速排序。</span></div><p><span style="font-family:&#39;comic sans ms&#39;;">&nbsp;</span></p><div><strong><span style="font-family:&#39;comic sans ms&#39;;">【排序的思想】</span></strong></div><p><span style="font-family:&#39;comic sans ms&#39;;">&nbsp;</span></p><div><span style="font-family:&#39;comic sans ms&#39;;">根据导论的说法，排序就是输入一组数据&nbsp;x1,x2,x3...xn,经过排序后能够输出x1&#39;,x2&#39;,x3&#39;...xn&#39;，且使得x1&#39;&lt;x2&#39;&lt;x3&#39;&lt;...&lt;xn&#39;(当然也可以逆序过来)。数据的表现形式就是编程的根本，数据以有序的形式表现出来就是排序的使命。然而对于排序算法，有非常多的思想：</span></div><p><span style="font-family:&#39;comic sans ms&#39;;">&nbsp;</span></p><div><span style="font-family:&#39;comic sans ms&#39;;">1、插入排序</span></div><div><span style="font-family:&#39;comic sans ms&#39;;">2、选择排序</span></div><div><span style="font-family:&#39;comic sans ms&#39;;">3、冒泡排序（类似插入排序）</span></div><div><span style="font-family:&#39;comic sans ms&#39;;">4、希尔排序</span></div><div><span style="font-family:&#39;comic sans ms&#39;;">5、归并排序</span></div><div><span style="font-family:&#39;comic sans ms&#39;;">6、快速排序</span></div><div><span style="font-family:&#39;comic sans ms&#39;;">7、堆排序（利用堆数据结构的性质）</span></div><div><span style="font-family:&#39;comic sans ms&#39;;">8、还有其他基于数据分布的排序（基数排序、桶排序等等）</span></div><div><br></div><div><strong><span style="font-family:&#39;comic sans ms&#39;;">【插入和冒泡排序】</span></strong></div><p><span style="font-family:&#39;comic sans ms&#39;;">&nbsp;</span></p><div><p><span style="font-family:&#39;comic sans ms&#39;;">插入排序容易理解，就是一趟遍历一次尚未排序的元素插入到已经排序的序列中，如此进行一次则可以将一个元素放到已排序序列中，从第二个元素开始循环N-1次（N为元素个数）即可得到一个全部有序的序列。此算法的复杂度是O（N^2）,因为一个元素最多需要与其他元素交换的次数是n-1次，而一般是小于这个数的，然后外循环算一个n，则得到其复杂度不超过N^2.在样本数N小的情况下，插入排序是十分迅速的。</span></p><p>&nbsp;</p><pre class="brush:cpp; toolbar:true; auto-links:true;">void insertSort(int a[],int size)
+{
+	int j = 0;
+	int i = 0;
+	for(i=1;i&lt;size;i++)
+	{
+		j=i;
+		while(j&gt;0 &amp;&amp; a[j]&lt;a[j-1])
+		{
+			swap(a[j],a[j-1]);
+			j--;
+		}
+	}
+	cout &lt;&lt; "insertsort end " &lt;&lt;endl;
+}</pre><p><span style="font-family:&#39;comic sans ms&#39;;">swap&nbsp;函数是交换两个参数的值。可以看到从i=1(数组中的第二个元素)开始，我们就从i往前查找，如果有比a[j]大的，则a[j]作为小的，要往前排。这样就可以将a[j]插入到有序序列中，同时插入后依然保持有序数列特性，同时i往后移动一步，继续排序后面的元素。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">可见这个排序的思想是非常直观的，写代码的时候只要记住，两个循环，把元素i往前面排，一路交换下去，就能得到有序序列了。我想任何CS的同学都能够在三分钟之内写出这几行代码来吧，这是编程的最低境界，没得说必须熟练。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">冒泡排序的思想是，就像一个气泡往上浮起，自然相同体积的水要和气泡进行空间交换，而排序的主要步骤是，一趟循环，将相邻两个元素进行比较，大的往下沉，小的往上浮（即交换），这样每一趟的最后，最大的一个肯定是在最底下了。如此经过N趟，则会形成一个从小到大的序列。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">【归并排序】</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">归并排序的思想源于将两组东西合并起来，大家玩扑克牌的时候经常需要将两叠牌进行排序，于是左手抽一张牌，右手抽一张牌，那个小，先出哪张，如果左手的出了，就再用左手抽一张牌，再看看左右手的牌，出小的，如果是右手的出了，右手抽牌，比较。。。按照这种思想，到最后一定会是按从小到大的顺序出牌的。下面给出代码：</span></p><p>&nbsp;</p><pre class="brush:cpp; toolbar:true; auto-links:true;">//-----------------------mergesort------------------------------------------------
+void mergeSort(int a[],int left,int right)
+{
+	if(left&lt;right)
+	{
+		int mid = (left+right)/2;
+		mergeSort(a,left,mid);
+		mergeSort(a,mid+1,right);
+
+		int *b = new int[right-left+1];
+		merge(a,b,left,mid,right);         //merge a into b 
+	}
+}
+
+
+void merge(int a[],int b[],int left,int mid,int right) //high grade merge algorithm
+{
+	//put the result into the arr b ,then copy it back to a
+	int size = right-left +1; //calculate the size 
+	int *pl = &amp;a[left];
+	int *pr = &amp;a[mid+1];
+	//int *pb = &amp;b[0];
+	int offset =0;
+	while(offset &lt; size)
+	{	
+		if(pl&gt;&amp;a[mid]&amp;&amp;pr&lt;=&amp;a[right])	//copy right part into b[]
+		{
+			b[offset++] = *pr++;
+		}
+
+		else if(pr&gt;&amp;a[right]&amp;&amp;pl&lt;=&amp;a[mid])	  //copy left part into b[]
+		{
+			b[offset++] = *pl++;
+		}
+		else 
+		{
+			if(*pl&lt;*pr)
+				b[offset++] = *pl++;
+			else
+				b[offset++] = *pr++;
+		}
+	
+	}
+		copy(a,b,left,right,size); //copy b[] back to a[] from left to right
+		
+}
+
+void copy(int a[],int b[],int left,int right,int size)
+{
+	int *pa = &amp;a[left];    //destination
+	int *pb = &amp;b[0]; //source
+
+	int tmpoffset=0;
+	while(tmpoffset &lt;size)
+	{
+		*pa++ = *pb++;
+		tmpoffset ++;
+	}
+}</pre><p><span style="font-family:&#39;comic sans ms&#39;;">归并排序有一个缺点就是需要另外一个O（N）的空间消耗，最终得到的结果需要复制回去原来的数组中去。归并排序的算法复杂度是O（NlgN）的，画一棵树会比较容易理解其涵义。因为我们对数组进行分半，然后最后肯定是有lgN，然后递归下去，最后进行了lgN次的分半，然后归并的过程是用了N的时间，故而最终时间复杂度是O（NlgN）.&nbsp;归并非常有趣的一点就是用到了递归，先对数组进行分半，然后递归对左半边进行归并排序，对右半边进行排序，最后合并起来。这样的方法启发我们，要善于在处理数据中抽象出特征方法，这就是分治的思想，而且使用了递归的思想，用同一种办法化大为小，然后利用程序调用的无形的“栈”一层层地返回合并的结果。话说系统子程序调用的无形的“栈”还有反转字符串的作用。不信可以看下面的代码：</span></p><p>&nbsp;</p><pre class="brush:cpp; toolbar:true; auto-links:true;">#include "stdio.h"
+void Print(void);
+int main()
+{
+	printf("please input string and end with # \n");
+	Print();
+	getchar();
+}
+
+void Print(void)
+{
+	char a;
+	scanf("%c",&amp;a);
+	if(a != '#') Print();
+	printf("%c",a);
+}</pre><p><span style="font-family:&#39;comic sans ms&#39;;">进入主函数，调用print，输入数据，再调用自身，输入数据，直到最后一层调用，输出最新输入数据，返回上层，输出倒数第二数据，这样一层层地返回，就将字符串反转过来了。就像用了一个栈一样，不断地压入数据，再一一弹出，得到反转顺序的序列。当然，这是别的话题了。下面接着看快速排序。</span></p><p><strong><span style="font-family:&#39;comic sans ms&#39;;">【快速排序】</span></strong></p><p><span style="font-family:&#39;comic sans ms&#39;;">快速排序，那是相当地快。那是因为它在平均的情况下复杂度是O（NlgN）,虽然最坏情况下是O（N^2）的，但毕竟那是最坏情况（序列已经有序），一般来说很少出现这样的情况，为了避免partition的不均匀，故而采用随机化的qsort是很不错的主意。这样作为partition的依据一般是随机选择的，故而依照概率不会发生每次都只将序列分为一个为1，另外一个是N-1个元素（这是很糟糕的）。还是来看看代码吧：</span></p><p>&nbsp;</p><pre class="brush:cpp; toolbar:true; auto-links:true;">void qSort(int a[],int p,int r)
+{
+	
+	if(p&lt;r)
+	{
+		int q = partition(a,p,r);
+		qSort(a,p,q-1); //divide and conquer
+		qSort(a,q+1,r); //递归调用
+	}
+
+}
+
+//下面是重点partition
+int partition(int a[],int p,int r) 
+{
+	int i=p;   //首
+	int j=r+1;   //尾
+	
+	int x=a[p]; //基准元素
+
+	while(1)
+	{
+		while(a[++i]&lt;=x &amp;&amp; i&lt;r)//i从首到尾，如果小于则i往后移
+			;
+		while(a[--j]&gt;x)  //j从尾部递减，如果大于则往前移
+			;
+		if(i&gt;=j)       //这里停止partition，跳出到括号外
+			break;
+		swap(a[i],a[j]); 
+
+	}
+	a[p] = a[j];  
+	a[j] =x;   //基准元素必定在中间
+	return j;
+}</pre><p><span style="font-family:&#39;comic sans ms&#39;;">由代码可以知道，核心部分是partition，在数组的头尾设两个指针，前指针往后移动，后指针往前移动。在排序过程中，默认i所指位置之前的元素都小于或等于x（x为基准元素），而j所指之后的元素皆大于等于x。这样两个while（a[i++]&lt;=x&nbsp;&amp;&amp;&nbsp;i&lt;r）和while（a[j--]&gt;x）就不难理解了。重要的在后面，要是有元素不满足这个断言，那么就要将这两个元素互换了。一是大于x的，一个是小于x的，刚好进行互换，如果i和j交叉了，说明排序完成了，需要将基准元素插到它改到的位置（两组数据的中间）。这样就大功告成了！&nbsp;当然也可以换一种写法，不从尾部开始，而是两个指针都从数组首部开始，一直往后移动。</span></p><p>&nbsp;</p><pre class="brush:cpp; toolbar:true; auto-links:true;">void partition(int a[],int p,int r)
+{
+    int x = a[r]; //尾部元素做为分组依据
+    int i = p-1;
+    for(int j=p;j&lt;r;j++)
+    {
+      if(a[j]&lt;=x)
+     {
+       i = i+1;         //扩充小于或等于x的部分</pre><pre class="brush:cpp; toolbar:true; auto-links:true;">swap(a[i],a[j]);  //将a[j]进行挪动到小于或等于x的部分</pre><pre class="brush:cpp; toolbar:true; auto-links:true;">     }
+    }
+    return i+1; //返回数组的中间位置
+}</pre><span style="font-family:&#39;comic sans ms&#39;;">原理上是一样的，只不过简化了代码，j查找的是小于等于x的最靠左的元素，找到之后则将现在所指的小于等于x的最靠右的元素的下一个位置进行交换，等于扩充了小于等于x的部分，到最后将会把基准元素与i+1位置的元素交换，返回的是数组的中间i+1位置。</span><p><strong><span style="font-family:&#39;comic sans ms&#39;;">【堆排序】</span></strong></p><p><span style="font-family:&#39;comic sans ms&#39;;">bibo写到这里已经筋疲力尽了，想必读者看到这里也是倾注了很大的耐心。对于那些代码，最好的办法就是自己敲一遍，然后跟着单步运行一次，慢慢地也就了解其中的思想，也熟练了一些技巧了。算法是一种技巧，搭载的是数学的思想，再经过实践者的手，变成可以用的工具。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">言归正传，堆——分为最大堆，最小堆，指的是堆的树结构中，位于根节点的元素是最大的还是最小的。最大堆，其根节点就是这棵树的最大值。而堆排序就是要利用这个特性，来实现每次都找出一个“最大”或“最小”元素来，放到树外面。其实由于堆是一颗完全二叉树，故而它能够存储在一个数组里面（做回忆状：数据结构课程里关于完全二叉树的存储，的确是可以存放到一个数组里面的）。而那些出了堆的元素，恰好能放回去数组中的某个位置，于是等全部元素都选过一遍之后，该数组就会呈现出一个有序状态。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">假设有这样一个样本存储在只有三个节点的堆里面：</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">3&nbsp;，1&nbsp;，2</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">其中0号位置的3，就是堆的根，好了，第一次查找，3出堆，通过整形2成为了根，1为2的孩子。这样腾出一个空间给3，这样3就在数组的最后了。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">同理，2出堆到位置1，结果1成为了堆根。现在的数组状态是：&nbsp;1&nbsp;&nbsp;2&nbsp;3</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">此时数组状态是：1，2，3&nbsp;（没骗人，真的是有序的）</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">安装这个方法同样也能定义出一个最小堆，得到有序序列&nbsp;：&nbsp;3，2，1。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">这就是堆排序的思想，下面是代码：</span></p><p>&nbsp;</p><pre class="brush:cpp; toolbar:true; auto-links:true;">//-----------------------------------------------------------------------
+
+void heapSort(int a[],int size)
+{
+	int heapSize = size;  //heapSize was init to be the length of the array
+	buildMaxHeap(a,heapSize); //build a heap on a[]
+	for(int i=heapSize;i&gt;0;i--)
+	{
+		swap(a[0],a[i]); //swap the root of tree with the final element ,get out of the heap
+		heapSize --;
+		maxHeapify(a,0,heapSize); //重新整队，保持最大堆的性质
+	}
+}
+
+void buildMaxHeap(int a[],int size)
+{
+	int heapSize = size; //initial the heapSize as the length of array a
+	for(int k=(size-1)/2;k&gt;=0;k--)  //从不是叶子节点开始，一直往根上刨
+	{
+		maxHeapify(a,k,heapSize);   //进行建堆，就是让所有节点都符合堆的定义 ——根节点都要比子节点大
+	}
+}
+
+void maxHeapify(int a[],int i,int heapSize)
+{
+	int left =( i&lt;&lt;1)+1;     //left child
+	int right = (i&lt;&lt;1) +2; //right chlid position
+	int largest =i; //mark the position of the largest element in array
+	if(left &lt;=heapSize &amp;&amp; a[left] &gt; a[i])
+		largest = left;
+	else
+		largest = i;
+
+	if(right &lt;= heapSize &amp;&amp; a[right] &gt; a[largest])
+		largest = right;
+	
+	if(largest != i) //说明有节点比根节点大，根节点需要下移
+	{
+		swap(a[i],a[largest]);//swap 之后都要整队
+		maxHeapify(a,largest,heapSize);    //递归调用，防止子节点亦违反规则
+	}
+}</pre><p><span style="font-family:&#39;comic sans ms&#39;;">一开始的堆，不是说是就是的，而是要通过建堆操作来实现的。现在我们建一个最大堆，根据最小堆的定义，我们只需要保证根是最小的就行了，当然因为二叉树的递归结构，能够保证最上面的根是整个堆中最大的（哥们要的东西有了保障）。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">buildMaxHeap就是建立最大堆，这里需要说明的是存储在数组中的二叉完全树有两个和巧妙的特性，之所以巧妙，是因为可以轻易计算出哪个是根的左孩子，那个是根的右孩子，也能计算出最后一个非叶子节点，然后方便从非叶子节点做maxHeapify。</span></p><p><span style="font-family:&#39;comic sans ms&#39;;">如果你的数组是从0号开始存堆的，那么假设i为某个节点，那么i*2&nbsp;+&nbsp;1就左孩子所在位置，i*2&nbsp;+2&nbsp;乃右孩子所在位置，举个例子，0号的左孩子是1，右孩子是2。1号的左孩子是3，右孩子是4。可以画个图更加直观一点。</span></p><p>&nbsp;</p><p><a href="http://bibodeng.web-149.com/content/plugins/kl_album/upload/201204/0d308b19311b3cb29225783d44c3767b2012041812584213544.jpg" target="_blank"><img src="http://bibodeng.web-149.com/content/plugins/kl_album/upload/201204/0d308b19311b3cb29225783d44c3767b2012041812584213544.jpg" alt="点击查看原图" width="480" height="360" border="0"></a></p><p>&nbsp;</p><div class="codediv"><br><p><span style="font-family:&#39;comic sans ms&#39;;">好了，接下来就研究一下，怎样进行整堆吧，以为这是关键。看代码可知，查找该树中的最大值，然后将最大的作为堆的根。如此递归下去，这样每个带孩子的节点都将符合最大堆的定义。代码还是要好好研究一番的，如果思考十分钟，应该都能写出来吧。</span></p><p><strong><span style="font-family:&#39;comic sans ms&#39;;">【排序之后】</span></strong></p><p><span style="font-family:&#39;comic sans ms&#39;;">排序算法有很多，能徒手写出来，在算法上就已经进了一阶了。学习了排序之后，将会有更加复杂和困难的问题等待着我们，比如动态规划和贪心算法、回溯等等。我居然有耐心写完这一整篇了，那么也更加有信心去写接下来的高级算法。排序之后，我们需要的是重温一下学习的分治和递归思想，同时也动手练习（经验教训告诉我们，程序员是练出来的），接下来就是畅游算法的奇妙世界了。</span></p></div></div><p><span style="font-family:&#39;comic sans ms&#39;;">&nbsp;</span></p><div><span style="font-family:&#39;comic sans ms&#39;;">by&nbsp;bibodeng&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2012-04-18</span></div><p><a href="http://bibodeng.web-149.com/?post=26" target="_blank" rel="noopener">&nbsp;</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2012/04/24/从装配线到DNA比对——神器动态规划/" itemprop="url">
                   从装配线到DNA比对——神器动态规划
                 </a>
@@ -1723,132 +2000,6 @@ focus
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2012/02/29/艺术的修养/" itemprop="url">
-                  艺术的修养
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2012-02-29T21:39:27+08:00" content="2012-02-29">
-              2012-02-29
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2012/02/29/艺术的修养/" class="leancloud_visitors" data-flag-title="艺术的修养">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;">艺术诞生于这个世界中，是人类的精神果实，同时这个果实也在陶冶着人类自身的性情，同时养育着一份高雅。学习理工科那么久，很多时候都不用艺术的思维去想问题，但是计算机科学中却有很多经典著作含有ART这个感性代表的字眼。譬如《计算机程序设计艺术》、《调试的艺术》等等，只能赞叹那些牛人都把计算机科学上升为一门艺术了。</span></p>
-<p><a target="_blank" href="/content/plugins/kl_album/upload/201202/fe1b3619841a327296252ca3d67e148f2012022914252232605.jpg"></a></p>
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;">艺术，是一个感性的字眼，正如我们头脑中浮现的一幅画，很直观地摆在眼前。我觉得艺术更多地来源于人类获取知识的直觉感受，而这种直观感受，总是带有一些意向的东东，比如我们从小就朗朗上口的古诗句，听着就有一种音韵美，读起来也能感受到那种意境带来的感受，这种感受往往是用逻辑、理性难以解释的。虽然，理工科的同学觉得艺术是多么的遥远，与我无关，但是正真做好一件事情，它也会变成一门艺术，散发着美的馨香。</span></p>
-<p>&nbsp;</p>
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;">在闲暇之余，我喜欢释放自己，找时间冥想一下，或者去学一门比较能让自己放松，而且能陶冶性情的技艺。我发现，当思考了很久之后，不妨用艺术来放松一下心情。很多同学就喜欢摄影，因为光和影的交错给人以美的享受，也有很多同学喜欢音乐，弹得一手好钢琴或者一手好吉他。这不仅仅是一种消遣，更是一种兴趣爱好，这样我们的生活才显得比较充实，比较少忧虑，比较多思考那些真正值得思考的东西。</span></p>
-<p>&nbsp;</p>
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;">我很冲动，看到让我精神为之一震的东西就自己也想学，很感谢大学给了我足够的时间和空间去发展各种各样的技能。不知是何时，也不知是在梦里还是在现实当中，看到一幅灰常美的山水画，于是就下定决心学，想不到学校居然有这样的选修课，真的非常好。<span style="color:#e53333;"><b>所以，不要白白浪费你大学四年的选修课，好好利用它，真正学点东西，学点受益终生的技艺。</b></span>于是我选报了一门山水画，刚开始都还挺笨拙，画的石头就是一堆没有前后对比的黑乎乎的方块。后来得到老师的点拨，加上自己的悟性，很快就能模仿那些PPT上的名画了。刚开始非常地激动，一心一意，完全没有了平日的烦躁，这个学期选报的书法课也是这样，如此自由地挥洒，完全不用费脑筋想太多东西，完全是凭美的直觉。</span></p>
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;"><a target="_blank" href="/content/plugins/kl_album/upload/201202/ee22d720da0e8fceff40493f63e5fedd2012022914093725121.jpg"><img src="/content/plugins/kl_album/upload/201202/ee22d720da0e8fceff40493f63e5fedd2012022914093725121.jpg" width="480" height="360" alt="点击查看原图" border="0"></a><br>
-</span></p>
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;">大学是我们思考得最多，学得最多，读得最多，领悟得最多东西的时段，希望不会白白浪费这样的青春，趁青春有资本去学，趁青春才有能力去提升自己。让我们趁着青春，去感受一下艺术的修养。或许学计算机的，不一定都是一股书呆子气，而是一种带有高雅智慧的人群，既有修养，也有能力。</span></p>
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;"><a target="_blank" href="/content/plugins/kl_album/upload/201202/6b542f4e6c5dc56f221ce4c4098278e6201202291410261606.jpg"><img src="/content/plugins/kl_album/upload/201202/6b542f4e6c5dc56f221ce4c4098278e6201202291410261606.jpg" width="270" height="360" alt="点击查看原图" border="0"></a><br>
-</span></p>
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;">能够追逐自己喜欢的东西，干自己喜欢干的事情，生活也算没有什么遗憾了，像上文，一直喜欢摄影，也坚持摄影，我博客里面的很多照片都是他拍摄的。拍的东西很美，渐渐得也就能修养生性了，从而把技能转化为一种艺术，与灵感相通的艺术。</span></p>
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;"><a target="_blank" href="/content/plugins/kl_album/upload/201202/fe1b3619841a327296252ca3d67e148f2012022914252232605.jpg"><img src="/content/plugins/kl_album/upload/201202/fe1b3619841a327296252ca3d67e148f2012022914252232605.jpg" width="270" height="360" alt="点击查看原图" border="0"></a><br>
-</span></p>
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;">当然，这一切都是源于对生活的热爱。我们都热爱生活，同时我也热爱着计算机，梦想着能有一天也成为一个技术牛人，利用计算机无穷的能力，让世界因为有了我而变得更加的美好。美的东西有太多太多，这时能够产生美的作品的技艺，也就成了一种艺术了。而艺术是要靠修养的，不仅仅是技艺的刻苦训练，更加有知识的拓展，心理素质的提高，性情的陶冶。</span></p>
-<p>&nbsp;</p>
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;">艺术，也让生活多了一些乐趣，想象一下，没有了音乐的日子将会怎么样，我想很多人会感觉非常地痛苦。艺术，能够启迪我们的心智，触发我们的灵感，或许某一天，编程的时候苦思冥想，听力一段音乐或者看了一些画，一拍脑袋就想出来了。人类应该动员大脑的所有细胞，无论是关于“艺术”的，还是关于“理性”思维的，我们都要好好地利用，这些人类特有的思维方式和成果，都值得我们珍惜加以开发。无论是理工科的同学，还是文科生，都不妨学习一门艺术，当作一种消遣娱乐，或许也能在某种场合让人眼前一亮！我想这也是一门艺术吧，the art of life。</span></p>
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;"><br>
-</span></p>
-<p><span style="font-family:'Microsoft YaHei';font-size:14px;">by bibodeng &nbsp;2012-02-29 [貌似今天很特别哟，很多人在树洞表白神马的：）]</span></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1894,7 +2045,7 @@ focus
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">187</span>
+              <span class="site-state-item-count">188</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1904,7 +2055,7 @@ focus
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1988,7 +2139,7 @@ focus
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

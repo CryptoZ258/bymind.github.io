@@ -255,6 +255,163 @@
             
               
                 
+                <a class="post-title-link" href="/2013/09/14/jekyll 上搭建github.page式博客/" itemprop="url">
+                  jekyll 上搭建github.page式博客
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-09-14T12:12:59+08:00" content="2013-09-14">
+              2013-09-14
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2013/09/14/jekyll 上搭建github.page式博客/" class="leancloud_visitors" data-flag-title="jekyll 上搭建github.page式博客">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="jekyll-上搭建github-page式博客"><a href="#jekyll-上搭建github-page式博客" class="headerlink" title="jekyll 上搭建github.page式博客"></a>jekyll 上搭建github.page式博客</h1><p>之前独立博客上的各种各样的问题，例如垃圾评论，模板不支持代码高亮， 彻底惹恼了我，所以准备投奔jekyll的怀抱，直接到github page上写博客。折腾了一天，总算弄得差不多了。</p>
+<p>###第一步 建立自己的项目<br>首先，要有github账号，新建一个github的项目，叫做 username.github.com, 现在github为了不让github page 影响性能，专门用 github.io域名提供page服务。在自己的github主页上新建一个repo，然后就可以了。</p>
+<p>###第二步 clone别人的项目<br>我是直接把别人已经搭建好的jekyll项目，包括模板主题和建好的目录等。在终端运行下面命令：</p>
+<pre><code>$ git clone https://github.com/plusjade/jekyll-bootstrap.git USERNAME.github.com 
+$ cd USERNAME.github.com 
+$ git remote set-url origin git@github.com:USERNAME/USERNAME.github.com.git 
+$ git push origin master
+</code></pre><p> 这样就可以就算部署成功了。过几分钟后，访问 <a href="http://USERNAME.github.io" target="_blank" rel="noopener"><code>http://USERNAME.github.io</code></a> 你就能看到生成的页面了，如果不能生成，可能是你的index.yml文件出错了，github会发邮件给你。</p>
+<p>###第三步 搭建jekyll本地环境<br>jekyll是基于ruby的，所以你要先安装ruby，我的机器是ubuntu13.04， 已经预装了ruby1.9.1</p>
+<pre><code>sudo apt-get install rubygems
+sudo gems install jekyll
+</code></pre><p>但是我发现会碰到这样的问题：</p>
+<pre><code>Unable to install gem - Failed to build gem native extension - cannot load such file— mkmf (LoadError)
+</code></pre><p>报告说某个包找不到了，可能是我们的版本不够高，stack overflow 上有类似的<a href="http://stackoverflow.com/questions/13767725/unable-to-install-gem-failed-to-build-gem-native-extension-cannot-load-such" target="_blank" rel="noopener">问题</a></p>
+<p>解决办法是安装 ruby1.9.1-dev:</p>
+<pre><code>sudo apt-get install ruby1.9.1-dev
+</code></pre><p>可能之后还要解决一些问题，例如配置博客config.yml:</p>
+<pre><code>author:
+    name: USERNAME
+    email: USERNAME@gmail.com
+    github: USERNAME
+    ...
+</code></pre><p>更加详细的配置参考<a href="http://jekyllbootstrap.com/usage/blog-configuration.html" target="_blank" rel="noopener">jekyll的评论，google统计</a></p>
+<p>###第四步 开始在本地写博文<br>现在可以开始在本地写博文了，使用如下命令：</p>
+<pre><code>rake post title = &quot;hello world&quot;
+</code></pre><p>你将看到_post下面为你自动生成了一个.md后缀文件，编辑它就是写文章了。你会发现生成的文件都是这样的开头：</p>
+<pre><code>---
+layout: post
+title: &quot;hello world&quot;
+description: &quot;&quot;
+category: 这里填分类（需要是post下的一个文件夹）
+tags: [标签1, 标签2]
+---
+{% include JB/setup %}
+这里开始是正文
+</code></pre><p>也可以新建页面：</p>
+<pre><code>rake page name = &quot;about.md&quot;
+</code></pre><p>写完了，可以在本地测试：</p>
+<pre><code>cd USERNAME.github.com
+jekyll serve
+</code></pre><p>访问<code>http://localhost:4000</code> 就可以访问你的博文了。</p>
+<p>###第五步 用git上传博文<br>我们就三板斧就够了：</p>
+<pre><code>git add .     // 添加当前目录所有内容
+git commit -m &quot;add passage x&quot;
+git push origin master
+</code></pre><p>这样就成功提交了自己的文章，在github项目中可以看到自己上传的文件，而在你的博客  <code>http://USERNAME.github.io</code>  中也生成成功了。<br>enjoy yourself。</p>
+<p>###进阶 写作<br>使用markdown教程</p>
+<p>一开始会很折腾，但是熟练了之后，的确可以专注于写作。</p>
+<p>参考链接：</p>
+<p><a href="http://www.mceiba.com/develop/jekyll-introduction.html" target="_blank" rel="noopener">利用jekyll搭建个人博客</a></p>
+<p><a href="http://wowubuntu.com/markdown/#link" target="_blank" rel="noopener">markdown 手册</a></p>
+<p><a href="http://yanping.me/cn/blog/2012/03/18/github-pages-step-by-step/" target="_blank" rel="noopener">github page 极简教程</a></p>
+<p><a href="http://jekyllbootstrap.com/" target="_blank" rel="noopener">jekyllboostrap 项目</a></p>
+<p><a href="http://bibodeng.github.io">我的github博客</a></p>
+<p>by bibodeng 2013-9-6</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/08/22/实现网站SNS分享/" itemprop="url">
                   实现网站SNS分享
                 </a>
@@ -2041,143 +2198,6 @@ blockquote {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/05/09/带微信功能的sae博客/" itemprop="url">
-                  带微信功能的sae博客
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-05-09T17:21:34+08:00" content="2013-05-09">
-              2013-05-09
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/05/09/带微信功能的sae博客/" class="leancloud_visitors" data-flag-title="带微信功能的sae博客">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<div class="art_content" style="font-size:15px;letter-spacing:1px;line-height:1.3em;"><h3 style="background-color:#222222;color:#ffffff;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">﻿准备</h3>
-<p style="font-family:'Times New Roman';">在安装之前，需要准备好博客系统的源代码（含微信响应功能，使用python为sae定制），这可以从github上下载：</p>
-<p style="font-family:'Times New Roman';">pyweixin_saelog:&nbsp;</p>
-<p style="font-family:'Times New Roman';">会用git的同学可以直接cd到想要放置的命令，如/home/bibodeng/git/下，然后在终端运行如下命令：</p>
-<blockquote style="background-color:#ccff99;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';"><p>git clone https://github.com/bibodeng/pyWeiXin_SAElog.git</p>
-</blockquote>
-<p style="font-family:'Times New Roman';">&nbsp;如果不会用git的同学，就到<a href="https://github.com/bibodeng/pyWeiXin_SAElog/blob/master/pyweixin_saelog.zip" target="_blank">这里</a>下载压缩包(直接点view raw下载)，解压缩到你想要的任意文件夹下。接下来就进入配置与部署过程。</p>
-<h3 style="background-color:#222222;color:#ffffff;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">安装过程</h3>
-<h4 style="font-family:'Times New Roman';">配置</h4>
-<p style="font-family:'Times New Roman';"><span style="font-size:16px;">修改 /config.yaml 把 name:&nbsp;<strong>appname</strong></span><span style="font-size:16px;">&nbsp;改为自己的appname，如scnuwriter；<br>
-修改 setting.py 的相关设置，每项后面都有说明,包括邮箱，还有数据库密码等。</span></p>
-<p style="font-family:'Times New Roman';"><span style="font-size:16px;">还有如果不想把自己的博客设为debug状态，可以在</span><span style="font-size:16px;">index.wsgi文件setting里面，将debug选项改成false。</span></p>
-<h4 style="font-family:'Times New Roman';"><span style="font-size:16px;">部署</span></h4>
-<p style="font-family:'Times New Roman';"><span style="font-size:16px;">接下来<br>
-到SAE 后台开通相关服务（mysql/Storage/Memcache/Task Queue）<br>
-这些服务SAE 是不会自己开通，需要到后台手动完成：<br>
-</span></p>
-<blockquote style="background-color:#ccff99;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';"><p><span style="font-size:16px;"># 1 初始化 Mysql （这是必要的）<br>
-# 2 建立一个名为&nbsp;</span><strong>attachment</strong>的 Storage （发帖时上传图片或附件用的）<br>
-# 3 启用Memcache，初始化大小为<strong><span style="font-size:16px;">1M</span></strong><span style="font-size:16px;">&nbsp;的 mc，大小可以调，日后文章多了，PV多了可酌情增加，让你的博客响应更快。<br>
-# 4 创建一个 名为&nbsp;</span><strong><span style="font-size:16px;">default</span></strong><span style="font-size:16px;">&nbsp;的 Task Queue 这个是用来做发提醒邮件，选择</span><strong><span style="font-size:16px;">顺序队列</span></strong><span style="font-size:16px;">&nbsp;等级 为</span><strong><span style="font-size:16px;">1</span></strong></p>
-&nbsp;</blockquote>
-<p style="font-family:'Times New Roman';"><span style="font-size:16px;">打包程序，在SAE 后台通过打包上传代码,注意压缩包下面必须是所有的目录与文件，因为上传展开的是压缩包内的结构；</span><span style="font-size:16px;">打开 http://your_app_id.sinaapp.com/install 如果出错刷新两三次就可以，</span><span style="font-size:16px;">提示要输入管理员帐号。</span></p>
-<h3 style="background-color:#222222;color:#ffffff;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">结果</h3>
-<p style="font-family:'Times New Roman';">就这样你的带微信响应功能的博客就搭好了，如果还没有微信的公众号，赶紧去 微信 申请一个吧，然后将blog里面的微信地址填到开发模式的url和token里面，token默认为bibodeng，可以到源代码下察看blog.py源文件下的TOKEN全局变量的值,甚至可以自行修改。默认的如下：</p>
-<blockquote style="background-color:#ccff99;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';"><p>url：<a href="http:" target="_blank"></a><a href="http://your_app_id/" target="_blank"></a><a href="http://your_app_id.sinaapp.com/weixin" target="_blank">http://your_app_id.sinaapp.com/weixin</a></p>
-<p>token：bibodeng</p>
-</blockquote>
-<p style="font-family:'Times New Roman';">点击验证，通过后启用开发者模式就可以让你的博客响应微信用户的请求了，可以把你的微信公众帐号推广给其他人，这里就不详述了。enjoy it !</p>
-<h3 style="background-color:#222222;color:#ffffff;padding:10px;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;font-family:'Times New Roman';">END</h3>
-<p style="font-family:'Times New Roman';">&nbsp;参考链接：&nbsp;<a href="http://saepy.sinaapp.com/topic/50/saepy-log-v0-0-2-%E4%BD%BF%E7%94%A8%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" target="_blank">SAEpy-log安装指南</a>&nbsp;&nbsp;本文有部分内容引用于此</p>
-<p style="font-family:'Times New Roman';"></p>
-<p style="font-family:'Times New Roman';">by bibodeng 2013-05-09</p>
-</div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2223,7 +2243,7 @@ blockquote {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">187</span>
+              <span class="site-state-item-count">188</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -2233,7 +2253,7 @@ blockquote {
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -2317,7 +2337,7 @@ blockquote {
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
