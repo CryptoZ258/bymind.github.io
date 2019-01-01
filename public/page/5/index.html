@@ -255,6 +255,244 @@
             
               
                 
+                <a class="post-title-link" href="/2015/04/28/把大话设计模式读薄/" itemprop="url">
+                  把大话设计模式读薄
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-04-28T19:55:58+08:00" content="2015-04-28">
+              2015-04-28
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2015/04/28/把大话设计模式读薄/" class="leancloud_visitors" data-flag-title="把大话设计模式读薄">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##前言<br>最近用了近两三天来翻完了《大话设计模式》这本书，里面一一展示了29种设计模式，这些设计模式都是基于面向对象的，根据各种法则推演出来，是面向对象的“类的结构”。里面很多结构都是借鉴了生活中的一些解耦的思想，我们开发的过程中应当有意识地在编写代码的时候怎么样让程序结构更好。这其实是用一种面向对象的思想来思考程序的各个模块，而我们的世界本来就是各种对象的协作，我们是要让程序模拟我们的现实世界。全书都是用大鸟和小菜的有趣故事来作引喻，读来较为轻松。</p>
+<p>通常在设计软件时想明白两个问题很重要：<br>该对象拥有的属性是什么？<br>该对象应该怎么与外界交互？<br>如果想明白了这两件事情，那么我们的设计模式大概也就此出来了。</p>
+<p>大多数时候我们通常都是要具体情况具体分析，比如创建对象，当遇到对象种类太多的时候，我们用简单工厂来工作。而当一件事情遇到很强的耦合的时候，我们借助面向对象的三个特征（封装，继承，多态），并引入一些抽象类或者结构，就能够解决我们的难题。其中有几个让我印象特别深刻，如命令模式（专门用一个人来记录命令，命令本身作为一个对象），组合模式（树结构），职责链模式（链结构），这些结构是在特定情境下才该用的，用得不当强套反而会不好。</p>
+<p>对象之间的交互，是设计模式的重点所在。设计模式主要分为三类：</p>
+<ul>
+<li>创建型模式    创建模式主要谈论该如何创建对象，适用于各种情况</li>
+<li>结构型模式    在内部或者外部引入某种结构，然后用这种结构解耦</li>
+<li>行为型模式    为了完成特定的任务，而引入结构来模拟某种行为</li>
+</ul>
+<h2 id="常见法则"><a href="#常见法则" class="headerlink" title="常见法则"></a>常见法则</h2><ul>
+<li>单一职责原则</li>
+</ul>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201504/ab7146cad8e511e940265b371ed65111201504281943251916388084.png" alt="单一职责原则"></p>
+<p>一个类应当只做一件事情，应该将事物进行抽象，将各种逻辑抽象到各类中，由类的协作交互来完成操作。这也是面向对象所要解决的问题，代码不应该到处复制，而只应当集中在一处，然后提供外部接口，这样修改起来也方便。</p>
+<ul>
+<li>封闭-开放原则</li>
+</ul>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201504/0fb997ef42795dc04043e7c17518bc7920150428194326386383554.png" alt="封闭-开放原则"></p>
+<p>一个软件实体应该可以扩展，但不应该被修改。在设计之初，应该让它抽象得足够好，并且容易扩展。而不是当需求有变动时，需要大量修改代码。书中一个很好的考验程序的方法时，加一些变化的需求，看看原本的程序是不是会很容易被改动，就比方说超市收银不仅是算算总数，而考虑上打折，返现，程序需不需要大改？</p>
+<ul>
+<li>依赖倒转原则</li>
+</ul>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201504/82fc4f940e3baee7ee1f1f30ff8cac6e201504281943261009356962.png" alt="依赖倒转原则"></p>
+<p>上层不应当依赖于下层，上层和下层都应该依赖于抽象的接口，两者之间的关系，应当是一种抽象上的关系。而实例，只是延续了这种关系。就好像爸爸和儿子是一种抽象关系，再生一个儿子（实例），这种父子关系也能复用，不会改变。</p>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201504/b9e3dc340854452f948de1ff4e40a6af201504281943261416239223.png" alt="依赖倒转"></p>
+<ul>
+<li>里氏代换原则</li>
+</ul>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201504/25ad4071a8f5072cdf298203cc427c3e201504281943261213772502.png" alt="里氏代换原则"></p>
+<p>一个类的子类实例，替代程序中的所有该类实例，程序不会出问题。就是说子类完全能够做父类能做的事情。既然子类和父类是 is a的关系，那么就应该维护这种抽象关系的纯净。就像无论老人小孩都是人，他们都是人，都具备人的根本属性。</p>
+<ul>
+<li>聚合复用</li>
+</ul>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201504/e22fb59803f892df92e7ec0d89fdd908201504281943251906862646.png" alt="聚合复用原则"></p>
+<p>尽量使用聚合来替代继承，继承会让类型很多，维护很难。而现实世界中，大多数事物都是一种组合关系，比如汽车和和各个部件，尽量不要因为各种外在的东西而去新增类，比如多个烟囱的车还是一样的车，没必要去新增类，如果的确是继承关系，如各种种类的车（奔驰，宝马，特斯拉。。），也不要怕继承。</p>
+<ul>
+<li>迪米特法则（最少知识）</li>
+</ul>
+<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201504/67553d90c1b737e8d3e1a3b2b82fc3ba20150428194325779918248.png" alt="迪米特法则"></p>
+<p>一个类应当了解尽量少的知识便能工作起来，故而应当提供相应接口，不该别人知道的不让别人知道，自己不该知道的也不去知道。</p>
+<h2 id="创建型模式"><a href="#创建型模式" class="headerlink" title="创建型模式"></a>创建型模式</h2><p>顾名思义，创建型模式就是创建一个对象时使用的模式。</p>
+<ul>
+<li>单例</li>
+</ul>
+<p>每个类仅能有一个这种类型的实例，这个实例作为类的Static属性，当存在的时候直接返回，如果不存在就创建一个存在这个属性中。我们常常在WCF的client端信道上使用单例模式，让它能够得到充分的复用。</p>
+<ul>
+<li>工厂</li>
+</ul>
+<p>通过一个过程来组装一个对象，也可以把构造的过程隐藏起来，不用关心具体的实例化过程。简单工厂针对不同的子类型，根据传入参数进行判断从而选择构造函数。工厂方法则将工厂抽象出来，对应的工厂可以组装对应的产品，而决定使用哪个工厂的决定还是要的，只不过是延后到了客户端，可以使用反射技术就能够灵活地在构建工厂的时候指定类型。</p>
+<ul>
+<li>抽象工厂</li>
+</ul>
+<p>在工厂方法之上的一种升级，工厂可以构造多种产品。创建一系列相关或相互依赖的接口，而无需指定具体的类。对被构造的产品，又提供了一层抽象产品类，从而解除具体类与工厂的依赖。</p>
+<ul>
+<li>建造者</li>
+</ul>
+<p>将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以构建不同的表示。引入一个指挥类，让建造者来负责复杂对象的构建，而不用在内部去按顺序组建。说白了，就是把组装过程分离出来，在需要的时候注入到Builder里面。</p>
+<ul>
+<li>原型</li>
+</ul>
+<p>说到原型就应该想到实例，拷贝一个实例，然后加以改造返回——克隆。使用这个模式是为了在构建对象时，只要小小改动，却要费力重建一遍的情况下节省步骤。就像抄别人试卷一样，答案全抄过来，改掉名字就可以了（当然千万不要这么做）。</p>
+<h2 id="结构型模式"><a href="#结构型模式" class="headerlink" title="结构型模式"></a>结构型模式</h2><p>通过将对象间的形成某种存储上的结构，从而使用其独特的结构特性来完成工作。</p>
+<ul>
+<li>适配器</li>
+</ul>
+<p>将原有的接口适配到新的接口，在封装时做一些额外的工作。</p>
+<ul>
+<li>装饰器</li>
+</ul>
+<p>对对象进行一层封装，而且封装之后还可以再次进行封装，就像穿衣服一样，一件套一件。这个外套的内部维护着一个人的实体，而外套的装饰行为，则会影响到里面的人。技术上有个要点就是这个装饰类也是人的子类——装饰了xx的人。</p>
+<ul>
+<li>桥接</li>
+</ul>
+<p>将抽象部分和实现部分分离，使得它们可以独立变化。要表达两个类之间的关系，可以这样做：两个类之上还有一个抽象类，而两个类之间的关联，可以在抽象的类之间定义。</p>
+<ul>
+<li>组合</li>
+</ul>
+<p>类似于数据结构中的树结构，呈一种组合递归形态。一个节点可以由子节点或者叶子节点来组成，而这个节点也可以作为其它节点的子节点。在技术上就是存储对孩子的引用，从而可以从父节点下钻到孩子节点。这个模式还有一个特色，那就是由于父子实现的接口一致，顶部的操作可以一直递降到每个子节点直至叶子节点，在UI上，这种设计可能比较有用（如折叠一个树结构目录）。</p>
+<ul>
+<li>享元</li>
+</ul>
+<p>维护一个（组）资源，这个资源大家一起使用，而不是每个实例都维护一个（组）。共享才是王道，技术上可以使用一些判断来减少大对象的维护，当需要的时候返回现成的。</p>
+<ul>
+<li>代理</li>
+</ul>
+<p>帮别人送情书，但是收信人不知道真正写信的人的存在，只知道有人送给ta。代理方和被代理方应该实现一样的接口，而代理方维护一个被代理方，被代理方才是真正干活的人。这种模式往往用来对操作进行封装，进行额外的权限控制等。</p>
+<ul>
+<li>外观</li>
+</ul>
+<p>为复杂的子系统提供一个漂亮的门面，这样可以适当地隐藏子系统后面背后的复杂逻辑，从而提供简洁的接口。用享元模式，支持大量细粒度的对象。</p>
+<h2 id="行为型模式"><a href="#行为型模式" class="headerlink" title="行为型模式"></a>行为型模式</h2><ul>
+<li>观察者</li>
+</ul>
+<p>大家订阅观察者的信息变化，当事件发生时，观察者负责通知各方执行操作。</p>
+<ul>
+<li>模板</li>
+</ul>
+<p>将核心的逻辑骨架（执行A，执行B）放到父类中，而子类存储那些会变化的东西（具体重写的A，B过程）。这样当执行父类的模板方法的时候，就执行了具体的A，B方法。</p>
+<ul>
+<li>命令</li>
+</ul>
+<p>将命令抽象出来成为一个实体，命令的执行就是让接受者做出相应动作，另外有个通知者，负责将命令触发。命令还可以方便记录日志，放入队列中等操作。</p>
+<ul>
+<li>状态</li>
+</ul>
+<p>让状态之间去相互变化，无需集中控制，就像灯的开关一样，打上是开，打下是关，将它们分开来抽象成两种状态，这样变化起来就简单了——互相转化，而不是耦合在一起去控制其状态。</p>
+<ul>
+<li>职责链</li>
+</ul>
+<p>通过在内部维护一个下步处理人，类似于数据结构中的链表，当前处理完后可以传递到下一步处理人处理。在审批流程中常常用到职责链模式。</p>
+<ul>
+<li>解释器</li>
+</ul>
+<p>和编译器相关，将一些频繁使用的代号用一些抽象符号代替，需要使用的时候再进行解释，或者是在不同系统中进行转译。这个模式是借用了编译器中的概念。</p>
+<ul>
+<li>中介者</li>
+</ul>
+<p>大家都通过一个中介器来访问其它对象，解除类与类之间的依赖。中介者模式应用在一组对象的复杂通信中。</p>
+<ul>
+<li>访问者</li>
+</ul>
+<p>将处理过程的变化从数据结构中分离出来，在算法容易变化，数据结构比较稳定的情况下适用。如果数据结构不稳定，那需要经常修改模式中的代码，反而带来麻烦。一个事物接受观察者的观察，而观察者则执行具体的观察动作，外层还可以做一个集中控制一组这样的事物的观察动作。（这是一个比较复杂的模式）</p>
+<ul>
+<li>策略</li>
+</ul>
+<p>将分支封装成方案策略，这样就不会导致一大堆的分支判断。将策略注入到上下文中，将具体算法和客户端调用进行隔离。</p>
+<ul>
+<li>备忘录</li>
+</ul>
+<p>用一个简单点的结构记住实体的状态，而不是将实体整个存储，如打游戏要存档生命值，进度等，回来的时候加载档案即可。</p>
+<ul>
+<li>迭代器</li>
+</ul>
+<p>实现一个外部的迭代器，可以迭代一个可遍历的容器中的成员，这个迭代器不会漏掉其中一个元素。</p>
+<h2 id="项目中的应用"><a href="#项目中的应用" class="headerlink" title="项目中的应用"></a>项目中的应用</h2><p>学习了设计模式，就应当在适当地时候加以使用，而各模式都有其使用的特定情境，它就像是对象关系的一种数据结构，用得恰到好处就能解决软件开发中的一些问题。我在日常的开发中，也留意到了前人写的代码中使用了一些设计模式，整个系统能够承受更加复杂的架构，而代码也显得优雅，易于拓展。</p>
+<p>by bibodeng 2015-4-28</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/04/24/入手Macbook Pro/" itemprop="url">
                   入手Macbook Pro
                 </a>
@@ -1423,352 +1661,6 @@ window.onload = function(){
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/09/30/【转】将Vim打造成IDE/" itemprop="url">
-                  【转】将Vim打造成IDE
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-09-30T08:48:46+08:00" content="2014-09-30">
-              2014-09-30
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2014/09/30/【转】将Vim打造成IDE/" class="leancloud_visitors" data-flag-title="【转】将Vim打造成IDE">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; 工欲善其事，必先利其器。一个强大的开发环境可以大大提高工作效率。好吧，我知道这是废话。。。不过，我想一定有很多跟我一样打算进入Linux平台开发的新手，一开始都为找不到一个像Windows下的VS那样可以一键安装并且功能几乎完美无缺的开发工具而郁闷不已，甚至打算收回刚刚迈出的脚步。所幸的是，通过几天努力，我总算配置出了一个功能完备的基于Vim的开发环境。这个开发环境除了基本的Vim外，还包括Ctags，Taglist，Cscope，SuperTab，OmniCppComplete，Winmanager，NERDTree和MiniBufExplorer等组件。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; 在开始操作前，先普及下基础概念，然后约定一下表达规范。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; 1）Vim存在多个配置文件vimrc，比如/etc/vimrc，此文件影响整个系统的Vim。还有~/.vimrc，此文件只影响本用户的Vim。而且~/.vimrc文件中的配置会覆盖/etc/vimrc中的配置。这里我们只修改~/.vimrc文件。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; 2）Vim的插件（plugin）安装在Vim的runtimepath目录下，你可以在Vim命令行下运行"set rtp“命令查看。这里我们选择安装在~/.vim目录，没有就创建一个。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; 3）当本文说”在Vim命令行下运行cmdxx命令“时，意思是指在Vim的命令行模式下运行cmdxx命令，即在Vim的正常模式下通过输入冒号"："进入命令行模式，然后紧接着输入命令cmdxx。在后文描述中都会省略冒号"："输入。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; 4）如果没有说明“在Vim命令行下运行某命令”，则是在shell中执行该命令。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; 5）如果命令中间被空白符间隔或有与正文容易混淆的字符，我会用双引号将命令与正文区分。所以读者在实际操作时，不要输入命令最前面和最后面引号。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; 6）本文关于组合快捷键的描述，形如a-b形式的快捷键表示同时按下a键和b键，而形如"a-b c"形式的快捷键，则表示先同时按下a键和b键，然后放开ab键，再按下c键。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><strong>&nbsp; &nbsp; 1，安装使用Ctags</strong></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; Ctags工具是用来遍历源代码文件生成tags文件，这些tags文件能被编辑器或其它工具用来快速查找定位源代码中的符号（tag/symbol），如变量名，函数名等。比如，tags文件就是Taglist和OmniCppComplete工作的基础。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;这里介绍从源代码包安装，安装步骤跟大多数软件的从源代码安装步骤一样。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 1）从<a href="http://ctags.sourceforge.net/" style="color:#ca0000;text-decoration:none;" target="_blank" rel="noopener">http://ctags.sourceforge.net/</a>下载源代码包后，解压缩生成源代码目录，</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 2）然后进入源代码根目录执行./configure，</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 3）然后执行make，</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 4）编译成功后执行make install。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 5）在~/.vimrc中增加以下这行：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:1223px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">map&nbsp;&lt;C-F12&gt;&nbsp;:!ctags&nbsp;-R&nbsp;--c++-kinds=+p&nbsp;--fields=+iaS&nbsp;--extra=+q&nbsp;.&lt;CR&gt;&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 到此，Ctags已安装成功。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 使用Ctags的也很简单。&nbsp;进入我们的项目代码根目录，执行以下命令：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:1388px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">ctags&nbsp;-R&nbsp;--c++-kinds=+p&nbsp;--fields=+iaS&nbsp;--extra=+q&nbsp;.&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 另外，由于在前面第5条，我们已经在Vim中配置了Ctrl-F12组合快捷键，所以我们也可以进入代码根目录后，打开Vim，按下Ctrl-F12快捷键自动生成tags文件。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 命令执行完后，会在源代码目录生成tags文件。Vim默认会自动读取当前目录下的tags文件，所以不需要修改~/.vimrc文件。此时，我们已经具有定义跳转的功能了。有两组快捷键是最常用的。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Ctrl-] &nbsp; &nbsp;跳转到光标所在符号的定义。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Ctrl-t &nbsp; &nbsp;回到上次跳转前的位置。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 更多功能通过命令man ctags或在Vim命令行下运行help ctags查询。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><strong>&nbsp; &nbsp; 2，安装使用Taglist</strong></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; Taglist是vim的一个插件，提供源代码符号的结构化视图。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 1）从<a href="http://www.vim.org/scripts/script.php?script_id=273" style="color:#ca0000;text-decoration:none;" target="_blank" rel="noopener">http://www.vim.org/scripts/script.php?script_id=273</a>下载安装包，也可以从<a href="http://vim-taglist.sourceforge.net/index.html" style="color:#ca0000;text-decoration:none;" target="_blank" rel="noopener">http://vim-taglist.sourceforge.net/index.html</a>下载。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 2）进入~/.vim目录，将Taglist安装包解压，解压后会在~/.vim目录中生成几个新子目录，如plugin和doc（安装其它插件时，可能还会新建autoload等其它目录）。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 3）进入~/.vim/doc目录，在Vim下运行"helptags ."命令。此步骤是将doc下的帮助文档加入到Vim的帮助主题中，这样我们就可以通过在Vim中运行“help taglist.txt”查看taglist帮助。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 4）打开配置文件~/.vimrc，加入以下两行：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:1917px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">let&nbsp;Tlist_Show_One_File=1&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">let&nbsp;Tlist_Exit_OnlyWindow=1&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 到此安装已经完成。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;在Vim命令行下运行TlistToggle命令就可以打开Taglist窗口，再次运行TlistToggle则关闭。示图如下：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><img src="http://hi.csdn.net/attachment/201107/26/0_1311670443NNLo.gif" alt="" height="480" width="720" style="border:0px;max-width:100%;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 我们可以通过Ctrl-w快捷键或鼠标点击在Taglist窗口和编辑区之间切换焦点，在Taglist窗口用鼠标或键盘选择某个符号，然后点击或回车，就可以跳转到该符号定义的位置。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 更多功能可通过在Vim命令行下运行help taglist.txt查询。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><strong>&nbsp; &nbsp; 3，安装使用Cscope</strong></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; Cscope提供交互式查询语言符号功能，如查询哪些地方使用某个变量或调用某个函数。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; Cscope已经是Vim的标准特性，默认都有支持，官方网址为<a href="http://cscope.sourceforge.net/" style="color:#ca0000;text-decoration:none;" target="_blank" rel="noopener">http://cscope.sourceforge.net/</a>。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 1）在Vim下运行version查看Vim支持哪些特性，前面有前缀符号+的为支持。如果支持Cscope，则直接进入2），否则下载Cscope源代码包编译安装。步骤同Ctags安装。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 2）确定Vim已支持Cscope后，将文件<a href="http://cscope.sourceforge.net/cscope_maps.vim" style="color:#ca0000;text-decoration:none;" target="_blank" rel="noopener">http://cscope.sourceforge.net/cscope_maps.vim</a>下载到~/.vim/plugin目录。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 到这里，我们就可以开始使用Cscope了。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;1）使用Cscope需要生成cscope数据库文件。进入项目代码根目录运行命令：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:2944px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">cscope&nbsp;-Rbq&nbsp;-f&nbsp;path/xxx.out&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 命令运行后会生成xxx.out文件，即cscope数据库文件。更多用法参考man cscope文档。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;2）进入项目代码根目录，在Vim下运行命令：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:3083px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">cs&nbsp;add&nbsp;path/xxx.out&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;此命令将cscope数据库载入Vim。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;3）Cscope常用快捷键</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Ctrl-\ s 查找所有当前光标所在符号出现过位置。<br>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Ctrl-\ c 查找所有调用当前光标所在函数的函数。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;按下快捷键查找结束后会在编辑区下方出现查找结果的列表，输入结果编号并回车，就能跳转到该查找结果在源代码中的相应位置。例如，我们将光标移到initial_pool_size变量定义的位置，即17行，然后按下"Ctrl-\ s"组合快捷键，得到示图如下：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><img src="http://hi.csdn.net/attachment/201107/26/0_1311670591M7jO.gif" alt="" style="border:0px;max-width:100%;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 然后我们输入2，并回车，就能跳转到第2个查找结果。 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;为了界面更好看，可以把Cscope的查找结果输出到quickfix窗口，需要在~/.vimrc中加入下面这行：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:3879px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">set&nbsp;cscopequickfix=s-,c-,d-,i-,t-,e-&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<span style="font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 这样，通过快捷键查找某个符号后，会立即跳转到第一个找到的该符号出现的位置。如果你对这次默认跳转的位置不满意，在Vim命令行下运行cw命令，就能在编辑区下面quickfix窗口看到所有查找结果的列表，点击相应列表项就能跳转到相应位置。这个功能已经跟VS很接近了吧：）</span><p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><img src="http://hi.csdn.net/attachment/201107/26/0_13116708600z20.gif" alt="" style="border:0px;max-width:100%;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;更多功能可通过命令man cscope或在Vim命令行下运行help cscope查询。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><strong>&nbsp; &nbsp; 4，安装使用OmniCppComplete</strong></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; OmniCppComplete主要提供输入时实时提供类或结构体的属性或方法的提示和补全。跟Talist一样，OmniCppComplete也是一个Vim插件，同样依赖与Ctags工具生成的tags文件。安装步骤跟Taglist类似。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 从<a href="http://www.vim.org/scripts/script.php?script_id=1520" style="color:#ca0000;text-decoration:none;" target="_blank" rel="noopener">http://www.vim.org/scripts/script.php?script_id=1520</a>下载安装包后。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;1）进入~/.vim目录，将安装版解压缩</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;2）进入~/.vim/doc目录，在Vim命令行下运行"helptags .”</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;3）在~/.vimrc中加入以下几行：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:4779px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">set&nbsp;nocp&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">filetype&nbsp;plugin&nbsp;on&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;OmniCppComplete的使用几乎跟VS下的VA一样。如下图所示，输入m0.之后立即弹出my_class类中所有的函数列表，然后用上下键选择合适的函数。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><img src="http://hi.csdn.net/attachment/201107/26/0_1311671051mzF8.gif" alt="" style="border:0px;max-width:100%;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><strong>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong>更多功能通过在Vim命令行下运行"help omnicppcomplete"查询。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><strong>&nbsp; &nbsp; 5，安装使用SuperTab</strong></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; SuperTab使Tab快捷键具有更快捷的上下文提示功能。跟OmniCppComplete一样，SuperTab也是一个Vim插件。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 从<a href="http://www.vim.org/scripts/script.php?script_id=1643" style="color:#ca0000;text-decoration:none;" target="_blank" rel="noopener">http://www.vim.org/scripts/script.php?script_id=1643</a>下载安装版。这个安装包跟先前的几个Vim插件不同，它是一个vba文件，即Vimball格式的安装包，这种格式安装包提供傻瓜式的安装插件的方法。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;1）用Vim打开.vba安装包文件。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;2）在Vim命令行下运行命令“UseVimball ~/.vim”。此命令将安装包解压缩到~/.vim目录。VImball安装方式的便利之处在于你可以在任何目录打开.vba包安装，而不用切换到安装目的地目录。而且不用运行helptags命令安装帮助文档。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;3）在~/.vimrc文件中加入以下这行：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:5857px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">let&nbsp;g:SuperTabDefaultCompletionType="context"&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<span style="font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp;</span><p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;SuperTab使用很简单，只要在输入变量名或路径名等符号中途按Tab键，就能得到以前输入过的符号列表，并通过Tab键循环选择。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><img src="http://hi.csdn.net/attachment/201107/26/0_1311671174Yv9h.gif" alt="" style="border:0px;max-width:100%;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><strong>&nbsp; &nbsp; 6，安装使用Winmanager，NERDTree和MiniBufExplorer</strong></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 前面介绍的几个工具和插件，主要提供快捷的编辑功能，如定义跳转，符号查询，符号提示与补全等。这里的三个插件，主要优化布置VIm的界面。具体来说，NERDTree提供树形浏览文件系统的界面，MiniBufExplorer提供多文件同时编辑功能，而Winmanager将这NERDTree界面和Taglist界面整合起来，使Vim更像VS！</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 分别从<a href="http://www.vim.org/scripts/script.php?script_id=1658" style="color:#ca0000;text-decoration:none;" target="_blank" rel="noopener">http://www.vim.org/scripts/script.php?script_id=1658</a></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<a href="http://www.vim.org/scripts/script.php?script_id=159" style="color:#ca0000;text-decoration:none;" target="_blank" rel="noopener">http://www.vim.org/scripts/script.php?script_id=159</a></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<a href="http://www.vim.org/scripts/script.php?script_id=95" style="color:#ca0000;text-decoration:none;" target="_blank" rel="noopener">http://www.vim.org/scripts/script.php?script_id=95</a></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 下载NERDTree，MiniBufExplorer和Winmanager安装包（Winmanager还有个更新的vba版本<a href="http://www.vim.org/scripts/script.php?script_id=1440" style="color:#ca0000;text-decoration:none;" target="_blank" rel="noopener">http://www.vim.org/scripts/script.php?script_id=1440</a>，这里选用旧版本的Winmanger）。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 1）像其它插件一样，将NERDTree安装包解压到~/.vim目录。并进入doc目录，在Vim命令行下运行"helptags ."命令。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 2）MiniBufExplorer只有一个.vim文件，将其拷贝到~/.vim/plugin目录。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 3）在~/.vimrc文件中加入以下几行：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:6969px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">let&nbsp;g:miniBufExplMapWindowNavVim&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">let&nbsp;g:miniBufExplMapWindowNavArrows&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;</span></li>
-<li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">let&nbsp;g:miniBufExplMapCTabSwitchBufs&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">let&nbsp;g:miniBufExplModSelTarget&nbsp;=&nbsp;1&nbsp;&nbsp;</span></li>
-<li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">let&nbsp;g:miniBufExplMoreThanOne=0&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<pre style="font-size:14px;line-height:26px;orphans:2;widows:2;"></pre><span style="font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 4）将Winmanager安装包解压到~/.vim目录。</span><p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 5）在~/.vimrc文件中加入以下几行：</p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:7180px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">let&nbsp;g:NERDTree_title="[NERDTree]"&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">let&nbsp;g:winManagerWindowLayout="NERDTree|TagList"&nbsp;&nbsp;</span></li>
-<li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">function!&nbsp;NERDTree_Start()&nbsp;&nbsp;</span></li>
-<li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">&nbsp;&nbsp;&nbsp;&nbsp;exec&nbsp;'NERDTree'&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">endfunction&nbsp;&nbsp;</span></li>
-<li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">function!&nbsp;NERDTree_IsValid()&nbsp;&nbsp;</span></li>
-<li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;1&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">endfunction&nbsp;&nbsp;</span></li>
-<li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">nmap&nbsp;wm&nbsp;:WMToggle&lt;CR&gt;&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<pre style="font-size:14px;line-height:26px;orphans:2;widows:2;"></pre><p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 6）这个版本的Winmanager好像有个小bug，你在打开Winmanager界面时，会同时打开一个空的文件。这会影响后续使用，所以我们要在打开Winmanager时关掉这个空文件。在~/.vim/plugin目录下的winmanager.vim文件中找到以下函数定义并在第5行下添加第6行的内容：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:7517px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">function!&nbsp;&lt;SID&gt;ToggleWindowsManager()&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">&nbsp;&nbsp;&nbsp;if&nbsp;IsWinManagerVisible()&nbsp;&nbsp;</span></li>
-<li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;s:CloseWindowsManager()&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">&nbsp;&nbsp;&nbsp;else&nbsp;&nbsp;</span></li>
-<li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;s:StartWindowsManager()&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exe&nbsp;'q'&nbsp;&nbsp;</span></li>
-<li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">&nbsp;&nbsp;&nbsp;end&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">endfunction&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 到这里，就大功告成了！ &nbsp; &nbsp; &nbsp; &nbsp;</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 现在进入我们的项目目录，打开Vim，按下组合快捷键w-m就可以我们的崭新的Vim了！再次按下w-m就可关闭界面。示图如下：</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"><img src="http://hi.csdn.net/attachment/201107/26/0_13116712187Me8.gif" alt="" style="border:0px;max-width:100%;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 界面最上面的一条窄边就是MiniBufExplorer，可以看到我打开了两个文件cache.c和assoc.c，是不是很像VS的标签？</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 紧靠MiniBufExplorer下方左边的矩形区域就是NERDTree。在这个窗口，我们可以用鼠标或键盘方便的浏览整个文件系统，在某个文件上点击或回车，就可以在右边编辑区域打开该文件。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; NERDTree下方的就是前面安装的Taglist界面。</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp;<strong>&nbsp;&nbsp; 7，其它有用的~/.vimrc设置</strong></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 设置配色方案，我用的是eveing方案，配色方案保存在/usr/share/vim/vimXY/colors</p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:8617px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">colo&nbsp;evening&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<span style="font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 显示行数</span><br style="font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:8730px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">set&nbsp;nu&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<span style="font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp; 与自动缩进相关的选项</span><br style="font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">
-<div class="dp-highlighter bg_plain" style="font-family:Consolas, 'Courier New', Courier, mono, serif;width:664px;overflow:auto;padding-top:1px;line-height:26px;orphans:2;widows:2;margin:18px 0px !important;background-color:#e7e5dc;"><div class="bar" style="padding-left:45px;"><div class="tools" style="padding:3px 8px 10px 10px;font-size:9px;line-height:normal;font-family:Verdana, Geneva, Arial, Helvetica, sans-serif;color:silver;border-left-width:3px;border-left-style:solid;border-left-color:#6ce26c;background-color:#f8f8f8;"><b>[plain]</b>&nbsp;<a href="file:///usr/share/wiznote/files/editor/index.html#" class="ViewSource" title="view plain" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_plain.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">view plain</a><a href="file:///usr/share/wiznote/files/editor/index.html#" class="CopyToClipboard" title="copy" style="color:#a0a0a0;text-decoration:none;border:none;padding:1px;margin:0px 10px 0px 0px;font-size:9px;display:inline-block;width:16px;height:16px;text-indent:-2000px;background-image:url(http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/images/default/ico_copy.gif);background-color:inherit;background-position:0% 0%;background-repeat:no-repeat;" target="_blank" rel="noopener">copy</a><div style="position:absolute;left:444px;top:8843px;width:18px;height:18px;z-index:99;"></div>
-</div>
-</div>
-<ol start="1" class=" list-paddingleft-2" style="padding:0px;border:none;list-style-position:initial;list-style-image:initial;color:#5c5c5c;margin:0px 0px 1px 45px !important;background-color:#ffffff;"><li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">set&nbsp;autoindent&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">set&nbsp;tabstop=4&nbsp;&nbsp;</span></li>
-<li class="alt" style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;color:inherit;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">set&nbsp;shiftwidth=4&nbsp;&nbsp;</span></li>
-<li style="border-style:none none none solid;border-left-width:3px;border-left-color:#6ce26c;list-style:decimal-leading-zero outside;line-height:18px;margin:0px !important;padding:0px 3px 0px 10px !important;background-color:#f8f8f8;"><span style="margin:0px;padding:0px;border:none;color:black;background-color:inherit;">p;&nbsp;&nbsp;&nbsp;set&nbsp;mouse=a&nbsp;&nbsp;</span></li>
-</ol>
-</div>
-<br style="font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">
-转自CSDN：http://blog.csdn.net/bokee/article/details/6633193<br style="font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">
-<br style="font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;"></p>
-<p style="padding:0px;font-family:Arial;font-size:14px;line-height:26px;orphans:2;widows:2;">&nbsp; &nbsp; &nbsp; &nbsp;</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1814,7 +1706,7 @@ window.onload = function(){
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">188</span>
+              <span class="site-state-item-count">189</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
