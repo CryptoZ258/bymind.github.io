@@ -255,6 +255,119 @@
             
               
                 
+                <a class="post-title-link" href="/2015/11/22/微信支付开发初体验/" itemprop="url">
+                  微信支付开发初体验
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-22T23:24:46+08:00" content="2015-11-22">
+              2015-11-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2015/11/22/微信支付开发初体验/" class="leancloud_visitors" data-flag-title="微信支付开发初体验">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这段时间由于要进行微信公众号相关的开发，故而接触到了微信支付。老版本的V2公众号微信支付比较难搞，有些东西不够规范。新版本的微信支付统一了接口，文档也比较齐全，全部接入商户平台（pay.weixin.qq.com）。下面简述一下微信公众号现金支付的开发过程。</p>
+<p>##申请微信支付<br>首先，你要有个公众号，而且是已经经过认证的，这样才能开通微信支付功能。开通微信支付功能后，你需要有个财付通商户号，将商户号绑定到公众号上。我开发的时候，同事已经帮我申请好了公众号及微信支付商户号，一切仅需要根据API进行开发即可。这里碰到过一个坑，我们怎么都不不知道微信商户号为什么没有权限，还叫微信的同事检查了一下，说要将公众号和商户号绑定，并且要审核通过批准开通的支付方式（JSAPI，NATIVE等）才能进行开发。</p>
+<p>##NATIVE支付<br>微信的原生支付，是通过扫码，从微信的应用原生入口，如对话框，或者是二维码中进入。与之相对的是JSAPI支付，是从内嵌的浏览器中发起支付，然后在浏览器中有条件的进行支付。NATIVE的支付开发模式分两种，一种是商户通过微信制定的规则，生成一个商品售卖的信息，返回二维码给用户扫码，用户扫码之后，微信回调商户后台，后台正式下单，微信得到下单后让用户支付该单。第二种是商户平台预先下单，相关支付信息已经提交了微信，用户扫码之后进行支付该单，支付完后微信回调商户结果。二者之间主要的差别在于，用户扫描时临时下单还是商户预先帮用户下单，然后再支付。由于我们设计了一个中间的支付平台，我们自身并不知道商品的信息，这样的业务适合由商户平台下单，然后等待回调的方式，这样比较直观，如果是直接卖东西的商户，可以直接提供商品的二维码，那么直接展示商品二维码的方式会直观点，但两者的效果都是等价的，两种支付方式皆可。</p>
+<p>采用模式二，向微信下单，将会得到一个prepay_id，还有支付的二维码链接，得到链接后，商户要将它生成为二维码，生成的方式多种多样，一种是通过将数据提交给第三方的网页接口（一个链接），让他们帮忙生成二维码，然后通过<img>标签嵌入到页面中。另外一种是使用别人已经封装好的库，直接将二维码绘制出来，渲染在页面中。二者各有利弊，前一种能够节省资源，但要求网络条件良好，服务稳定，后一种则在本地生成，比较迅速。用户扫描二维码，进行输密码鉴权后，则扣款，等待回调通知商户平台，一般这个时间不会太久，因为用户的页面也在刷新支付结果，以及时地给用户一个反馈。</p>
+<p>##JSAPI支付<br>如果在移动端，应用又部署在移动网页上，那么二维码的方式不太适合，虽然也可以长按识别二维码跳转支付，但是这样的体验很怪。一开始，我很不理解，为什么微信不能像NATIVE支付一样，返回一个链接到微信内嵌的浏览器中，然后直接跳转到该支付地址，进入支付页面。后来转念一想，如果任何网页都能直接弹到支付页面，有可能会造成滥用下单，并导致有人中招支付了。微信需要一个授信的入口，让用户进入支付界面。经过测试，微信在浏览器跳转该支付链接的时候，进入不了输密码的界面，原因就是我这个是浏览器里面没有认证微信身份的操作，而对话和二维码扫描则不同，是微信客户端的原生入口，已经自带了微信用户的身份信息等。JSAPI的支付方式就是一个鉴权并跳转的过程，首先前半部分和NATIVE扫码支付一样，先给微信下单，返回一些下单的基本信息（核心的有prepay_id），后台将这些信息告诉前端，让前端跳转到一个微信鉴权的地址，并带上这些信息和一个跳转地址，鉴权通过后会进入支付界面，支付完成后，微信回调商户后台，同时页面回到商户的页面，刷新本地订单状态，呈现支付结果。这里总共是一个三方的关系，微信客户端（商户前端），商户后台，微信后台，这三者之间的交互，最终会使得支付状态一致，至于微信后台背后的银联等东西，对我们商户开发者是透明的。</p>
+<p>JSAPI的方式需要通过js脚本调用微信的接口，这个接口就是原生的入口，这样的设计虽然看起来不一样，但是其实和NATIVE统一了。而且下单和支付的逻辑是一样的，只是具体的鉴权和调起的方式不一样。微信<a href="https://pay.weixin.qq.com/wiki/doc/api/index.html" target="_blank" rel="noopener">商户后台</a>有详细的文档。 此外，JSAPI需要在微信公众号填写授权支付目录，只有制定的目录下面才能调起支付请求，一个大平台肯定会考虑比较多可能的情况，从而做得稳妥一点，他们也可能碰到过一些场景，出过问题，才弄成现在这样的设计。</p>
+<p>##小结<br>这其中我们踩过很多坑，很多信息也没有办法从界面上获得搞得浪费了一些时间，最好的状态就是一次申请通过，各种该开的支付权限都开了，并且发现了微信公众号后台的一些bug，这条路并不顺利。而且基于微信，我们设计了一个微信支付和积分支付的混合支付平台，用于腾讯内部的支付场景。这里API的设计和安全方面的保障参考了微信和支付宝的设计，后面将会详细说说。</p>
+<p>by bibodeng 2015-11-22</p>
+<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 博客底部广告 --><ins class="adsbygoogle" style="display:block;" data-ad-client="ca-pub-7025791392439198" data-ad-slot="8119980266" data-ad-format="auto"></ins> <script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/11/14/果冻学车记/" itemprop="url">
                   果冻学车记
                 </a>
@@ -2085,137 +2198,6 @@ by bibodeng 2015-09-12
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/04/24/入手Macbook Pro/" itemprop="url">
-                  入手Macbook Pro
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-24T23:57:39+08:00" content="2015-04-24">
-              2015-04-24
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2015/04/24/入手Macbook Pro/" class="leancloud_visitors" data-flag-title="入手Macbook Pro">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<p class="p1"><span style="line-height:1.5;">2015是不凡的一年，这一年做了许多比较重大的决策，其中入手Macbook也是其中之一。</span></p>
-<p class="p1"><span style="line-height:1.5;"><img src="/content/uploadfile/201502/1fc71423736696.jpg" width="680" align="left" alt="" border="0"><br>
-</span></p>
-<p class="p3"><span style="line-height:1.5;">当时是在公司的BBS论坛上找了一个比较实惠的代购，之前也有看到彬彬的Macbook Air，表示的确会比较整体一点。在入手之前去过一次香港Apple实体店看过，感觉还不错，浑然一体。后来以一个比香港市价低一点的价格从代购渠道入手了，把玩了一个多月，渐渐也熟悉了Mac的一些方面。</span></p>
-<p class="p2"></p>
-<p class="p3"><span class="s1">硬件，Mac硬件方面，一个字贵，不同配置，升一个等级就要多加1k左右，而它的机身做得太性感，太纤细，以至于接个投影仪需要外接线，要买一个？行，出300块大洋！它自己不配鼠标，要买个鼠标，行，500大洋。但据说Mac比较保值，不要破损，用个几年还和新的一样，价格上也还值比较多。</span></p>
-<p class="p2"></p>
-<p class="p3"><span class="s1">显示，Retina显示屏也不是盖的，显示的精细程度，完爆一般的PC笔记本电脑，千万别看完珍珠屏再回去看普通屏幕，你会发现忍受不了。顺便提一下，在Mac下的字体都比较优雅好看，编程的字体更加完美，转眼一看Windows下的，品味被甩了几十条街。</span></p>
-<p class="p2"></p>
-<p class="p3"><span class="s1">散热&amp;待机，苹果的散热差得一逼，尤其是在看视频的时候，底部发热严重，虽然平日里听不到风扇的声音，合上就能走，还省电。待机时间略长，充满电基本上可以用一天，如果长时间待机，甚至可以用几天，这点来说，Mac表现堪称完美。</span></p>
-<p class="p2"></p>
-<p class="p3"><span class="s1">操控，Mac的操控没的说，其触摸板的操控非常顺畅，基本可以不要滑鼠。按键方面，少了一些按键，功能键共用了F1-F12，这点略不习惯，还有一些如Insert键也没了，暂时还没有配置一些常用快捷键。其实要是能够掌握好快捷键，用起来会爽很多。</span></p>
-<p class="p2"></p>
-<p class="p3"><span class="s1">软件，中和了Windows平台和Linux平台的软件，有些公司开发的软件有Mac版本，如常规的QQ，音乐类的App，开发类的Python，Sublime，Vim等也表现完美，但还是会碰到游戏等应用缺乏的局面，但对程序员来说还挺方便的，只是对.NET程序员不方便（我就是.NET程序员），不过随着微软的逐渐开源，这个情况慢慢会改变。所以基本上Mac是搞iOS开发，Web前端开发，Web后台开发，Android开发同学的理想平台。此外Mac和iOS设备的契合那自不必说，Mac的一些自带软件也很出色，所以基本能够满足日常及编程的需要。</span></p>
-<p class="p2"></p>
-<p class="p3"><span class="s1">有几个软件一定要推荐一下：</span></p>
-<p class="p3"><span class="s1">Moom —— 窗口的布局器</span></p>
-<p class="p3"><span class="s1">CodeRunner —— 便捷的代码运行板</span></p>
-<p class="p3"><span class="s1">Dash —— 查各种开发文档</span></p>
-<p class="p3"><span class="s1">Alfred —— 据说是神器，很贵</span></p>
-<p class="p3"><span class="s1">印象笔记或Wiz —— 记笔记常用</span></p>
-<p class="p2"></p>
-<p class="p3"><span class="s1">ThinkPad要转赠给我弟弟了，怀念ThinkPad的靠谱，用了两年啥事没有，键盘的触感也比Mac好很多，Mac外壳冷冰冰，它的键盘也太烂了，完全没有巧克力的感觉，打个字还需要把指甲都剪掉，不像ThinkPad T系列的，打字实在是舒服，可以做到很细小的声音，不像Mac稀里哗啦。如果你想成为一个Windows或Linux平台的程序员，ThinkPad T系列会是一个很好的选择，千万不要选E系列的，太鸡肋了，如果你想搞iOS和前端相关的开发，又想在PC上又更多体验好点的软件，那就选Mac吧。</span></p>
-<p class="p2"></p>
-<p class="p3"><span class="s1">by bibodeng 2015-04-24</span></p>
-<p class="p2"></p>
-<p class="p2"></p>
-<p class="p2"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2261,7 +2243,7 @@ by bibodeng 2015-09-12
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">187</span>
+              <span class="site-state-item-count">188</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -2271,7 +2253,7 @@ by bibodeng 2015-09-12
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -2355,7 +2337,7 @@ by bibodeng 2015-09-12
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2018</span>
+  <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
