@@ -255,6 +255,130 @@
             
               
                 
+                <a class="post-title-link" href="/2012/03/14/初学算法/" itemprop="url">
+                  初学算法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-03-14T21:23:18+08:00" content="2012-03-14">
+              2012-03-14
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/03/14/初学算法/" class="leancloud_visitors" data-flag-title="初学算法">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<div><span style="font-size:14px;font-family:'Microsoft YaHei';">这个学期才刚刚接触算法，之前对于算法总是觉得高高在上，可望不可及。现实真的是这样，算法真的很难学哪，所以自认很菜鸟的我从来都很少写技术性的文章，实在是有点过意不去。不过这个学期的老师真的是非常好，能够和我们打成一片，让我对算法兴趣大增，感觉掌握了这门技术就十分的了不起。</span></div>
+<span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><div><span style="font-size:14px;font-family:'Microsoft YaHei';">&nbsp;</span></div>
+<span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><div><span style="font-size:14px;font-family:'Microsoft YaHei';">从大一就开始看很多文章，包括李开复的《算法很重要》等等，于是在我的心目中就有了一个信念：算法很重要，我要学好算法。但是一直以来都在忙着其它“技术”，譬如学习编程语言，玩玩单片机啦，总之很“花心”。真正的基础技术——数据结构和算法却没有怎么注重。大二上才学的数据结构，也算认真听了，也挺有收获的，但是一到大二下的算法课我就懵了。特别是刚接触分治和递归，在动态规划这里纠缠，借了一本《算法之道》来看，写得非常好，但是我要很久才能进入状态从而理解其中的原理。我甚至怀疑是否是自己太笨3。</span></div>
+<span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><div><span style="font-size:14px;font-family:'Microsoft YaHei';">&nbsp;</span></div>
+<span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><div><span style="font-size:14px;font-family:'Microsoft YaHei';">初初接触算法，就有一种特别强烈的想要实现它的感觉。看的时候总是会忽略大大小小的细节，然后在写的时候，到处出错。所以说，看懂了、读懂了都是屁话，只有实现了一遍而且有深刻领悟了才能说会了。许许多多的牛人都曾经说自己青涩的时候是怎么学习编程的——都是敲代码敲出来的，就算是抄也能锻炼手感。这几周只学了一章 
+分治和递归，就已经有许许多多的名堂了，什么归并排序、斐波那契、阿克曼函数等等全部出来了，这些初级问题当然是基本功，但是接下来的东西就比较有意思了：动态规划，这个东西用我自己的话来描述就是将复杂的问题分解成多个递归子问题解决的，这些小问题可以有重复，然后就需要我们找到一种方案（从底向上），使得怎样安排会最优，而这里的关系也是一步步的影响的（不知道理解的对不对，好模糊）——随机应变。好啰嗦呀，一步步的判断到底要走哪条路，当然要进行精细的计算了。虽然对它的理解非常地模糊，却使我想起来了project 
+euler里面的一道题目，就是在一个三角形数堆找从上到下的和最小的路径，很显然就是利用动态规划的方法，当时是每一层的和进行比对，找最小的，如此直到最后（很显然是从底向上的构建过程）。</span></div>
+<span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><div><span style="font-size:14px;font-family:'Microsoft YaHei';">&nbsp;</span></div>
+<span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><div><span style="font-size:14px;font-family:'Microsoft YaHei';">今天做的一个非常有趣的矩阵的连乘就是利用动态规划，因为矩阵的乘法可以结合但是不能交换，而且不同的结合计算次数会不一样。比如一个 2*3 
+矩阵A、一个3*2矩阵B 还有一个 2*4的矩阵C，也许班里还有少数童鞋还不知道怎样计算乘法次数（一开始我也不知道），举最简单的例子 A*B&nbsp; 那么得到的是一个 
+2*2的矩阵，而根据矩阵乘法的定义，可知要算出一个位置上的数都要计算3次乘法，故而计算乘法的次数就是 2*2*3，其实就是 
+行等于列那个数只乘一次即2*3*2。这样计算一下（AB）C 的计算次数，首先计算AB,前面已经得到结果了 
+2*3*2，得到一个2*2新矩阵，再和2*4矩阵相乘，要计算2*2*4。故而总共要计算 2*3*2+2*2*4 = 28次。然后计算一下 
+A(BC)，先算BC,得到3*4新矩阵，再算 A [新矩阵]，同理得到乘法次数3*2*4 +&nbsp; 2*3*4 = 48 
+，两种方式相差了好多呀，真的是不可思议。故而要找到最佳的方法来结合，老师教会我们怎样使用方格来计算，每次这个东西都能解决动态规划的问题，真的是神奇，今天没有讲编程实现，不过一定会有一些if 
+else之类的语句。</span></div>
+<span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><div><span style="font-size:14px;font-family:'Microsoft YaHei';">我是那张简单的会一点，复杂的我不会的人，但是为了牛逼的梦想，也只能老老实实地学习算法。</span></div>
+<span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><div><span style="font-size:14px;font-family:'Microsoft YaHei';">&nbsp;</span></div>
+<span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><div><span style="font-size:14px;font-family:'Microsoft YaHei';">学算法是必须经得起考验的，算法是一种技术，一开始可能需要记忆，当这些深层次的思想进入我们的编程习惯中后，那么编起来将会得心应手。多跟老师学，学会一些经典的算法，了解它的来龙去脉，能够理解整个思路，找一本《算法导论》或者是TAOCP(假如能够啃的下的话)，慢慢地学习这门技巧。</span></div>
+<span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><div><span style="font-size:14px;font-family:'Microsoft YaHei';">&nbsp;</span></div>
+<span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><span style="font-size:14px;font-family:'Microsoft YaHei';"> </span><div><span style="font-size:14px;font-family:'Microsoft YaHei';">by bibodeng&nbsp; 2012-03-14</span></div>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2012/03/03/微时代/" itemprop="url">
                   微时代
                 </a>
@@ -1347,125 +1471,6 @@ euler的题目，还是在图书馆浏览各种书籍。打游戏的时间几乎
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2011/12/05/我编程，我快乐/" itemprop="url">
-                  我编程，我快乐
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2011-12-05T19:51:25+08:00" content="2011-12-05">
-              2011-12-05
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2011/12/05/我编程，我快乐/" class="leancloud_visitors" data-flag-title="我编程，我快乐">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<div><span style="font-size:14px;">人一辈子不是把时间浪费了，就是拿它来做一点事情。世界上的人分很多种，但是有的人能够很好地规划自己的道路，而有的人总是在混。无意间发现发现了the 
-pragmatic bookshelf书从中有这么一本《the passionate 
-programmer》，中文译做我编程，我快乐。相当好，正符合我们这等IT狂人。</span></div>
-<span style="font-size:14px;"> </span><div><span style="font-size:14px;">&nbsp;</span></div>
-<span style="font-size:14px;"> </span><div><span style="font-size:14px;">我一口气就将这薄薄的两百元翻完了，虽然只是粗略地看，但我知道我今后可能还会翻这本书。从书中我可以看出chad是一个非常谦逊的人，因为书中很大部分就是要教程序员们怎样去有效地和人沟通，以及用谦逊来处事为人。全书很像很多都是借鉴作者作为萨克斯风手的经验，款款而谈怎样使我们更加热情投入到我们的工作中，即使它是无聊的，要要把它变得很有兴味。</span></div>
-<span style="font-size:14px;"> </span><div><span style="font-size:14px;">&nbsp;</span></div>
-<span style="font-size:14px;"> </span><p><span style="font-size:14px;">全书按照“选择市场 -》 投资 -》执行 -》推销 
--》保持领先”这样明晰的路径来写，故而非常地清晰，但是不会刻板。书中告诉我们要想成为一个富有激情的程序员，可能只是疯狂地编代码或许已经不可行了，更重要的是能够从中让自己得到成长。其中令我蠢蠢欲动的是参与开源项目和保持学习的热情，以及变为卓越的能力。要成为一个胜任者或者更高层次的人员，需要完成很多工作，不断地练习，不断地思考。规划固然重要，更加重要的是能够投入地去做一件事情。因为这才算是passion的尽情释放。</span></p>
-<p><span style="font-size:14px;"><br>
-</span></p>
-<span style="font-size:14px;"> </span><div><span style="font-size:14px;">&nbsp;</span></div>
-<span style="font-size:14px;"> </span><div><span style="font-size:14px;">另外一个为人谦逊，平常我们程序员都很桀骜不驯，谁都不放在眼里，其实他人一样很聪明，有很多东西值得我们学习。而只有不断地从别人那里汲取营养，才能慢慢地成长。尤其是寻求良师一事，平常我们都订阅了某个大牛的博客，看人家是怎样编程的，又是怎样考虑事情的。因为我们都想变得和大牛一样厉害，所以有理由谦逊地向他们学习。当然在这个过程中，我们也可以发表我们自己的见解，从而做到了推销自己。这个世界上唯有使自己和他人有联系，才能算是活在这个世界上。因为与他人完全没有联系的人，是不能改变这个世界的。记得很久以前我就知道要写博客，同时锻炼自己的文笔和交流能力。不要等着机会找上门，而是要积极地上门找机会。也许在参加开源项目之前，我们也只是订阅某个开源项目的邮件而已，但是慢慢地我们了解了一些东西，也可以提交一些补丁了，而更深入地，我们投入我们的热情把这个项目做得越来越好，你的贡献也就越来越大，最终成为了committee。不仅获得了珍贵的名誉，也使自己的技术、交流能力提升不少。</span></div>
-<span style="font-size:14px;"> </span><div><span style="font-size:14px;">&nbsp;</span></div>
-<span style="font-size:14px;"> </span><p><span style="font-size:14px;">我喜欢本书很大原因是因为，它不是说教，他启发我怎样去锻炼自己的各方面的能力，高到思维，小到琐碎工作。要么不做，要么做好。而做好，有很多种途径，但是不外乎是那么几种。自学成才，师从高人……。也许有人会觉得这是在谈大道理，我也曾这么认为，但是我现在有所收获，不是吗？书本只会告诉我知识，或者启发我思考，而我两者都需要。</span></p>
-<p><span class="Apple-style-span" style="font-size:14px;line-height:21px;">思维导图图片地址：</span><a href="/content/plugins/kl_album/upload/201112/d853d18316fc74fd1295f8b81c95a14c201112051153296827.jpg">http://bibodeng.web-149.com/content/plugins/kl_album/upload/201112/d853d18316fc74fd1295f8b81c95a14c201112051153296827.jpg</a></p>
-<p>by bibodeng &nbsp; &nbsp; 2011-12-5</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1511,7 +1516,7 @@ programmer》，中文译做我编程，我快乐。相当好，正符合我们�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">189</span>
+              <span class="site-state-item-count">190</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1521,7 +1526,7 @@ programmer》，中文译做我编程，我快乐。相当好，正符合我们�
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1605,7 +1610,7 @@ programmer》，中文译做我编程，我快乐。相当好，正符合我们�
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
