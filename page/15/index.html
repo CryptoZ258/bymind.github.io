@@ -255,6 +255,188 @@
             
               
                 
+                <a class="post-title-link" href="/2012/09/15/javascript学习随笔/" itemprop="url">
+                  javascript学习随笔
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-09-15T23:43:27+08:00" content="2012-09-15">
+              2012-09-15
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2012/09/15/javascript学习随笔/" class="leancloud_visitors" data-flag-title="javascript学习随笔">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+<div><h3>疯狂读书，疯狂编程</h3>
+</div>
+<div>&nbsp;</div>
+<div>大三了，该抽出点时间来疯狂读书，疯狂学习一些技能了，当然也不能太过操之心切，将春天的期望，夏天的燥热都混杂在一起，想去追求秋天的收获。这几天想要正儿八经地学习一下javascript，这样就可以看懂别人写的代码，同时也可以自己开发web应用。其实我还是挺享受学习基础的时间，而不是为了掌握某项技能而想着去开发应用，学习的事情，心急不了，好好读几本书吧。</div>
+<div>&nbsp;</div>
+<div><h3>从C++到javascript</h3>
+</div>
+<div>&nbsp;</div>
+<div>一个C++的程序员转到学习javascript语言，会感到javascript很简单很灵活，但是有些东西又需要特别小心区别。因为javascript作为一门脚本语言，有许多C++所不具有的特性，比如说函数式编程，自动垃圾回收等，这就使得一些javascript的编写代码的方法会有很大不同，但是同是高级的面向对象的语言，还是可以从中得出一些相通的思想。所以，没有学过javascript的人看到js的代码可能很大一部分都能认识，比如 
+var a = 0;&nbsp; if(a == b)&nbsp;... else 
+...毕竟编程语言都是这些语法，不同的是一些特殊的机制以及库的功能。当然也会碰到一些不懂的代码，例如：</div>
+<div>&nbsp;</div>
+<div>Array.prototype.hello = function() {</div>
+<div>alert("hello world");</div>
+<div>}<div>var a = new Array(1,2,3);</div>
+<div>a.hello();</div>
+</div>
+<div>&nbsp;</div>
+<div>alert("hello world");是弹出窗口提示hello 
+world，这没有什么稀奇的，稀奇的是javascript的内置对象Array的原型方法hello。 这样就可以为所有的Array 
+实例都可以调用hello原型方法了。这和C++是不同的，C++的继承是必须要一代代继承下来的，而javascript可以为对象的原型提供我们编写的一些方法，这样可以极大地扩展我们使用javascript内置对象的方便程度。</div>
+<div>&nbsp;</div>
+<div>还有那传说中的函数式编程，早在大一的时候就听说过了《冒号课题》介绍的函数式编程，所以学的时候也有了一点心理准备。那就是函数也是数据。的确的，存储在计算机里面的所有符号的集合都可以看做是数据，之前C/C++的观念认为数据归数据，函数归函数（属性归属性，方法归方法）。而在javascript中，函数也可以参与运算了，可以作为参数直接传入，也可以作为构造函数来创建对象，也可以在函数内封装函数（即闭包）。所以，很经常就可以看到如下的代码:</div>
+<div>&nbsp;</div>
+<div>function f (x,y) {</div>
+<div>&nbsp;</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;function e(a,b){</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return a+b;</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;return e(1,2) + x + y;</div>
+<div>}</div>
+<div>&nbsp;</div>
+<div>alert(f(3,6));</div>
+<div>&nbsp;</div>
+<div>虽然说用法上和C++有很大不同，但是根本上都是一些能够对数据进行操作的代码。只不过这些javascript的函数可以操作它本身类型的数据（也就是函数）。</div>
+<div>&nbsp;</div>
+<div>javascript的灵活性以及其带来的混乱性</div>
+<div>&nbsp;</div>
+<div>javascript作为web浏览器的脚本语言，具有很高的灵活性，比如声明函数的方法就有很多种，如 
+function关键字静态声明法，Function内置对象实例化法，以及直接function直接量。所以我们可以看到三种不同的方法：</div>
+<div>&nbsp;</div>
+<div>function foo(){</div>
+<div>&nbsp;alert("hello javascript");</div>
+<div>}</div>
+<div>&nbsp;</div>
+<div>或者</div>
+<div>&nbsp;</div>
+<div>var foo = new Function("alert(hello)");</div>
+<div>&nbsp;</div>
+<div>或者</div>
+<div>var foo = function(){</div>
+<div>alert("hello world");</div>
+<div>}</div>
+<div>&nbsp;</div>
+<div>而且这三种方法之间有很多细小的差别，比如内部的作用域，由于new 
+Function();方法是动态生成的函数数据引用类型，故而等于是一个变量，具有顶级作用域，可以操纵上下文的数据。而静态声明的函数，只能操纵函数内部的数据，这样就使得其他两种只有函数作用域。</div>
+<div>&nbsp;</div>
+<div>再比如javascript的array有很多很灵活的方法，例如声明 var a = [1,2]; 或者var a = new Array(); 
+都可以，而且其长度很自由，可以随意地在某个位置插入一个值，或者删除一个值。随意修改数组的长度，或者将其反转，排序，定制排序等。d但是这种灵活性是有代价的，那就是我们程序员经常会被各种情况搞晕，函数什么时候有什么样的作用域，或者有没有闭包，有没有嵌套执行。数组的排序到底是应该返回1还是返回-1，以及Function.prototype 
+== 
+object.prototype&nbsp;到底是谁构造了谁，谁继承于谁,混乱不堪。真心觉得这些关系很复杂，而javascript一开始的实现也是bug百出，可能设计它的人为它的灵活性丰富性付出了很大的代价吧。javascript完全没有C那么纯粹，容易接受。但是用起来，谁都很容易包含一个jquery的库，然后写出一个事件绑定语句 
+$("header").click(function(){/*...*/})。或者用正则表达式来检验表单。但是真正要深入javascript的细节，其复杂程度还是够我受的了。当然javascript有它独特的方法，而这些方法也十分地强大，强大到我必须重新思考一下程序是什么这样的“哲学问题”了。</div>
+<div>&nbsp;</div>
+<div>接触了函数式编程，以及js中很多动态的特性，让我感觉到，程序是可变的，同时程序代码本身也是一种数据，数据可以由它而生，也可以寄生在它里面。而函数其实也就是一个对象，对象可以被动态地执行，故而程序也就灵活了。</div>
+<div>&nbsp;</div>
+<div><h3>一门语言与它的库</h3>
+</div>
+<div>&nbsp;</div>
+<div>一门语言，要变得强大，它必须要有强大的库，语言的库极大地丰富和方便了我们的编程方法，例如js的jquery和jqtouch库，使得开发html5的移动应用变得很方便，C++也有强大的STL以及boost等库支持，使得我们写程序方便了很多。库就是语言的延伸，使语言的触角探出到纯粹语法之外的更加复杂的功能。当今web开发有很多开源的代码，可供借鉴参考，而我还是决定从头学起，老老实实地把握好基础，然后再去想框架、开发的事情。当年明月写《明朝那些事》之前，每天都读古籍，技术也是一样，只有真正积累了，才能发出来。</div>
+<div>&nbsp;</div>
+<div>by bibodeng&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2012-09-15</div>
+<style type="text/css">
+h3{
+background-color: black;
+font-size: 18px;
+color: white;
+padding: 10px;
+}
+</style>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2012/09/07/【译】学习vi和vim编辑器——第一章vi编辑器/" itemprop="url">
                   【译】学习vi和vim编辑器——第一章vi编辑器
                 </a>
@@ -2770,132 +2952,6 @@ _gaq.push(['_trackPageLoadTime']);
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2012/07/14/亲情+友情+爱情 ——改变自己/" itemprop="url">
-                  亲情+友情+爱情 ——改变自己
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2012-07-14T22:21:49+08:00" content="2012-07-14">
-              2012-07-14
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2012/07/14/亲情+友情+爱情 ——改变自己/" class="leancloud_visitors" data-flag-title="亲情+友情+爱情 ——改变自己">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-<div><span style="font-size:14px;">【走过最黑暗的时期】</span></div>
-<div><span style="font-size:14px;">&nbsp;</span></div>
-<div><span style="font-size:14px;">到目前为止，人生中走过最黯淡的两段日子，前一段就像电影《龙猫》里面描绘的那么黯淡，但还是幸福的；后一次是我人生中最黑暗的日子，但是有我的家人陪着我，开导我，才让我重新迎接阳光。人越长大越孤独，也变得自私了，有时候碰到了艰难与挫折，甚至害怕看见自己的影子，然而有亲情的力量，给我重塑信心，让我相信明天会更好。</span></div>
-<div><span style="font-size:14px;">&nbsp;</span></div>
-<div><span style="font-size:14px;">【亲情】</span></div>
-<div><span style="font-size:14px;">&nbsp;</span></div>
-<div><span style="font-size:14px;">这个世界上，亲人最重要，他们无条件地关心你，鼓励你。当碰到挫折的时候，他们最担心的是我安不安全，开不开心，这才是无言的在心里面流淌的东西。当我颓丧地不肯多说一句话，留了两个月到了有点长的头发遮住了我的眼睛和耳朵，不愿意去看天空的蓝，不愿意去听小鸟的啁啾。此时亲人用他们柔软温暖的手，挽着我去理发，剪断烦恼丝，用亲人特有的那种关爱的语言和眼神为我疗伤。当我不懂事事，他们便包容我，当我懂事时，他们依然包容我。当我犯错时，他们给了最能让我为之一振的教育。他们告诉我为什么社会是这样子，以后要更加有保护自己的意识，同时给出一些最诚恳的意见。</span></div>
-<div><span style="font-size:14px;">&nbsp;</span></div>
-<div><span style="font-size:14px;">二十了，我才知道我很自私，从小养尊处优，都是别人围着我转，我自然地变得很自我中心。很多时候并不是我不想去多付出一些，去更多关心我的亲人，只是我没有这个意识，没有认识到亲人的心血的付出。一个人的存在，是为了被需要，而付出才是满足这种被需要的行为。</span></div>
-<div><span style="font-size:14px;">&nbsp;</span></div>
-<div><span style="font-size:14px;">【友情】</span></div>
-<div><span style="font-size:14px;">&nbsp;</span></div>
-<div><span style="font-size:14px;">用两天刷完了《我可能不会爱你》，我重新审视了我和朋友们的友情，我真的是不计较付出地和他人交往吗？一直在催促自己要有几个好朋友，真的能够彼此信任，彼此交心。我相信我也曾经有一些很要好的朋友，现在虽然很久不联系，但是一聊依然很有话题。我觉得自己还是要有一两个死党，关系超好。只是小学的朋友都觉得我们渐行渐远了，虽然很多东西默契还在，但不免得显得陌生了。仔细想想，还是应该做个积极主动的人，开放心怀，多想想他人，这样才能发自内心地和朋友们交往，同时也能提升个人的魅力，让自己更加吸引朋友们的关爱。这也是一种付出与回报，不得不承认，人的感情也是需要经营的。这样即使孤独，也会很开心。活就要活得出彩，不要因为那些不能做的羁绊那些能做到的。既然能做一些事情，让人与人不再冷漠，让人与人的关系变得更加亲密，何乐而不为呢？</span></div>
-<div><span style="font-size:14px;">&nbsp;</span></div>
-<div><span style="font-size:14px;">从前我一直认为做到差不多就行了，于是自己虽然变得更优秀了，但却似乎变得越来越平庸，不能作为杰出的人，那是因为我没有这个意识去做到更好。这是生活的态度，对待自己的生活应该负最大的责任，让自己活得更快乐，更出色。跌倒了就爬起来反思，没有什么大不了。原来生活中我可以做到更好，用真诚和人交往总会获得别人的真诚，不再仅仅是优良，而是优异（distinct）。</span></div>
-<div><span style="font-size:14px;">&nbsp;</span></div>
-<div><span style="font-size:14px;">【爱情】</span></div>
-<div><span style="font-size:14px;">&nbsp;</span></div>
-<div><span style="font-size:14px;">没有谈过恋爱的人谈爱情，真的是有点滑稽了。我知道我想要什么，也会一直追寻下去。很多时候要做的只是等待心底深处的那份指示，碰到对的人，用真诚再加上一点积极主动以及技巧，最后也能收获幸福。想通了很多，没必要去做一个饥渴男，去羡慕他人的甜蜜，而是沉下心来，淡定地去发现，一切顺其自然。虽然这是一个历史任务，但也没有必要急着去完成。只有恰当的时间，恰当的地点，恰当的人，才能成就为一对美眷。就像《我可能不会爱你》中一样，重要的是发现自己真的想要什么，得到之后真的会快乐吗？或者失去之后会很纠结痛苦吗？“爱不是把你迷得神魂颠倒，而是顺从心底的声音，到最后可能演变成亲情一样的无形而伟大的关爱”。</span></div>
-<div><span style="font-size:14px;">&nbsp;</span></div>
-<div><span style="font-size:14px;">人的一生有很多的relationship，这三种是最最重要的，是生活中快乐的源泉，好好地去体悟，这样会让生活更加美好。当然更重要的是要付诸行动，真正用心地去经营亲情、友情、爱情。</span></div>
-<div><span style="font-size:14px;">&nbsp;</span></div>
-<div><span style="font-size:14px;">by bibodeng&nbsp;&nbsp;&nbsp; 2012-14</span></div>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2941,7 +2997,7 @@ _gaq.push(['_trackPageLoadTime']);
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">189</span>
+              <span class="site-state-item-count">190</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -2951,7 +3007,7 @@ _gaq.push(['_trackPageLoadTime']);
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -3035,7 +3091,7 @@ _gaq.push(['_trackPageLoadTime']);
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

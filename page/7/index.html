@@ -255,6 +255,290 @@
             
               
                 
+                <a class="post-title-link" href="/2014/01/25/task命令行GTD工具用户手册/" itemprop="url">
+                  task命令行GTD工具用户手册
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-01-25T17:57:29+08:00" content="2014-01-25">
+              2014-01-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+	
+          
+          
+             <span id="/2014/01/25/task命令行GTD工具用户手册/" class="leancloud_visitors" data-flag-title="task命令行GTD工具用户手册">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="task命令行GTD工具用户手册"><a href="#task命令行GTD工具用户手册" class="headerlink" title="task命令行GTD工具用户手册"></a>task命令行GTD工具用户手册</h2><p>by bibodeng 2014-01-25</p>
+<p>###名字（NAME）</p>
+<pre><code>task - 一款命令行的todo任务管理软件
+</code></pre><p>###命令（SYNOPSIS）</p>
+<pre><code>task 过滤符 子命令 [&lt;mods&gt;|&lt;args&gt;]    //调用task子命令
+task --version                      //可以获得task的版本号
+</code></pre><p>###描述（DESCRIPTION）</p>
+<p>taskwarrior是一个命令行式的任务列表管理软件。它可以维持一个你的任务列表，允许你添加/删除/修改任务。它具有丰富的子命令，可以做你想不到的事情。当然，在底层，它是一个任务列表排程程序。你添加文字任务和关于任务的描述，当你用日期来排列时它就是一个日程表，当你用优先级排列时，它就是你的做事顺序。你还可以添加标签，项目组，方便你管理你的这些任务。</p>
+<p>###过滤符（FILTER）</p>
+<p>过滤符号由0或多个查找特征组成，用来选择你想要查看或修改的任务，例如，列出所有<code>Home</code>项目下的任务：</p>
+<pre><code>task project:Home list  // list是一个子命令，列出tasks
+</code></pre><p>你可以指定多个过滤符号：</p>
+<pre><code>task project:Home +weekend graden list
+</code></pre><p>该例中，有三个过滤符： <code>Home</code>项目，weekend标签，还有描述中必须包含<code>garden</code>。当然也可以理解为：</p>
+<pre><code>description.contains:garden
+</code></pre><p>当没有过滤符号的时候，意味着所有tasks都将被选中，这时候你就要小心了，因为修改的时候是应用到所有tasks的，而且不能回滚。例如：</p>
+<pre><code>task modify +work
+this command has no filter, and will modify all tasks. Are you sure?(yes/no)
+</code></pre><p>将会为所有tasks都添加一个work标签，当然前提是你选择了yes。</p>
+<p>更多例子如下：</p>
+<pre><code>task                                        子命令 操作内容
+task 28                                     子命令 操作内容    // 选中第28个task（ID为28）
+task +weekend                               子命令 操作内容    // 选中带weekend标签的
+task project:Home due.before:today          子命令 操作内容    // 选中Home项目，且在今天之前的
+task ebeeab00-ccf8-464b-8b58-f7f2d606edfb   子命令 操作内容    // 选中UUID为这个序列的
+</code></pre><p>默认情况下，过滤器的各个条件是and（与）的，当然or（或）和xor（异或）也是可以用的，如下括弧里面的是支持的：</p>
+<pre><code>task &apos;(/[Cc]at|[Dd]og/ or /[0-9]+/)&apos; 子命令 操作内容  // 这里用到了正则表达式,不懂正则。。那忽略吧，只要注意这里用了括号和or就行了
+</code></pre><p>下面举些用到了ID和UUID的例子：</p>
+<pre><code>task 1,2,3              delete
+task 1-3                info
+task 1,2-5,19           modify pri:H
+task 4-7 ebeeab00-ccf8-464b-8b58-f7f2d606edfb   info
+</code></pre><p>###修改内容（MODIFICATIONS）</p>
+<p>修改内容可以由0个或多个修改组成，如下：</p>
+<pre><code>task 过滤符 子命令 project:Home
+task 过滤符 子命令 +weekend +garden due:tomorrow
+task 过滤符 子命令 Description/annotation text
+task 过滤符 子命令 /from/to/
+</code></pre><p>###子命令（SUBCOMMANDS）</p>
+<p>taskwarrior支持很多子命令，包含 读命令，写命令，杂项命令 和 脚本帮助命令。读命令不允许修改task，写命令对命令进行修改，脚本帮助命令帮助你写附加的脚本，例如shell的自动补全等。</p>
+<p>####读子命令（READ SUBCOMMANDS）</p>
+<p>reports是读子命令。输出和其它一些行为可以在配置文件里面配置，也有一些读子命令不是关于reports的。</p>
+<pre><code>task --version              // 查看task的版本
+
+task 过滤符                // 查看满足条件的tasks
+
+task 过滤符 active         // 查看已经start，正处于激活状态的task
+
+task 过滤符 all            // 显示满足条件的所有tasks，包括递归task的父task
+
+task 过滤符 blocked        // 显示那些依赖于其它task的tasks
+
+task 过滤符 burndown.daily     // 绘制日统计图像
+
+task 过滤符 burndown.weekly    // 绘制周视图
+
+task 过滤符 burndown.monthly   // 绘制月视图
+
+task calendar [due|&lt;month&gt; &lt;year&gt; | &lt;year&gt;] [y] 
+// 尖括号包含的内容替换成相应的量，显示一个月的日历,如果给出年，则显示一年的，如2014，如果给出年月，如`2 2014`则会从2014年2月份开始的几个月的日历。如果是due，则会显示预期最早的task。
+
+task colors [sample | legend]   // 显示支持的颜色，有简单版和完全版之分
+
+task columns                // 显示所有列和样式，在导出报表的时候非常有用
+
+task 过滤符 completed      // 显示已经完成的tasks
+
+task 过滤符 count          // 计算已经完成的tasks数量
+
+task 过滤符 export         // 将选中的task导出成json格式，可以重定向到某个文件里面
+
+task 过滤符 ghistory.annual    // 年报表视图,完成情况
+
+task 过滤符 ghistory.monthly   // 月报表视图
+
+task help   // 获取帮助
+
+task 过滤符 history.annual     // 年报表
+
+task 过滤符 history.monthly    // 月报表
+
+task 过滤符 ids    // 获取被选中项目的id序列，如1-3或2，3这样
+// 当用在修改特定的task时，它可是十分强大的，例如：
+task $(task project:Home ids) modify priority:H
+// 对Home project中的task进行修改，都添加一个高优先级,译者测试不成功，并且有点多此一举，不如用下面的：
+task project:Home modify priority:H
+
+task 过滤符 uuids      // 得到uuid的序列，用逗号分割
+
+task 过滤符 information    // 也写作info，得到选中task的详细信息
+
+task 过滤符 list       // 得到一个标准的列表，包含一些列
+
+task 过滤符 ls         // 得到一个精简了列的task列表
+
+task 过滤器 minimal    // 极简列表
+
+task 过滤符 newest     // 得到最新的tasks
+
+task 过滤符 next       // 显示最紧急的一批tasks,按照urgency这个计算得来的指标排序
+
+task 过滤符 ready      // ready的tasks，指没在时间表中，或者已经过期了的
+
+task 过滤符 oldest     // 最早的tasks,按age排序
+
+task 过滤符 overdue    // 在超出预期未完成的
+
+task 过滤符 projects    // 列出所有的projects
+
+task 过滤符 recurring      // 查找递归
+
+task 过滤符 unblocked      // 没有依赖性的
+
+task 过滤符 waitting       // 显示正在等待的tasks,和顺序有关
+</code></pre><p>####写子命令（WRITE SUBCOMMANDS）</p>
+<pre><code>task add 内容 // 添加一个任务到列表
+
+task 过滤符 annotate 操作内容    // 为task添加注释
+
+task 过滤符 append 内容          // 追加文本到已经存在的task尾部
+
+task 过滤器 delete 操作内容      // 删除满足条件的task
+
+task 过滤符 denotate 操作内容    // 当内容和task原有的notate相符时，则删除notate
+
+task 过滤符 done 操作内容        // 将task标记为已经完成
+
+task 过滤符 duplicate 操作内容 // 复制原有的task,并可以修改,如有操作内容是作为notation
+
+task import &amp;lt;文件1&amp;gt; [&amp;lt;文件2&amp;gt;]   // 从文件中导入tasks
+
+task log 操作内容     // 添加一个新的但是已经完成了的任务,等于做记录
+
+task merge &lt;url&gt;    // 远程合并task数据库，如
+ssh://[user@]host.xz[:port]/path/to/.task/
+rsync://[user@]host.xz[:port]/path/to/.task/
+[user@]host.xz:path/to/.task/
+/path/to/local/.task/
+
+你甚至可以在.taskrc配置文件中对常用的url进行别名设置。
+
+task 过滤符 modify 操作内容    // 修改现有的tasks，操作可以有添加标签，修改project，优先级等
+
+task 过滤符 prepend 操作内容   // 为task添加文字到头部
+
+task pull &lt;url&gt;     // 拉取远程的数据覆盖本地数据库
+
+task push &lt;url&gt;     // 推送自己的版本到远程，这和版本库很类似啊，下次你搭建一个服务器，随处都可以访问了
+
+task 过滤符 start 操作内容   // 标记为开始
+
+task 过滤符 stop 操作内容   // 移除开始标记，暂停
+</code></pre><p>###杂项子命令（MISCELLANEOUS SUBCOMMANDS）</p>
+<pre><code>task config [name [value|&apos;&apos;]] // 查看或者修改某项配置
+
+task diagnostics    // 诊断
+
+task execute 外部命令`// 执行外部命令
+
+task logo       // 显示taskwarrior的logo
+
+task reports    // 列举所有支持的报告项，包括系统报告和用户自定义报告
+
+task shell      // 进入task的命令行，可以直接list这样运行执行
+
+task show [all | substring]     // 显示当前设置
+
+task 过滤符 stats  // 显示统计信息，包括空间及其它状态信息
+
+task 过滤符 tags   // tags的统计信息
+
+task 过滤符 projects   // projects的统计信息
+
+task timesheet [weeks]      // 得到一个周报表，哪些做完了，哪些开始了
+
+task undo   // 撤销最近的动作
+
+task version    // 显示版本号的详细信息
+</code></pre><p>###帮助子命令 （HELPER SUBCOMMANDS）</p>
+<pre><code>... 不想翻译了，翻完上面的手都酸了，我都会用了，原谅我的懒惰...
+</code></pre><hr>
+<p>end<br>    </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/01/23/做自己的英雄——读《DOOM启示录》/" itemprop="url">
                   做自己的英雄——读《DOOM启示录》
                 </a>
@@ -1530,135 +1814,6 @@ function foo(formObj){
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/11/09/latex生成各种格式电子书/" itemprop="url">
-                  latex生成各种格式电子书
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-11-09T23:36:29+08:00" content="2013-11-09">
-              2013-11-09
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-	
-          
-          
-             <span id="/2013/11/09/latex生成各种格式电子书/" class="leancloud_visitors" data-flag-title="latex生成各种格式电子书">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="使用latex源码生成各种格式电子书"><a href="#使用latex源码生成各种格式电子书" class="headerlink" title="使用latex源码生成各种格式电子书"></a>使用latex源码生成各种格式电子书</h1><p>by bibodeng 2013-11-09</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>为了让电子书能够在更多的平台上被阅读，那么则需要生成各种版本的电子书，这个过程真的有点蛋疼，但是通过各种非常有用的工具，干起来也非常快。下面主页记录一下常用的格式的生成：</p>
-<pre><code>PDF，mobi， epub， html
-</code></pre><p>其中PDF是最容易的，latex编译默认就输出PDF，所以我们很容易获得。而且上篇已经提及了如何生成6吋版的PDF电子书。所以下面着重讲一下其它三种格式的生成。</p>
-<h2 id="epub"><a href="#epub" class="headerlink" title="epub"></a>epub</h2><p>epub格式是一种在苹果手机，平板上使用的通用格式，目前kindle还不支持，但是有些kindle的系统——如多看，已经支持epub格式的电子书了。在ubuntu下，可以使用pandoc这个工具，从latex文件直接生成epub格式电子书。</p>
-<p>首先，我们要安装pandoc：</p>
-<pre><code>sudo apt-get install pandoc
-</code></pre><p>这样就安装好了。它的详细使用方法见<a href="http://johnmacfarlane.net/pandoc/epub.html" target="_blank" rel="noopener">这里</a>。我们直接使用pandoc命令转换格式：</p>
-<pre><code>pandoc book.tex -o book.epub
-</code></pre><p>可以看到立马生成了一个book.epub文件，将该书籍导入到calibre里面查看，可以看到转换的格式还行,稍微有一点瑕疵，大体上还是ok的。</p>
-<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/279d39080390d5733af232089be3a0082013110907505713841.png" alt="epub版"></p>
-<h2 id="mobi"><a href="#mobi" class="headerlink" title="mobi"></a>mobi</h2><p>mobi格式可以使用calibre直接从epub格式进行转换，安装完该软件后，直接对文件进行转换。等待一段时间，等其转换完成，打开发现mobi格式和epub几乎一样。</p>
-<h2 id="html"><a href="#html" class="headerlink" title="html"></a>html</h2><h3 id="tex2page"><a href="#tex2page" class="headerlink" title="tex2page"></a>tex2page</h3><p>要生成html有许多工具，但是我们先介绍一种——tex2page，这里有一份王垠写的<a href="http://docs.huihoo.com/homepage/shredderyin/tex2page/intro.html" target="_blank" rel="noopener">教程</a>。</p>
-<pre><code>tex2page book.tex
-</code></pre><p>一般是可以编译成功的。如果在文档目录下新建一个和tex文档同名的.hdir文件，里面添加一行</p>
-<pre><code>pages
-</code></pre><p>则会在生成网页的同时能够把文件都放在pages下面，而不会在当前目录搞乱你的文档。</p>
-<h3 id="tex4ht"><a href="#tex4ht" class="headerlink" title="tex4ht"></a>tex4ht</h3><p>还有一种办法是安装一个tex4ht，然后使用htlatex命令来转换。</p>
-<pre><code>sudo apt-get install tex4ht
-htlatex mydocument.tex 
-</code></pre><p>这样会生成一个html文件。</p>
-<h3 id="pandoc"><a href="#pandoc" class="headerlink" title="pandoc"></a>pandoc</h3><p>pandoc真的是一个神器啊，可以转换各种格式，这里有个<a href="http://johnmacfarlane.net/pandoc/demos.html" target="_blank" rel="noopener">示例</a>。</p>
-<pre><code>pandoc -s -S --toc -c book.css book.tex  -o book.html
-</code></pre><p>可以使用自定义的样式为生成的html进行排版。这样的效果会好一点：</p>
-<p><img src="http://www.bibodeng.com/content/plugins/kl_album/upload/201311/61661a8b55f13cc8bf9de521300735352013110915351330487.png" alt="IT小小鸟网页版"></p>
-<hr>
-<p>end</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1704,7 +1859,7 @@ htlatex mydocument.tex
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">189</span>
+              <span class="site-state-item-count">190</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1714,7 +1869,7 @@ htlatex mydocument.tex
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1798,7 +1953,7 @@ htlatex mydocument.tex
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
